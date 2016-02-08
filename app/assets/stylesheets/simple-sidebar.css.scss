@@ -19,6 +19,10 @@
 }
 
 #sidebar-wrapper {
+    // background-image: image-url("bg_sidebar.jpg");
+    background-color: #000;
+    // background-position: 0 450px;
+    // background-repeat: no-repeat;
     z-index: 1000;
     position: fixed;
     left: 250px;
@@ -26,7 +30,6 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -68,6 +71,7 @@
     display: block;
     text-decoration: none;
     color: #999999;
+
 }
 
 .sidebar-nav li a:hover {

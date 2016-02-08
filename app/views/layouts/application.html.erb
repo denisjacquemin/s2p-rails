@@ -19,6 +19,29 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div id="wrapper">
+      <%= render 'sidebar' %>
+
+      <div id="page-content-wrapper">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <%= yield %>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
   </body>
 </html>
