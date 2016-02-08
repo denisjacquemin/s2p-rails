@@ -133,6 +133,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    snackbarjs-rails (1.0.0)
+      railties
     spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -175,6 +177,7 @@ DEPENDENCIES
   rails (>= 5.0.0.beta2, < 5.1)
   redis (~> 3.0)
   sass-rails (~> 5.0)
+  snackbarjs-rails
   spring
   sqlite3
   turbolinks

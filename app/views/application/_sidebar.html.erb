@@ -5,17 +5,19 @@
                 Start Bootstrap
             </a>
         </li>
-        <li>
-            <a href="#">Messages</a>
-        </li>
-        <li>
-            <a href="#">Elèves</a>
-        </li>
-        <li>
-            <a href="#">Groupes</a>
-        </li>
-        <li>
-            <a href="#">Utilisateurs</a>
-        </li>
+        <% if user_signed_in? %>
+          <li>
+              <a href="#">Messages</a>
+          </li>
+          <li>
+              <a href="#">Elèves</a>
+          </li>
+          <li>
+              <a href="#">Groupes</a>
+          </li>
+          <li>
+              <a href="#">Utilisateurs</a>
+          </li>
+        <% end %>
     </ul>
 </div>

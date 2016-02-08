@@ -26,7 +26,6 @@
           <div class="container-fluid">
               <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
                     <%= yield %>
 
                   </div>
@@ -34,6 +33,9 @@
           </div>
       </div>
     </div>
+    <%= javascript_tag do %>
+      window.flashMessages = $.parseJSON('<%=j flash.to_hash.to_json.html_safe %>');
+    <% end %>
 
     <!-- Menu Toggle Script -->
     <script>

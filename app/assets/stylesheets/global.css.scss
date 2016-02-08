@@ -1,0 +1,20 @@
+@import "snackbar";
+@import "snackbar-material";
+
+.snackbar  {
+  z-index: 10000;
+  font-size: 16px;
+}
+
+.snackbar.error {
+  background-color: #ff0039;
+  color: #ffffff;
+}
+.snackbar.alert {
+  background-color: #ff7518;
+  color: #ffffff;
+}
+.snackbar.notice {
+  background-color: #3fb618;
+  color: #ffffff;
+}
