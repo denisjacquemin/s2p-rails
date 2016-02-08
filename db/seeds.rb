@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+super_admin = CreateSuperAdminService.new.call
+puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
