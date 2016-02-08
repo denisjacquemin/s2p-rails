@@ -18,6 +18,7 @@
           <li>
               <a href="#">Utilisateurs</a>
           </li>
+          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
         <% end %>
     </ul>
 </div>
