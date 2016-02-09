@@ -1,7 +1,7 @@
 var ready;
 ready = function() {
   $.each( flashMessages, function(key, value){
-    console.log('key: ' + key)
+    console.log('value: ' + value + ' key: ' + key)
     $.snackbar({content: value, style: key, timeout: 10000});
   });
 
