@@ -9,18 +9,22 @@
             <%= link_to 'Identification', new_user_session_path %>
         </li>
         <% if user_signed_in? %>
-          <li>
-              <%= link_to 'Ecoles', schools_path %>
-          </li>
+          <% if policy(School).index? %>
+            <li>
+                <%= link_to 'Ecoles', schools_path %>
+            </li>
+          <% end %>
           <li>
               <a href="#">Elèves</a>
           </li>
           <li>
               <a href="#">Groupes</a>
           </li>
-          <li>
-              <%= link_to 'Utilisateurs', users_path %>
-          </li>
+          <% if policy(User).index? %>
+            <li>
+                <%= link_to 'Utilisateurs', users_path %>
+            </li>
+          <% end %>
           <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
         <% end %>
     </ul>
