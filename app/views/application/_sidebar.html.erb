@@ -16,7 +16,7 @@
               <a href="#">Groupes</a>
           </li>
           <li>
-              <a href="#">Utilisateurs</a>
+              <%= link_to 'Utilisateurs', users_path %>
           </li>
           <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
         <% end %>
