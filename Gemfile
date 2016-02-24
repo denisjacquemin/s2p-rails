@@ -31,6 +31,7 @@ gem 'redis', '~> 3.0'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise', :github => 'plataformatec/devise', :branch => 'master'
+gem 'devise_invitable', :github => 'scambra/devise_invitable', :branch => 'master'
 
 gem 'snackbarjs-rails'
 
