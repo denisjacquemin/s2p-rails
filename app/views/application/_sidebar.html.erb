@@ -5,9 +5,11 @@
                 Start Bootstrap
             </a>
         </li>
-        <li>
-            <%= link_to 'Identification', new_user_session_path %>
-        </li>
+        <% unless user_signed_in? %>
+          <li>
+              <%= link_to 'Identification', new_user_session_path %>
+          </li>
+        <% end %>
         <% if user_signed_in? %>
           <% if policy(School).index? %>
             <li>
