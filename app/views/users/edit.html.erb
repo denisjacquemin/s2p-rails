@@ -1,0 +1,32 @@
+<h1>Utilisateurs</h1>
+<hr />
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <%= form_for(@user) do |f| %>
+        <div class="form-group">
+          <%= f.label :firstname %>
+          <%= f.text_field :firstname, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :lastname %>
+          <%= f.text_field :lastname, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.text_field :email, class: "form-control" %>
+        </div>
+        <% if current_user.superadmin? %>
+          <div class="form-group">
+            <%= f.label :school %>
+            <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
+          </div>
+        <% end %>
+        <div class="form-group">
+          <%= f.label :role %>
+          <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, {}, {class: "form-control"})  %>
+        </div>
+        <%= f.submit "Sauver", class: 'btn btn-primary' %>
+        <%= link_to 'Back', users_path, class: 'btn btn-default' %>
+      <% end %>
+    </div>
+</div>

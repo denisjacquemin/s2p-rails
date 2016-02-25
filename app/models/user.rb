@@ -5,12 +5,22 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :lockable
 
-   # role used by pundit
-   enum role: [:user, :superadmin, :admin]
-   after_initialize :set_default_role, :if => :new_record?
+  belongs_to :school, required: false
 
-   def set_default_role
-     self.role ||= :user
-   end
+  # role used by pundit
+  enum role: [:user, :superadmin, :admin]
+  after_initialize :set_default_role, :if => :new_record?
+
+  def set_default_role
+   self.role ||= :user
+  end
+
+  def invitation_status
+    if self.invitation_accepted_at.present?
+      "accepted"
+    else
+      "pending"
+    end
+  end
 
 end

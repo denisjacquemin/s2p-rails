@@ -7,6 +7,10 @@
           <tr>
             <th>Name</th>
             <th>Email</th>
+            <% if current_user.superadmin? %>
+              <th>Ecole</th>
+            <% end %>
+            <th>Statut Invitation</th>
             <th colspan="3"></th>
           </tr>
         </thead>
@@ -16,7 +20,10 @@
             <tr>
               <td><%= user.firstname %> <%= user.lastname %></td>
               <td><%= user.email %></td>
-              <td><%= link_to 'Show', user %></td>
+              <% if current_user.superadmin? %>
+              <td><% if user.school.present? %><%= user.school.name %><% end %></td>
+              <% end %>
+              <td><%= user.invitation_status %></td>
               <td><%= link_to 'Edit', edit_user_path(user) %></td>
               <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
