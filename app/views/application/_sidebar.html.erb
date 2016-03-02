@@ -20,7 +20,7 @@
               <%= link_to 'Elèves', students_path %>
           </li>
           <li>
-              <a href="#">Groupes</a>
+              <%= link_to 'Groupes de diffusion', groups_path %>
           </li>
           <% if policy(User).index? %>
             <li>
