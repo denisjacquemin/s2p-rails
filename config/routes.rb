@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :groups
+  patch '/groups/update_students/:id', to: 'groups#update_students'
   resources :students
   devise_for :users, :controllers => { :invitations => 'invitations' }
   resources :schools
