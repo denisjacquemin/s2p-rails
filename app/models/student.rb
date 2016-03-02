@@ -1,6 +1,10 @@
 class Student < ApplicationRecord
   belongs_to :school, required: false
 
+  def groups_obj
+    Group.by_ids(self.groups)
+  end
+
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_group_id, ->(group_id) { where("? = ANY(groups)", group_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
@@ -12,7 +16,18 @@ class Student < ApplicationRecord
     Student.by_ids(student_ids).update_all(['groups = array_append(groups, ?)', group_id])
   end
 
-  def self.remove_group(student_ids, group_id)
-    Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', group_id])
+  def self.add_groups(student_ids, group_ids)
+    Student.by_ids(student_ids).update_all(['groups = array_cat(groups, ARRAY[?])', group_ids])
   end
+
+  def self.remove_group(student_ids, group_ids)
+    Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', group_ids])
+  end
+
+  def self.remove_groups(student_ids, group_ids)
+    group_ids.each do |g_id|
+      Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', g_id])
+    end
+  end
+
 end
