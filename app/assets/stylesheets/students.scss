@@ -1,3 +1,15 @@
 // Place all the styles related to the students controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.manage_group {
+  margin-top: 30px;
+
+  .buttons {
+    padding-top: 40px;
+    margin: 0 auto;
+    #remove {
+      margin-top: 40px;
+    }
+  }
+}
