@@ -42,17 +42,11 @@ class GroupsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /groups/1
-  # PATCH/PUT /groups/1.json
   def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @group }
-      else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if @group.update(group_params)
+      redirect_to groups_url, notice: 'Group was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -66,6 +60,7 @@ class GroupsController < ApplicationController
 
     Student.add_group(submitted_members_ids, params[:id]) if submitted_members_ids.any?
     Student.remove_group(actual_members_to_delete, params[:id]) if actual_members_to_delete.any?
+    redirect_to groups_url, notice: 'Group was successfully updated.'
   end
 
   # DELETE /groups/1
