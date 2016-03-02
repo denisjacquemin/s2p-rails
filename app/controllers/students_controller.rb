@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :set_student, only: [:show, :edit, :update, :destroy]
+  before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]
 
   # GET /students
   # GET /students.json
@@ -53,6 +53,19 @@ class StudentsController < ApplicationController
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_groups
+    # before update, compares the actual groups for the student against the submitted list
+    actual_groups_ids = @student.groups_obj.pluck(:id)
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    submitted_groups_ids = [] if submitted_groups_ids.nil?
+
+    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
+
+    Student.add_groups(@student.id, submitted_groups_ids.map(&:to_i)) if submitted_groups_ids.any?
+    Student.remove_groups(@student.id, actual_groups_to_delete) if actual_groups_to_delete.any?
+    redirect_to students_url, notice: 'Student was successfully updated.'
   end
 
   # DELETE /students/1
