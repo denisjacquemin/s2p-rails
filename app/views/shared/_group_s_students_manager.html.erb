@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xs-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Liste des eleves</div>
+      <div class="panel-body table-responsive">
+          <table class="table table-hover table-condensed" id="student_list">
+            <thead>
+              <th><input type="checkbox" /></th>
+              <th>Nom - prenom</th>
+            </thead>
+            <tbody>
+              <% Student.by_school(@group.school_id).each do |student| %>
+                <tr>
+                  <td><input type="checkbox" value="<%= student.id %>"/></td>
+                  <td><label><%= "#{student.lastname} #{student.firstname}" %></label></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-2 buttons">
+    <button type="button" class="btn btn-primary" id="add" aria-label="Left Align">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      Ajouter
+    </button>
+    <button type="button" class="btn btn-primary" id="remove" aria-label="Left Align">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      Enlever
+    </button>
+  </div>
+  <div class="col-xs-5">
+    <%= form_for(group, url: {action: "update_students"}) do |g_form| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">Eleves du groupe</div>
+        <div class="panel-body table-responsive">
+          <table class="table table-hover table-condensed" id="in_group">
+              <% group.students.each do |s| %>
+                <tr>
+                  <%= fields_for s do |s_form| %>
+                    <%= s_form.hidden_field :id, multiple: true%>
+                    <td><input type="checkbox" id="student[<%= s.id %>]"/></td>
+                    <td><%= s_form.label :id, "#{s.lastname} #{s.firstname}" %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+          </table>
+        </div>
+      </div>
+      <%= g_form.submit class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
