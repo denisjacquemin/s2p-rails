@@ -1,7 +1,12 @@
 <h1>Edite élève</h1>
 <hr />
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= render 'form', student: @student %>
-    </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= render 'form', student: @student %>
+  </div>
+</div>
+<div class="row manage_group">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= render "students_'_groups_manager", student: @student %>
+  </div>
 </div>
