@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xs-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Liste des groupes</div>
+      <div class="panel-body table-responsive">
+          <table class="table table-hover table-condensed" id="group_list">
+            <thead>
+              <th><input type="checkbox" /></th>
+              <th>Nom du groupe</th>
+            </thead>
+            <tbody>
+              <% Group.by_school(@message.school_id).each do |group| %>
+                <tr>
+                  <td><input type="checkbox" value="<%= group.id %>"/></td>
+                  <td><label><%= group.name %></label></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-2 buttons">
+    <button type="button" class="btn btn-primary" id="add" aria-label="Left Align">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      Ajouter
+    </button>
+    <button type="button" class="btn btn-primary" id="remove" aria-label="Left Align">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      Enlever
+    </button>
+  </div>
+  <div class="col-xs-5">
+    <%= form_for(message, url: {action: "update_groups"}) do |s_form| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">Groupes du message</div>
+        <div class="panel-body table-responsive">
+          <table class="table table-hover table-condensed" id="in_groups">
+              <% message.groups_obj.each do |g| %>
+                <tr>
+                  <%= fields_for g do |g_form| %>
+                    <%= g_form.hidden_field :id, multiple: true%>
+                    <td><input type="checkbox" id="group[<%= g.id %>]"/></td>
+                    <td><%= g_form.label :id, g.name %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+          </table>
+        </div>
+      </div>
+      <%= s_form.submit class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
