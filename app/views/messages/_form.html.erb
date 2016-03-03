@@ -23,13 +23,12 @@
 
   <% if current_user.superadmin? %>
     <div class="form-group">
-      <%= f.label :school_id %>
-      <%= f.number_field :school_id, class: 'form-control' %>
+      <%= f.label :school %>
+      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit class: 'btn btn-primary' %>
-    <%= link_to 'Back', messages_path, class: 'btn btn-default' %>
-  </div>
+  <%= f.submit class: 'btn btn-primary' %>
+  <%= link_to 'Back', messages_path, class: 'btn btn-default' %>
+
 <% end %>
