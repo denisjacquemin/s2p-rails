@@ -33,9 +33,9 @@ build_group_row = (group_id, group_name) ->
   return tr
 
 $(document).on 'ready page:load', ->
-  $('#add').click ->
+  $('#student_manage_group #add').click ->
     add group for group in $("#group_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked").attr('checked', false)
-  $('#remove').click ->
+  $('#student_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)

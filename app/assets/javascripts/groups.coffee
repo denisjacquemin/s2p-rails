@@ -32,9 +32,9 @@ build_student_row = (student_id, student_fullname) ->
   return tr
 
 $(document).on 'ready page:load', ->
-  $('#add').click ->
+  $('#group_manage_students #add').click ->
     add student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#student_list input:checkbox:checked").attr('checked', false)
-  $('#remove').click ->
+  $('#group_manage_students #remove').click ->
     remove student for student in $("#in_group input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
