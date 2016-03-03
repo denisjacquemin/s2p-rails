@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :update_groups, :destroy]
 
   # GET /messages
   # GET /messages.json
@@ -29,6 +29,7 @@ class MessagesController < ApplicationController
     if current_user.admin?
       @student.school_id = current_user.school_id
     end
+
     respond_to do |format|
       if @message.save
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
@@ -52,6 +53,19 @@ class MessagesController < ApplicationController
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_groups
+    # before update, compares the actual groups for the message against the submitted list
+    actual_groups_ids = @message.groups
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    submitted_groups_ids = [] if submitted_groups_ids.nil?
+
+    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
+
+    Message.add_groups(@message.id, submitted_groups_ids.map(&:to_i)) if submitted_groups_ids.any?
+    Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
+    redirect_to messages_url, notice: 'Message was successfully updated.'
   end
 
   # DELETE /messages/1
