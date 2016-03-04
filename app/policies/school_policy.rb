@@ -31,6 +31,6 @@ class SchoolPolicy < ApplicationPolicy
   private
 
   def verify_is_superadmin?
-    user.superadmin?
+    @user.superadmin?
   end
 end

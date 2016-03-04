@@ -1,28 +1,22 @@
 class GroupPolicy < ApplicationPolicy
-  attr_reader :current_user, :model
-
-  def initialize(current_user, model)
-    @current_user = current_user
-    @group = model
-  end
-
+  
   def destroy?
     # user cannot destroy a group
-    return false if @current_user.user?
+    return false if @user.user?
 
     # admin can only destroy groups from their school
-    return false if @current_user.admin? and @current_user.school_id != @group.school_id
+    return false if @user.admin? and @user.school_id != @group.school_id
 
     # superadmin and admin can destroy a group
-    @current_user.admin? || @current_user.superadmin?
+    @user.admin? || @user.superadmin?
   end
 
   def edit?
-    # if current_user is admin then can edit only group with the same school
-    return false if @current_user.admin? and @current_user.school != @group.school
+    # if user is admin then can edit only group with the same school
+    return false if @user.admin? and @user.school != @group.school
 
     # only admin and superadmin can edit a group
-    @current_user.admin? || @current_user.superadmin?
+    @user.admin? || @user.superadmin?
   end
 
   class Scope
