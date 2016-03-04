@@ -1,28 +1,39 @@
 class StudentPolicy < ApplicationPolicy
-  attr_reader :current_user, :model
 
-  def initialize(current_user, model)
-    @current_user = current_user
-    @student = model
+  def index?
+    true
+  end
+
+  def new?
+    # superadmin and admin can create a student
+    @user.admin? || @user.superadmin?
   end
 
   def destroy?
+
     # user cannot destroy a student
-    return false if @current_user.user?
+    return false if @user.user?
 
     # admin can only destroy students from their school
-    return false if @current_user.admin? and @current_user.school_id != @student.school_id
+    return false if @user.admin? and @user.school_id != @record.school_id
 
     # superadmin and admin can destroy a student
-    @current_user.admin? || @current_user.superadmin?
+    @user.admin? || @user.superadmin?
+  end
+
+  def create?
+    # only admin and superadmin can create a student
+    @user.admin? || @user.superadmin?
   end
 
   def edit?
-    # if current_user is admin then can edit only students with the same school
-    return false if @current_user.admin? and @current_user.school != @student.school
-
     # only admin and superadmin can edit a user
-    @current_user.admin? || @current_user.superadmin?
+    return  unless @user.admin? || @user.superadmin?
+
+    # if user is admin then can edit only students with the same school
+    return false if @user.admin? and @user.school_id != @record.school_id
+
+    true
   end
 
   class Scope

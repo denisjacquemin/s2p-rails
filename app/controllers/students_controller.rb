@@ -5,46 +5,48 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = policy_scope(Student)
+    authorize @students
   end
 
   # GET /students/1
   # GET /students/1.json
   def show
+    authorize @student
   end
 
   # GET /students/new
   def new
     @student = Student.new
+    authorize @student
   end
 
   # GET /students/1/edit
   def edit
+    authorize @student
   end
 
   # POST /students
   # POST /students.json
   def create
     @student = Student.new(student_params)
+    authorize @student
 
     if current_user.admin?
       @student.school_id = current_user.school_id
     end
     @student.code = compute_code
 
-    respond_to do |format|
-      if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-        format.json { render :show, status: :created, location: @student }
-      else
-        format.html { render :new }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
-      end
+    if @student.save
+      redirect_to students_path, notice: 'Student was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /students/1
   # PATCH/PUT /students/1.json
   def update
+    authorize @student
     respond_to do |format|
       if @student.update(student_params)
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }
@@ -57,6 +59,7 @@ class StudentsController < ApplicationController
   end
 
   def update_groups
+    authorize @student
     # before update, compares the actual groups for the student against the submitted list
     actual_groups_ids = @student.groups_obj.pluck(:id)
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
@@ -89,6 +92,7 @@ class StudentsController < ApplicationController
     def student_params
       params.require(:student).permit(:firstname, :lastname, :school_id)
     end
+
     def compute_code
       hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
       key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
@@ -99,4 +103,5 @@ class StudentsController < ApplicationController
       end
       return hash
     end
+
 end
