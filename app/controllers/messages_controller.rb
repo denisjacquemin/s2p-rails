@@ -5,16 +5,19 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     @messages = Message.all
+    authorize @messages
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
+    authorize @message
   end
 
   # GET /messages/new
   def new
     @message = Message.new
+    authorize @message
   end
 
   # GET /messages/1/edit
@@ -25,6 +28,8 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(message_params)
+
+    authorize @message
 
     if current_user.admin?
       @student.school_id = current_user.school_id
@@ -44,6 +49,7 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
   def update
+    authorize @message
     respond_to do |format|
       if @message.update(message_params)
         format.html { redirect_to @message, notice: 'Message was successfully updated.' }
@@ -56,6 +62,7 @@ class MessagesController < ApplicationController
   end
 
   def update_groups
+    authorize @message
     # before update, compares the actual groups for the message against the submitted list
     actual_groups_ids = @message.groups
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
@@ -71,6 +78,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
+    authorize @message
     @message.destroy
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
