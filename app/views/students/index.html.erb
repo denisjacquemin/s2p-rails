@@ -23,8 +23,12 @@
                 <td><% if student.school.present? %><%= student.school.name %><% end %></td>
               <% end %>
               <td><%= student.code %></td>
-              <td><%= link_to 'Edit', edit_student_path(student) %></td>
-              <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <% if policy(student).edit? %>
+                <td><%= link_to 'Edit', edit_student_path(student) %></td>
+              <% end %>
+              <% if policy(student).destroy? %>
+                <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
@@ -32,5 +36,6 @@
     </div>
 </div>
 
-
-<%= link_to 'New Student', new_student_path, class: 'btn btn-primary' %>
+<% if policy(:student).new? %>
+  <%= link_to 'New Student', new_student_path, class: 'btn btn-primary' %>
+<% end %>
