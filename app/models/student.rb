@@ -8,6 +8,7 @@ class Student < ApplicationRecord
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_group_id, ->(group_id) { where("? = ANY(groups)", group_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
+  scope :by_code, ->(code) { where(code: code) }
 
   # http://stackoverflow.com/questions/24236871/in-rails-how-to-add-an-element-to-an-array-type-attribute-for-all-records
   # http://www.postgresql.org/docs/current/static/arrays.html

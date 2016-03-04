@@ -29,6 +29,7 @@ class StudentsController < ApplicationController
     if current_user.admin?
       @student.school_id = current_user.school_id
     end
+    @student.code = compute_code
 
     respond_to do |format|
       if @student.save
@@ -87,5 +88,15 @@ class StudentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
       params.require(:student).permit(:firstname, :lastname, :school_id)
+    end
+    def compute_code
+      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
+      key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+      hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+      while !Student.by_code(hash).empty? do
+        key = key + "a" # add nothing to the key to generate a different code
+        hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+      end
+      return hash
     end
 end
