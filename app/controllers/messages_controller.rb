@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
     authorize @message
 
     if current_user.admin?
-      @student.school_id = current_user.school_id
+      @message.school_id = current_user.school_id
     end
 
     respond_to do |format|
