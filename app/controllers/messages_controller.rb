@@ -72,7 +72,7 @@ class MessagesController < ApplicationController
     actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
 
     # check if submited groups are not yet in db
-    submitted_groups_to_add = submitted_groups_ids.select { |g| !actual_groups_ids.include?(g) }
+    submitted_groups_to_add = submitted_groups_ids.select { |g| !actual_groups_ids.include?(g.to_i) }
 
     Message.add_groups(@message.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
     Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
