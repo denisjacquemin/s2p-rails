@@ -20,6 +20,10 @@ class MessagePolicy < ApplicationPolicy
     true
   end
 
+  def publish?
+    true
+  end
+
   def update_groups?
     true
   end

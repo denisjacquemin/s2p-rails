@@ -22,7 +22,7 @@
               <% if current_user.superadmin? %>
                 <td><% if message.school.present? %><%= message.school.name %><% end %></td>
               <% end %>
-              <td><%= link_to 'Show', message %></td>
+              <td><%= link_to 'Publier', publish_message_path(message), :method=> :patch, class: 'btn btn-primary btn-sm' %></td>
               <td><%= link_to 'Edit', edit_message_path(message) %></td>
               <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>

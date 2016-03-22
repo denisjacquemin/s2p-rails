@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :update_groups, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :publish, :update_groups, :destroy]
 
   # GET /messages
   # GET /messages.json
@@ -77,6 +77,15 @@ class MessagesController < ApplicationController
     Message.add_groups(@message.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
     Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
     redirect_to messages_url, notice: 'Message was successfully updated.'
+  end
+
+  def publish
+    authorize @message
+    if @message.update(publish_date: DateTime.now)
+      redirect_to @message, notice: 'Message publié avec succès'
+    else
+      render :edit
+    end
   end
 
   # DELETE /messages/1
