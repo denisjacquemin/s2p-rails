@@ -18,7 +18,15 @@
 
   <div class="form-group">
     <%= f.label :content %>
-    <%= f.text_area :content, class: 'form-control' %>
+    <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
+    <script>
+      $(function() {
+          $('#wysiwyg').froalaEditor({
+            language: 'fr',
+            toolbarButtons: ['undo', 'redo',  '|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',  '|', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'insertTable', 'clearFormatting', 'selectAll']
+          })
+      });
+    </script>
   </div>
 
   <% if current_user.superadmin? %>

@@ -14,4 +14,9 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require snackbar
+//= require froala_editor.min.js
+//= require plugins/lists.min.js
+//= require plugins/table.min.js
+//= require plugins/link.min.js
+//= require languages/fr.js
 //= require_tree .

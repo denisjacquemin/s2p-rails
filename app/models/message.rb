@@ -1,6 +1,7 @@
 class Message < ApplicationRecord
   belongs_to :school, required: false
 
+
   def groups_obj
     Group.by_ids(self.groups)
   end
@@ -16,4 +17,5 @@ class Message < ApplicationRecord
       Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', g_id])
     end
   end
+
 end
