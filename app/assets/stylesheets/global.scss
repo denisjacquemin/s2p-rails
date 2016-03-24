@@ -1,6 +1,12 @@
 @import "snackbar";
 @import "snackbar-material";
 
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+
 .snackbar  {
   z-index: 10000;
   font-size: 16px;
