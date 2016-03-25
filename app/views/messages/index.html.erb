@@ -18,7 +18,7 @@
           <% @messages.each do |message| %>
             <tr>
               <td><%= message.title %></td>
-              <td><%= truncate(message.content, :length => 200) %></td>
+              <td><%= truncate(strip_tags(message.content), :length => 200) %></td>
               <% if current_user.superadmin? %>
                 <td><% if message.school.present? %><%= message.school.name %><% end %></td>
               <% end %>
