@@ -1,6 +1,20 @@
 class Message < ApplicationRecord
   belongs_to :school, required: false
+  has_many :mfiles
+  belongs_to :author, class_name: "User"
 
+  enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted ]
+  after_initialize :set_default_status, :if => :new_record?
+
+  def set_default_status
+   self.status ||= :draft
+  end
+
+  def author_fullname
+    fullname = ""
+    fullname = "#{self.author.firstname} #{self.author.lastname}" if self.author
+    return fullname
+  end
 
   def groups_obj
     Group.by_ids(self.groups)
