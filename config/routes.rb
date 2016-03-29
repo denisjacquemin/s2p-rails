@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :mfiles
   resources :messages
   patch '/messages/update_groups/:id', to: 'messages#update_groups'
   patch '/messages/publish/:id', to: 'messages#publish', as: 'publish_message'
