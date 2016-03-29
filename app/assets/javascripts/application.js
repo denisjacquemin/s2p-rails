@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require snackbar
 //= require froala_editor.min.js
@@ -19,4 +20,16 @@
 //= require plugins/table.min.js
 //= require plugins/link.min.js
 //= require languages/fr.js
-//= require_tree .
+//= require jquery.ui.widget
+//= require jquery.fileupload
+//= require jquery.fileupload-ui
+//= require jquery.iframe-transport
+//= require jquery.fileupload-process
+//= require jquery.fileupload-validate
+//= require global
+//= require groups
+//= require messages
+//= require mfiles
+//= require schools
+//= require students
+// require_tree .
