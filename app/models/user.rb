@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :lockable
 
   belongs_to :school, required: false
+  has_many :messages
 
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
