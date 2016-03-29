@@ -1,10 +1,11 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :publish, :update_groups, :destroy]
+  before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = policy_scope(Message).order(created_at: :desc)
     authorize @messages
   end
 
@@ -17,27 +18,30 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
+    @mfile = Mfile.new
     authorize @message
   end
 
   # GET /messages/1/edit
   def edit
+    @mfile = Mfile.new
   end
 
   # POST /messages
   # POST /messages.json
   def create
     @message = Message.new(message_params)
-
     authorize @message
 
-    if current_user.admin?
+    @message.author = current_user
+
+    unless current_user.superadmin?
       @message.school_id = current_user.school_id
     end
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        format.html { redirect_to edit_message_path(@message), notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
@@ -81,6 +85,7 @@ class MessagesController < ApplicationController
 
   def publish
     authorize @message
+    @message.published!
     if @message.update(publish_date: DateTime.now)
       redirect_to @message, notice: 'Message publié avec succès'
     else
@@ -108,5 +113,14 @@ class MessagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
       params.require(:message).permit(:title, :content, :school_id)
+    end
+
+    def set_s3_direct_post
+      @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def mfile_params
+      params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
     end
 end
