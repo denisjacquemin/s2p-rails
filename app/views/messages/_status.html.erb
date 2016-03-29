@@ -1,0 +1,6 @@
+<% if message.draft? %>  <span class="label label-default">Brouillon</span>
+<% elsif message.published? %> <span class="label label-primary">Publié</span>
+<% elsif message.waiting_for_approval? %> <span class="label label-warning">Approbation</span>
+<% elsif message.approval_refused? %> <span class="label label-danger">Refusé</span>
+<% elsif message.approval_accepted? %> <span class="label label-success">Accepté</span>
+<% end %>

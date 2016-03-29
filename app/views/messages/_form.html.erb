@@ -1,42 +1,38 @@
-<%= form_for(message) do |f| %>
-  <% if message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
+<ul class="nav nav-tabs" role="tablist" id="message_tabs">
+  <li role="presentation" class="active">
+    <a href="#details" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
+  </li>
+  <li role="presentation">
+    <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
+  </li>
+  <li role="presentation">
+    <a href="#groups" aria-controls="profile" role="tab" data-toggle="tab">Groupes de diffusions</a>
+  </li>
+  <li role="presentation">
+    <a href="#preview" aria-controls="messages" role="tab" data-toggle="tab">Aperçu</a>
+  </li>
+  <div class="pull-right"><%= render 'status', message: @message %></small></div>
+</ul>
 
-      <ul>
-      <% message.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= f.label :title %>
-    <%= f.text_field :title, class: 'form-control' %>
+<!-- Tab panes -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="details">
+    <%= render 'form_details', message: message %>
   </div>
-
-  <div class="form-group">
-    <%= f.label :content %>
-    <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
-    <script>
-      $(function() {
-          $('#wysiwyg').froalaEditor({
-            language: 'fr',
-            toolbarButtons: ['undo', 'redo',  '|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',  '|', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'insertTable', 'clearFormatting', 'selectAll']
-          })
-      });
-    </script>
+  <div role="tabpanel" class="tab-pane" id="files">
+    <%= render 'form_files', {message: message, mfile: mfile} %>
   </div>
+  <div role="tabpanel" class="tab-pane" id="groups">
+    <%= render 'form_groups', {message: message, mfile: mfile} %>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="preview">
+  </div>
+</div>
 
-  <% if current_user.superadmin? %>
-    <div class="form-group">
-      <%= f.label :school %>
-      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
-    </div>
-  <% end %>
-
-  <%= f.submit class: 'btn btn-primary' %>
-  <%= link_to 'Back', messages_path, class: 'btn btn-default' %>
-
-<% end %>
+<script>
+$('#message_tabs a').click(function (e) {
+  e.preventDefault()
+  console.log('show tab')
+  $(this).tab('show')
+})
+</script>

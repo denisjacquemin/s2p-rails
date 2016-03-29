@@ -2,11 +2,6 @@
 <hr />
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render 'form', message: @message %>
-  </div>
-</div>
-<div class="row" id="message_manage_group">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render "messages_'_groups_manager", message: @message %>
+    <%= render 'form', {message: @message, mfile: @mfile} %>
   </div>
 </div>

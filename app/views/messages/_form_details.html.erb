@@ -1,0 +1,44 @@
+<%= form_for(message) do |f| %>
+  <% if message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
+
+      <ul>
+      <% message.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h2>Titre et contenu</h2>
+  <div class="form-group">
+    <%= f.label :title, 'Titre' %>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content, 'Contenu' %>
+    <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
+    <script>
+      $(function() {
+          $('#wysiwyg').froalaEditor({
+            language: 'fr',
+            toolbarButtons: ['undo', 'redo',  '|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',  '|', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'insertTable', 'clearFormatting', 'selectAll']
+          })
+      });
+    </script>
+  </div>
+
+  <% if current_user.superadmin? %>
+    <div class="form-group">
+      <%= f.label :school %>
+      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
+    </div>
+  <% end %>
+
+  <%= f.submit class: 'btn btn-primary' %>
+  <%= link_to 'Back', messages_path, class: 'btn btn-default' %>
+
+
+
+<% end %>
