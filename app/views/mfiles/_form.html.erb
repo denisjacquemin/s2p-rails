@@ -1,0 +1,37 @@
+<%= form_for(mfile, html: { class: "directUpload", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
+  <% if mfile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mfile.errors.count, "error") %> prohibited this mfile from being saved:</h2>
+
+      <ul>
+      <% mfile.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :filename %>
+    <%= f.text_field :filename %>
+  </div>
+
+  <div class="field">
+    <%= f.label :file_url %>
+    <%= f.file_field :file_url %>
+  </div>
+
+  <div class="field">
+    <%= f.label :school_id %>
+    <%= f.number_field :school_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :message_id %>
+    <%= f.number_field :message_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

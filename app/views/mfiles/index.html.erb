@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mfiles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filename</th>
+      <th>File url</th>
+      <th>School</th>
+      <th>Message</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mfiles.each do |mfile| %>
+      <tr>
+        <td><%= mfile.filename %></td>
+        <td><%= mfile.file_url %></td>
+        <td><%= mfile.school_id %></td>
+        <td><%= mfile.message_id %></td>
+        <td><%= link_to 'Show', mfile %></td>
+        <td><%= link_to 'Edit', edit_mfile_path(mfile) %></td>
+        <td><%= link_to 'Destroy', mfile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mfile', new_mfile_path %>
