@@ -35,4 +35,23 @@ class MessagePolicy < ApplicationPolicy
   def destroy?
     true
   end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user  = user
+      @scope = scope
+    end
+
+    def resolve
+      if user.superadmin?
+        scope.all
+      elsif user.admin?
+        scope.where(school_id: user.school_id)
+      elsif user.user?
+        scope.where(school_id: user.school_id, author_id: user.id)
+      end
+    end
+  end
 end
