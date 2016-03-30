@@ -1,0 +1,33 @@
+<%
+  message_owner = message.author_id === current_user.id
+  isReviewer = current_user.school.settings['message.reviewers'].include?(current_user.id)
+%>
+
+<% if current_user.admin? or (current_user.user? and isReviewer and message_owner) %>
+  <% if message.draft? and message_owner %>
+    <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
+  <% elsif message.published? and message_owner %>
+    <li><%= link_to 'Dépublier', unpublish_message_path(message), :method=> :patch %></li>
+  <% end %>
+<% end %>
+
+<% if current_user.user? and not isReviewer and message_owner%>
+  <% if message.draft? or message.approval_refused?%>
+    <li><%= link_to "Demander l'approbation", send_for_approval_message_path(message), :method=> :patch %></li>
+  <% elsif message.approval_accepted? %>
+    <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
+  <% elsif message.published? and message_owner %>
+    <li><%= link_to 'Dépublier', unpublish_message_path(message), :method=> :patch %></li>
+  <% end %>
+<% end %>
+
+<% if isReviewer and not message_owner%>
+  <% if message.waiting_for_approval? %>
+    <li><%= link_to 'Accepter', accept_message_path(message), :method=> :patch %></li>
+    <li><%= link_to 'Rejeter', reject_message_path(message), :method=> :patch %></li>
+  <% end %>
+<% end %>
+
+<% if message_owner %>
+  <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+<% end %>

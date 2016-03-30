@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :publish, :update_groups, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
     authorize @message
     respond_to do |format|
       if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
+        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
         format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit }
@@ -80,14 +80,54 @@ class MessagesController < ApplicationController
 
     Message.add_groups(@message.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
     Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
-    redirect_to messages_url, notice: 'Message was successfully updated.'
+    redirect_to edit_message_path(@message, t: 'groups'), notice: 'Le message a été mis à jour.'
   end
 
   def publish
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
-      redirect_to @message, notice: 'Message publié avec succès'
+      redirect_to messages_url, notice: 'Message publié avec succès'
+    else
+      render :edit
+    end
+  end
+
+  def unpublish
+    authorize @message
+    @message.draft!
+    if @message.update(publish_date: nil)
+      redirect_to messages_url, notice: 'Message dépublié avec succès'
+    else
+      render :edit
+    end
+  end
+
+  def send_for_approval
+    authorize @message
+    @message.waiting_for_approval!
+    if @message.save
+      redirect_to messages_url, notice: 'Message envoyé pour approbation avec succès'
+    else
+      render :edit
+    end
+  end
+
+  def accept
+    authorize @message
+    @message.approval_accepted!
+    if @message.save
+      redirect_to messages_url, notice: 'Message accepté'
+    else
+      render :edit
+    end
+  end
+
+  def reject
+    authorize @message
+    @message.approval_refused!
+    if @message.save
+      redirect_to messages_url, notice: 'Message refusé'
     else
       render :edit
     end

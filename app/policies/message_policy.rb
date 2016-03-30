@@ -24,6 +24,22 @@ class MessagePolicy < ApplicationPolicy
     true
   end
 
+  def unpublish?
+    true
+  end
+
+  def send_for_approval?
+    true
+  end
+
+  def accept?
+    true
+  end
+
+  def reject?
+    true
+  end
+
   def update_groups?
     true
   end

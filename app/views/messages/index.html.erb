@@ -32,8 +32,7 @@
                     Actions <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
-                    <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                    <li><%= render 'change_status_link', message: message %></li>
                   </ul>
                 </div>
             </tr>
