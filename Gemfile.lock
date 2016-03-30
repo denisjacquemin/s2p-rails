@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/huacnlee/rails-settings-cached.git
+  revision: 91028a752bfc537f4ea763b65f8ff7f048bb4b15
+  branch: master
+  specs:
+    rails-settings-cached (0.5.4)
+      rails (>= 4.2.0)
+
+GIT
   remote: git://github.com/plataformatec/devise.git
   revision: f0c39e08ca05b328f71d7d145468e841b0142b2e
   branch: master
@@ -223,6 +231,7 @@ DEPENDENCIES
   puma
   pundit
   rails (>= 5.0.0.beta2, < 5.1)
+  rails-settings-cached!
   rails_12factor
   redis (~> 3.0)
   sass-rails (~> 5.0)

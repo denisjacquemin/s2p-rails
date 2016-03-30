@@ -20,6 +20,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem "wysiwyg-rails"
 gem 'kramdown'
 
+gem "rails-settings-cached", :github => 'huacnlee/rails-settings-cached', :branch => 'master'
+
 gem 'aws-sdk', '~> 2'
 
 # Use jquery as the JavaScript library
