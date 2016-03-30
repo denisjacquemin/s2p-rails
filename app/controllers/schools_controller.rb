@@ -31,9 +31,13 @@ class SchoolsController < ApplicationController
   def create
     @school = School.new(school_params)
     authorize @school
-    
+
+    @school.settings['message.reviewers'] = [] # init message's reviewers to none
+    @school.settings['message.approval_required'] = false
+
     respond_to do |format|
       if @school.save
+
         format.html { redirect_to @school, notice: 'School was successfully created.' }
         format.json { render :show, status: :created, location: @school }
       else
