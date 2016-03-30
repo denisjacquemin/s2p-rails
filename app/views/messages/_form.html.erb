@@ -8,9 +8,6 @@
   <li role="presentation">
     <a href="#groups" aria-controls="profile" role="tab" data-toggle="tab">Groupes de diffusions</a>
   </li>
-  <li role="presentation">
-    <a href="#preview" aria-controls="messages" role="tab" data-toggle="tab">Aperçu</a>
-  </li>
   <div class="pull-right"><%= render 'status', message: @message %></small></div>
 </ul>
 
@@ -25,14 +22,18 @@
   <div role="tabpanel" class="tab-pane" id="groups">
     <%= render 'form_groups', {message: message, mfile: mfile} %>
   </div>
-  <div role="tabpanel" class="tab-pane" id="preview">
-  </div>
 </div>
 
 <script>
 $('#message_tabs a').click(function (e) {
   e.preventDefault()
-  console.log('show tab')
   $(this).tab('show')
 })
+
+var t = getParameterByName('t')
+if (t == '') {
+  t = 'details'
+}
+var selector = '.nav-tabs a[href="#' + t + '"]'
+$(selector).tab('show')
 </script>
