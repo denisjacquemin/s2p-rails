@@ -3,14 +3,17 @@
   isReviewer = current_user.school.settings['message.reviewers'].include?(current_user.id)
 %>
 
-<% if current_user.admin? or (current_user.user? and isReviewer and message_owner) %>
-  <% if message.draft? and message_owner %>
+<% # Si admin et que c'est son message alors il peut publier %>
+<% # Si reviewer et son message alors il peut publier
+<% if (current_user.admin? or isReviewer) and message_owner %>
+  <% if message.draft? %>
     <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
-  <% elsif message.published? and message_owner %>
+  <% elsif message.published? %>
     <li><%= link_to 'Dépublier', unpublish_message_path(message), :method=> :patch %></li>
   <% end %>
 <% end %>
 
+<% # Si un user (pas reviewer) et owner du message alors il peut Demander l'approbation %>
 <% if current_user.user? and not isReviewer and message_owner%>
   <% if message.draft? or message.approval_refused?%>
     <li><%= link_to "Demander l'approbation", send_for_approval_message_path(message), :method=> :patch %></li>
@@ -21,6 +24,7 @@
   <% end %>
 <% end %>
 
+<% # Si Reviewer et pas son message alors il peut accepter ou refuser  %>
 <% if isReviewer and not message_owner%>
   <% if message.waiting_for_approval? %>
     <li><%= link_to 'Accepter', accept_message_path(message), :method=> :patch %></li>
