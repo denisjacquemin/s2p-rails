@@ -5,7 +5,7 @@
 
 <% # Si admin et que c'est son message alors il peut publier %>
 <% # Si reviewer et son message alors il peut publier
-<% if (current_user.admin? or isReviewer) and message_owner %>
+<% if ((current_user.admin? or isReviewer) and message_owner) %>
   <% if message.draft? %>
     <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
   <% elsif message.published? %>
