@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
 
-    if current_user.admin?
+    unless current_user.superadmin?
       @group.school_id = current_user.school_id
     end
 
