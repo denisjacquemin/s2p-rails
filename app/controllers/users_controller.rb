@@ -4,12 +4,12 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = policy_scope(User)
+    @users = policy_scope(User).active
   end
 
   def destroy
     authorize @user
-    @user.destroy
+    @user.update(email: @user.email + '_deleted', deleted_at: Time.current)
     redirect_to users_path, :notice => "User deleted."
   end
 
