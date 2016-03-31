@@ -21,5 +21,11 @@ Rails.application.routes.draw do
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
 
-  root 'application#welcome'
+  authenticated :user do
+    root 'messages#index', as: :authenticated_root
+  end
+
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
 end
