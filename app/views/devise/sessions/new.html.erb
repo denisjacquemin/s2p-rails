@@ -1,36 +1,37 @@
 
-<h1>Identification</h1>
-<hr />
+
 <div class="row">
-    <div class="col-xs-12 col-sm-7 col-md-6 col-lg-5">
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12">
+    <h1>Identification</h1>
+    <hr />
+    <div class="row">
+      <div class="col-xs-12 col-sm-7 col-md-6 col-lg-5">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-        <div class="form-group">
-          <%= f.label :email, 'E-mail'%>
-          <%= f.email_field :email, autofocus: true, class: "form-control" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password, 'Mot de passe' %>
-          <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
-        </div>
-
-        <% if devise_mapping.rememberable? -%>
-          <div class="checkbox">
-            <%= f.label :remember_me do %>
-              <%= f.check_box :remember_me %> Se rappeler de moi
-            <% end %>
+          <div class="form-group">
+            <%= f.label :email, 'Email'%>
+            <%= f.email_field :email, autofocus: true, class: "form-control" %>
           </div>
-        <% end -%>
 
-        <%= f.submit "Se connecter", class: 'btn btn-primary' %>
-      <% end %>
+          <div class="form-group">
+            <%= f.label :password, 'Mot de passe' %>
+            <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+          </div>
 
+          <% if devise_mapping.rememberable? -%>
+            <div class="checkbox">
+              <%= f.label :remember_me do %>
+                <%= f.check_box :remember_me %> Se rappeler de moi
+              <% end %>
+            </div>
+          <% end -%>
+
+          <%= f.submit "Se connecter", class: 'btn btn-primary' %>
+        <% end %>
+        <br/>
+        <%= render "devise/shared/links" %>
+
+      </div>
     </div>
-    <div class="col-xs-12 col-sm-5 col-md-offset-1 col-md-5 col-lg-offset-3 col-lg-4">
-      <h2>Aide</h2>
-      <hr />
-      <p>Pour acceder a la platforme votre compte doit etre cree au prealable par un administrateur.</p>
-      <%= render "devise/shared/links" %>
-    </div>
+  </div>
 </div>
