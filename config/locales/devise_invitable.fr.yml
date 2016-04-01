@@ -1,0 +1,30 @@
+fr:
+  devise:
+    failure:
+      invited: "Vous n'avez pas encore accepté votre invitation."
+    invitations:
+      send_instructions: "Un email d'invitation à été envoyé à %{email}."
+      invitation_token_invalid: "Le token d'invitation n'est pas valable."
+      updated: "Votre mot de passe à bien été enregistré, vous êtes maintenant authentifié."
+      updated_not_active: "Votre mot de passe à bien été enregistré."
+      no_invitations_remaining: "Aucune invitation restante."
+      invitation_removed: "Votre invitation a été supprimée."
+      new:
+        header: "Envoyer une invitation"
+        submit_button: "Envoyé l'invitation"
+      edit:
+        header: "Entrez votre mot de passe"
+        submit_button: "Enregistrer mon mot de passe"
+    mailer:
+      invitation_instructions:
+        subject: "Invitation"
+        hello: "Bonjour %{email}"
+        someone_invited_you: "Vous êtes invité sur %{url}, vous pouvez l'accepter via le lien ci-dessous."
+        accept: "Accepter l'invitation"
+        ignore: "Si vous ne voulez pas l'accepter, ignorez cet email.<br />Votre compte sera créé dès que vous aurez accepté l'invitation et enregistré votre mot de passe."
+  time:
+    formats:
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%d %B,  %I:%M %Y "
