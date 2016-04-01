@@ -1,4 +1,5 @@
 class InvitationsController < Devise::InvitationsController
+
   private
     def invite_resource
         resource_class.invite!(invite_params, current_inviter) do |invitable|
