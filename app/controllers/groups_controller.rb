@@ -45,7 +45,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to groups_url, notice: 'Group was successfully updated.'
+      redirect_to edit_group_path(@group), notice: t('controller.groups.update.notice.success')
     else
       render :edit
     end
@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
 
     Student.add_group(submitted_members_ids, params[:id]) if submitted_members_ids.any?
     Student.remove_group(actual_members_to_delete, params[:id]) if actual_members_to_delete.any?
-    redirect_to groups_url, notice: 'Group was successfully updated.'
+    redirect_to edit_group_path(@group), notice: t('controller.groups.update.notice.success')
   end
 
   # DELETE /groups/1
@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
+      format.html { redirect_to groups_url, notice: t('controller.groups.destroy.notice.success') }
       format.json { head :no_content }
     end
   end

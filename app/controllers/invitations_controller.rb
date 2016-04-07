@@ -6,6 +6,10 @@ class InvitationsController < Devise::InvitationsController
             if current_user.admin?
               invitable.school_id = current_user.school_id
             end
+            byebug
+            if current_user.superadmin?
+              invitable.admin!
+            end
         end
     end
 end

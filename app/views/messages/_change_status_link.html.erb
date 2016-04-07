@@ -34,5 +34,5 @@
 <% end %>
 
 <% if message_owner %>
-  <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+  <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: t('views.global.areyousure') } %></li>
 <% end %>

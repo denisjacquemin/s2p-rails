@@ -36,7 +36,12 @@
     </div>
   <% end %>
 
-  <%= f.submit class: 'btn btn-primary' %>
+  <%
+    submit_label = t('views.messages.new.submit')
+    submit_label = t('views.messages.edit.submit') unless @message.new_record?
+  %>
+
+  <%= f.submit submit_label, class: 'btn btn-primary' %>
 
 
 <% end %>

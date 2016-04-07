@@ -4,14 +4,15 @@
 
 add = (student) ->
   student_id = $(student).find( "input:checkbox").val()
-  student_fullname = $(student).find("label").text()
-  build_student_row(student_id, student_fullname).appendTo($('#in_group'))
+  student_fullname = $(student).find(".fullname").text()
+  classroom = $(student).find(".classroom").text()
+  build_student_row(student_id, student_fullname, classroom).appendTo($('#in_group'))
 
 remove = (student) ->
   console.log('student to be removed')
   student.remove()
 
-build_student_row = (student_id, student_fullname) ->
+build_student_row = (student_id, student_fullname, classroom) ->
   tr    = $("<tr/>")
   $("<input/>", {
       multiple: 'multiple',
@@ -29,6 +30,11 @@ build_student_row = (student_id, student_fullname) ->
               for: "student[" + student_id + "]",
               text: student_fullname
             }).appendTo(td2)
+  td3   = $("<td/>").appendTo(tr)
+  classroom = $("<label/>", {
+              for: "student[" + student_id + "]",
+              text: classroom
+            }).appendTo(td3)
   return tr
 
 $(document).on 'ready page:load', ->

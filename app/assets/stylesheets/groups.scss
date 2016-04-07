@@ -2,14 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.manage_group {
-  margin-top: 30px;
+.groups {
+  margin-top: 50px;
+
+  .panel-body {
+    height: 350px;
+    overflow: auto;
+  }
 
   .buttons {
-    padding-top: 40px;
-    margin: 0 auto;
-    #remove {
+    padding: 40px 0 0 0;
+    text-align:center;
+    #remove, input[type='submit'] {
       margin-top: 40px;
     }
   }
+
 }

@@ -11,14 +11,34 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :firstname %>
-    <%= f.text_field :firstname, class: 'form-control' %>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="form-group">
+        <%= f.label :firstname %>
+        <%= f.text_field :firstname, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="form-group">
+        <%= f.label :lastname %>
+        <%= f.text_field :lastname, class: 'form-control' %>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :lastname %>
-    <%= f.text_field :lastname, class: 'form-control' %>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="form-group">
+        <%= f.label :level %>
+        <%= f.text_field :level, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="form-group">
+        <%= f.label :classroom %>
+        <%= f.text_field :classroom, class: 'form-control' %>
+      </div>
+    </div>
   </div>
 
   <% if current_user.superadmin? %>
@@ -28,7 +48,14 @@
     </div>
   <% end %>
 
-  <%= f.submit class: 'btn btn-primary' %>
-  <%= link_to 'Back', students_path, class: 'btn btn-default' %>
+  <%
+    submit_label = t('views.students.new.submit')
+    submit_label = t('views.students.edit.submit') unless @student.new_record?
+  %>
 
+
+  <%= f.submit submit_label, class: 'btn btn-primary' %>
+  <% if policy(student).destroy? %>
+    <td><%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %></td>
+  <% end %>
 <% end %>

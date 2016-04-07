@@ -21,16 +21,16 @@ class User < ApplicationRecord
 
   def invitation_status
     if self.invitation_accepted_at.present?
-      "accepted"
+      "Accepté"
     else
-      "pending"
+      "En attente"
     end
   end
 
   def active_for_authentication?
     super && !deleted_at
   end
-  
+
   def inactive_message
     !deleted_at ? super : :deleted_account
   end

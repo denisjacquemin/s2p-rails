@@ -1,9 +1,76 @@
 ---
 fr:
+  controller:
+    user:
+      destroy:
+        success:
+          notice: Utilisateur effacé.
+      update:
+        success:
+          notice: L'utilisateur à bien été mis à jour.
+    groups:
+      update:
+        notice:
+          success: Groupe enregistré avec succès
+      destroy:
+        notice:
+          success: Groupe effacé
+    students:
+      create:
+        notice:
+          success: Elève enregistré avec succès
+      update:
+        notice:
+          success: Elève enregistré avec succès
+      destroy:
+        notice:
+          success: Elève effacé
   activerecord:
     errors:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'
+    attributes:
+      user:
+        password: 'Mot de passe'
+        password_confirmation: 'Confirmation de mot de passe'
+        email: Email
+      group:
+        name: 'Nom'
+        school: 'Ecole'
+      student:
+        firstname: Prénom
+        lastname: Nom
+        level: Année
+        classroom: Classe
+        code: Code
+        school: Ecole
+  views:
+    global:
+      areyousure: 'Êtes-vous sûr'
+      edit: Edition
+      destroy: Supprimer
+    groups:
+      listofstudents: Liste des élèves
+      edit:
+        title: Edition d'un groupe
+        submit: 'Enregistrer le groupe'
+      index:
+        new: 'Nouveau groupe'
+      new:
+        title: 'Nouveau groupe de diffusion'
+        submit: 'Créer le groupe'
+    students:
+      edit:
+        submit: "Enregistrer l'étudiant"
+      new:
+        submit: "Créer l'étudiant"
+    messages:
+      listofstudents: Liste des groupes
+      edit:
+        submit: 'Enregister le message'
+      new:
+        submit: 'Enregister le message'
+
   date:
     abbr_day_names:
     - dim

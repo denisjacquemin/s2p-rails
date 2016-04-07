@@ -38,7 +38,7 @@ class StudentsController < ApplicationController
     @student.code = compute_code
 
     if @student.save
-      redirect_to students_path, notice: 'Student was successfully created.'
+      redirect_to students_path, notice: t('controller.groups.create.notice.success')
     else
       render :new
     end
@@ -50,7 +50,7 @@ class StudentsController < ApplicationController
     authorize @student
     respond_to do |format|
       if @student.update(student_params)
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
+        format.html { redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success') }
         format.json { render :show, status: :ok, location: @student }
       else
         format.html { render :edit }
@@ -74,7 +74,7 @@ class StudentsController < ApplicationController
 
     Student.add_groups(@student.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
     Student.remove_groups(@student.id, actual_groups_to_delete) if actual_groups_to_delete.any?
-    redirect_to students_url, notice: 'Student was successfully updated.'
+    redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success')
   end
 
   # DELETE /students/1
@@ -82,7 +82,7 @@ class StudentsController < ApplicationController
   def destroy
     @student.destroy
     respond_to do |format|
-      format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
+      format.html { redirect_to students_url, notice: t('controller.students.destroy.notice.success') }
       format.json { head :no_content }
     end
   end
@@ -95,7 +95,7 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:firstname, :lastname, :school_id)
+      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level)
     end
 
     def compute_code

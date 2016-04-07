@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def destroy
     authorize @user
     @user.update(email: @user.email + '_deleted', deleted_at: Time.current)
-    redirect_to users_path, :notice => "User deleted."
+    redirect_to users_path, :notice => t('controller.user.destroy.success.notice')
   end
 
   def edit
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to users_path, notice: 'User was successfully updated.'
+      redirect_to users_path, notice: t('controller.user.update.success.notice')
     else
       render :edit
     end

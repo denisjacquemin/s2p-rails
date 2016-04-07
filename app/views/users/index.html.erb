@@ -1,4 +1,8 @@
-<h1>Utilisateurs</h1>
+<h1>Utilisateurs
+  <div class="pull-right">
+    <%= link_to 'Nouvelle invitation', new_user_invitation_path, class: 'btn btn-primary' %>
+  </div>
+</h1>
 <hr />
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -18,14 +22,13 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td><%= user.firstname %> <%= user.lastname %></td>
-              <td><%= user.email %></td>
+              <td><%= link_to "#{user.firstname} #{user.lastname}", edit_user_path(user) %></td>
+              <td><%= link_to user.email, edit_user_path(user) %></td>
               <% if current_user.superadmin? %>
                 <td><% if user.school.present? %><%= user.school.name %><% end %></td>
               <% end %>
               <td><%= user.invitation_status %></td>
-              <td><%= link_to 'Edit', edit_user_path(user) %></td>
-              <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') } %></td>
             </tr>
           <% end %>
         </tbody>
@@ -33,5 +36,3 @@
     </div>
 </div>
 <br>
-
-<%= link_to 'Nouvelle invitation', new_user_invitation_path, class: 'btn btn-primary' %>

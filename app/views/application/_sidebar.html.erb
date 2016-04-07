@@ -35,11 +35,6 @@
          <% end %>
          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
        <% end %>
-       <% unless user_signed_in? %>
-         <li>
-             <%= link_to 'Identification', new_user_session_path %>
-         </li>
-       <% end %>
      </ul>
     </div><!-- /.navbar-collapse -->
   </div>

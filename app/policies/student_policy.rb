@@ -36,6 +36,16 @@ class StudentPolicy < ApplicationPolicy
     true
   end
 
+  def update?
+    # only admin and superadmin can edit a user
+    return  unless @user.admin? || @user.superadmin?
+
+    # if user is admin then can edit only students with the same school
+    return false if @user.admin? and @user.school_id != @record.school_id
+
+    true
+  end
+
   def update_groups?
     # only admin and superadmin can edit a user
     return  unless @user.admin? || @user.superadmin?

@@ -23,7 +23,15 @@
     </div>
   <% end %>
 
-  <%= f.submit class: 'btn btn-primary' %>
-  <%= link_to 'Back', groups_path, class: 'btn btn-default' %>
+  <%
+    submit_label = t('views.groups.new.submit')
+    submit_label = t('views.groups.edit.submit') unless @group.new_record?
+  %>
+
+  <%= f.submit submit_label, class: 'btn btn-primary' %>
+  <% unless @group.new_record? %>
+    <%= link_to t('views.global.destroy'), @group, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
+  <% end %>
+
 
 <% end %>

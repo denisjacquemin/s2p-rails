@@ -1,4 +1,10 @@
-<h1>Groupes de diffusion</h1>
+<h1>Groupes de diffusion
+  <% if policy(:group).new? %>
+    <div class="pull-right">
+      <%= link_to t('views.groups.index.new'), new_group_path, class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</h1>
 <hr />
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -9,25 +15,19 @@
             <% if current_user.superadmin? %>
               <th>Ecole</th>
             <% end %>
-            <th colspan="3"></th>
           </tr>
         </thead>
 
         <tbody>
           <% @groups.each do |group| %>
             <tr>
-              <td><%= group.name %></td>
+              <td><%= link_to group.name , edit_group_path(group) %></td>
               <% if current_user.superadmin? %>
                 <td><% if group.school.present? %><%= group.school.name %><% end %></td>
               <% end %>
-              <td><%= link_to 'Show', group %></td>
-              <td><%= link_to 'Edit', edit_group_path(group) %></td>
-              <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
 </div>
-
-<%= link_to 'New Group', new_group_path, class: 'btn btn-primary' %>

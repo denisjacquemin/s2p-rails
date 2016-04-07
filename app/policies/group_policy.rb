@@ -1,5 +1,5 @@
 class GroupPolicy < ApplicationPolicy
-  
+
   def destroy?
     # user cannot destroy a group
     return false if @user.user?
@@ -8,6 +8,11 @@ class GroupPolicy < ApplicationPolicy
     return false if @user.admin? and @user.school_id != @group.school_id
 
     # superadmin and admin can destroy a group
+    @user.admin? || @user.superadmin?
+  end
+
+  def new?
+    # superadmin and admin can create a student
     @user.admin? || @user.superadmin?
   end
 

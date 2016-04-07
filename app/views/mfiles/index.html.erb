@@ -21,8 +21,8 @@
         <td><%= mfile.school_id %></td>
         <td><%= mfile.message_id %></td>
         <td><%= link_to 'Show', mfile %></td>
-        <td><%= link_to 'Edit', edit_mfile_path(mfile) %></td>
-        <td><%= link_to 'Destroy', mfile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t('views.global.edit'), edit_mfile_path(mfile) %></td>
+        <td><%= link_to t('views.global.destroy'), mfile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
