@@ -233,6 +233,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kramdown
+  mail
   pg
   puma
   pundit
