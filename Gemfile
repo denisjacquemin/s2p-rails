@@ -19,6 +19,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem "wysiwyg-rails"
 gem 'kramdown'
+gem 'pushwoosh'
 
 gem "rails-settings-cached", :github => 'huacnlee/rails-settings-cached', :branch => 'master'
 

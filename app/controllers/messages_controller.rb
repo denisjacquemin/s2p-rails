@@ -88,6 +88,7 @@ class MessagesController < ApplicationController
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
+      #Pushwoosh.notify_all(@message.title, {})
       redirect_to messages_url, notice: 'Message publié avec succès'
     else
       render :edit
