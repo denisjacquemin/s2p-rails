@@ -23,12 +23,12 @@ class Message < ApplicationRecord
   scope :by_ids, ->(ids) { where(id: ids) }
 
   def self.add_groups(message_ids, group_ids)
-    Message.by_ids(message_ids).update_all(['groups = array_cat(groups, ARRAY[?])', group_ids])
+    Message.by_ids(message_ids).update_all(['groups = array_cat(groups, ARRAY[?]), updated_at = ?', group_ids, Time.now.utc])
   end
 
   def self.remove_groups(message_ids, group_ids)
     group_ids.each do |g_id|
-      Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', g_id])
+      Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?), updated_at = ?', g_id, Time.now.utc])
     end
   end
 
