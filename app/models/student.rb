@@ -31,4 +31,20 @@ class Student < ApplicationRecord
     end
   end
 
+  before_create do
+    self.code = compute_code
+  end
+
+  private
+    def compute_code
+      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
+      key = "#{self.school_id}#{self.firstname}#{self.lastname}"
+      hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+      while !Student.by_code(hash).empty? do
+        key = key + "a" # add nothing to the key to generate a different code
+        hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+      end
+      return hash
+    end
+
 end

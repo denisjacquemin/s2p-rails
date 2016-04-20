@@ -1,3 +1,5 @@
+require "ImportStudentCSV"
+
 class StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]
@@ -87,6 +89,26 @@ class StudentsController < ApplicationController
     end
   end
 
+  def destroy_all
+    Student.destroy(params[:student])
+    render js: %(window.location.href='#{students_url}') and return
+  end
+
+  def new_import_csv
+
+  end
+
+  def csv_upload
+    uploaded_file = params[:csv]
+    @school_id = current_user.school_id
+    import = ImportStudentCSV.new(file: uploaded_file) do
+      after_build do |student|
+        student.school_id = 1
+      end
+    end
+    import.run!
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
@@ -97,16 +119,4 @@ class StudentsController < ApplicationController
     def student_params
       params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level)
     end
-
-    def compute_code
-      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
-      key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-      hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
-      while !Student.by_code(hash).empty? do
-        key = key + "a" # add nothing to the key to generate a different code
-        hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
-      end
-      return hash
-    end
-
 end

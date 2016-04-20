@@ -39,3 +39,27 @@ $(document).on 'ready page:load', ->
   $('#student_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
+
+  $('#select_all').click ->
+    console.log $('#select_all').prop('checked')
+    checkboxes = $('input.scb')
+    checkboxes.attr("checked", $('#select_all').prop('checked'))
+
+  $('#destroy_all').click (e) ->
+    e.preventDefault()
+    if $('input.scb:checked').size() == 0
+      alert 'Selectionnez au moins un élève'
+    else
+      $.ajax('/students/destroy_all',
+        {
+          type: 'delete',
+          data: decodeURI($('input.scb:checked').serialize()),
+          success: () ->
+            console.log 'request sent'
+        })
+
+  options = {
+    valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
+  }
+  studentList = new List('students', options);
+  return

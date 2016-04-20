@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   resources :groups
   patch '/groups/update_students/:id', to: 'groups#update_students'
+  get '/students/import_csv_student', to: 'students#new_import_csv', as: 'new_import_csv'
+  post '/students/csv_upload', to: 'students#csv_upload'
+  delete '/students/destroy_all', to: 'students#destroy_all'
   resources :students
   patch '/students/update_groups/:id', to: 'students#update_groups'
   devise_for :users, :controllers => { :invitations => 'invitations' }

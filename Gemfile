@@ -21,6 +21,7 @@ gem "wysiwyg-rails"
 gem 'kramdown'
 gem 'pushwoosh'
 gem 'mail'
+gem 'csv-importer'
 
 gem "rails-settings-cached", :github => 'huacnlee/rails-settings-cached', :branch => 'master'
 

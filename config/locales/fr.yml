@@ -24,7 +24,7 @@ fr:
           success: Elève enregistré avec succès
       destroy:
         notice:
-          success: Elève effacé
+          success: Elève(s) effacé
   activerecord:
     errors:
       messages:
