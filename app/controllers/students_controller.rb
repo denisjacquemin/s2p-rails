@@ -95,7 +95,6 @@ class StudentsController < ApplicationController
   end
 
   def new_import_csv
-
   end
 
   def csv_upload
@@ -107,6 +106,15 @@ class StudentsController < ApplicationController
       end
     end
     import.run!
+  end
+
+  def export_csv
+    students = Student.find(params[:student])
+
+    send_data(students.to_csv,
+      type: 'text/csv; charset=iso-8859-1; header=present',
+      disposition: 'attachment',
+      filename: "eleves-#{Date.today}.csv")
   end
 
   private

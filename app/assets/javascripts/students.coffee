@@ -58,6 +58,19 @@ $(document).on 'ready page:load', ->
             console.log 'request sent'
         })
 
+  $('#export_csv').click (e) ->
+    e.preventDefault()
+    if $('input.scb:checked').size() == 0
+      alert 'Selectionnez au moins un élève'
+    else
+      $.ajax('/students/export_csv',
+        {
+          type: 'post',
+          data: decodeURI($('input.scb:checked').serialize()),
+          success: () ->
+            console.log 'request sent'
+        })
+
   options = {
     valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
   }

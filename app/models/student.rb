@@ -35,6 +35,18 @@ class Student < ApplicationRecord
     self.code = compute_code
   end
 
+  def self.to_csv
+    attributes = %w{firstname lastname email level classroom code}
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      all.each do |student|
+        csv << attributes.map{ |attr| student.send(attr) }
+      end
+    end
+  end
+
   private
     def compute_code
       hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
