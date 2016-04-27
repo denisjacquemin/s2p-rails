@@ -21,6 +21,19 @@ class StudentPolicy < ApplicationPolicy
     @user.admin? || @user.superadmin?
   end
 
+  def destroy_all?
+
+    # user cannot destroy a student
+    return false if @user.user?
+
+    # admin can only destroy students from their school
+    return false if @user.admin? and @user.school_id != @record.school_id
+
+    # superadmin and admin can destroy a student
+    @user.admin? || @user.superadmin?
+  end
+
+
   def create?
     # only admin and superadmin can create a student
     @user.admin? || @user.superadmin?

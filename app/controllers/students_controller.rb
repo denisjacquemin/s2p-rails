@@ -1,5 +1,3 @@
-require "ImportStudentCSV"
-
 class StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]
@@ -37,7 +35,6 @@ class StudentsController < ApplicationController
     if current_user.admin?
       @student.school_id = current_user.school_id
     end
-    @student.code = compute_code
 
     if @student.save
       redirect_to students_path, notice: t('controller.groups.create.notice.success')
@@ -82,6 +79,7 @@ class StudentsController < ApplicationController
   # DELETE /students/1
   # DELETE /students/1.json
   def destroy
+    authorize @student
     @student.destroy
     respond_to do |format|
       format.html { redirect_to students_url, notice: t('controller.students.destroy.notice.success') }
@@ -90,7 +88,7 @@ class StudentsController < ApplicationController
   end
 
   def destroy_all
-    Student.destroy(params[:student])
+    Student.destroy(params[:s])
     render js: %(window.location.href='#{students_url}') and return
   end
 
@@ -98,20 +96,12 @@ class StudentsController < ApplicationController
   end
 
   def csv_upload
-    uploaded_file = params[:csv]
-    @school_id = current_user.school_id
-    import = ImportStudentCSV.new(file: uploaded_file) do
-      after_build do |student|
-        student.school_id = 1
-      end
-    end
-    import.run!
+    Student.import(params[:csv], current_user.school_id)
   end
 
   def export_csv
-    students = Student.find(params[:student])
-
-    send_data(students.to_csv,
+    students = Student.where(:id => params[:s])
+    send_data(students.to_csv_file,
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',
       filename: "eleves-#{Date.today}.csv")

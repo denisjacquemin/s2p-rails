@@ -7,7 +7,7 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th><input type="checkbox" id="select_all"/></th>
+            <th><input type="checkbox" id="toggle_all"/></th>
             <th><%= t('activerecord.attributes.student.firstname') %></th>
             <th><%= t('activerecord.attributes.student.lastname') %></th>
             <% if current_user.superadmin? %>
@@ -21,7 +21,7 @@
         <tbody class="list">
           <% @students.each do |student| %>
             <tr>
-              <td><%= check_box_tag 'student[]', student.id, false, class: 'scb' %> </td>
+              <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
               <% if policy(student).edit? %>
                 <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
               <% else %>
@@ -48,27 +48,9 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="form-group">
             <label for="search">Filtre</label>
-            <!--
-            <div class="input-group">
-            -->
+
+
               <input id="search" class="form-control search" >
-            <!--
-              <span class="input-group-btn">
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
-                    <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
-                    <li><a href="#"><i class="icon-ban-circle"></i> Ban</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="i"></i> Make admin</a></li>
-                </ul>
-              </span>
-
-            </div>
-            -->
-
 
           </div>
         </div>
@@ -87,7 +69,7 @@
         </div>
         <div class="row" style="margin-top: 30px">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= link_to 'Export CSV', '#', class: 'btn btn-primary btn-block', id: 'export_csv' %>
+            <%= link_to 'Export CSV', '/students/export_csv', class: 'btn btn-primary btn-block', id: 'export_csv' %>
           </div>
         </div>
         <div class="row" style="margin-top: 30px">

@@ -79,18 +79,12 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.2.30)
       aws-sdk-core (= 2.2.30)
-    axiom-types (0.1.1)
-      descendants_tracker (~> 0.0.4)
-      ice_nine (~> 0.11.0)
-      thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.10)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.2)
     byebug (8.2.2)
-    coercible (1.0.0)
-      descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -99,16 +93,11 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.0)
-    csv-importer (0.3.0)
-      virtus
     debug_inspector (0.0.2)
-    descendants_tracker (0.0.4)
-      thread_safe (~> 0.3, >= 0.3.1)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
       dotenv (= 2.1.0)
       railties (>= 4.0, < 5.1)
-    equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.6.0)
     font-awesome-rails (4.5.0.1)
@@ -120,7 +109,6 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    ice_nine (0.11.2)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -217,11 +205,6 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    virtus (1.0.5)
-      axiom-types (~> 0.1)
-      coercible (~> 1.0)
-      descendants_tracker (~> 0.0, >= 0.0.3)
-      equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (3.1.1)
@@ -243,7 +226,6 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   byebug
   coffee-rails (~> 4.1.0)
-  csv-importer
   devise!
   devise_invitable!
   dotenv-rails

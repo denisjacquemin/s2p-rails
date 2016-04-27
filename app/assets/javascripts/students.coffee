@@ -40,10 +40,10 @@ $(document).on 'ready page:load', ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
 
-  $('#select_all').click ->
-    console.log $('#select_all').prop('checked')
+  $('#toggle_all').click ->
+    newVal = $('#toggle_all').prop('checked')
     checkboxes = $('input.scb')
-    checkboxes.attr("checked", $('#select_all').prop('checked'))
+    checkboxes.prop("checked", newVal)
 
   $('#destroy_all').click (e) ->
     e.preventDefault()
@@ -59,17 +59,18 @@ $(document).on 'ready page:load', ->
         })
 
   $('#export_csv').click (e) ->
-    e.preventDefault()
     if $('input.scb:checked').size() == 0
       alert 'Selectionnez au moins un élève'
+      e.preventDefault()
     else
-      $.ajax('/students/export_csv',
-        {
-          type: 'post',
-          data: decodeURI($('input.scb:checked').serialize()),
-          success: () ->
-            console.log 'request sent'
-        })
+      e.target.href = e.target.href + '?' + $('input.scb:checked').serialize()
+      # $.ajax('/students/export_csv',
+      #   {
+      #     type: 'post',
+      #     data: decodeURI($('input.scb:checked').serialize()),
+      #     success: () ->
+      #       console.log 'request sent'
+      #   })
 
   options = {
     valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
