@@ -9,7 +9,9 @@ class UsersController < ApplicationController
 
   def destroy
     authorize @user
-    @user.update(email: @user.email + '_deleted', deleted_at: Time.current)
+    random = ('a'..'z').to_a.shuffle[0,8].join
+    @user.update(email: @user.email + random, deleted_at: Time.current)
+
     redirect_to users_path, :notice => t('controller.user.destroy.success.notice')
   end
 
