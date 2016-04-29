@@ -33,6 +33,6 @@
   <% end %>
 <% end %>
 
-<% if message_owner %>
+<% if message_owner or current_user.admin? %>
   <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: t('views.global.areyousure') } %></li>
 <% end %>
