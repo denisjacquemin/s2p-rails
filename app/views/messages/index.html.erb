@@ -6,42 +6,47 @@
 <hr />
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Titre</th>
-            <th>Contenu</th>
-            <% if current_user.superadmin? %>
-              <th>Ecole</th>
-            <% end %>
-            <th>Auteur</th>
-            <th>Statut</th>
-            <th></th>
-          </tr>
-        </thead>
+      <% if @messages.any? %>
 
-        <tbody>
-          <% @messages.each do |message| %>
+        <table class="table table-striped table-hover">
+          <thead>
             <tr>
-              <td><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
-              <td><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
+              <th>Titre</th>
+              <th>Contenu</th>
               <% if current_user.superadmin? %>
-                <td><% if message.school.present? %><%= message.school.name %><% end %></td>
+                <th>Ecole</th>
               <% end %>
-              <td><%= message.author_fullname %></td>
-              <td><%= render 'status', message: message %></td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><%= render 'change_status_link', message: message %></li>
-                  </ul>
-                </div>
+              <th>Auteur</th>
+              <th>Statut</th>
+              <th></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            <% @messages.each do |message| %>
+              <tr>
+                <td><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
+                <td><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
+                <% if current_user.superadmin? %>
+                  <td><% if message.school.present? %><%= message.school.name %><% end %></td>
+                <% end %>
+                <td><%= message.author_fullname %></td>
+                <td><%= render 'status', message: message %></td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Actions <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><%= render 'change_status_link', message: message %></li>
+                    </ul>
+                  </div>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>Aucun message, <%= link_to 'créer un message maintenant', new_message_path %></p>
+      <% end %>
     </div>
 </div>
