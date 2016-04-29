@@ -1,7 +1,7 @@
 <%
   message_owner = message.author_id === current_user.id
   isReviewer = false
-  isReviewer = current_user.school.settings['message.reviewers'].include?(current_user.id) unless current_user.school.nil? and current_user.school.settings['message.reviewers'].nil?
+  isReviewer = current_user.school.settings['message.reviewers'].include?(current_user.id) unless current_user.school.nil? or current_user.school.settings['message.reviewers'].nil?
 %>
 
 <% # Si admin et que c'est son message alors il peut publier %>
