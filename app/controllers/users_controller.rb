@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :set_user, only: [:edit, :update, :destroy, :resend_invite]
 
 
   def index
-    @users = policy_scope(User).active
+    @users = policy_scope(User).order(firstname: :asc).active
   end
 
   def destroy
@@ -25,6 +25,11 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def resend_invite
+    #User.invite!(:email => @user.email, :firstname => @user.firstname)
+    redirect_to users_path, notice: 'Invitation renvoyée'
   end
 
   private

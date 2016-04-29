@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   patch '/students/update_groups/:id', to: 'students#update_groups'
   devise_for :users, :controllers => { :invitations => 'invitations' }
   resources :schools
+  get 'users/resend_invite/:id', to: 'users#resend_invite', as: 'resend_invite'
   resources :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
