@@ -33,6 +33,7 @@ fr:
       user:
         password: 'Mot de passe'
         password_confirmation: 'Confirmation de mot de passe'
+        current_password: 'Mot de passe courant'
         email: Email
       group:
         name: 'Nom'
