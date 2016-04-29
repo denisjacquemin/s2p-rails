@@ -27,6 +27,10 @@ class User < ApplicationRecord
     end
   end
 
+  def fullname
+    "#{self.firstname} #{self.lastname}"
+  end
+
   def active_for_authentication?
     super && !deleted_at
   end
