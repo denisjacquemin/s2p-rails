@@ -28,7 +28,8 @@
                 <td><% if user.school.present? %><%= user.school.name %><% end %></td>
               <% end %>
               <td><%= user.invitation_status %></td>
-              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') } %></td>
+              <td><%= link_to "Renvoyer l'invitation", resend_invite_path(user), class: 'btn btn-default btn-xs' %>
+              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
             </tr>
           <% end %>
         </tbody>
