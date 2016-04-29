@@ -71,6 +71,11 @@ class Student < ApplicationRecord
 
       data['school_id'] = school_id
 
+      classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
+      level_group = Group.find_or_create_by(name: level, school_id: school_id)
+
+      data['groups'] = [classroom_group.id, level_group.id]
+
       update_or_create data
     end
   end
