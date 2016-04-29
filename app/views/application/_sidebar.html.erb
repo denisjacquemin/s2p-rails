@@ -33,6 +33,7 @@
                <%= link_to 'Utilisateurs', users_path %>
            </li>
          <% end %>
+         <li><%= link_to current_user.fullname, edit_user_registration_path %></li>
          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
        <% end %>
      </ul>
