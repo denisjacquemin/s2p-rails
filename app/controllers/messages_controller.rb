@@ -93,8 +93,8 @@ class MessagesController < ApplicationController
       n.device_token = "f8dd78210d3d24e17303176dcbf081e4e5fc8d92f3b921e73e009ae76b0d8e04" # 64-character hex string
       n.alert = @message.title
       n.data = {
-        title: @message.title,
-        message: @message.content
+        title: truncate(@message.title, :length => 200),
+        message: truncate(@message.content, :length => 200)
       }
       n.save!
       redirect_to messages_url, notice: 'Message publié avec succès'
