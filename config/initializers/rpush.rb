@@ -31,7 +31,7 @@ Rpush.configure do |config|
 
 end
 
-Rpush.reflect do |on|
+#Rpush.reflect do |on|
 
   # Called with a Rpush::Apns::Feedback instance when feedback is received
   # from the APNs that a notification has failed to be delivered.
@@ -47,9 +47,9 @@ Rpush.reflect do |on|
   #   runner.queue_size
   # end
   #
-  on.notification_enqueued do |notification|
-    #puts "notification_enqueued #{notification.inspect}"
-  end
+  # on.notification_enqueued do |notification|
+  #   puts "notification_enqueued #{notification.inspect}"
+  # end
 
   # Called when a notification is successfully delivered.
   # on.notification_delivered do |notification|
@@ -133,4 +133,4 @@ Rpush.reflect do |on|
   # Called when an exception is raised.
   # on.error do |error|
   # end
-end
+#end
