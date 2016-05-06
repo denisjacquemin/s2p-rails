@@ -47,8 +47,9 @@ Rpush.reflect do |on|
   #   runner.queue_size
   # end
   #
-  # on.notification_enqueued do |notification|
-  # end
+  on.notification_enqueued do |notification|
+    puts "notification_enqueued #{notification.inspect}"
+  end
 
   # Called when a notification is successfully delivered.
   # on.notification_delivered do |notification|

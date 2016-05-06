@@ -88,6 +88,12 @@ class MessagesController < ApplicationController
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
+      n = Rpush::Apns::Notification.new
+      n.app = Rpush::Apns::App.find_by_name("ios_app")
+      n.device_token = "f8dd78210d3d24e17303176dcbf081e4e5fc8d92f3b921e73e009ae76b0d8e04" # 64-character hex string
+      n.alert = @message.title
+      n.data = { foo: :bar }
+      n.save!
       redirect_to messages_url, notice: 'Message publié avec succès'
     else
       render :edit
