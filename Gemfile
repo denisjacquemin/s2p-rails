@@ -20,7 +20,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem "wysiwyg-rails"
 gem 'kramdown'
 gem 'mail'
-#gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
+gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
 
 gem "rails-settings-cached", :github => 'huacnlee/rails-settings-cached', :branch => 'master'
 
