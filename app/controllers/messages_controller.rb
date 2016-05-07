@@ -95,7 +95,8 @@ class MessagesController < ApplicationController
       n.alert = @message.title
       n.data = {
         title: truncate(@message.title, :length => 200),
-        message: truncate(@message.content, :length => 200)
+        message: truncate(@message.content, :length => 200),
+        badge: 1
       }
       n.save!
       redirect_to messages_url, notice: 'Message publié avec succès'
