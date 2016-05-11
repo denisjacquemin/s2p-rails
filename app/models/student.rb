@@ -6,7 +6,8 @@ class Student < ApplicationRecord
   end
 
   scope :by_ids, ->(ids) { where(id: ids) }
-  scope :by_group_id, ->(group_id) { where("? = ANY(groups)", group_id) }
+  scope :by_group, ->(id) { where("? = ANY(groups)", id) }
+  scope :by_groups, ->(ids) { where("ARRAY[?]::varchar[] && ANY(groups)", ids) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :by_code, ->(code) { where(code: code) }
 

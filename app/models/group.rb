@@ -6,6 +6,6 @@ class Group < ApplicationRecord
   scope :by_school, ->(school_id) { where(school_id: school_id) }
 
   def students
-    Student.by_group_id(self.id)
+    Student.by_group(self.id)
   end
 end

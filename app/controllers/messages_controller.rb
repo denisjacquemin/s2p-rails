@@ -90,7 +90,7 @@ class MessagesController < ApplicationController
     @message.published!
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
-      students = Student.by_group_id(groups)
+      students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
       devices = Device.by_codes(student_codes)
 
