@@ -89,16 +89,25 @@ class MessagesController < ApplicationController
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
-      n = Rpush::Apns::Notification.new
-      n.app = Rpush::Apns::App.find_by_name("ios_app")
-      n.device_token = "53ca7937beebc1e2f938bfc925f97523be8f4525a28495ea87382065d098e7e8" # 64-character hex string
-      n.alert = @message.title
-      n.data = {
-        "title": truncate(@message.title, :length => 200),
-        "body": truncate(@message.content, :length => 200),
-        "badge": 1
+      groups = @messages.groups
+      students = Student.by_group_id(groups)
+      student_codes = students.map {|s| s.code }
+      devices = Device.by_codes(student_codes)
+
+      devices.each { |device|
+        n = Rpush::Apns::Notification.new
+        n.app = Rpush::Apns::App.find_by_name("ios_app")
+        n.device_token = device # 64-character hex string
+        n.alert = @message.title
+        n.data = {
+          "title": truncate(@message.title, :length => 200),
+          "body": truncate(@message.content, :length => 200),
+          "badge": 1
+        }
+        n.save!
       }
-      n.save!
+
+
       redirect_to messages_url, notice: 'Message publié avec succès'
     else
       render :edit
