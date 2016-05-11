@@ -89,7 +89,7 @@ class MessagesController < ApplicationController
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
-      groups = @messages.groups
+      groups = @message.groups
       students = Student.by_group_id(groups)
       student_codes = students.map {|s| s.code }
       devices = Device.by_codes(student_codes)
