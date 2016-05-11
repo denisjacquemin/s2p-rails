@@ -97,7 +97,7 @@ class MessagesController < ApplicationController
       devices.each { |device|
         n = Rpush::Apns::Notification.new
         n.app = Rpush::Apns::App.find_by_name("ios_app")
-        n.device_token = device # 64-character hex string
+        n.device_token = device.token # 64-character hex string
         n.alert = @message.title
         n.data = {
           "title": truncate(@message.title, :length => 200),
