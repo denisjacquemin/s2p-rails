@@ -101,7 +101,7 @@ class MessagesController < ApplicationController
         n.alert = @message.title
         n.data = {
           "title": truncate(@message.title, :length => 200),
-          "additionalData": @message.to_json
+          "message_id": @message.id,
           "count": 1
         }
         n.save!
