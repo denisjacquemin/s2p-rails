@@ -16,6 +16,7 @@
               <% if current_user.superadmin? %>
                 <th>Ecole</th>
               <% end %>
+              <th>#vue</th>
               <th>Auteur</th>
               <th>Statut</th>
               <th></th>
@@ -30,6 +31,7 @@
                 <% if current_user.superadmin? %>
                   <td><% if message.school.present? %><%= message.school.name %><% end %></td>
                 <% end %>
+                <td>67</td>
                 <td><%= message.author_fullname %></td>
                 <td><%= render 'status', message: message %></td>
                 <td>
