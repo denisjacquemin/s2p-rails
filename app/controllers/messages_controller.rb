@@ -107,7 +107,6 @@ class MessagesController < ApplicationController
         n.save!
       }
 
-
       redirect_to messages_url, notice: 'Message publié avec succès'
     else
       render :edit
@@ -173,7 +172,7 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:title, :content, :school_id)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when)
     end
 
     def set_s3_direct_post

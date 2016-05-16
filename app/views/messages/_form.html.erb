@@ -2,9 +2,11 @@
   <li role="presentation" class="active">
     <a href="#details" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
   </li>
+  <% if @message.mtype == 'message' %>
   <li role="presentation">
     <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
   </li>
+  <% end %>
   <li role="presentation">
     <a href="#groups" aria-controls="profile" role="tab" data-toggle="tab">Groupes de diffusions</a>
   </li>

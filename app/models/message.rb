@@ -3,11 +3,17 @@ class Message < ApplicationRecord
   has_many :mfiles
   belongs_to :author, class_name: "User"
 
+  enum mtype: [:message, :rappel]
   enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted ]
   after_initialize :set_default_status, :if => :new_record?
+  after_initialize :set_default_mtype, :if => :new_record?
 
   def set_default_status
    self.status ||= :draft
+  end
+
+  def set_default_mtype
+    self.mtype ||= :message
   end
 
   def author_fullname

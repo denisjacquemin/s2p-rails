@@ -39,3 +39,11 @@ $(document).on 'ready page:load', ->
   $('#message_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
+  $('#mtype').change ->
+    console.log $('#mtype').val()
+    if $('#mtype').val() == 'message'
+      $('.alert_mtype').hide()
+      $('.message_mtype').show()
+    else
+      $('.alert_mtype').show()
+      $('.message_mtype').hide()
