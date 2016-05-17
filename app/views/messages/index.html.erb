@@ -27,7 +27,11 @@
             <% @messages.each do |message| %>
               <tr>
                 <td><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
-                <td><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
+                <% if message.mtype == 'rappel' %>
+                  <td><%= link_to message.when, edit_message_path(message) %></td>
+                <% else %>
+                  <td><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
+                <% end %>
                 <% if current_user.superadmin? %>
                   <td><% if message.school.present? %><%= message.school.name %><% end %></td>
                 <% end %>
