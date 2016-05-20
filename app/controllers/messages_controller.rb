@@ -9,6 +9,7 @@ class MessagesController < ApplicationController
   def index
     @messages = policy_scope(Message).order(created_at: :desc)
     authorize @messages
+    @school_id = current_user.school_id
   end
 
   # GET /messages/1
