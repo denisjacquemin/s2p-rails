@@ -56,4 +56,4 @@ $(document).on 'ready page:load', ->
       else
         $(obj).html('0')
   firebaseRef.on 'child_changed', (snap) =>
-    $('.counter .' + snap.key()).html(snap.val())
+    $('#nbr' +snap.key()).html(snap.val())
