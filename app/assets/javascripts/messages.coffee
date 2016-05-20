@@ -47,3 +47,13 @@ $(document).on 'ready page:load', ->
     else
       $('.alert_mtype').show()
       $('.message_mtype').hide()
+
+  firebaseRef = new Firebase("https://s2p-test.firebaseio.com/messages/");
+  firebaseRef.once 'value', (snap) =>
+    $('.counter').each (c, obj) =>
+      if snap.hasChild(obj.id.slice(3, obj.id.length))
+        $(obj).html(snap.child(obj.id.slice(3, obj.id.length)).val())
+      else
+        $(obj).html('0')
+  firebaseRef.on 'child_changed', (snap) =>
+    $('.counter .' + snap.key()).html(snap.val())

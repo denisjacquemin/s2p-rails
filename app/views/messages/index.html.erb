@@ -35,7 +35,7 @@
                 <% if current_user.superadmin? %>
                   <td><% if message.school.present? %><%= message.school.name %><% end %></td>
                 <% end %>
-                <td>67</td>
+                <td class="counter" id="nbr<%= message.id %>">-</td>
                 <td><%= message.author_fullname %></td>
                 <td><%= render 'status', message: message %></td>
                 <td>

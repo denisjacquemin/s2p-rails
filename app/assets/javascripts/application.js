@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require snackbar
+//= require firebase-2.4.2
 //= require froala_editor.min.js
 //= require plugins/lists.min.js
 //= require plugins/table.min.js
