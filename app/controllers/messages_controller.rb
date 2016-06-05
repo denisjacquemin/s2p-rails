@@ -105,7 +105,11 @@ class MessagesController < ApplicationController
           "message_id": @message.id,
           "count": 1
         }
-        n.save!
+        begin
+          n.save!
+        rescue ActiveRecord::RecordInvalid
+          puts "Rpush::Apns::Notification save failed"
+        end
       }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
