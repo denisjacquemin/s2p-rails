@@ -108,7 +108,7 @@ class MessagesController < ApplicationController
         begin
           n.save!
         rescue ActiveRecord::RecordInvalid
-          logger.debug "Rpush::Apns::Notification save failed"
+          logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
         end
       }
 
