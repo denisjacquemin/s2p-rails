@@ -96,19 +96,24 @@ class MessagesController < ApplicationController
       devices = Device.by_codes(student_codes)
 
       devices.each { |device|
-        n = Rpush::Apns::Notification.new
-        n.app = Rpush::Apns::App.find_by_name("ios_app")
-        n.device_token = device.token # 64-character hex string
-        n.alert = @message.title
-        n.data = {
-          "title": truncate(@message.title, :length => 200),
-          "message_id": @message.id,
-          "count": 1
-        }
-        begin
-          n.save!
-        rescue ActiveRecord::RecordInvalid
-          logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+        # check if device.token is present in Rpush::Apns::Feedback
+        if Rpush::Apns::Feedback.exists?(:device_token => device.token)
+          Device.delete(:device_token => device.token)
+        else
+          n = Rpush::Apns::Notification.new
+          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n.device_token = device.token # 64-character hex string
+          n.alert = @message.title
+          n.data = {
+            "title": truncate(@message.title, :length => 200),
+            "message_id": @message.id,
+            "count": 1
+          }
+          begin
+            n.save!
+          rescue ActiveRecord::RecordInvalid
+            logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+          end
         end
       }
 
