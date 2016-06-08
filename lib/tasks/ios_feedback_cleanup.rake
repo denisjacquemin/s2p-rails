@@ -3,7 +3,7 @@ task :handle_feedback => :environment do
   puts "Reading Feedback"
   feedbacks = Rpush::Apns::Feedback.all
   feedbacks.each do |feedback|
-    device = Device.find_by_device_token(feedback.device_token)
+    device = Device.find_by_token(feedback.device_token)
     unless device.nil?
       puts "disbale device #{device.token}"
       #device.disable
