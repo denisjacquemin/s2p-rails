@@ -93,7 +93,7 @@ class MessagesController < ApplicationController
       groups = @message.groups
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
-      devices = Device.by_codes(student_codes)
+      devices = Device.active.by_codes(student_codes)
 
       devices.each { |device|
         # check if device.token is present in Rpush::Apns::Feedback
