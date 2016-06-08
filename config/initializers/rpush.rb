@@ -26,8 +26,8 @@ Rpush.configure do |config|
   # Define a custom logger.
   # config.logger = MyLogger.new
 
-  # config.apns.feedback_receiver.enabled = true
-  # config.apns.feedback_receiver.frequency = 60
+  config.apns.feedback_receiver.enabled = true
+  config.apns.feedback_receiver.frequency = 60
 
 end
 
