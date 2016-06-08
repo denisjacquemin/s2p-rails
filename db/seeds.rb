@@ -6,13 +6,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-super_admin = CreateSuperAdminService.new.call
-puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
+# super_admin = CreateSuperAdminService.new.call
+# puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
+#
+# app = Rpush::Apns::App.new
+# app.name = "ios_app"
+# app.certificate = File.read("config/sandbox.pem")
+# app.environment = "sandbox" # APNs environment.
+# app.password = Rails.application.secrets.ios_push_cert_password
+# app.connections = 1
+# app.save!
 
-app = Rpush::Apns::App.new
-app.name = "ios_app"
-app.certificate = File.read("config/sandbox.pem")
-app.environment = "sandbox" # APNs environment.
-app.password = Rails.application.secrets.ios_push_cert_password
+app = Rpush::Gcm::App.new
+app.name = "android_app"
+app.auth_key = "..."
 app.connections = 1
 app.save!
