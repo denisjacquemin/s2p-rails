@@ -5,8 +5,8 @@ task :handle_feedback => :environment do
   feedbacks.each do |feedback|
     device = Device.find_by_token(feedback.device_token)
     unless device.nil?
-      puts "disbale device #{device.token}"
-      #device.disable
+      puts "disable device #{device.token}"
+      device.disable
     end
     puts "delete feeback for token #{feedback.device_token}"
     #feedback.delete
