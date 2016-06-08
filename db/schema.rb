@@ -11,17 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608065246) do
+ActiveRecord::Schema.define(version: 20160608115045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
     t.string   "token"
-    t.string   "codes",      default: [],              array: true
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.boolean  "active"
+    t.string   "codes",      default: [],                array: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true
+    t.string   "platform"
   end
 
   create_table "groups", force: :cascade do |t|
