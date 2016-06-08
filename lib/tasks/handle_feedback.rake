@@ -9,6 +9,6 @@ task :handle_feedback => :environment do
       device.disable
     end
     puts "delete feeback for token #{feedback.device_token}"
-    #feedback.delete
+    feedback.delete
   end
 end
