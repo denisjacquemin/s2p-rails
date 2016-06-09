@@ -42,7 +42,7 @@ fr:
         firstname: Prénom
         lastname: Nom
         level: Année
-        classroom: Classe
+        classroom: Titulaire
         code: Code
         school: Ecole
   views:

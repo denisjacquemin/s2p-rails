@@ -8,8 +8,8 @@
         <thead>
           <tr>
             <th><input type="checkbox" id="toggle_all"/></th>
-            <th><%= t('activerecord.attributes.student.firstname') %></th>
             <th><%= t('activerecord.attributes.student.lastname') %></th>
+            <th><%= t('activerecord.attributes.student.firstname') %></th>
             <% if current_user.superadmin? %>
               <th><%= t('activerecord.attributes.student.school') %></th>
             <% end %>
@@ -23,14 +23,14 @@
             <tr>
               <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
               <% if policy(student).edit? %>
-                <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
-              <% else %>
-                <td class="firstname"><%= student.firstname %></td>
-              <% end %>
-              <% if policy(student).edit? %>
                 <td class="lastname"><%= link_to student.lastname, edit_student_path(student) %></td>
               <% else %>
                 <td class="lastname"><%= student.lastname %></td>
+              <% end %>
+              <% if policy(student).edit? %>
+                <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
+              <% else %>
+                <td class="firstname"><%= student.firstname %></td>
               <% end %>
               <% if current_user.superadmin? %>
                 <td><% if student.school.present? %><%= student.school.name %><% end %></td>

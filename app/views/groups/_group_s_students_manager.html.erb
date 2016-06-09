@@ -8,7 +8,7 @@
             <thead>
               <th><input type="checkbox" /></th>
               <th>Nom - prenom</th>
-              <th>Année - Classe </th>
+              <th>Année - titulaire </th>
             </thead>
             <tbody>
               <% Student.by_school(@group.school_id).each do |s| %>
@@ -43,7 +43,7 @@
             <thead>
               <th><input type="checkbox" /></th>
               <th>Nom - prenom</th>
-              <th>Année - Classe </th>
+              <th>Année - titulaire</th>
             </thead>
             <tbody>
               <% group.students.each do |s| %>

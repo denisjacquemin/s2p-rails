@@ -38,7 +38,7 @@ class Student < ApplicationRecord
   end
 
   def self.to_csv_file
-    attributes = %w{Prénom Nom Email Année Classe Code}
+    attributes = %w{Prénom Nom Email Année Titulaire Code}
     CSV.generate(headers: true) do |csv|
       csv << attributes
 

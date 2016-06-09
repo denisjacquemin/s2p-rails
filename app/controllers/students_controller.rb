@@ -37,7 +37,7 @@ class StudentsController < ApplicationController
     end
 
     if @student.save
-      redirect_to students_path, notice: t('controller.groups.create.notice.success')
+      redirect_to students_path, notice: t('controller.student.create.notice.success')
     else
       render :new
     end
@@ -115,6 +115,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level)
+      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code)
     end
 end
