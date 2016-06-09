@@ -121,8 +121,8 @@ class MessagesController < ApplicationController
         n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
         n.content_available = true # Optional
         # Optional notification payload. See the reference below for more keys you can use!
-        n.notification = { body: truncate(@message.content, :length => 200),
-                           title: truncate(@message.title, :length => 200),
+        n.notification = { body: truncate(@message.content, :length => 200).force_encoding("utf-8"),
+                           title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
                            icon: 'myicon'
                          }
         n.save!
