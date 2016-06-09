@@ -93,9 +93,9 @@ class MessagesController < ApplicationController
       groups = @message.groups
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
-      devices = Device.active.by_codes(student_codes)
 
-      devices.each { |device|
+      devicesIOS = Device.active.ios.by_codes(student_codes)
+      devicesIOS.each { |device|
         # check if device.token is present in Rpush::Apns::Feedback
         n = Rpush::Apns::Notification.new
         n.app = Rpush::Apns::App.find_by_name("ios_app")
@@ -111,6 +111,21 @@ class MessagesController < ApplicationController
         rescue ActiveRecord::RecordInvalid
           logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
         end
+      }
+      devicesAndroid = Device.active.android.by_codes(student_codes)
+      devicesAndroid.each { |device|
+        n = Rpush::Gcm::Notification.new
+        n.app = Rpush::Gcm::App.find_by_name("android_app")
+        n.registration_ids = [device.token]
+        n.data = { "message_id": @message.id }
+        n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
+        n.content_available = true # Optional
+        # Optional notification payload. See the reference below for more keys you can use!
+        n.notification = { body: truncate(@message.content, :length => 200),
+                           title: truncate(@message.title, :length => 200),
+                           icon: 'myicon'
+                         }
+        n.save!
       }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
