@@ -17,8 +17,8 @@ app.password = Rails.application.secrets.ios_push_cert_password
 app.connections = 1
 app.save!
 
-app = Rpush::Gcm::App.new
-app.name = "android_app"
-app.auth_key = "..."
-app.connections = 1
-app.save!
+appA = Rpush::Gcm::App.new
+appA.name = "android_app"
+appA.auth_key = "AIzaSyCNuA6cVlYioHqnyMC3BmDoqqm1RN-dKSQ"
+appA.connections = 1
+appA.save!
