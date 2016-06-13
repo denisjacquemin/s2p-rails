@@ -23,6 +23,10 @@ class UserPolicy < ApplicationPolicy
     @user.admin? || @user.superadmin?
   end
 
+  def update_schools?
+    @user.superadmin?
+  end
+
   class Scope
     attr_reader :user, :scope
 

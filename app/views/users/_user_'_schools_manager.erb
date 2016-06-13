@@ -1,0 +1,60 @@
+<div class="row groups">
+  <%= form_for(user, url: {action: "update_schools"}) do |s_form| %>
+    <div class="col-xs-5">
+      <div class="panel panel-default">
+        <div class="panel-heading"><%= t('views.users.listofschools') %></div>
+        <div class="panel-body table-responsive">
+            <table class="table table-hover table-condensed" id="school_list">
+              <thead>
+                <th><input type="checkbox" /></th>
+                <th>Nom de l'école</th>
+              </thead>
+              <tbody>
+                <% School.all.each do |school| %>
+                  <tr>
+                    <td><input type="checkbox" value="<%= school.id %>"/></td>
+                    <td><label><%= school.name %></label></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2 buttons" id="user_manage_school">
+      <button type="button" class="btn " id="add" aria-label="Left Align">
+        Ajouter
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="btn" id="remove" aria-label="Left Align">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        Enlever
+      </button>
+      <%= s_form.submit 'Enregister', class: 'btn btn-primary' %>
+    </div>
+    <div class="col-xs-5">
+        <div class="panel panel-default">
+          <div class="panel-heading">Ecoles de l'utilisateur</div>
+          <div class="panel-body table-responsive">
+            <table class="table table-hover table-condensed" id="in_schools">
+              <thead>
+                <th><input type="checkbox" /></th>
+                <th>Nom de l'école</th>
+              </thead>
+              <tbody>
+                <% user.schools_obj.each do |s| %>
+                  <tr>
+                    <%= fields_for s do |s_form| %>
+                      <%= s_form.hidden_field :id, multiple: true%>
+                      <td><input type="checkbox" id="school[<%= s.id %>]"/></td>
+                      <td><%= s_form.label :id, s.name %></td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  <% end %>
+</div>

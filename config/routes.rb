@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   resources :schools
   get 'users/resend_invite/:id', to: 'users#resend_invite', as: 'resend_invite'
   resources :users
+  patch '/users/update_schools/:id', to: 'users#update_schools'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

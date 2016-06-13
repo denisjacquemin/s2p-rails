@@ -21,6 +21,7 @@
             <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
           </div>
         <% end %>
+
         <div class="form-group">
           <%= f.label :role %>
           <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, {}, {class: "form-control"})  %>
@@ -28,5 +29,8 @@
         <%= f.submit "Sauver", class: 'btn btn-primary' %>
         <%= link_to 'Back', users_path, class: 'btn btn-default' %>
       <% end %>
+      <div class="form-group">
+        <%= render "user_'_schools_manager", user: @user %>
+      </div>
     </div>
 </div>

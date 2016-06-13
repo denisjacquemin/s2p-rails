@@ -33,5 +33,6 @@
 //= require mfiles
 //= require schools
 //= require students
+//= require users
 //= require list
 // require_tree .
