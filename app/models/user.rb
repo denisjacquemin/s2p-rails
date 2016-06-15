@@ -19,6 +19,10 @@ class User < ApplicationRecord
    self.role ||= :user
   end
 
+  def active?
+    self.deleted_at === nil
+  end
+
   def invitation_status
     if self.invitation_accepted_at.present?
       "Accepté"

@@ -24,8 +24,12 @@
               <td><%= link_to user.email, edit_user_path(user) %></td>
               <td><% if user.schools.any? %><%= School.find(user.schools).pluck(:name).join(', ') %><% end %></td>
               <td><%= user.invitation_status %></td>
-              <td><%= link_to "Renvoyer l'invitation", resend_invite_path(user), class: 'btn btn-default btn-xs' %>
-              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
+              <% if user.active? %>
+                <td><%= link_to "Renvoyer l'invitation", resend_invite_path(user), class: 'btn btn-default btn-xs' %>
+                <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
+              <% else %>
+                <td colspan="2">Inactif</td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
