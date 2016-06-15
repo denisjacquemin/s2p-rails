@@ -13,7 +13,7 @@ fr:
         header: "Envoyer une invitation"
         submit_button: "Envoyé l'invitation"
       edit:
-        header: "Entrez votre mot de passe"
+        header: "Choisissez votre mot de passe"
         submit_button: "Enregistrer mon mot de passe"
     mailer:
       invitation_instructions:

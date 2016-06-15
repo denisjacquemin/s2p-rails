@@ -20,10 +20,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_school
-
     if session[:current_school].nil?
-      if current_user.schools_obj[0].nil?
-        session[:current_school] = 1
+      if current_user.superadmin?
+        s = School.first
+        session[:current_school] = s.id
+        return s
       else
         session[:current_school] ||= current_user.schools_obj[0].id
       end

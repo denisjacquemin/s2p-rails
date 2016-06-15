@@ -27,6 +27,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
+    authorize @message
     @mfile = Mfile.new
   end
 
@@ -176,7 +177,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    authorize @message 
+    authorize @message
     @message.destroy
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Message a été effacé.' }

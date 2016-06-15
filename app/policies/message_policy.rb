@@ -5,47 +5,49 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    return false
   end
 
   def create?
-    true
+    @user.superadmin?
   end
 
   def new?
-    true
+    @user.superadmin?
   end
 
   def update?
-    true
+    @user.superadmin?
   end
 
   def publish?
-    true
+    @user.superadmin?
   end
 
   def unpublish?
-    true
+    @user.superadmin?
   end
 
   def send_for_approval?
-    true
+    @user.superadmin?
   end
 
   def accept?
-    true
+    @user.superadmin?
   end
 
   def reject?
-    true
+    @user.superadmin?
   end
 
   def update_groups?
-    true
+    @user.superadmin?
   end
 
   def edit?
-    true
+    return false if not @user.schools.include?(@record.school_id)
+
+    @user.superadmin?
   end
 
   def destroy?
