@@ -10,11 +10,25 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  helper_method :current_school
+
   private
 
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
+  end
+
+  def current_school
+
+    if session[:current_school].nil?
+      if current_user.schools_obj[0].nil?
+        session[:current_school] = 1
+      else
+        session[:current_school] ||= current_user.schools_obj[0].id
+      end
+    end
+    School.find(session[:current_school])
   end
 
   protected

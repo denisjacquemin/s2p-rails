@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = policy_scope(Group)
+    @groups = policy_scope(Group).where(school_id: session[:current_school])
   end
 
   # GET /groups/1
@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     unless current_user.superadmin?
-      @group.school_id = current_user.school_id
+      @group.school_id = current_school
     end
 
     respond_to do |format|

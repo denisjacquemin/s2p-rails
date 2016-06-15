@@ -73,6 +73,11 @@ class SchoolsController < ApplicationController
     end
   end
 
+  def change_school
+    session[:current_school]  = params[:selected_school_id]
+    redirect_back(fallback_location: root_path)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_school

@@ -15,7 +15,7 @@ class StudentPolicy < ApplicationPolicy
     return false if @user.user?
 
     # admin can only destroy students from their school
-    return false if @user.admin? and @user.school_id != @record.school_id
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     # superadmin and admin can destroy a student
     @user.admin? || @user.superadmin?
@@ -27,7 +27,7 @@ class StudentPolicy < ApplicationPolicy
     return false if @user.user?
 
     # admin can only destroy students from their school
-    return false if @user.admin? and @user.school_id != @record.school_id
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     # superadmin and admin can destroy a student
     @user.admin? || @user.superadmin?
@@ -44,7 +44,7 @@ class StudentPolicy < ApplicationPolicy
     return  unless @user.admin? || @user.superadmin?
 
     # if user is admin then can edit only students with the same school
-    return false if @user.admin? and @user.school_id != @record.school_id
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     true
   end
@@ -54,7 +54,7 @@ class StudentPolicy < ApplicationPolicy
     return  unless @user.admin? || @user.superadmin?
 
     # if user is admin then can edit only students with the same school
-    return false if @user.admin? and @user.school_id != @record.school_id
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     true
   end
@@ -63,7 +63,7 @@ class StudentPolicy < ApplicationPolicy
     # only admin and superadmin can edit a user
     return  unless @user.admin? || @user.superadmin?
 
-    return false if @user.admin? and @user.school_id != @record.school_id
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     true
   end
@@ -80,7 +80,7 @@ class StudentPolicy < ApplicationPolicy
       if user.superadmin?
         scope.all
       else
-        scope.where(school_id: user.school_id)
+        scope.where(school_id: user.schools)
       end
     end
   end

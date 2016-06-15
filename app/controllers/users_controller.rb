@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = policy_scope(User).order(firstname: :asc).active
+    @users = User.where('? = ANY (schools)', session[:current_school]).order(firstname: :asc).active
   end
 
   def destroy
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:firstname, :lastname, :email, :role, :school_id)
+      params.require(:user).permit(:firstname, :lastname, :email, :role, :schools => [])
     end
 
 end

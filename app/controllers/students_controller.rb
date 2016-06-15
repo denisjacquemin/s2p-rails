@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = policy_scope(Student)
+    @students = policy_scope(Student).where(school_id: session[:current_school])
     authorize @students
   end
 
@@ -33,7 +33,7 @@ class StudentsController < ApplicationController
     authorize @student
 
     if current_user.admin?
-      @student.school_id = current_user.school_id
+      @student.school_id = current_school
     end
 
     if @student.save
@@ -96,7 +96,7 @@ class StudentsController < ApplicationController
   end
 
   def csv_upload
-    Student.import(params[:csv], current_user.school_id)
+    Student.import(params[:csv], current_school)
   end
 
   def export_csv

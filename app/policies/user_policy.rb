@@ -17,7 +17,7 @@ class UserPolicy < ApplicationPolicy
 
   def edit?
     # if user is admin then can edit only user with the same school
-    return false if @user.admin? and @user.school != @user.school
+    return false if @user.admin? and not (@user.schools & @record.schools).any?
 
     # only admin and superadmin can edit a user
     @user.admin? || @user.superadmin?
@@ -27,21 +27,21 @@ class UserPolicy < ApplicationPolicy
     @user.superadmin?
   end
 
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user  = user
-      @scope = scope
-    end
-
-    def resolve
-      if user.superadmin?
-        scope.all
-      else
-        scope.where(school_id: user.school_id)
-      end
-    end
-  end
+  # class Scope
+  #   attr_reader :user, :scope
+  #
+  #   def initialize(user, scope)
+  #     @user  = user
+  #     @scope = scope
+  #   end
+  #
+  #   def resolve
+  #     if user.superadmin?
+  #       scope.all
+  #     else
+  #       scope.where(school_id: user.schools)
+  #     end
+  #   end
+  # end
 
 end

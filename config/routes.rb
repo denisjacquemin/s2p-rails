@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   patch '/students/update_groups/:id', to: 'students#update_groups'
   devise_for :users, :controllers => { :invitations => 'invitations' }
   resources :schools
+  post 'schools/change_school', to: 'schools#change_school'
   get 'users/resend_invite/:id', to: 'users#resend_invite', as: 'resend_invite'
   resources :users
   patch '/users/update_schools/:id', to: 'users#update_schools'

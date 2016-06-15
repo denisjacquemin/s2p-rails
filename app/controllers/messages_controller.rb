@@ -7,15 +7,15 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = policy_scope(Message).order(created_at: :desc)
+    @messages = policy_scope(Message).where(school_id: session[:current_school]).order(created_at: :desc)
     authorize @messages
-    @school_id = current_user.school_id
+    @school_id = current_school
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
-    authorize @message
+    authorize @messages
   end
 
   # GET /messages/new
@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
     @message.author = current_user
 
     unless current_user.superadmin?
-      @message.school_id = current_user.school_id
+      @message.school_id = current_school
     end
 
     respond_to do |format|
@@ -176,7 +176,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    authorize @message
+    authorize @message 
     @message.destroy
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Message a été effacé.' }

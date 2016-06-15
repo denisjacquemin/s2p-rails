@@ -64,9 +64,9 @@ class MessagePolicy < ApplicationPolicy
       if user.superadmin?
         scope.all
       elsif user.admin?
-        scope.where(school_id: user.school_id)
+        scope.where(school_id: user.schools)
       elsif user.user?
-        scope.where(school_id: user.school_id, author_id: user.id)
+        scope.where(school_id: user.schools, author_id: user.id)
       end
     end
   end

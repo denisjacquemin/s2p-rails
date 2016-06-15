@@ -12,8 +12,28 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+     <%= form_tag '/schools/change_school', id: "change_school" do  %>
+     <%= hidden_field_tag 'selected_school_id'%>
      <ul class="nav navbar-nav navbar-right">
        <% if user_signed_in? %>
+         <% unless current_school.nil? %>
+             <% if current_user.schools.size > 1 or current_user.superadmin? %>
+               <li class="dropdown">
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_school.name %> <span class="caret"></span></a>
+                   <ul class="dropdown-menu">
+                     <% if current_user.superadmin? %>
+                       <% School.all.each do |s| %>
+                        <li><a class="this_school" data-school-id="<%= s.id %>" href="#"><%= s.name %></a></li>
+                       <% end %>
+                     <% else %>
+                       <% current_user.schools_obj.each do |s| %>
+                        <li><a class="this_school" data-school-id="<%= s.id %>" href="#"><%= s.name %></a></li>
+                       <% end %>
+                     <% end %>
+                   </ul>
+               </li>
+             <% end %>
+         <% end %>
          <li>
              <%= link_to 'Messages', messages_path %>
          </li>
@@ -37,6 +57,7 @@
          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
        <% end %>
      </ul>
+     <% end %>
     </div><!-- /.navbar-collapse -->
   </div>
 </nav>

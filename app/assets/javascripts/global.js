@@ -5,6 +5,16 @@ ready = function() {
     $.snackbar({content: value, style: key, timeout: 10000});
   });
 
+  if ($("#change_school").length > 0) {
+    $(".this_school").click(function(event) {
+      console.debug('change school')
+      event.preventDefault()
+      $('#selected_school_id').val(event.target.getAttribute('data-school-id'))
+      $("#change_school").submit()
+    })
+  }
+
+
 };
 
 $(document).ready(ready);
