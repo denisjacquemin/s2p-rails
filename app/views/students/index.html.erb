@@ -1,79 +1,82 @@
 <h1>Elèves
-
+  <div class="pull-right">
+    <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
+  </div>
 </h1>
 <hr />
 <div class="row" id="students">
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" >
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th><input type="checkbox" id="toggle_all"/></th>
-            <th><%= t('activerecord.attributes.student.lastname') %></th>
-            <th><%= t('activerecord.attributes.student.firstname') %></th>
-            <% if current_user.superadmin? %>
-              <th><%= t('activerecord.attributes.student.school') %></th>
-            <% end %>
-            <th><%= t('activerecord.attributes.student.level') %></th>
-            <th><%= t('activerecord.attributes.student.classroom') %></th>
-            <th><%= t('activerecord.attributes.student.code') %></th>
-          </tr>
-        </thead>
-        <tbody class="list">
-          <% @students.each do |student| %>
+      <% if @students.any? %>
+        <table class="table table-striped table-hover">
+          <thead>
             <tr>
-              <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
-              <% if policy(student).edit? %>
-                <td class="lastname"><%= link_to student.lastname, edit_student_path(student) %></td>
-              <% else %>
-                <td class="lastname"><%= student.lastname %></td>
-              <% end %>
-              <% if policy(student).edit? %>
-                <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
-              <% else %>
-                <td class="firstname"><%= student.firstname %></td>
-              <% end %>
+              <th><input type="checkbox" id="toggle_all"/></th>
+              <th><%= t('activerecord.attributes.student.lastname') %></th>
+              <th><%= t('activerecord.attributes.student.firstname') %></th>
               <% if current_user.superadmin? %>
-                <td><% if student.school.present? %><%= student.school.name %><% end %></td>
+                <th><%= t('activerecord.attributes.student.school') %></th>
               <% end %>
-              <td class="level"><%= student.level %></td>
-              <td class="classroom"><%= student.classroom %></td>
-              <td class="code"><%= student.code %></td>
+              <th><%= t('activerecord.attributes.student.level') %></th>
+              <th><%= t('activerecord.attributes.student.classroom') %></th>
+              <th><%= t('activerecord.attributes.student.code') %></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="form-group">
-            <label for="search">Filtre</label>
-              <input id="search" class="form-control search" autofocus="" >
-          </div>
-        </div>
-      </div>
-      <% if policy(:student).new? %>
-        <div class="row">
-          <hr />
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 30px">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= link_to 'Import CSV', new_import_csv_path, class: 'btn btn-primary btn-block' %>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 30px">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= link_to 'Export CSV', '/students/export_csv', class: 'btn btn-primary btn-block', id: 'export_csv' %>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 30px">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= link_to 'Effacer', '#' , class: 'btn btn-primary btn-block', id: 'destroy_all'%>
-          </div>
-        </div>
+          </thead>
+          <tbody class="list">
+            <% @students.each do |student| %>
+              <tr>
+                <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
+                <% if policy(student).edit? %>
+                  <td class="lastname"><%= link_to student.lastname, edit_student_path(student) %></td>
+                <% else %>
+                  <td class="lastname"><%= student.lastname %></td>
+                <% end %>
+                <% if policy(student).edit? %>
+                  <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
+                <% else %>
+                  <td class="firstname"><%= student.firstname %></td>
+                <% end %>
+                <% if current_user.superadmin? %>
+                  <td><% if student.school.present? %><%= student.school.name %><% end %></td>
+                <% end %>
+                <td class="level"><%= student.level %></td>
+                <td class="classroom"><%= student.classroom %></td>
+                <td class="code"><%= student.code %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>Aucun élève à afficher, <%= link_to 'créer un élève maintenant', new_student_path %> ou <%= link_to 'importer un fichier CSV', new_import_csv_path %></p>
       <% end %>
     </div>
+    <% if @students.any? %>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+              <label for="search">Filtre</label>
+                <input id="search" class="form-control search" autofocus="" >
+            </div>
+          </div>
+        </div>
+        <% if policy(:student).new? %>
+          <div class="row">
+            <hr />
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= link_to 'Import CSV', new_import_csv_path, class: 'btn btn-primary btn-block' %>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= link_to 'Export CSV', '/students/export_csv', class: 'btn btn-primary btn-block', id: 'export_csv' %>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= link_to 'Effacer', '#' , class: 'btn btn-primary btn-block', id: 'destroy_all'%>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 </div>
