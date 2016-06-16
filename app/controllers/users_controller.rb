@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = User.where('? = ANY (schools)', session[:current_school]).order(firstname: :asc).active
+    @users = User.where('? = ANY (schools)', current_school.id).order(firstname: :asc).active
     @users = User.all if current_user.superadmin?
   end
 

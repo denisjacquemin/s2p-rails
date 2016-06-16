@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = policy_scope(Student).where(school_id: session[:current_school])
+    @students = policy_scope(Student).where(school_id: current_school.id)
     authorize @students
   end
 
@@ -33,7 +33,7 @@ class StudentsController < ApplicationController
     authorize @student
 
     if current_user.admin?
-      @student.school_id = current_school
+      @student.school_id = current_school.id
     end
 
     if @student.save

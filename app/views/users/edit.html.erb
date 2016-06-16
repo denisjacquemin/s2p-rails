@@ -15,7 +15,7 @@
           <%= f.label :email %>
           <%= f.text_field :email, class: "form-control" %>
         </div>
-        <% if current_user.admin? %>
+        <% if current_user.admin? and current_user.schools.size > 1 %>
           <div class="form-group">
             <%= f.label :school, 'Implentation(s)' %>
             <%= f.collection_check_boxes(:schools, current_user.schools_obj, :id, :name , {class: "form-control"})  do |b| %>

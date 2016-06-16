@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = policy_scope(Group).where(school_id: session[:current_school])
+    @groups = policy_scope(Group).where(school_id: current_school.id)
   end
 
   # GET /groups/1
@@ -29,12 +29,12 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     unless current_user.superadmin?
-      @group.school_id = current_school
+      @group.school_id = current_school.id
     end
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        format.html { redirect_to groups_path, notice: 'Le groupe a été créé avec succès.' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }

@@ -5,53 +5,108 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def show?
-    return false
+    false
   end
 
   def create?
-    @user.superadmin?
+    true
   end
 
   def new?
-    @user.superadmin?
+    true
   end
 
   def update?
-    @user.superadmin?
+    # return true if superadmin
+    return true if @user.superadmin?
+
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # return true if user et message.owner est user
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   def publish?
-    @user.superadmin?
+    # only author can publish a message
+    return true if @record.author === @user
+
+    return false
   end
 
   def unpublish?
-    @user.superadmin?
+    # superadmin can unpublish
+    return true if @user.superadmin?
+
+    # admin can unpublish
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # user can unpublish own message
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   def send_for_approval?
-    @user.superadmin?
+    # user can send for approval own message
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   def accept?
-    @user.superadmin?
+    # admin can accept
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    return false
   end
 
   def reject?
-    @user.superadmin?
+    # admin can reject
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    return false
   end
 
   def update_groups?
-    @user.superadmin?
+    # return true if superadmin
+    return true if @user.superadmin?
+
+    # admin can update groups
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # user can update groups for own message
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   def edit?
-    return false if not @user.schools.include?(@record.school_id)
+    # return true if superadmin
+    return true if @user.superadmin?
 
-    @user.superadmin?
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # return true if user et message.owner est user
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   def destroy?
-    true
+    # return true if superadmin
+    return true if @user.superadmin?
+
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # return true if user et message.owner est user
+    return true if @user.user? and @record.author === @user
+
+    return false
   end
 
   class Scope

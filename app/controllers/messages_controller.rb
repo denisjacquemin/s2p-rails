@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = policy_scope(Message).where(school_id: session[:current_school]).order(created_at: :desc)
+    @messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
     authorize @messages
     @school_id = current_school
   end
@@ -40,12 +40,12 @@ class MessagesController < ApplicationController
     @message.author = current_user
 
     unless current_user.superadmin?
-      @message.school_id = current_school
+      @message.school_id = current_school.id
     end
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to edit_message_path(@message), notice: 'Message was successfully created.' }
+        format.html { redirect_to edit_message_path(@message), notice: 'Le message à été créé avec succès.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }

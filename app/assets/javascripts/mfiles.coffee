@@ -1,4 +1,10 @@
-$ ->
+
+
+
+
+
+
+ready = () ->
   # uploadButton = $('<button/>').addClass('btn btn-primary').prop('disabled', true).text('Processing...').on('click', ->
   #   $this = $(this)
   #   data = $this.data()
@@ -13,6 +19,7 @@ $ ->
   # )
 
   $('.directUpload').find('input:file').each (i, elem) ->
+    console.debug 'init fileupload'
     fileInput = $(elem)
     form = $(fileInput.parents('form:first'))
     submitButton = form.find('input[type="submit"]')
@@ -121,3 +128,6 @@ $ ->
         # return
     return
   return
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
