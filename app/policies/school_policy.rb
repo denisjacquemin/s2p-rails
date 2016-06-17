@@ -17,11 +17,23 @@ class SchoolPolicy < ApplicationPolicy
   end
 
   def update?
-    verify_is_superadmin?
+    # return true if superadmin
+    return true if @user.superadmin?
+
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.id)
+
+    return false
   end
 
   def edit?
-    verify_is_superadmin?
+    # return true if superadmin
+    return true if @user.superadmin?
+
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.id)
+
+    return false
   end
 
   def destroy?

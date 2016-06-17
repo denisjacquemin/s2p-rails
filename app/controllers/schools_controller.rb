@@ -32,13 +32,9 @@ class SchoolsController < ApplicationController
     @school = School.new(school_params)
     authorize @school
 
-    @school.settings['message.reviewers'] = [] # init message's reviewers to none
-    @school.settings['message.approval_required'] = false
-
     respond_to do |format|
       if @school.save
-
-        format.html { redirect_to @school, notice: 'School was successfully created.' }
+        format.html { redirect_to edit_school_path(@school), notice: "L'école à été créé" }
         format.json { render :show, status: :created, location: @school }
       else
         format.html { render :new }
@@ -53,7 +49,7 @@ class SchoolsController < ApplicationController
     authorize @school
     respond_to do |format|
       if @school.update(school_params)
-        format.html { redirect_to @school, notice: 'School was successfully updated.' }
+        format.html { redirect_to edit_school_path(@school), notice: "L'école à été mise à jour" }
         format.json { render :show, status: :ok, location: @school }
       else
         format.html { render :edit }
@@ -86,6 +82,6 @@ class SchoolsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def school_params
-      params.require(:school).permit(:name, :address, :phone, :email)
+      params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active)
     end
 end

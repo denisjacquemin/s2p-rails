@@ -22,8 +22,6 @@ gem 'kramdown'
 gem 'mail'
 gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
 
-gem "rails-settings-cached", :github => 'huacnlee/rails-settings-cached', :branch => 'master'
-
 gem 'aws-sdk', '~> 2'
 
 # Use jquery as the JavaScript library

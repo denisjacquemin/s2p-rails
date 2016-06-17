@@ -2,12 +2,12 @@
   message_owner = message.author_id === current_user.id
   isReviewer = current_user.admin?
   #isReviewer = current_user.school.settings['message.reviewers'].include?(current_user.id) unless current_user.school.nil? or current_user.school.settings['message.reviewers'].nil?
-  
+
 %>
 
 <% # Si admin et que c'est son message alors il peut publier %>
 <% # Si reviewer et son message alors il peut publier %>
-<% if current_user.admin? or current_user.superadmin?  or (isReviewer and message_owner) %>
+<% if current_user.admin? or current_user.superadmin?  or (isReviewer and message_owner) or (current_user.user? and !message.school.validation_workflow_active) %>
   <% if message.draft? %>
     <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
   <% elsif message.published? %>
@@ -16,8 +16,8 @@
 <% end %>
 
 <% # Si un user (pas reviewer) et owner du message alors il peut Demander l'approbation %>
-<% if current_user.user? and not isReviewer and message_owner%>
-  <% if message.draft? or message.approval_refused?%>
+<% if current_user.user? and not isReviewer and message_owner and message.school.validation_workflow_active%>
+  <% if message.draft? or message.approval_refused? %>
     <li><%= link_to "Demander l'approbation", send_for_approval_message_path(message), :method=> :patch %></li>
   <% elsif message.approval_accepted? %>
     <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
