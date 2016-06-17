@@ -57,7 +57,9 @@
            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration <span class="caret"></span></a>
              <ul class="dropdown-menu">
                <li><%= link_to current_user.fullname, edit_user_registration_path %></li>
-               <li><%= link_to current_school.name, edit_school_path(current_school) %></li>
+               <% if current_user.admin? %>
+                <li><%= link_to current_school.name, edit_school_path(current_school) %></li>
+               <% end %>
              </ul>
          </li>
          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
