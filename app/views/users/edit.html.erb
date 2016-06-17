@@ -28,7 +28,7 @@
 
         <div class="form-group">
           <%= f.label :role %>
-          <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, {}, {class: "form-control"})  %>
+          <%= f.select(:role, User.roles.keys.map {|role| role === 'user'? ['Rédacteur', role] : [role.titleize,role]}, {}, {class: "form-control"})  %>
         </div>
         <%= f.submit "Sauver", class: 'btn btn-primary' %>
         <%= link_to 'Back', users_path, class: 'btn btn-default' %>
