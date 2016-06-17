@@ -1,5 +1,5 @@
 class SchoolsController < ApplicationController
-  before_action :set_school, only: [:show, :edit, :update, :destroy]
+  before_action :set_school, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /schools
@@ -23,6 +23,11 @@ class SchoolsController < ApplicationController
 
   # GET /schools/1/edit
   def edit
+    if params[:id].nil?
+      @school = current_school
+    else
+      @school = School.find(params[:id])
+    end
     authorize @school
   end
 
@@ -49,7 +54,12 @@ class SchoolsController < ApplicationController
     authorize @school
     respond_to do |format|
       if @school.update(school_params)
-        format.html { redirect_to edit_school_path(@school), notice: "L'école à été mise à jour" }
+        if current_user.admin?
+          format.html { redirect_to edit_current_school_path, notice: "L'école à été mise à jour" }
+        else
+          format.html { redirect_to edit_school_path(@school), notice: "L'école à été mise à jour" }
+        end
+
         format.json { render :show, status: :ok, location: @school }
       else
         format.html { render :edit }
