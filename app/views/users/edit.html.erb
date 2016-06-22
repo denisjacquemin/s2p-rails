@@ -25,10 +25,11 @@
             <% end %>
           </div>
         <% end %>
-
+        <% roles = User.roles.keys %>
+        <% roles.delete "superadmin" if current_user.admin? %>
         <div class="form-group">
           <%= f.label :role %>
-          <%= f.select(:role, User.roles.keys.map {|role| role === 'user'? ['Rédacteur', role] : [role.titleize,role]}, {}, {class: "form-control"})  %>
+          <%= f.select(:role, roles.map {|role| role === 'user'? ['Rédacteur', role] : [role.titleize,role]}, {}, {class: "form-control"})  %>
         </div>
 
         <div class="form-group">

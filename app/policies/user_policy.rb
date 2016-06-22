@@ -27,21 +27,21 @@ class UserPolicy < ApplicationPolicy
     @user.superadmin?
   end
 
-  # class Scope
-  #   attr_reader :user, :scope
-  #
-  #   def initialize(user, scope)
-  #     @user  = user
-  #     @scope = scope
-  #   end
-  #
-  #   def resolve
-  #     if user.superadmin?
-  #       scope.all
-  #     else
-  #       scope.where(school_id: user.schools)
-  #     end
-  #   end
-  # end
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user  = user
+      @scope = scope
+    end
+
+    def resolve
+      if user.superadmin?
+        scope.all
+      else
+        scope.where(school_id: user.schools)
+      end
+    end
+  end
 
 end
