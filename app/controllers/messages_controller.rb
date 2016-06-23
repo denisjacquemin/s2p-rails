@@ -126,7 +126,7 @@ class MessagesController < ApplicationController
                            icon: 'myicon'
                          }
         n.save!
-        logger.debug n.inspect
+        puts "notification Google: " n.inspect
       }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
