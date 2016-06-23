@@ -30,6 +30,9 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def publish?
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
     # only author can publish a message
     return true if @record.author === @user
 
