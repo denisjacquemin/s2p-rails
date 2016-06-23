@@ -126,6 +126,7 @@ class MessagesController < ApplicationController
                            icon: 'myicon'
                          }
         n.save!
+        logger.debug n.inspect
       }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
