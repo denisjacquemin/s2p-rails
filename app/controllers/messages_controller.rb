@@ -100,7 +100,7 @@ class MessagesController < ApplicationController
         # check if device.token is present in Rpush::Apns::Feedback
         n = Rpush::Apns::Notification.new
         n.app = Rpush::Apns::App.find_by_name("ios_app")
-        n.device_token = device.token # 64-character hex string
+        n.device_token = device.registration_id # 64-character hex string
         n.alert = @message.title
         n.data = {
           "title": truncate(@message.title, :length => 200),
@@ -113,11 +113,11 @@ class MessagesController < ApplicationController
           logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
         end
       }
-      devicesAndroid = Device.active.android.by_codes(student_codes)
-      devicesAndroid.each { |device|
+      # devicesAndroid = Device.active.android.by_codes(student_codes)
+      # devicesAndroid.each { |device|
         n = Rpush::Gcm::Notification.new
         n.app = Rpush::Gcm::App.find_by_name("android_app")
-        n.registration_ids = [device.token]
+        n.registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
         n.data = { "message_id": @message.id }
         n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
         n.content_available = true # Optional
@@ -127,7 +127,7 @@ class MessagesController < ApplicationController
                          }
         n.save!
         puts "notification Google: #{n.inspect}"
-      }
+      # }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
     else
