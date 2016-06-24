@@ -32,6 +32,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :url, 'Site Internet' %>
+    <%= f.text_field :url, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
    <%= f.label :validation_workflow_active, 'Workflow de validation' %>
    <%= f.check_box :validation_workflow_active %>
   </div>
