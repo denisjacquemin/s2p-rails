@@ -1,5 +1,7 @@
 require 'csv'
 class Student < ApplicationRecord
+  include Code
+
   belongs_to :school, required: false
 
   def groups_obj
@@ -34,7 +36,7 @@ class Student < ApplicationRecord
   end
 
   before_create do
-    self.code = compute_code
+    compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
   end
 
   def self.to_csv_file
@@ -52,30 +54,40 @@ class Student < ApplicationRecord
     CSV.foreach(file.path, headers: true) do |row|
 
       row_hash = row.to_hash
-      firstname_col_name = row_hash.keys.grep(/first.?name|pr(é|e)nom/i)[0]
-      lastname_col_name = row_hash.keys.grep(/last.?name|^nom/i)[0]
-      level_col_name = row_hash.keys.grep(/ann(é|e)|level/i)[0]
-      classroom_col_name = row_hash.keys.grep(/classe|classroom/i)[0]
-      code_col_name = row_hash.keys.grep(/code/i)[0]
       data = {}
 
-      firstname = row.values_at(firstname_col_name)[0].humanize
-      lastname = row.values_at(lastname_col_name)[0].humanize
-      classroom = row.values_at(classroom_col_name)[0].humanize
-      level = row.values_at(level_col_name)[0]
-      code = row.values_at(code_col_name)[0] unless code_col_name.nil?
+      unless row_hash.keys.grep(/first.?name|pr(é|e)nom/i).nil?
+        firstname_col_name = row_hash.keys.grep(/first.?name|pr(é|e)nom/i)[0]
+        firstname = row.values_at(firstname_col_name)[0].humanize
+        data['firstname'] = firstname
+      end
 
-      data['firstname'] = firstname
-      data['lastname'] = lastname
-      data['classroom'] = classroom
-      data['level'] = level
-      data['code'] = code unless code.nil?
+      unless row_hash.keys.grep(/last.?name|^nom/i).nil?
+        lastname_col_name = row_hash.keys.grep(/last.?name|^nom/i)[0]
+        lastname = row.values_at(lastname_col_name)[0].humanize
+        data['lastname'] = lastname
+      end
 
+      unless row_hash.keys.grep(/ann(é|e)|level/i).nil?
+        level_col_name = row_hash.keys.grep(/ann(é|e)|level/i)[0]
+        level = row.values_at(level_col_name)[0]
+        data['level'] = level
+        level_group = Group.find_or_create_by(name: level, school_id: school_id)
+      end
+
+      unless row_hash.keys.grep(/titulaire|tutor/i).nil?
+        classroom_col_name = row_hash.keys.grep(/titulaire|tutor/i)[0]
+        classroom = row.values_at(classroom_col_name)[0].humanize
+        data['classroom'] = classroom
+        classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
+      end
+
+      unless row_hash.keys.grep(/code/i).nil?
+        code_col_name = row_hash.keys.grep(/code/i)[0]
+        code = row.values_at(code_col_name)[0] unless code_col_name.nil?
+        data['code'] = code unless code.nil?
+      end
       data['school_id'] = school_id
-
-      classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
-      level_group = Group.find_or_create_by(name: level, school_id: school_id)
-
       data['groups'] = [classroom_group.id, level_group.id]
 
       update_or_create data
@@ -99,16 +111,5 @@ class Student < ApplicationRecord
     end
   end
 
-  private
-    def compute_code
-      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 6)
-      key = "#{self.school_id}#{self.firstname}#{self.lastname}"
-      hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
-      while !Student.by_code(hash).empty? do
-        key = key + "a" # add nothing to the key to generate a different code
-        hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
-      end
-      return hash
-    end
 
 end

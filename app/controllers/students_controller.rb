@@ -31,7 +31,6 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     authorize @student
-
     if current_user.admin?
       @student.school_id = current_school.id
     end
@@ -96,7 +95,7 @@ class StudentsController < ApplicationController
   end
 
   def csv_upload
-    Student.import(params[:csv], current_school)
+    Student.import(params[:csv], current_school.id)
   end
 
   def export_csv
