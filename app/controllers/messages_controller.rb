@@ -115,18 +115,20 @@ class MessagesController < ApplicationController
       }
       # devicesAndroid = Device.active.android.by_codes(student_codes)
       # devicesAndroid.each { |device|
-        n = Rpush::Gcm::Notification.new
-        n.app = Rpush::Gcm::App.find_by_name("android_app")
-        n.registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
-        n.data = { "message_id": @message.id }
-        n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
-        n.content_available = true # Optional
-        # Optional notification payload. See the reference below for more keys you can use!
-        n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
-                           icon: 'myicon'
-                         }
-        n.save!
-        puts "notification Google: #{n.inspect}"
+        registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
+        unless registration_ids.nil?
+          n = Rpush::Gcm::Notification.new
+          n.app = Rpush::Gcm::App.find_by_name("android_app")
+          n.registration_ids =
+          n.data = { "message_id": @message.id }
+          n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
+          n.content_available = true # Optional
+          # Optional notification payload. See the reference below for more keys you can use!
+          n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
+                             icon: 'myicon'
+                           }
+          n.save!
+        end
       # }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
