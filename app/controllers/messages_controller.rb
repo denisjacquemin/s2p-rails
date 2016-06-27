@@ -1,5 +1,7 @@
 class MessagesController < ApplicationController
   include ActionView::Helpers::TextHelper # for truncate
+  include Notification
+
   before_action :authenticate_user!
   before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
@@ -95,41 +97,44 @@ class MessagesController < ApplicationController
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
 
-      devicesIOS = Device.active.ios.by_codes(student_codes)
-      devicesIOS.each { |device|
-        # check if device.token is present in Rpush::Apns::Feedback
-        n = Rpush::Apns::Notification.new
-        n.app = Rpush::Apns::App.find_by_name("ios_app")
-        n.device_token = device.registration_id # 64-character hex string
-        n.alert = @message.title
-        n.data = {
-          "title": truncate(@message.title, :length => 200),
-          "message_id": @message.id,
-          "content-available": 1,
-          "badge": 1
-        }
-        begin
-          n.save!
-        rescue ActiveRecord::RecordInvalid
-          logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
-        end
-      }
+      build_ios_notifications(message, student_codes)
+      build_android_notifications(message, student_codes)
+
+      # devicesIOS = Device.active.ios.by_codes(student_codes)
+      # devicesIOS.each { |device|
+      #   # check if device.token is present in Rpush::Apns::Feedback
+      #   n = Rpush::Apns::Notification.new
+      #   n.app = Rpush::Apns::App.find_by_name("ios_app")
+      #   n.device_token = device.registration_id # 64-character hex string
+      #   n.alert = @message.title
+      #   n.data = {
+      #     "title": truncate(@message.title, :length => 200),
+      #     "message_id": @message.id,
+      #     "content-available": 1,
+      #     "badge": 1
+      #   }
+      #   begin
+      #     n.save!
+      #   rescue ActiveRecord::RecordInvalid
+      #     logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+      #   end
+      # }
       # devicesAndroid = Device.active.android.by_codes(student_codes)
       # devicesAndroid.each { |device|
-        registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
-        unless registration_ids.nil?
-          n = Rpush::Gcm::Notification.new
-          n.app = Rpush::Gcm::App.find_by_name("android_app")
-          n.registration_ids =
-          n.data = { "message_id": @message.id }
-          n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
-          n.content_available = true # Optional
-          # Optional notification payload. See the reference below for more keys you can use!
-          n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
-                             icon: 'myicon'
-                           }
-          n.save!
-        end
+        # registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
+        # unless registration_ids.nil?
+        #   n = Rpush::Gcm::Notification.new
+        #   n.app = Rpush::Gcm::App.find_by_name("android_app")
+        #   n.registration_ids =
+        #   n.data = { "message_id": @message.id }
+        #   n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
+        #   n.content_available = true # Optional
+        #   # Optional notification payload. See the reference below for more keys you can use!
+        #   n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
+        #                      icon: 'myicon'
+        #                    }
+        #   n.save!
+        # end
       # }
 
       redirect_to messages_url, notice: 'Message publié avec succès'
