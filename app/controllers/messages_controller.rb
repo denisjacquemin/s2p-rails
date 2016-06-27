@@ -105,7 +105,7 @@ class MessagesController < ApplicationController
         n.data = {
           "title": truncate(@message.title, :length => 200),
           "message_id": @message.id,
-          "badge": 1
+          "content-available": 1,
         }
         begin
           n.save!
