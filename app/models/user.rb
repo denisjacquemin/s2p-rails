@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Code
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
@@ -10,6 +12,9 @@ class User < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
 
+  before_create do
+    compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
+  end
 
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
