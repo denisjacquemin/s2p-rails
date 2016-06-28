@@ -97,8 +97,8 @@ class MessagesController < ApplicationController
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
 
-      build_ios_notifications(message, student_codes)
-      build_android_notifications(message, student_codes)
+      build_ios_notifications(@message, student_codes)
+      build_android_notifications(@message, student_codes)
 
       # devicesIOS = Device.active.ios.by_codes(student_codes)
       # devicesIOS.each { |device|
