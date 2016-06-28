@@ -4,6 +4,7 @@ module Notification extend ActiveSupport::Concern
     def build_ios_notifications(message, codes)
       begin
         devicesIOS = Device.active.ios.by_codes(codes)
+        puts devicesIOS.inspect
         devicesIOS.each { |device|
           n = Rpush::Apns::Notification.new
           n.app = Rpush::Apns::App.find_by_name("ios_app")
