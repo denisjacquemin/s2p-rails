@@ -20,10 +20,10 @@ module Notification extend ActiveSupport::Concern
           rescue ActiveRecord::RecordInvalid
             logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
           end
-        rescue => e
-          puts "Exception build_ios_notifications: #{e}"
-        end
-      }
+        }
+      rescue => e
+        puts "Exception build_ios_notifications: #{e}"
+      end
     end
 
     def build_android_notifications(message, codes)
@@ -43,7 +43,7 @@ module Notification extend ActiveSupport::Concern
           n.save!
         end
       rescue => e
-        puts "Exception build_android_notifications: #{e}" 
+        puts "Exception build_android_notifications: #{e}"
       end
     end
 
