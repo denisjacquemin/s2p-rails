@@ -43,7 +43,7 @@ module Notification extend ActiveSupport::Concern
           n.save!
         end
       rescue => e
-        puts "Exception build_android_notifications: #{e}"
+        puts "Exception build_android_notifications: #{e}" 
       end
     end
 
