@@ -101,8 +101,8 @@ class MessagesController < ApplicationController
 
 
 
-      build_ios_notifications(@message, student_codes)
-      build_android_notifications(@message, student_codes)
+      build_ios_notifications(@message, codes)
+      build_android_notifications(@message, codes)
 
       # devicesIOS = Device.active.ios.by_codes(student_codes)
       # devicesIOS.each { |device|
