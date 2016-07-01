@@ -97,7 +97,6 @@ class MessagesController < ApplicationController
 
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
-      byebug
       codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
 
