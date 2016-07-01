@@ -23,6 +23,7 @@ class SchoolsController < ApplicationController
 
   # GET /schools/1/edit
   def edit
+    @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     if params[:id].nil?
       @school = current_school
     else
@@ -36,7 +37,7 @@ class SchoolsController < ApplicationController
   def create
     @school = School.new(school_params)
     authorize @school
-
+    @school.mfile = new Mfile
     respond_to do |format|
       if @school.save
         format.html { redirect_to edit_school_path(@school), notice: "L'école à été créé" }

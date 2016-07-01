@@ -7,7 +7,7 @@
       <%= hidden_field_tag 'message_id', message.id %>
       <% if message.mfiles.any? %>
         <% message.mfiles.each do |mfile| %>
-          <%= render 'file', mfile: mfile %>
+          <%= render '/mfiles/file', mfile: mfile %>
         <% end %>
       <% else %>
         <div class="col-xs-12">

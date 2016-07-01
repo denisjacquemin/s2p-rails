@@ -94,8 +94,13 @@ class MessagesController < ApplicationController
     @message.published!
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
+
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
+      byebug
+      codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+
+
 
       build_ios_notifications(@message, student_codes)
       build_android_notifications(@message, student_codes)
