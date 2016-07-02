@@ -27,10 +27,11 @@ class MfilesController < ApplicationController
   # POST /mfiles.json
   def create
     @mfile = Mfile.new(mfile_params)
+    @mfile.school = current_school
     if @mfile.save
       render {}
     else
-      #todo
+      byebug
     end
   end
 

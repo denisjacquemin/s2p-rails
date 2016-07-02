@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627123726) do
+ActiveRecord::Schema.define(version: 20160701124212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,8 @@ ActiveRecord::Schema.define(version: 20160627123726) do
     t.datetime "updated_at",                                null: false
     t.boolean  "validation_workflow_active", default: true
     t.string   "url"
+    t.string   "filename"
+    t.string   "file_url"
   end
 
   create_table "students", force: :cascade do |t|

@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :invitations => 'invitations' }
   get 'schools/edit_current', to: 'schools#edit', as: 'edit_current_school'
   resources :schools
-  post 'schools/change_school', to: 'schools#change_school'  
+  post 'schools/add_logo', to: 'schools#add_logo'
+  post 'schools/change_school', to: 'schools#change_school'
   get 'users/resend_invite/:id', to: 'users#resend_invite', as: 'resend_invite'
 
   resources :users

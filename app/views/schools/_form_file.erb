@@ -1,28 +1,24 @@
-<div class="form-group">
-  <%= form_for(@school.mfile, html: { class: "directUpload", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
-    <% if @school.mfile.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@school.file.errors.count, "error") %> prohibited this mfile from being saved:</h2>
-
-        <ul>
-        <% @school.mfile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="field">
-      <% unless @school.mfile.nil? %>
-          <%= render '/mfiles/file', mfile: @school.mfile %>
-      <% else %>
-        <div class="col-xs-12">
-          <div class="alert alert-info no-image" role="alert">
-            Pas encore d'image associé à ce message<br>
-          </div>
+      <% unless @school.file_url.nil? %>
+        <div class="col-xs-12 col-md-12 col-lg-12 thumb">
+          <span class="thumbnail">
+            <img src="<%= @school.file_url %>" class="img-responsive">
+          </span>
+          <%= link_to 'Supprimer', nil, method: :delete, data: { confirm: 'Are you sure?' } %>
         </div>
       <% end %>
-      <%= f.label 'Logo' %>
-      <%= f.file_field :file_url %>
     </div>
-  <% end %>
+
+
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="field">
+    <%= form_for(@school, url: {action: "add_logo"}, html: { class: "directUpload", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
+      <div class="field">
+        <%= f.label 'Logo' %>
+        <%= f.file_field :file_url %>
+      </div>
+    <% end %>
+  </div>
 </div>

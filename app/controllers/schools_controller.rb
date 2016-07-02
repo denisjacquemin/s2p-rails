@@ -49,6 +49,12 @@ class SchoolsController < ApplicationController
     end
   end
 
+  def add_logo
+    @school = current_school
+    @school.file_url = params[:mfile][:file_url]
+    @school.save
+  end
+
   # PATCH/PUT /schools/1
   # PATCH/PUT /schools/1.json
   def update
