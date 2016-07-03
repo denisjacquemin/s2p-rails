@@ -7,6 +7,8 @@ class Group < ApplicationRecord
   scope :by_student_id, ->(student_id) { where("? = ANY(students)", student_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
 
+  default_scope { order('name ASC') }
+
   def students
     Student.by_group(self.id)
   end
