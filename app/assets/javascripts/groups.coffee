@@ -6,7 +6,7 @@ add = (student) ->
   student_id = $(student).find( "input:checkbox").val()
   student_fullname = $(student).find(".fullname").text()
   classroom = $(student).find(".classroom").text()
-  build_student_row(student_id, student_fullname, classroom).appendTo($('#in_group'))
+  $('#in_group').prepend(build_student_row(student_id, student_fullname, classroom))
 
 remove = (student) ->
   console.log('student to be removed')

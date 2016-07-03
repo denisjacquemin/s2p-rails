@@ -5,7 +5,7 @@
 add = (group) ->
   group_id = $(group).find( "input:checkbox").val()
   group_name = $(group).find("label").text()
-  build_group_row(group_id, group_name).appendTo($('#in_groups'))
+  $('#in_groups').prepend(build_group_row(group_id, group_name))
 
 remove = (group) ->
   console.log('group to be removed')

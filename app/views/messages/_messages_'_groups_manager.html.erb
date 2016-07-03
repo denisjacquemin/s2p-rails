@@ -4,12 +4,12 @@
       <div class="panel panel-default">
         <div class="panel-heading"><%= t('views.messages.listofstudents') %></div>
         <div class="panel-body table-responsive">
-            <table class="table table-hover table-condensed" id="group_list">
+            <table class="table table-hover table-condensed" >
               <thead>
                 <th><input type="checkbox" /></th>
                 <th>Nom du groupe</th>
               </thead>
-              <tbody>
+              <tbody id="group_list">
                 <% Group.by_school(@message.school_id).each do |group| %>
                   <tr>
                     <td><input type="checkbox" value="<%= group.id %>"/></td>
