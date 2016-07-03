@@ -4,6 +4,8 @@ class Student < ApplicationRecord
 
   belongs_to :school, required: false
 
+  default_scope { order('lastname ASC, firstname ASC') }
+
   def groups_obj
     Group.by_ids(self.groups)
   end
