@@ -37,7 +37,6 @@ class SchoolsController < ApplicationController
   def create
     @school = School.new(school_params)
     authorize @school
-    @school.mfile = new Mfile
     respond_to do |format|
       if @school.save
         format.html { redirect_to edit_school_path(@school), notice: "L'école à été créé" }
