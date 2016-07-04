@@ -1,22 +1,13 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="field">
-      <% unless @school.file_url.nil? %>
-        <div class="col-xs-12 col-md-12 col-lg-12 thumb">
-          <span class="thumbnail">
-            <img src="<%= @school.file_url %>" class="img-responsive">
-          </span>
-          <%= link_to 'Supprimer', nil, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-      <% end %>
+    <div class="field logo">
+      <%= label_tag 'Logo' %>
+      <%= render 'logo', school: @school %>
     </div>
-
-
 </div>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="field">
     <%= form_for(@school, url: {action: "add_logo"}, html: { class: "directUpload", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
       <div class="field">
-        <%= f.label 'Logo' %>
         <%= f.file_field :file_url %>
       </div>
     <% end %>

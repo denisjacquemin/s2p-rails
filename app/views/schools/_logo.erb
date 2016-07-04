@@ -1,0 +1,8 @@
+<% unless school.file_url.nil? %>
+  <div class="col-xs-12 col-md-12 col-lg-12 thumb">
+    <span class="thumbnail">
+      <img src="<%= school.file_url %>" class="img-responsive">
+    </span>
+    <%= link_to 'Supprimer', nil, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+<% end %>
