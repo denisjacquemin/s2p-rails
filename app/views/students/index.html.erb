@@ -19,6 +19,7 @@
               <th><%= t('activerecord.attributes.student.level') %></th>
               <th><%= t('activerecord.attributes.student.classroom') %></th>
               <th><%= t('activerecord.attributes.student.code') %></th>
+              <th></th>
             </tr>
           </thead>
           <tbody class="list">
@@ -41,6 +42,7 @@
                 <td class="level"><%= student.level %></td>
                 <td class="classroom"><%= student.classroom %></td>
                 <td class="code"><%= student.code %></td>
+                <td><% if student.followers > 0 %><span class="glyphicon glyphicon-phone aria-hidden="true"></span><% end %></td>
               </tr>
             <% end %>
           </tbody>
