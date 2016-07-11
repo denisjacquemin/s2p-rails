@@ -40,6 +40,20 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+      <div class="form-group">
+        <%= f.label :emails %>
+        <%= f.text_field :emails, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+      <div class="form-group">
+        <%= f.label :sent_message_by_email, 'Envoi des messages via email' %><br/>
+        <%= f.check_box :sent_message_by_email %>
+      </div>
+    </div>
+  </div>
   <% unless student.new_record? %>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
