@@ -42,12 +42,12 @@ class Student < ApplicationRecord
   end
 
   def self.to_csv_file
-    attributes = %w{Prénom Nom Email Année Titulaire Code}
+    attributes = %w{Prénom Nom Emails Année Titulaire Code}
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
       all.each do |student|
-        csv << [student.firstname, student.lastname, '', student.level, student.classroom, student.code]
+        csv << [student.firstname, student.lastname, student.emails, student.level, student.classroom, student.code]
       end
     end
   end
@@ -84,6 +84,12 @@ class Student < ApplicationRecord
         classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
       end
 
+      unless row_hash.keys.grep(/emails/i).nil?
+        emails_col_name = row_hash.keys.grep(/emails/i)[0]
+        emails = row.values_at(emails_col_name)[0].humanize
+        data['emails'] = emails
+      end
+
       unless row_hash.keys.grep(/code/i).nil?
         code_col_name = row_hash.keys.grep(/code/i)[0]
         code = row.values_at(code_col_name)[0] unless code_col_name.nil?
@@ -107,7 +113,7 @@ class Student < ApplicationRecord
     end
     puts student.inspect
     if (student.nil?)
-      Student.create(attributes)
+        Student.create(attributes)
     else
       student.update_attributes(attributes)
     end
