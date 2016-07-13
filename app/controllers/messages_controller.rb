@@ -99,10 +99,10 @@ class MessagesController < ApplicationController
       student_codes = students.map {|s| s.code }
       codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
-
-
       build_ios_notifications(@message, codes)
       build_android_notifications(@message, codes)
+
+      build_emails(students, @message)
 
       # devicesIOS = Device.active.ios.by_codes(student_codes)
       # devicesIOS.each { |device|
@@ -216,5 +216,14 @@ class MessagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mfile_params
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
+    end
+
+    def build_emails(students, message)
+      emails = students.collect {|s| s.emails.split(' ') unless !s.sent_message_by_email or s.emails.nil?}.compact.flatten.uniq      # build an array of emails
+
+      #students.map {|s| s.emails.split(' ')}
+
+      emails.each {|e| MessageMailer.message_email(e, message).deliver_later}
+
     end
 end

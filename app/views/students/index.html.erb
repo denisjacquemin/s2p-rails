@@ -42,7 +42,10 @@
                 <td class="level"><%= student.level %></td>
                 <td class="classroom"><%= student.classroom %></td>
                 <td class="code"><%= student.code %></td>
-                <td><% if student.followers > 0 %><span class="glyphicon glyphicon-phone aria-hidden="true"></span><% end %></td>
+                <td>
+                  <% if student.followers > 0 %><span class="glyphicon glyphicon-phone aria-hidden="true"></span><% end %>
+                  <% if student.sent_message_by_email %><span class="glyphicon glyphicon-envelope aria-hidden="true"></span><% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
