@@ -3,6 +3,9 @@ class Message < ApplicationRecord
   has_many :mfiles
   belongs_to :author, class_name: "User"
 
+  scope :by_group, ->(id) { where("? = ANY(groups)", id) }
+  scope :by_ids, ->(ids) { where(id: ids) }
+
   enum mtype: [:message, :rappel]
   enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted ]
   after_initialize :set_default_status, :if => :new_record?
@@ -26,8 +29,6 @@ class Message < ApplicationRecord
     Group.by_ids(self.groups)
   end
 
-  scope :by_ids, ->(ids) { where(id: ids) }
-
   def self.add_groups(message_ids, group_ids)
     Message.by_ids(message_ids).update_all(['groups = array_cat(groups, ARRAY[?]), updated_at = ?', group_ids, Time.now.utc])
   end
@@ -36,6 +37,10 @@ class Message < ApplicationRecord
     group_ids.each do |g_id|
       Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?), updated_at = ?', g_id, Time.now.utc])
     end
+  end
+
+  def self.remove_group(message_ids, group_id)
+    Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
   end
 
 end

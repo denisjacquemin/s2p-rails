@@ -6,6 +6,8 @@ class Student < ApplicationRecord
 
   default_scope { order('lastname ASC, firstname ASC') }
 
+  validates :code, uniqueness: true
+
   def groups_obj
     Group.by_ids(self.groups)
   end
@@ -53,66 +55,91 @@ class Student < ApplicationRecord
   end
 
   def self.import(file, school_id)
-    CSV.foreach(file.path, headers: true) do |row|
+    options = {:chunk_size => 100, :key_mapping => {
+      :prénom => :firstname,
+      :nom => :lastname,
+      :emails => :emails,
+      :année => :level,
+      :titulaire => :classroom,
+      :code => :code
+      }}
+    SmarterCSV.process(file.tempfile.path, options) do |r|
+      r.each do |data|
+        groups = []
+        unless data[:level].nil?
+          groups.push(Group.find_or_create_by(name: data[:level], school_id: school_id).id)
+        end
+        unless data[:classroom].nil?
+          groups.push(Group.find_or_create_by(name: data[:classroom], school_id: school_id).id)
+        end
 
-      row_hash = row.to_hash
-      data = {}
-
-      unless row_hash.keys.grep(/first.?name|pr(é|e)nom/i).nil?
-        firstname_col_name = row_hash.keys.grep(/first.?name|pr(é|e)nom/i)[0]
-        firstname = row.values_at(firstname_col_name)[0].humanize
-        data['firstname'] = firstname
+        data['groups'] = groups
+        data['school_id'] = school_id
+        update_or_create data
       end
-
-      unless row_hash.keys.grep(/last.?name|^nom/i).nil?
-        lastname_col_name = row_hash.keys.grep(/last.?name|^nom/i)[0]
-        lastname = row.values_at(lastname_col_name)[0].humanize
-        data['lastname'] = lastname
-      end
-
-      unless row_hash.keys.grep(/ann(é|e)|level/i).nil?
-        level_col_name = row_hash.keys.grep(/ann(é|e)|level/i)[0]
-        level = row.values_at(level_col_name)[0]
-        data['level'] = level
-        level_group = Group.find_or_create_by(name: level, school_id: school_id)
-      end
-
-      unless row_hash.keys.grep(/titulaire|tutor/i).nil?
-        classroom_col_name = row_hash.keys.grep(/titulaire|tutor/i)[0]
-        classroom = row.values_at(classroom_col_name)[0].humanize
-        data['classroom'] = classroom
-        classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
-      end
-
-      unless row_hash.keys.grep(/emails/i).nil?
-        emails_col_name = row_hash.keys.grep(/emails/i)[0]
-        emails = row.values_at(emails_col_name)[0].humanize
-        data['emails'] = emails
-      end
-
-      unless row_hash.keys.grep(/code/i).nil?
-        code_col_name = row_hash.keys.grep(/code/i)[0]
-        code = row.values_at(code_col_name)[0] unless code_col_name.nil?
-        data['code'] = code unless code.nil?
-      end
-      data['school_id'] = school_id
-      data['groups'] = [classroom_group.id, level_group.id]
-
-      update_or_create data
     end
   end
 
+  # def self.import(file, school_id)
+  #   CSV.foreach(file.path, headers: true) do |row|
+  #
+  #     row_hash = row.to_hash
+  #     data = {}
+  #
+  #     unless row_hash.keys.grep(/first.?name|pr(é|e)nom/i).nil?
+  #       firstname_col_name = row_hash.keys.grep(/first.?name|pr(é|e)nom/i)[0]
+  #       firstname = row.values_at(firstname_col_name)[0].humanize
+  #       data['firstname'] = firstname
+  #     end
+  #
+  #     unless row_hash.keys.grep(/last.?name|^nom/i).nil?
+  #       lastname_col_name = row_hash.keys.grep(/last.?name|^nom/i)[0]
+  #       lastname = row.values_at(lastname_col_name)[0].humanize
+  #       data['lastname'] = lastname
+  #     end
+  #
+  #     unless row_hash.keys.grep(/ann(é|e)|level/i).nil?
+  #       level_col_name = row_hash.keys.grep(/ann(é|e)|level/i)[0]
+  #       level = row.values_at(level_col_name)[0]
+  #       data['level'] = level
+  #       level_group = Group.find_or_create_by(name: level, school_id: school_id)
+  #     end
+  #
+  #     unless row_hash.keys.grep(/titulaire|tutor/i).nil?
+  #       classroom_col_name = row_hash.keys.grep(/titulaire|tutor/i)[0]
+  #       classroom = row.values_at(classroom_col_name)[0].humanize
+  #       data['classroom'] = classroom
+  #       classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
+  #     end
+  #
+  #     unless row_hash.keys.grep(/emails/i).nil?
+  #       emails_col_name = row_hash.keys.grep(/emails/i)[0]
+  #       emails = row.values_at(emails_col_name)[0].humanize unless
+  #       data['emails'] = emails
+  #     end
+  #
+  #     unless row_hash.keys.grep(/code/i).nil?
+  #       code_col_name = row_hash.keys.grep(/code/i)[0]
+  #       code = row.values_at(code_col_name)[0] unless code_col_name.nil?
+  #       data['code'] = code unless code.nil?
+  #     end
+  #     data['school_id'] = school_id
+  #     data['groups'] = [classroom_group.id, level_group.id]
+  #
+  #     update_or_create data
+  #   end
+  # end
+
   def self.update_or_create(attributes)
     # find existing student based on code or ()
-
     student = nil
-    if (attributes['code'].nil?)
-      student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes['firstname'], attributes['lastname'], attributes['school_id']] ).first
+    if (attributes[:code].nil?)
+      student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes[:school_id]] ).first
     else
-      student = Student.where(['code = ?', attributes['code']]).first
+      student = Student.where(['code = ?', attributes[:code]]).first
     end
     puts student.inspect
-    if (student.nil?)
+    if student.nil?
         Student.create(attributes)
     else
       student.update_attributes(attributes)

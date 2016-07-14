@@ -11,7 +11,7 @@ fr:
       invitation_removed: "Votre invitation a été supprimée."
       new:
         header: "Envoyer une invitation"
-        submit_button: "Envoyé l'invitation"
+        submit_button: "Envoyer l'invitation"
       edit:
         header: "Choisissez votre mot de passe"
         submit_button: "Enregistrer mon mot de passe"

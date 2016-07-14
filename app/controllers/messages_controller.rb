@@ -94,13 +94,16 @@ class MessagesController < ApplicationController
     @message.published!
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
-
       students = Student.by_groups(groups)
       student_codes = students.map {|s| s.code }
       codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
-      build_ios_notifications(@message, codes)
-      build_android_notifications(@message, codes)
+
+      devicesIOS = Device.active.ios.by_codes(codes)
+      build_ios_notifications(@message, devicesIOS)
+
+      devicesAndroid = Device.active.android.by_codes(codes)
+      build_android_notifications(@message, devicesAndroid)
 
       build_emails(students, @message)
 
@@ -160,6 +163,15 @@ class MessagesController < ApplicationController
   def send_for_approval
     authorize @message
     @message.waiting_for_approval!
+    # send notification to admins
+    author_code = @message.author.code
+    byebug
+
+    devicesIOS = Device.active.ios.by_codes(author_code)
+    build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(author_code)
+    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+
     if @message.save
       redirect_to messages_url, notice: 'Message envoyé pour approbation avec succès'
     else
@@ -170,6 +182,7 @@ class MessagesController < ApplicationController
   def accept
     authorize @message
     @message.approval_accepted!
+    # send notification to author
     if @message.save
       redirect_to messages_url, notice: 'Message accepté'
     else
@@ -180,6 +193,7 @@ class MessagesController < ApplicationController
   def reject
     authorize @message
     @message.approval_refused!
+    # send notification to author
     if @message.save
       redirect_to messages_url, notice: 'Message refusé'
     else

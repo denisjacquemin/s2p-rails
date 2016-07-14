@@ -1,9 +1,8 @@
 module Notification extend ActiveSupport::Concern
 
 
-    def build_ios_notifications(message, codes)
+    def build_ios_notifications(message, devices)
       begin
-        devicesIOS = Device.active.ios.by_codes(codes)
         puts devicesIOS.inspect
         devicesIOS.each { |device|
           n = Rpush::Apns::Notification.new
@@ -27,9 +26,9 @@ module Notification extend ActiveSupport::Concern
       end
     end
 
-    def build_android_notifications(message, codes)
+    def build_android_notifications(message, devices)
       begin
-        registration_ids = Device.active.android.by_codes(codes).map{|device| device.registration_id}
+        registration_ids = devices.map{|device| device.registration_id}
         unless registration_ids.nil?
           n = Rpush::Gcm::Notification.new
           n.app = Rpush::Gcm::App.find_by_name("android_app")
