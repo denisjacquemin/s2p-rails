@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :messages
 
   scope :active, -> { where(deleted_at: nil) }
+  scope :by_school, ->(id) { where("? = ANY(schools)", id) }
 
   before_create do
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")

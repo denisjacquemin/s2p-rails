@@ -164,12 +164,12 @@ class MessagesController < ApplicationController
     authorize @message
     @message.waiting_for_approval!
     # send notification to admins
-    author_code = @message.author.code
+    codes = @message.school.users.admin.map{|u| u.code}
 
-    devicesIOS = Device.active.ios.by_codes(author_code)
-    build_ios_notifications(@message, devicesIOS.all) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(author_code)
-    build_android_notifications(@message, devicesAndroid.all) unless devicesAndroid.nil?
+    devicesIOS = Device.active.ios.by_codes(codes)
+    build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
     if @message.save
       redirect_to messages_url, notice: 'Message envoyé pour approbation avec succès'

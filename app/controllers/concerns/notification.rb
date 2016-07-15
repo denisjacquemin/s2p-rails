@@ -24,7 +24,7 @@ module Notification extend ActiveSupport::Concern
           end
         }
       rescue => e
-        puts "Exception build_ios_notifications: #{e}"
+        logger.error "Exception build_ios_notifications: #{e}"
       end
     end
 
