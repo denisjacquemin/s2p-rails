@@ -29,8 +29,6 @@ class MfilesController < ApplicationController
     @mfile = Mfile.new(mfile_params)
     if @mfile.save
       render {}
-    else
-      byebug
     end
   end
 

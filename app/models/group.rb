@@ -26,7 +26,6 @@ class Group < ApplicationRecord
     end
 
     def clean_messages
-      byebug
       messages_to_clean = Message.by_group(self.id)
       Message.remove_group(messages_to_clean, self.id)
     end

@@ -165,7 +165,6 @@ class MessagesController < ApplicationController
     @message.waiting_for_approval!
     # send notification to admins
     author_code = @message.author.code
-    byebug
 
     devicesIOS = Device.active.ios.by_codes(author_code)
     build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
