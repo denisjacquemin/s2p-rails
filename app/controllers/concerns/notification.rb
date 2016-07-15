@@ -2,6 +2,8 @@ module Notification extend ActiveSupport::Concern
 
 
     def build_ios_notifications(message, devices)
+      logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
+
       begin
         puts devicesIOS.inspect
         devicesIOS.each { |device|
@@ -27,6 +29,7 @@ module Notification extend ActiveSupport::Concern
     end
 
     def build_android_notifications(message, devices)
+      logger.info "[NOTIFICATION ANDROID] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
       begin
         registration_ids = devices.map{|device| device.registration_id}
         unless registration_ids.nil?
