@@ -5,8 +5,7 @@ module Notification extend ActiveSupport::Concern
       logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
 
       begin
-        puts devicesIOS.inspect
-        devicesIOS.each { |device|
+        devices.each { |device|
           n = Rpush::Apns::Notification.new
           n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
