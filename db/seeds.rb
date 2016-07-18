@@ -11,7 +11,7 @@ puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
 
 app = Rpush::Apns::App.new
 app.name = "ios_app"
-app.certificate = File.read("config/sandbox.pem")
+app.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # https://github.com/rpush/rpush/wiki/Generating-Certificates
 app.environment = "sandbox" # APNs environment.
 app.password = Rails.application.secrets.ios_push_cert_password
 app.connections = 1
