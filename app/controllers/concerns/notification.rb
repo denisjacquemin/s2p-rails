@@ -4,9 +4,6 @@ module Notification extend ActiveSupport::Concern
     def build_ios_notifications(message, devices)
       logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
 
-      devices.each { |device|
-        device.notify_ios(truncate(message.title, :length => 200))
-      }
 
       # begin
       #   devices.each { |device|
