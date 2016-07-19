@@ -98,11 +98,10 @@ class MessagesController < ApplicationController
       student_codes = students.map {|s| s.code }
       codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
-
-      # devicesIOS = Device.active.ios.by_codes(codes)
+      devicesIOS = Device.active.ios.by_codes(codes)
       # build_ios_notifications(@message, devicesIOS)
 
-      @message.notify_ios
+      @message.notify_ios(devicesIOS)
 
       devicesAndroid = Device.active.android.by_codes(codes)
       build_android_notifications(@message, devicesAndroid)

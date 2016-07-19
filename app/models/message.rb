@@ -43,11 +43,9 @@ class Message < ApplicationRecord
     Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
   end
 
-  def notify_ios
+  def notify_ios(devices = [])
     apn = Houston::Client.production
     apn.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
-    codes = self.school.users.admin.map{|u| u.code}
-    devices = Device.active.ios.by_codes(codes)
     devices.each do |device|
       logger.info "Sending Push to #{device.registration_id} with alert=#{truncate(self.title, :length => 200)}"
       notification = Houston::Notification.new(device: device.registration_id)
