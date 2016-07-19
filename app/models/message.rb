@@ -45,7 +45,7 @@ class Message < ApplicationRecord
 
   def notify_ios(devices = [], text)
     apn = Houston::Client.production
-    apn.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
+    apn.certificate = File.read("confi/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
     apn.passphrase = Rails.application.secrets.ios_push_cert_password
     devices.each do |device|
       logger.info "Sending Push to #{device.registration_id} with alert=#{text}"
