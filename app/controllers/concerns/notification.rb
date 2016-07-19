@@ -4,27 +4,31 @@ module Notification extend ActiveSupport::Concern
     def build_ios_notifications(message, devices)
       logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
 
-      begin
-        devices.each { |device|
-          n = Rpush::Apns::Notification.new
-          n.app = Rpush::Apns::App.find_by_name("ios_app")
-          n.device_token = device.registration_id # 64-character hex string
-          n.alert = message.title
-          n.data = {
-            "title": truncate(message.title, :length => 200),
-            "message_id": message.id,
-            "content-available": 1,
-            "badge": 1
-          }
-          begin
-            n.save!
-          rescue ActiveRecord::RecordInvalid
-            logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
-          end
-        }
-      rescue => e
-        logger.error "Exception build_ios_notifications: #{e}"
-      end
+      devices.each { |device|
+        device.notify_ios(truncate(message.title, :length => 200))
+      }
+
+      # begin
+      #   devices.each { |device|
+      #     n = Rpush::Apns::Notification.new
+      #     n.app = Rpush::Apns::App.find_by_name("ios_app")
+      #     n.device_token = device.registration_id # 64-character hex string
+      #     n.alert = message.title
+      #     n.data = {
+      #       "title": truncate(message.title, :length => 200),
+      #       "message_id": message.id,
+      #       "content-available": 1,
+      #       "badge": 1
+      #     }
+      #     begin
+      #       n.save!
+      #     rescue ActiveRecord::RecordInvalid
+      #       logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+      #     end
+      #   }
+      # rescue => e
+      #   logger.error "Exception build_ios_notifications: #{e}"
+      # end
     end
 
     def build_android_notifications(message, devices)
