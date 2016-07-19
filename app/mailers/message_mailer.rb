@@ -18,7 +18,7 @@ class MessageMailer < ApplicationMailer
     # <% #end %>
     # <!--<td><%= image_tag attachments['logo.png'].url %></td>-->
 
-    from = @message.author.fullname + '<' + @message.school.email + '>' || 'info@konectoapp.be'
+    from = @message.author.fullname + '<' + @message.school.email + '>' || 'konecto@konectoapp.com'
 
     mail(from: from, to: to, subject: @message.title,)
   end

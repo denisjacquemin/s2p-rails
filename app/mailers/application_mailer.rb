@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@konectoapp.be'
+  default from: 'konecto@konectoapp.com'
   layout 'mailer'
 end
