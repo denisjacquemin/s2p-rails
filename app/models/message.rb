@@ -43,7 +43,7 @@ class Message < ApplicationRecord
     Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
   end
 
-  def self.notify_ios
+  def notify_ios
     apn = Houston::Client.production
     apn.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
     codes = self.school.users.admin.map{|u| u.code}
