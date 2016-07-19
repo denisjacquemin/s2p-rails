@@ -49,6 +49,7 @@ class Message < ApplicationRecord
     codes = self.school.users.admin.map{|u| u.code}
     devices = Device.active.ios.by_codes(codes)
     devices.each do |device|
+      logger.info "Sending Push to #{device.registration_id} with alert=#{truncate(self.title, :length => 200)}"
       notification = Houston::Notification.new(device: device.registration_id)
       notification.alert = truncate(self.title, :length => 200)
       # take a look at the docs about these params
