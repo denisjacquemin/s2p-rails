@@ -164,10 +164,11 @@ class MessagesController < ApplicationController
     authorize @message
     @message.waiting_for_approval!
     # send notification to admins
-    codes = @message.school.users.admin.map{|u| u.code}
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
+    # codes = @message.school.users.admin.map{|u| u.code}
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
+    @message.notify_ios
     devicesAndroid = Device.active.android.by_codes(codes)
     build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 

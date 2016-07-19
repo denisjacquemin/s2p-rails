@@ -43,4 +43,20 @@ class Message < ApplicationRecord
     Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
   end
 
+  def self.notify_ios
+    apn = Houston::Client.production
+    apn.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
+    codes = self.school.users.admin.map{|u| u.code}
+    devices = Device.active.ios.by_codes(codes)
+    devices.each do |device|
+      notification = Houston::Notification.new(device: device.registration_id)
+      notification.alert = truncate(self.title, :length => 200)
+      # take a look at the docs about these params
+      notification.badge = 57
+      notification.sound = "sosumi.aiff"
+      # notification.custom_data = data unless data.nil?
+      apn.push(notification)
+    end
+  end
+
 end
