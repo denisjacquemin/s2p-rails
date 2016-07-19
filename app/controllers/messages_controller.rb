@@ -101,7 +101,7 @@ class MessagesController < ApplicationController
       devicesIOS = Device.active.ios.by_codes(codes)
       # build_ios_notifications(@message, devicesIOS)
 
-      @message.notify_ios(devicesIOS)
+      @message.notify_ios(devicesIOS, truncate(self.title, :length => 200))
 
       devicesAndroid = Device.active.android.by_codes(codes)
       build_android_notifications(@message, devicesAndroid)
