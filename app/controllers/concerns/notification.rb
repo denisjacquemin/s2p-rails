@@ -36,6 +36,8 @@ module Notification extend ActiveSupport::Concern
           n.registration_ids = registration_ids
           n.data = {
             "message_id": message.id,
+            "title": truncate(message.title, :length => 200),
+            "message": truncate(message.content, :length => 250),
             "content-available": "1"
           }
           n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
