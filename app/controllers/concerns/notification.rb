@@ -34,9 +34,12 @@ module Notification extend ActiveSupport::Concern
           n = Rpush::Gcm::Notification.new
           n.app = Rpush::Gcm::App.find_by_name("android_app")
           n.registration_ids = registration_ids
-          n.data = { "message_id": message.id }
+          n.data = {
+            "message_id": message.id,
+            "content-available": "1"
+          }
           n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
-          n.content_available = true # Optional
+          #n.content_available = true # Optional
           # Optional notification payload. See the reference below for more keys you can use!
           n.notification = { title: truncate(message.title, :length => 200).force_encoding("utf-8"),
                              icon: 'myicon'
