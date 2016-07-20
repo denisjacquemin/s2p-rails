@@ -99,9 +99,9 @@ class MessagesController < ApplicationController
       codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
       devicesIOS = Device.active.ios.by_codes(codes)
-      # build_ios_notifications(@message, devicesIOS)
+      build_ios_notifications(@message, devicesIOS)
 
-      @message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
+      #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
 
       devicesAndroid = Device.active.android.by_codes(codes)
       build_android_notifications(@message, devicesAndroid)

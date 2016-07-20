@@ -3,8 +3,6 @@ module Notification extend ActiveSupport::Concern
 
     def build_ios_notifications(message, devices)
       logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
-
-
       # begin
       #   devices.each { |device|
       #     n = Rpush::Apns::Notification.new
