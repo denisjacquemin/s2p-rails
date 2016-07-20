@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = policy_scope(Student).where(school_id: current_school.id)
+    @students = Student.where(school_id: current_school.id)
     authorize @students
   end
 

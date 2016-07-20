@@ -1,6 +1,11 @@
 class StudentPolicy < ApplicationPolicy
 
   def index?
+    @record.each do |student|
+      if (! @user.schools.include?(student.school_id) )
+        return false
+      end
+    end
     true
   end
 
