@@ -33,7 +33,7 @@ module Notification extend ActiveSupport::Concern
         unless registration_ids.nil?
           n = Rpush::Gcm::Notification.new
           n.app = Rpush::Gcm::App.find_by_name("android_app")
-          n.registration_ids =
+          n.registration_ids = registration_ids
           n.data = { "message_id": message.id }
           n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
           n.content_available = true # Optional
