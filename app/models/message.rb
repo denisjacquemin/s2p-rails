@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :school, required: false
-  has_many :mfiles
+  has_many :mfiles, dependent: :destroy
   belongs_to :author, class_name: "User"
 
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
