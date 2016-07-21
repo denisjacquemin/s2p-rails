@@ -132,6 +132,7 @@ class Student < ApplicationRecord
 
   def self.update_or_create(attributes)
     # find existing student based on code or ()
+    logger.info "update_or_create for #{attributes.inspect}"
     student = nil
     if (attributes[:code].nil?)
       student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes[:school_id]] ).first
