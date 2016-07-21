@@ -135,7 +135,7 @@ class Student < ApplicationRecord
     logger.info "update_or_create for #{attributes.inspect}"
     student = nil
     if (attributes[:code].nil?)
-      student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes[:school_id]] ).first
+      student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes['school_id']] ).first
     else
       student = Student.where(['code = ?', attributes[:code]]).first
     end
