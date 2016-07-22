@@ -1,7 +1,9 @@
 <h1>Elèves
-  <div class="pull-right">
-    <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
-  </div>
+  <% if policy(:student).new? %>
+    <div class="pull-right">
+      <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
+    </div>
+  <% end %>
 </h1>
 <hr />
 <div class="row" id="students">
