@@ -33,7 +33,11 @@
           </tbody>
         </table>
       <% else %>
-        <p>Aucun groupe à afficher, <%= link_to 'créer un groupe maintenant', new_group_path %></p>
+        <p>Aucun groupe
+          <% if policy(:group).new? %>
+          , <%= link_to 'créer un groupe maintenant', new_group_path %>
+          <% end %>
+        </p>
       <% end %>
     </div>
 </div>
