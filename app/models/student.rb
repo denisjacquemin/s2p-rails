@@ -44,25 +44,40 @@ class Student < ApplicationRecord
   end
 
   def self.to_csv_file
-    attributes = %w{Prénom Nom Emails Année Titulaire Code}
+    attributes = ['Prénom', 'Nom', 'Emails', 'Envoi des messages via email', 'Année', 'Titulaire', 'Code']
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
       all.each do |student|
-        csv << [student.firstname, student.lastname, student.emails, student.level, student.classroom, student.code]
+        sent = if student.sent_message_by_email then 'oui' else 'non' end
+        csv << [student.firstname, student.lastname, student.emails, sent, student.level, student.classroom, student.code]
       end
     end
   end
 
+  class SentMessageByEmailConverter
+    def self.convert(value)
+      if value.downcase === "oui" then true else false end
+    end
+  end
+
   def self.import(file, school_id)
-    options = {:chunk_size => 100, :key_mapping => {
-      :prénom => :firstname,
-      :nom => :lastname,
-      :emails => :emails,
-      :année => :level,
-      :titulaire => :classroom,
-      :code => :code
-      }}
+    options = {
+      :chunk_size => 100,
+      :key_mapping => {
+        :prénom => :firstname,
+        :nom => :lastname,
+        :emails => :emails,
+        :envoi_des_messages_via_email => :sent_message_by_email,
+        :année => :level,
+        :titulaire => :classroom,
+        :code => :code
+      },
+      :value_converters => {
+        :sent_message_by_email => SentMessageByEmailConverter
+      }
+    }
+
     SmarterCSV.process(file.tempfile.path, options) do |r|
       r.each do |data|
         groups = []
