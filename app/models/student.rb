@@ -2,6 +2,10 @@ require 'csv'
 class Student < ApplicationRecord
   include Code
 
+  before_create :set_code, :set_groups
+  before_update :update_level_group, if: :level_changed?
+  before_update :update_classroom_group, if: :classroom_changed?
+
   belongs_to :school, required: false
 
   default_scope { order('lastname ASC, firstname ASC') }
@@ -39,9 +43,6 @@ class Student < ApplicationRecord
     end
   end
 
-  before_create do
-    compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
-  end
 
   def self.to_csv_file
     attributes = ['Prénom', 'Nom', 'Emails', 'Envoi des messages via email', 'Année', 'Titulaire', 'Code']
@@ -81,14 +82,7 @@ class Student < ApplicationRecord
     SmarterCSV.process(file.tempfile.path, options) do |r|
       r.each do |data|
         groups = []
-        unless data[:level].nil?
-          groups.push(Group.find_or_create_by(name: data[:level], school_id: school_id).id)
-        end
-        unless data[:classroom].nil?
-          groups.push(Group.find_or_create_by(name: data[:classroom], school_id: school_id).id)
-        end
 
-        data['groups'] = groups
         data['school_id'] = school_id
         update_or_create data
       end
@@ -145,22 +139,70 @@ class Student < ApplicationRecord
   #   end
   # end
 
-  def self.update_or_create(attributes)
-    # find existing student based on code or ()
-    logger.info "update_or_create for #{attributes.inspect}"
-    student = nil
-    if (attributes[:code].nil?)
-      student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes['school_id']] ).first
-    else
-      student = Student.where(['code = ?', attributes[:code]]).first
-    end
-    puts student.inspect
-    if student.nil?
-        Student.create(attributes)
-    else
-      student.update_attributes(attributes)
-    end
-  end
+  private
 
+    def self.update_or_create(attributes)
+      # find existing student based on code or ()
+      logger.info "update_or_create for #{attributes.inspect}"
+      student = nil
+      if (attributes[:code].nil?)
+        student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes['school_id']] ).first
+      else
+        student = Student.where(['code = ?', attributes[:code]]).first
+      end
+
+      if student.nil?
+        Student.create(attributes)
+      else
+        student.update_attributes(attributes) # updater les groupes!!
+      end
+    end
+
+    def set_code
+      compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
+    end
+
+    def update_level_group
+      unless self.level_was.nil?
+        group_was = find_group(self.level_was, self.school_id)
+        self.groups.delete(group_was.id) unless group_was.nil? # remove level_was from self.groups
+      end
+      unless self.level
+        group = find_or_create_group(self.level, self.school_id) # find_or_create level's group
+        self.groups.push group.id # add found_or_created group to .self_groups
+      end
+    end
+
+    def update_classroom_group
+      unless self.classroom_was.nil?
+        group_was = find_group(self.classroom_was, self.school_id)
+        self.groups.delete(group_was.id) unless group_was.nil?
+      end
+      unless self.classroom.nil?
+        group = find_or_create_group(self.classroom, self.school_id)
+        self.groups.push group.id
+      end
+    end
+
+    def set_groups
+      # if group is already in self.groups don't add it
+      # if remove old level and classroom from self.groups add new ones
+      unless self.level.nil?
+        group = find_or_create_group(self.level, self.school_id)
+        self.groups.push group.id
+      end
+      unless self.classroom.nil?
+        group = find_or_create_group(self.classroom, self.school_id)
+        self.groups.push group.id
+      end
+    end
+
+    def find_group(name, school_id)
+      Group.find_by(name: name, school_id: school_id)
+    end
+
+    def find_or_create_group(name, school_id)
+      Group.find_or_create_by(name: name, school_id: school_id)
+    end
 
 end
