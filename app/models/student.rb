@@ -2,9 +2,8 @@ require 'csv'
 class Student < ApplicationRecord
   include Code
 
-  before_create :set_code, :set_groups
-  before_update :update_level_group, if: :level_changed?
-  before_update :update_classroom_group, if: :classroom_changed?
+  after_create :set_code, :set_groups
+  before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
 
   belongs_to :school, required: false
 
@@ -21,12 +20,14 @@ class Student < ApplicationRecord
   scope :by_groups, ->(ids) { where("groups && ARRAY[?]::integer[]", ids) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :by_code, ->(code) { where(code: code) }
+  scope :without_group, ->(id) { where.not("? = ANY(groups)", id) }
 
   # http://stackoverflow.com/questions/24236871/in-rails-how-to-add-an-element-to-an-array-type-attribute-for-all-records
   # http://www.postgresql.org/docs/current/static/arrays.html
   # http://www.postgresql.org/docs/current/static/functions-array.html
   def self.add_group(student_ids, group_id)
-    Student.by_ids(student_ids).update_all(['groups = array_append(groups, ?)', group_id])
+    Student.by_ids(student_ids).without_group(group_id).update_all(['groups = array_append(groups, ?)', group_id])
+    #uniq(sort('{1,2,3,2,1}'::int[]))
   end
 
   def self.add_groups(student_ids, group_ids)
@@ -162,38 +163,51 @@ class Student < ApplicationRecord
       compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
     end
 
-    def update_level_group
-      unless self.level_was.nil?
-        group_was = find_group(self.level_was, self.school_id)
-        self.groups.delete(group_was.id) unless group_was.nil? # remove level_was from self.groups
+    def get_old_group(old_name)
+      old_group_id = nil
+      if old_name.present?
+        old_group = find_group(old_name, self.school_id)
+        old_group_id = old_group.id unless old_group.nil?
       end
-      unless self.level
-        group = find_or_create_group(self.level, self.school_id) # find_or_create level's group
-        self.groups.push group.id # add found_or_created group to .self_groups
-      end
+      old_group_id
     end
 
-    def update_classroom_group
-      unless self.classroom_was.nil?
-        group_was = find_group(self.classroom_was, self.school_id)
-        self.groups.delete(group_was.id) unless group_was.nil?
+    def get_new_group(new_name)
+      new_group_id = nil
+      if new_name.present?
+        new_group = find_or_create_group(new_name, self.school_id)
+        new_group_id = new_group.id unless new_group.nil?
       end
-      unless self.classroom.nil?
-        group = find_or_create_group(self.classroom, self.school_id)
-        self.groups.push group.id
-      end
+      new_group_id
+    end
+
+    def update_level_and_classroom_groups
+      # check if level has changed, if yes get the old and the new group_id
+      # check if classroom has changed, if yes get the old and the new group_id
+      old_level_group_id = get_old_group(self.level_was)
+      old_classroom_group_id = get_old_group(self.classroom_was)
+
+      new_level_group_id = get_new_group(self.level)
+      new_classroom_group_id = get_new_group(self.classroom)
+
+      # update student's groups by removing old groups
+      # update student's groups by adding new groups
+      array_of_groups = [old_level_group_id, old_classroom_group_id].flatten.uniq.compact
+      Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
+      array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
+      Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
     end
 
     def set_groups
       # if group is already in self.groups don't add it
       # if remove old level and classroom from self.groups add new ones
-      unless self.level.nil?
+      if self.level.present?
         group = find_or_create_group(self.level, self.school_id)
-        self.groups.push group.id
+        Student.add_group(self.id, group.id)
       end
-      unless self.classroom.nil?
+      if self.classroom.present?
         group = find_or_create_group(self.classroom, self.school_id)
-        self.groups.push group.id
+        Student.add_group(self.id, group.id)
       end
     end
 
