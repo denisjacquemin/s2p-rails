@@ -34,6 +34,7 @@ module Notification extend ActiveSupport::Concern
           n = Rpush::Gcm::Notification.new
           n.app = Rpush::Gcm::App.find_by_name("android_app")
           n.registration_ids = registration_ids
+          n.delay_while_idle = true
           n.data = {
             "message_id": message.id,
             "notId": message.id,
@@ -50,7 +51,7 @@ module Notification extend ActiveSupport::Concern
           #                   icon: 'myicon'
           #                 }
           n.save!
-          logger.info "payload: #{n.payload}" 
+          logger.info "payload: #{n.payload}"
         end
       rescue => e
         puts "Exception build_android_notifications: #{e}"
