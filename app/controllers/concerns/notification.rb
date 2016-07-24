@@ -50,6 +50,7 @@ module Notification extend ActiveSupport::Concern
           #                   icon: 'myicon'
           #                 }
           n.save!
+          logger.info "payload: #{n.payload}" 
         end
       rescue => e
         puts "Exception build_android_notifications: #{e}"
