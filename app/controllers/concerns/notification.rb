@@ -36,16 +36,19 @@ module Notification extend ActiveSupport::Concern
           n.registration_ids = registration_ids
           n.data = {
             "message_id": message.id,
+            "notId": message.id,
+            "priority": 2,
             "title": truncate(message.title, :length => 200),
             "message": truncate(message.content, :length => 250),
-            "content-available": "1"
+            "content-available": "1",
+            "visibility": 1 # public
           }
-          n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
+          #n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
           #n.content_available = true # Optional
           # Optional notification payload. See the reference below for more keys you can use!
-          n.notification = { title: truncate(message.title, :length => 200).force_encoding("utf-8"),
-                             icon: 'myicon'
-                           }
+          #n.notification = { title: truncate(message.title, :length => 200).force_encoding("utf-8"),
+          #                   icon: 'myicon'
+          #                 }
           n.save!
         end
       rescue => e
