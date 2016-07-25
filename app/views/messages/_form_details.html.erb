@@ -41,6 +41,15 @@
     </script>
   </div>
 
+  <div class="form-group">
+   <%= f.label :send_by_email, 'Envoyer par email' %>
+   <%= f.check_box :send_by_email %>
+  </div>
+  <div class="form-group">
+   <%= f.label :send_to_app, 'Envoyer via Smartphone/Tablette' %>
+   <%= f.check_box :send_to_app %>
+  </div>
+
   <% if current_user.superadmin? %>
     <div class="form-group">
       <%= f.label :school %>
