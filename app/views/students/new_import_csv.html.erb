@@ -1,13 +1,39 @@
 <h1>Import CSV</h1>
 <hr />
 <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-7">
       <%= form_tag({action: :csv_upload}, multipart: true) do %>
-        <%= file_field_tag 'csv' %>
-        <%= submit_tag 'Envoyer' %>
+        <div class="form-group">
+          <%= file_field_tag 'csv' %>
+        </div>
+        <%= submit_tag 'Envoyer', class: 'btn btn-primary' %>
       <% end %>
     </div>
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-      help
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-5">
+      <h3>Importer une liste d'élèves</h3>
+      <p>L'importation via fichier .csv permet de créer ou mettre à jour rapidement une liste d'élèves.</p>
+      <h3>Fichier d'exemple</h3>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= link_to 'eleves.csv', '/eleves.csv' %>
+        </div>
+      </div>
+      <h3>Colonnes</h3>
+      <dl>
+        <dt>Prénom</dt>
+        <dd>Prénom de l'élève.</dd>
+        <dt>Nom</dt>
+        <dd>Nom de l'élève.</dd>
+        <dt>Emails</dt>
+        <dd>0, 1 ou plusieurs emails, séparé par un espace.</dd>
+        <dt>Envoi des messages via email</dt>
+        <dd><em>Oui</em> ou <em>Non</em>.</dd>
+        <dt>Année</dd>
+        <dd>Identifie l'année dans laquelle se trouve l'élève, un groupe de difffusion correspondant sera créé automatiquement.</dt>
+        <dt>Titulaire</dd>
+        <dd>Titulaire de l'élève, un groupe de difffusion correspondant sera créé automatiquement.</dt>
+        <dt>Code</dd>
+        <dd>Colonne inutile pour la création d'un nouvel élève, utile pour la mise à jour d'un élève, cette colonne est générée par un <em>Export CSV</em>.</dt>
+      </dl>
     </div>
 </div>

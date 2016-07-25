@@ -25,6 +25,9 @@ fr:
       destroy:
         notice:
           success: Elève(s) effacé
+      cvs_upload:
+        notice:
+          success: Import CSV terminé avec succès
   activerecord:
     errors:
       messages:

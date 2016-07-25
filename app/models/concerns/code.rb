@@ -1,16 +1,20 @@
 module Code extend ActiveSupport::Concern
 
     def compute_code(prefix, key)
+      @key = key
       custom_hash_alphabet = 'abcdefghijkmnopqrstuvwxyz23456789' # https://www.grc.com/ppp.htm
-
-      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 7, custom_hash_alphabet)
-      hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
-      while !Student.by_code(hash).empty? do
-        key = key + "a" # add nothing to the key to generate a different code
-        hash = hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+      hash = compute_hash(@key, custom_hash_alphabet)
+      while !Student.by_code(prefix + hash).empty? do
+        @key = @key + "a" # add nothing to the key to generate a different code
+        hash = compute_hash(@key, custom_hash_alphabet)
       end
       self.code = prefix + hash
     end
 
+    private
+    def compute_hash(key, hash_alphabet)
+      hashids = Hashids.new(Rails.application.secrets.salt_hashids, 7, hash_alphabet)
+      hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
+    end
 
 end

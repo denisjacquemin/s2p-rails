@@ -22,7 +22,7 @@
     <%= form_for(mfile, html: { class: "directUpload", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
       <% if mfile.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(mfile.errors.count, "error") %> prohibited this mfile from being saved:</h2>
+          <h2><%= pluralize(mfile.errors.count, "erreur") %> empêche l'enregistrement de ce message:</h2>
 
           <ul>
           <% mfile.errors.full_messages.each do |message| %>

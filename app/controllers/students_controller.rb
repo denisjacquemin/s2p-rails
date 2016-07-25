@@ -36,7 +36,7 @@ class StudentsController < ApplicationController
     end
 
     if @student.save
-      redirect_to students_path, notice: t('controller.student.create.notice.success')
+      redirect_to students_path, notice: t('controller.students.create.notice.success')
     else
       render :new
     end
@@ -94,8 +94,76 @@ class StudentsController < ApplicationController
   def new_import_csv
   end
 
+  class SentMessageByEmailConverter
+    def self.convert(value)
+      if value.downcase === "oui" then true else false end
+    end
+  end
+
   def csv_upload
-    Student.import(params[:csv], current_school.id)
+    success_counter = 0
+    failed_counter = 0
+
+
+    options = {
+      :unwanted_row => nil,
+      :force_simple_split => true,
+      :strip_chars_from_headers => /[\-"]/,
+      :chunk_size => 100,
+      :key_mapping => {
+        :prénom => :firstname,
+        :nom => :lastname,
+        :emails => :emails,
+        :envoi_des_messages_via_email => :sent_message_by_email,
+        :année => :level,
+        :titulaire => :classroom,
+        :code => :code
+      },
+      :remove_unmapped_keys => true,
+      :value_converters => {
+        :sent_message_by_email => SentMessageByEmailConverter
+      }
+    }
+
+    SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+      r.each do |data|
+        groups = []
+
+        data['school_id'] = current_school.id
+
+        student = nil
+        if (data[:code].nil?)
+          student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
+        else
+          student = Student.where(['code = ?', data[:code]]).first
+        end
+
+        if student.nil?
+          @student = Student.new data
+          if policy(@student).create?
+            if @student.save
+              logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
+            else
+              logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+            end
+          end
+        else
+          if policy(student).update?
+            if student.update_attributes(data)
+              logger.info "student #{student.firstname} #{student.lastname} updated"
+            else
+              logger.info "student update fail for #{student.firstname} #{student.lastname}"
+            end
+          else
+            logger.info "student update fail for, invalid authorization"
+          end
+        end
+
+      end
+    end
+
+
+    redirect_to students_path, notice: t('controller.students.cvs_upload.notice.success')
   end
 
   def export_csv

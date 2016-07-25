@@ -2,14 +2,16 @@ require 'csv'
 class Student < ApplicationRecord
   include Code
 
-  after_create :set_code, :set_groups
+  before_create :set_code, if: "code.blank?"
+  before_update :set_code, if: "code.blank?"
+  after_create  :set_groups
   before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
 
   belongs_to :school, required: false
 
   default_scope { order('lastname ASC, firstname ASC') }
 
-  validates :code, uniqueness: true
+  validates :code, uniqueness: true, if: "code_changed?"
 
   def groups_obj
     Group.by_ids(self.groups)
@@ -57,107 +59,36 @@ class Student < ApplicationRecord
     end
   end
 
-  class SentMessageByEmailConverter
-    def self.convert(value)
-      if value.downcase === "oui" then true else false end
-    end
-  end
-
-  def self.import(file, school_id)
-    options = {
-      :chunk_size => 100,
-      :key_mapping => {
-        :prénom => :firstname,
-        :nom => :lastname,
-        :emails => :emails,
-        :envoi_des_messages_via_email => :sent_message_by_email,
-        :année => :level,
-        :titulaire => :classroom,
-        :code => :code
-      },
-      :value_converters => {
-        :sent_message_by_email => SentMessageByEmailConverter
-      }
-    }
-
-    SmarterCSV.process(file.tempfile.path, options) do |r|
-      r.each do |data|
-        groups = []
-
-        data['school_id'] = school_id
-        update_or_create data
-      end
-    end
-  end
-
-  # def self.import(file, school_id)
-  #   CSV.foreach(file.path, headers: true) do |row|
+  # def self.update_or_create(attributes)
+  #   logger.info "update_or_create for #{attributes.inspect}"
+  #   student = nil
+  #   if (attributes[:code].nil?)
+  #     student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes['school_id']] ).first
+  #   else
+  #     student = Student.where(['code = ?', attributes[:code]]).first
+  #   end
   #
-  #     row_hash = row.to_hash
-  #     data = {}
-  #
-  #     unless row_hash.keys.grep(/first.?name|pr(é|e)nom/i).nil?
-  #       firstname_col_name = row_hash.keys.grep(/first.?name|pr(é|e)nom/i)[0]
-  #       firstname = row.values_at(firstname_col_name)[0].humanize
-  #       data['firstname'] = firstname
+  #   if student.nil?
+  #     @student = Student.new attributes
+  #     if @student.save
+  #       logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
+  #     else
+  #       logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
   #     end
-  #
-  #     unless row_hash.keys.grep(/last.?name|^nom/i).nil?
-  #       lastname_col_name = row_hash.keys.grep(/last.?name|^nom/i)[0]
-  #       lastname = row.values_at(lastname_col_name)[0].humanize
-  #       data['lastname'] = lastname
+  #   else
+  #     if policy(@student).update?
+  #       if student.update_attributes(attributes)
+  #         logger.info "student #{student.firstname} #{student.lastname} updated"
+  #       else
+  #         logger.info "student update fail for #{student.firstname} #{student.lastname}"
+  #       end
+  #     else
+  #       logger.info "student update fail for, invalid authorization"
   #     end
-  #
-  #     unless row_hash.keys.grep(/ann(é|e)|level/i).nil?
-  #       level_col_name = row_hash.keys.grep(/ann(é|e)|level/i)[0]
-  #       level = row.values_at(level_col_name)[0]
-  #       data['level'] = level
-  #       level_group = Group.find_or_create_by(name: level, school_id: school_id)
-  #     end
-  #
-  #     unless row_hash.keys.grep(/titulaire|tutor/i).nil?
-  #       classroom_col_name = row_hash.keys.grep(/titulaire|tutor/i)[0]
-  #       classroom = row.values_at(classroom_col_name)[0].humanize
-  #       data['classroom'] = classroom
-  #       classroom_group = Group.find_or_create_by(name: classroom, school_id: school_id)
-  #     end
-  #
-  #     unless row_hash.keys.grep(/emails/i).nil?
-  #       emails_col_name = row_hash.keys.grep(/emails/i)[0]
-  #       emails = row.values_at(emails_col_name)[0].humanize unless
-  #       data['emails'] = emails
-  #     end
-  #
-  #     unless row_hash.keys.grep(/code/i).nil?
-  #       code_col_name = row_hash.keys.grep(/code/i)[0]
-  #       code = row.values_at(code_col_name)[0] unless code_col_name.nil?
-  #       data['code'] = code unless code.nil?
-  #     end
-  #     data['school_id'] = school_id
-  #     data['groups'] = [classroom_group.id, level_group.id]
-  #
-  #     update_or_create data
   #   end
   # end
 
   private
-
-    def self.update_or_create(attributes)
-      # find existing student based on code or ()
-      logger.info "update_or_create for #{attributes.inspect}"
-      student = nil
-      if (attributes[:code].nil?)
-        student = Student.where(['firstname = ? and lastname = ? and school_id = ?', attributes[:firstname], attributes[:lastname], attributes['school_id']] ).first
-      else
-        student = Student.where(['code = ?', attributes[:code]]).first
-      end
-
-      if student.nil?
-        Student.create(attributes)
-      else
-        student.update_attributes(attributes) # updater les groupes!!
-      end
-    end
 
     def set_code
       compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
