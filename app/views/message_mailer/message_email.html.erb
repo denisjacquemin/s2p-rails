@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>ZURBemails</title>
+<title>Konectoapp</title>
 
 <style type="text/css" media="screen">
 /* -------------------------------------
@@ -250,13 +250,13 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 			<table>
 				<tr>
 					<td>
-
-						<h3><%= @message.title %></h3>
-
-
-
-						<%= @message.content.html_safe %>
-
+						<% if @message.message? %>
+							<h3><%= @message.title %></h3>
+							<%= @message.content.html_safe %>
+						<% elsif @message.rappel? %>
+							<h4><%= @message.title %></h4>
+						  <p><%= @message.when.html_safe %></p>
+						<% end %>
 						<br/>
 						<br/>
 						<table>
