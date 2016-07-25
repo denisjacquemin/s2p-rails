@@ -140,6 +140,7 @@ class StudentsController < ApplicationController
 
         if student.nil?
           @student = Student.new data
+          logger.info "student to create #{@student.inspect}"
           if policy(@student).create?
             if @student.save
               logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
