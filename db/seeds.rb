@@ -19,6 +19,6 @@ app.save!
 
 appA = Rpush::Gcm::App.new
 appA.name = "android_app"
-appA.auth_key = "AIzaSyBQJhjsDel6AIoryzdbDx-AuUZd6qWXyfQ"
+appA.auth_key = Rails.application.secrets.gcm_auth_key
 appA.connections = 1
 appA.save!
