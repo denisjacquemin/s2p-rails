@@ -41,7 +41,7 @@ class StudentPolicy < ApplicationPolicy
 
 
   def create?
-    return false if @user.schools.include?(@record.school_id)
+    return false if not @user.schools.include?(@record.school_id)
     # only admin and superadmin can create a student
     @user.admin? || @user.superadmin?
   end
