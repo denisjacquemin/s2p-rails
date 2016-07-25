@@ -40,7 +40,7 @@ module Notification extend ActiveSupport::Concern
             "notId": message.id,
             "priority": 2,
             "title": truncate(message.title, :length => 200),
-            "message": truncate(message.content, :length => 250),
+            #"message": truncate(message.content, :length => 250),
             "content-available": "1",
             "visibility": 1 # public
           }
