@@ -28,10 +28,10 @@
               <td><%= user.invitation_status %></td>
               <% if user.active? && user.invitation_status === "En attente" %>
                 <td><%= link_to "Renvoyer l'invitation", resend_invite_path(user), class: 'btn btn-default btn-xs' %>
-                <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
               <% else %>
                 <td colspan="2"><% unless user.active? %>Inactif<% end %></td>
               <% end %>
+              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
             </tr>
           <% end %>
         </tbody>
