@@ -5,7 +5,7 @@ class GroupPolicy < ApplicationPolicy
     return false if @user.user?
 
     # admin can only destroy groups from their school
-    return false if @user.admin? and not @user.schools.include?(@group.school_id)
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     # superadmin and admin can destroy a group
     @user.admin? || @user.superadmin?
@@ -18,10 +18,10 @@ class GroupPolicy < ApplicationPolicy
 
   def edit?
     # if user is admin then can edit only group with the same school
-    return false if @user.admin? and not @user.schools.include?(@group.school_id)
+    return false if @user.admin? and not @user.schools.include?(@record.school_id)
 
     # only admin and superadmin can edit a group
-    @user.admin? || @user.superadmin?
+    (@user.admin? and @record.updatable) || @user.superadmin?
   end
 
   class Scope

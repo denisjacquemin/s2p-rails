@@ -17,6 +17,9 @@ class User < ApplicationRecord
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
   end
 
+  after_update :set_all_writers, if: "schools_changed?"
+
+
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
   after_initialize :set_default_role, :if => :new_record?
@@ -61,6 +64,10 @@ class User < ApplicationRecord
 
   def schools_obj
     School.by_ids(self.schools)
+  end
+
+  def set_all_writers
+    user.groups = Group.all_writers_by_schools(self.schools).pluck(:id)
   end
 
 end

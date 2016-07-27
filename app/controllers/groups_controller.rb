@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+    authorize @group
     #@students = Student.by_group_id(@group.id)
   end
 

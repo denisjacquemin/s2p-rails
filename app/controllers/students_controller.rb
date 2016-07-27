@@ -30,11 +30,10 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(student_params)
-    authorize @student
     if current_user.admin?
       @student.school_id = current_school.id
     end
-
+    authorize @student
     if @student.save
       redirect_to students_path, notice: t('controller.students.create.notice.success')
     else

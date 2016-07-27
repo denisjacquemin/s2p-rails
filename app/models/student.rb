@@ -140,6 +140,9 @@ class Student < ApplicationRecord
         group = find_or_create_group(self.classroom, self.school_id)
         Student.add_group(self.id, group.id)
       end
+
+      all_students = Group.find_by(internal_id: 'all_students', school_id: self.school_id)
+      Student.add_group(self.id, all_students.id) unless all_students.nil?
     end
 
     def find_group(name, school_id)

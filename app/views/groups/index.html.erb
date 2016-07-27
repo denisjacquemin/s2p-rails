@@ -23,8 +23,12 @@
           <tbody>
             <% @groups.each do |group| %>
               <tr>
-                <td><%= link_to group.name , edit_group_path(group) %></td>
-                <td><%= link_to group.code , edit_group_path(group) %></td>
+                <% if group.updatable or current_user.superadmin? %>
+                  <td><%= link_to group.name , edit_group_path(group) %></td>
+                <% else %>
+                  <td><%= group.name %></td>
+                <% end %>
+                <td><%= group.code %></td>
                 <% if current_user.superadmin? %>
                   <td><% if group.school.present? %><%= group.school.name %><% end %></td>
                 <% end %>
