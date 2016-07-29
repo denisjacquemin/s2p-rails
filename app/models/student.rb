@@ -17,6 +17,10 @@ class Student < ApplicationRecord
     Group.by_ids(self.groups)
   end
 
+  def fullname
+    "#{self.lastname} #{self.firstname}" 
+  end
+
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_groups, ->(ids) { where("groups && ARRAY[?]::integer[]", ids) }

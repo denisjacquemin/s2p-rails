@@ -14,6 +14,10 @@ class Group < ApplicationRecord
     Student.by_group(self.id)
   end
 
+  def writers
+    User.by_group(self.id)
+  end
+
   before_destroy :clean_students, :clean_messages
 
   before_create do

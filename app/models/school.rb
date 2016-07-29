@@ -20,6 +20,5 @@ class School < ApplicationRecord
   after_create do
     Group.create({name: I18n.t('model.group.all_students'), internal_id: 'all_students', school_id: self.id, updatable: false})
     Group.create({name: I18n.t('model.group.all_writers'), internal_id: 'all_writers', school_id: self.id, updatable: false})
-    Group.create({name: I18n.t('model.group.all_emails'), internal_id: 'all_emails', school_id: self.id, updatable: false})
   end
 end

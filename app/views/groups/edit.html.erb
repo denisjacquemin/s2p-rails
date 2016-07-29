@@ -2,7 +2,11 @@
 <hr />
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render 'form', group: @group %>
+    <% if @group.updatable %>
+      <%= render 'form', group: @group %>
+    <% elsif %>
+      <%= render 'form_readonly', group: @group %>
+    <% end %>
   </div>
 </div>
 <div class="row" id="group_manage_students">

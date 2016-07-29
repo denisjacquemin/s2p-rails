@@ -1,9 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Nom:</strong>
   <%= @group.name %>
 </p>
-
-<%= link_to t('views.global.edit'), edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+<p>
+  <strong>Liste des membres:</strong>
+  <ul>
+    <% @group.students.each do |s| %>
+      <li><%= s.fullname %></li>
+    <% end %>
+    <% @group.writers.each do |s| %>
+      <li><%= s.fullname %></li>
+    <% end %>
+  </ul>
+</p>

@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
+  scope :by_group, ->(id) { where("? = ANY(groups)", id) }
 
   before_create do
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
@@ -62,12 +63,22 @@ class User < ApplicationRecord
     end
   end
 
+  def self.add_group(user_id, group_id)
+    User.find(id: user_id).without_group(group_id).update_all(['groups = array_append(groups, ?)', group_id])
+    #uniq(sort('{1,2,3,2,1}'::int[]))
+  end
+
   def schools_obj
     School.by_ids(self.schools)
   end
 
   def set_all_writers
     user.groups = Group.all_writers_by_schools(self.schools).pluck(:id)
+  end
+
+  def set_groups
+    all_writers = Group.find_by(internal_id: 'all_writers', school_id: self.school_id)
+    Student.add_group(self.id, all_writers.id) unless all_writers.nil?
   end
 
 end
