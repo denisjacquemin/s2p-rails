@@ -85,7 +85,7 @@ fr:
         student_list: 'Liste des élèves'
         writers_list: 'Liste des rédacteurs'
         not_editable_group_title: 'Groupe non éditable'
-        not_editable_group_help: 'Ce groupe ne peut être modifié car il est géré automatiquement.'
+        not_editable_group_help: 'Ce groupe ne peut pas être modifié car il est géré automatiquement.'
     students:
       edit:
         submit: "Enregistrer l'étudiant"
