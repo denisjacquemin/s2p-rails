@@ -18,7 +18,7 @@ class Student < ApplicationRecord
   end
 
   def fullname
-    "#{self.lastname} #{self.firstname}" 
+    "#{self.lastname} #{self.firstname}"
   end
 
   scope :by_ids, ->(ids) { where(id: ids) }
@@ -31,6 +31,7 @@ class Student < ApplicationRecord
   # http://stackoverflow.com/questions/24236871/in-rails-how-to-add-an-element-to-an-array-type-attribute-for-all-records
   # http://www.postgresql.org/docs/current/static/arrays.html
   # http://www.postgresql.org/docs/current/static/functions-array.html
+  #http://blog.arkency.com/2014/10/how-to-start-using-arrays-in-rails-with-postgresql/
   def self.add_group(student_ids, group_id)
     Student.by_ids(student_ids).without_group(group_id).update_all(['groups = array_append(groups, ?)', group_id])
     #uniq(sort('{1,2,3,2,1}'::int[]))

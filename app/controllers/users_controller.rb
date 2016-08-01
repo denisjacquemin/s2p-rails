@@ -45,10 +45,18 @@ class UsersController < ApplicationController
 
     # check if submited groups are not yet in db
     submitted_schools_to_add = submitted_schools_ids.select { |s| !actual_schools_ids.include?(s.to_i) }
+    @user.schools = @user.schools + @user.schools + submitted_schools_to_add.map(&:to_i) if submitted_schools_to_add.any?
+    #User.add_schools(@user.id, ) if submitted_schools_to_add.any?
+    @user.schools = @user.schools - actual_schools_to_delete.map(&:to_i) if actual_schools_to_delete.any?
+    #User.remove_schools(@user.id, actual_schools_to_delete) if actual_schools_to_delete.any?
 
-    User.add_schools(@user.id, submitted_schools_to_add.map(&:to_i)) if submitted_schools_to_add.any?
-    User.remove_schools(@user.id, actual_schools_to_delete) if actual_schools_to_delete.any?
-    redirect_to edit_user_path(@user), notice: 'Le message a été mis à jour.'
+    @user.set_all_writers
+
+    
+    @user.save
+
+
+    redirect_to edit_user_path(@user), notice: t('controller.user.update.success.notice')
   end
 
   private

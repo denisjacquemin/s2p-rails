@@ -31,7 +31,10 @@
               <% else %>
                 <td colspan="2"><% unless user.active? %>Inactif<% end %></td>
               <% end %>
-              <td><%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
+              <td>
+                <% if policy(user).destroy? %>
+                  <%= link_to t('views.global.destroy'), user, method: :delete, data: { confirm: t('views.global.areyousure') },  class: 'btn btn-default btn-xs' %></td>
+                <% end %>
             </tr>
           <% end %>
         </tbody>

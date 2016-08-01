@@ -5,14 +5,18 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    # only superadmin can destroy an admin
-    return false if @record.admin? and ! @user.superadmin?
 
+    
     # cannot destroy superadmin
     return false if @record.superadmin?
 
     # only admin and superadmin can destroy a user
-    @user.admin? || @user.superadmin?
+    return false if @user.admin? and not (@user.schools & @record.schools).any?
+
+    # only superadmin can destroy an admin
+    return false if @record.admin? and ! @user.superadmin?
+
+    @user.admin? or @user.superadmin?
   end
 
   def edit?

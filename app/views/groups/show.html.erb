@@ -10,7 +10,7 @@
     <% @group.students.each do |s| %>
       <li><%= s.fullname %></li>
     <% end %>
-    <% @group.writers.each do |s| %>
+    <% @group.writers.active_and_invitation_accepted.each do |s| %>
       <li><%= s.fullname %></li>
     <% end %>
   </ul>

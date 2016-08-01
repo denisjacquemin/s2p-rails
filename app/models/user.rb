@@ -10,6 +10,7 @@ class User < ApplicationRecord
   belongs_to :school, required: false
   has_many :messages
 
+  scope :active_and_invitation_accepted, -> { where(deleted_at: nil).where.not(invitation_accepted_at: nil) }
   scope :active, -> { where(deleted_at: nil) }
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
@@ -17,9 +18,6 @@ class User < ApplicationRecord
   before_create do
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
   end
-
-  after_update :set_all_writers, if: "schools_changed?"
-
 
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
@@ -73,12 +71,13 @@ class User < ApplicationRecord
   end
 
   def set_all_writers
-    user.groups = Group.all_writers_by_schools(self.schools).pluck(:id)
+    groups = Group.all_writers_by_schools(self.schools).pluck(:id)
+    self.groups = groups
   end
 
   def set_groups
     all_writers = Group.find_by(internal_id: 'all_writers', school_id: self.school_id)
-    Student.add_group(self.id, all_writers.id) unless all_writers.nil?
+    User.add_group(self.id, all_writers.id) unless all_writers.nil?
   end
 
 end

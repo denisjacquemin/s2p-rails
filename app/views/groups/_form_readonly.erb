@@ -8,6 +8,3 @@
   <% unless @group.new_record? %>
     <%= link_to t('views.global.destroy'), @group, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
   <% end %>
-
-
-<% end %>
