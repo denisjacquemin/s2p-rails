@@ -124,8 +124,6 @@ class StudentsController < ApplicationController
       encoding = 'ISO-8859-1'
     end
 
-    byebug
-
     # content = File.read(params[:csv].tempfile.path)
     # detection = CharlockHolmes::EncodingDetector.detect(content)
     delimiters = [',',";"]
