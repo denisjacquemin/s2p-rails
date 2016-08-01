@@ -11,6 +11,9 @@ class Message < ApplicationRecord
   after_initialize :set_default_status, :if => :new_record?
   after_initialize :set_default_mtype, :if => :new_record?
 
+  validates :mtype, presence: true
+  validates :title, presence: true
+
   def set_default_status
    self.status ||= :draft
   end

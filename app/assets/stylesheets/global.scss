@@ -27,3 +27,13 @@ body {
   background-color: #3fb618;
   color: #ffffff;
 }
+
+.field_with_errors .form-control,
+.field_with_errors .form-control:focus,
+.field_with_errors .input-group-addon {
+  border: 1px solid #FF0039;
+}
+
+.field_with_errors label {
+  color: #FF0039;
+}

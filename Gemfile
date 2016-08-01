@@ -27,6 +27,7 @@ gem 'roadie-rails', '~> 1.0'
 gem 'aws-sdk', '~> 2'
 
 gem 'smarter_csv'
+#gem 'charlock_holmes_bundle_icu', '~> 0.6.9.2'
 
 gem 'houston'
 

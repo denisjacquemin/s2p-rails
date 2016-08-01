@@ -1,3 +1,4 @@
+# require 'charlock_holmes/string'
 class StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]
@@ -99,14 +100,28 @@ class StudentsController < ApplicationController
     end
   end
 
+
+
+  def sniff(path, delimiters, encoding)
+    first_line = File.open(path, "r:#{encoding}").first
+    return nil unless first_line
+    snif = {}
+    delimiters.each {|delim|snif[delim]=first_line.count(delim)}
+    snif = snif.sort {|a,b| b[1]<=>a[1]}
+    snif.size > 0 ? snif[0][0] : nil
+  end
+
   def csv_upload
     success_counter = 0
     failed_counter = 0
-
-
+    # content = File.read(params[:csv].tempfile.path)
+    # detection = CharlockHolmes::EncodingDetector.detect(content)
+    delimiters = [',',";"]
+    col_sep = sniff(params[:csv].tempfile.path, delimiters, 'ISO-8859-1')
     options = {
       :unwanted_row => nil,
       :force_simple_split => true,
+      :col_sep => col_sep,
       :strip_chars_from_headers => /[\-"]/,
       :chunk_size => 100,
       :key_mapping => {
@@ -121,11 +136,15 @@ class StudentsController < ApplicationController
       :remove_unmapped_keys => true,
       :value_converters => {
         :sent_message_by_email => SentMessageByEmailConverter
-      }
+      },
+      :file_encoding => 'ISO-8859-1' #detection[:encoding]
     }
-
+    # content = File.read(params[:csv].tempfile.path)
+    # detection = CharlockHolmes::EncodingDetector.detect(content)
+    # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
     SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
       r.each do |data|
+
         groups = []
 
         data['school_id'] = current_school.id

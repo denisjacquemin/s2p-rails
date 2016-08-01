@@ -1,17 +1,43 @@
-<p id="notice"><%= notice %></p>
+<h1><%= t('views.groups.show.member_list') %></h1>
+<hr />
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <% students = @group.students %>
+    <% if students.any? %>
+      <h3><%= t('views.groups.show.student_list') %></h3>
+      <table class="table table-striped">
+        <tr>
+          <th><%= t('activerecord.attributes.student.lastname') %></th>
+          <th><%= t('activerecord.attributes.student.firstname') %></th>
+        </tr>
+        <% students.each do |s| %>
+          <tr>
+            <td><%= s.lastname %></td>
+            <td><%= s.firstname %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
 
-<p>
-  <strong>Nom:</strong>
-  <%= @group.name %>
-</p>
-<p>
-  <strong>Liste des membres:</strong>
-  <ul>
-    <% @group.students.each do |s| %>
-      <li><%= s.fullname %></li>
+    <% writers = @group.writers.active_and_invitation_accepted %>
+    <% if writers.any? %>
+      <h3><%= t('views.groups.show.writers_list') %></h3>
+      <table class="table table-striped">
+        <tr>
+          <th><%= t('activerecord.attributes.student.lastname') %></th>
+          <th><%= t('activerecord.attributes.student.firstname') %></th>
+        </tr>
+        <% writers.each do |w| %>
+          <tr>
+            <td><%= w.lastname %></td>
+            <td><%= w.firstname %></td>
+          </tr>
+        <% end %>
+      </table>
     <% end %>
-    <% @group.writers.active_and_invitation_accepted.each do |s| %>
-      <li><%= s.fullname %></li>
-    <% end %>
-  </ul>
-</p>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <h3><%= t('views.groups.show.not_editable_group_title') %></h3>
+    <p><%= t('views.groups.show.not_editable_group_help') %></p>
+  </div>
+</div>

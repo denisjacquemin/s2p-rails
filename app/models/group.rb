@@ -1,6 +1,8 @@
 class Group < ApplicationRecord
   include Code
 
+  validates :name, presence: true
+
   belongs_to :school, required: false
 
   scope :by_ids, ->(ids) { where(id: ids) }

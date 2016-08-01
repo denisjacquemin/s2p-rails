@@ -47,7 +47,6 @@ class StudentPolicy < ApplicationPolicy
   end
 
   def edit?
-    byebug
     # only admin and superadmin can edit a user
     return  unless @user.admin? || @user.superadmin?
 

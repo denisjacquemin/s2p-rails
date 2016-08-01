@@ -38,7 +38,18 @@ fr:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'
     attributes:
+      message:
+        mtype: Type
+        title: Titre
+        content: Contenu
+        when: Quand
+        send_by_email: 'Envoyer par email'
+        send_to_app: 'Envoyer via Smartphone/Tablette'
       user:
+        firstname: 'Prénom'
+        lastname: 'Nom'
+        role: 'Rôle'
+        fonction: 'Fonction'
         password: 'Mot de passe'
         password_confirmation: 'Confirmation de mot de passe'
         current_password: 'Mot de passe courant'
@@ -53,6 +64,7 @@ fr:
         classroom: Titulaire
         code: Code
         school: Ecole
+        sent_message_by_email: 'Envoi des messages via email'
   views:
     global:
       areyousure: 'Êtes-vous sûr'
@@ -68,6 +80,12 @@ fr:
       new:
         title: 'Nouveau groupe de diffusion'
         submit: 'Créer le groupe'
+      show:
+        member_list: 'Liste des membres'
+        student_list: 'Liste des élèves'
+        writers_list: 'Liste des rédacteurs'
+        not_editable_group_title: 'Groupe non éditable'
+        not_editable_group_help: 'Ce groupe ne peut être modifié car il est géré automatiquement.'
     students:
       edit:
         submit: "Enregistrer l'étudiant"

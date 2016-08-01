@@ -11,6 +11,8 @@ class Student < ApplicationRecord
 
   default_scope { order('lastname ASC, firstname ASC') }
 
+  validates :firstname, presence: true
+  validates :lastname, presence: true
   validates :code, uniqueness: true, if: "code_changed?"
 
   def groups_obj

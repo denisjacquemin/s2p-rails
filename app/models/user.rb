@@ -10,6 +10,9 @@ class User < ApplicationRecord
   belongs_to :school, required: false
   has_many :messages
 
+  validates :firstname, presence: true
+  validates :lastname, presence: true
+
   scope :active_and_invitation_accepted, -> { where(deleted_at: nil).where.not(invitation_accepted_at: nil) }
   scope :active, -> { where(deleted_at: nil) }
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }

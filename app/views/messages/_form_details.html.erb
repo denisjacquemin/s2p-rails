@@ -1,34 +1,24 @@
 <%= form_for(message) do |f| %>
-  <% if message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(message.errors.count, "erreur") %> empêche l'enregistrement de ce message:</h2>
-
-      <ul>
-      <% message.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/errors', object: message %>
 
 <% if message.new_record? %>
   <div class="form-group">
-    <%= f.label :mtype, 'Type' %>
+    <%= f.label :mtype %>
     <%= f.select(:mtype, {message: 'message', rappel: 'rappel'}, {}, {id: 'mtype', class: "form-control"})  %>
   </div>
 <% end %>
   <div class="form-group">
-    <%= f.label :title, 'Titre' %>
+    <%= f.label :title %>
     <%= f.text_field :title, class: 'form-control' %>
   </div>
 
   <div class="form-group alert_mtype" style=<%= "#{'display:none' if message.mtype == 'message'}" %>>
-    <%= f.label :when, 'Quand' %>
+    <%= f.label :when %>
     <%= f.text_field :when, class: 'form-control' %>
   </div>
 
   <div class="form-group message_mtype" style=<%= "#{'display:none' if message.mtype == 'rappel'}" %>>
-    <%= f.label :content, 'Contenu' %>
+    <%= f.label :content %>
     <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
     <script>
       $(function() {
@@ -42,11 +32,11 @@
   </div>
 
   <div class="form-group">
-   <%= f.label :send_by_email, 'Envoyer par email' %>
+   <%= f.label :send_by_email%>
    <%= f.check_box :send_by_email %>
   </div>
   <div class="form-group">
-   <%= f.label :send_to_app, 'Envoyer via Smartphone/Tablette' %>
+   <%= f.label :send_to_app %>
    <%= f.check_box :send_to_app %>
   </div>
 

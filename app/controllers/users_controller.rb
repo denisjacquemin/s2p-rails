@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
     @user.set_all_writers
 
-    
+
     @user.save
 
 

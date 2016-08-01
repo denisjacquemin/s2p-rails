@@ -1,15 +1,6 @@
 <%= form_for(group) do |f| %>
-  <% if group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(group.errors.count, "erreur") %> empêche l'enregistrement de ce groupe:</h2>
+  <%= render 'layouts/errors', object: group %>
 
-      <ul>
-      <% group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="form-group">
     <%= f.label :name %>

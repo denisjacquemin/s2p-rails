@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
-        <% devise_error_messages! %>
+        <%= render 'layouts/errors', object: resource %>
         <div class="form-group">
           <%= f.label :lastname, 'Nom' %>
           <%= f.text_field :lastname, class: "form-control" %>
