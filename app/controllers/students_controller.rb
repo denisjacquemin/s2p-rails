@@ -114,10 +114,22 @@ class StudentsController < ApplicationController
   def csv_upload
     success_counter = 0
     failed_counter = 0
+
+
+    # test encoding
+    encoding = 'utf-8'
+    begin
+      lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)
+    rescue ArgumentError
+      encoding = 'ISO-8859-1'
+    end
+
+    byebug
+
     # content = File.read(params[:csv].tempfile.path)
     # detection = CharlockHolmes::EncodingDetector.detect(content)
     delimiters = [',',";"]
-    col_sep = sniff(params[:csv].tempfile.path, delimiters, 'ISO-8859-1')
+    col_sep = sniff(params[:csv].tempfile.path, delimiters, encoding)
     options = {
       :unwanted_row => nil,
       :force_simple_split => true,
@@ -137,11 +149,12 @@ class StudentsController < ApplicationController
       :value_converters => {
         :sent_message_by_email => SentMessageByEmailConverter
       },
-      :file_encoding => 'ISO-8859-1' #detection[:encoding]
+      :file_encoding => encoding #detection[:encoding]
     }
     # content = File.read(params[:csv].tempfile.path)
     # detection = CharlockHolmes::EncodingDetector.detect(content)
     # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
+
     SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
       r.each do |data|
 
@@ -180,8 +193,6 @@ class StudentsController < ApplicationController
 
       end
     end
-
-
     redirect_to students_path, notice: t('controller.students.cvs_upload.notice.success')
   end
 
