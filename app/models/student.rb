@@ -157,7 +157,7 @@ class Student < ApplicationRecord
     end
 
     def find_or_create_group(name, school_id)
-      Group.find_or_create_by(name: name, school_id: school_id)
+      Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
     end
 
 end
