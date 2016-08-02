@@ -78,7 +78,6 @@ class User < ApplicationRecord
   def set_and_save_all_writers
     set_all_writers
     self.save
-    byebug
   end
 
   def set_all_writers
