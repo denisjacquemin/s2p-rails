@@ -22,6 +22,8 @@ class User < ApplicationRecord
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
   end
 
+  after_invitation_accepted :set_and_save_all_writers
+
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
   after_initialize :set_default_role, :if => :new_record?
@@ -71,6 +73,12 @@ class User < ApplicationRecord
 
   def schools_obj
     School.by_ids(self.schools)
+  end
+
+  def set_and_save_all_writers
+    set_all_writers
+    self.save
+    byebug
   end
 
   def set_all_writers
