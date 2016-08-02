@@ -57,6 +57,13 @@ fr:
       send_instructions: "Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants"
       send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller."
       unlocked: "Votre compte a été déverrouillé avec succès, vous êtes maintenant connecté."
+  passwords:
+    edit:
+      change_my_password: Changer mon mot de passe
+      change_your_password: Changer votre mot de passe
+      confirm_new_password: Confirmez votre nouveau mot de passe
+      new_password: Nouveau mot de passe
+      minimum: charactères minimum
   errors:
     messages:
       already_confirmed: "a déjà été validé(e), veuillez essayer de vous connecter"
