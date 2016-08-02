@@ -7,7 +7,7 @@
         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
           <%= f.hidden_field :reset_password_token %>
 
-          <div class="form-group"
+          <div class="form-group">
             <%= f.label :password, I18n.t('devise.passwords.edit.new_password') %><br />
             <% if @minimum_password_length %>
               <em>(<%= @minimum_password_length %> <%= I18n.t('devise.passwords.edit.minimum') %>)</em><br />
