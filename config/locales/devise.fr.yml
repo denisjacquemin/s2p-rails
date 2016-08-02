@@ -21,6 +21,11 @@ fr:
         subject: "Instructions de confirmation"
       reset_password_instructions:
         subject: "Instructions pour changer le mot de passe"
+        action: Changer mon mot de passe
+        greeting: Bonjour %{recipient}!
+        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
+        instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer ce courriel.
+        instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
       password_change:
