@@ -84,6 +84,7 @@ fr:
         member_list: 'Liste des membres'
         student_list: 'Liste des élèves'
         writers_list: 'Liste des rédacteurs'
+        no_members: 'Ce groupe ne contient aucun membre!'
         not_editable_group_title: 'Groupe non éditable'
         not_editable_group_help: 'Ce groupe ne peut pas être modifié car il est géré automatiquement.'
     students:

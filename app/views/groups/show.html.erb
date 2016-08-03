@@ -35,6 +35,9 @@
         <% end %>
       </table>
     <% end %>
+    <% if students.empty? and writers.empty? %>
+        <%= t('views.groups.show.no_members') %>
+    <% end %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
     <h3><%= t('views.groups.show.not_editable_group_title') %></h3>
