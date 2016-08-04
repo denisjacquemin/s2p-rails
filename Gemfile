@@ -24,6 +24,8 @@ gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
 
 gem 'roadie-rails', '~> 1.0'
 
+gem 'delayed_job_active_record'
+
 gem 'aws-sdk', '~> 2'
 
 gem 'smarter_csv'
