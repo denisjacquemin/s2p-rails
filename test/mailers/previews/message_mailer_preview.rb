@@ -2,7 +2,7 @@
 class MessageMailerPreview < ActionMailer::Preview
 
   def message_email
-    # /rails/mailers/message_mailer/message_email.
+    # /rails/mailers/message_mailer/message_email
     MessageMailer.message_email('me@example.com', Message.find(32))
   end
 end
