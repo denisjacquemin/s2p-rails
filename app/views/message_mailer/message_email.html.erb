@@ -99,6 +99,8 @@ table.head-wrap { width: 100%;}
 ------------------------------------- */
 table.body-wrap { width: 100%;}
 
+.keepratio { display: block; max-width:230px; max-height:95px; width: auto;height: auto; margin: 15px;}
+
 
 /* -------------------------------------
 		FOOTER
@@ -265,7 +267,7 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 			            <td>
 										<% @message.mfiles.each do |image| %>
 											<a href="<%= 'https:' + image.file_url %>" target="_blank">
-												<img width="140" height="140" src="<%= 'https:' + image.file_url %>" alt="<%= image.filename %>">
+												<img class="keepratio" src="<%= 'https:' + image.file_url %>" alt="<%= image.filename %>">
 											</a>
 										<% end %>
 									</td>
