@@ -237,7 +237,7 @@ class MessagesController < ApplicationController
 
       #students.map {|s| s.emails.split(' ')}
 
-      emails.each {|e| MessageMailer.message_email(e, message).deliver_later}
+      emails.each {|e| MessageMailer.message_email(e, message).deliver}
 
     end
 end

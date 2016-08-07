@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  get '/faq', to: 'faq#show'
+
   resources :mfiles
   resources :messages
   patch '/messages/update_groups/:id', to: 'messages#update_groups'

@@ -1,0 +1,28 @@
+<h1>Questions fréquemment posées</h1>
+<hr />
+<div class="row" id="students">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+      <h3>Equipe éducative</h3>
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Comment permettre à un enseignant de créer des messages?
+              </a>
+            </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <p>
+                La première étape consiste à l'inviter via le menu <em>Utilisateurs</em>.</br>
+                L'invitation contient un lien permettant d'accepter l'invitation en définissant le mot de passe.</br>
+                Une fois l'invitation acceptée, l'enseignant pourra créer des messages.</br>
+                Le menu <em>Utilisateur</em> est uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(',') %>).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
