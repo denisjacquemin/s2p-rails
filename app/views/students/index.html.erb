@@ -13,14 +13,14 @@
           <thead>
             <tr>
               <th><input type="checkbox" id="toggle_all"/></th>
-              <th><%= t('activerecord.attributes.student.lastname') %></th>
-              <th><%= t('activerecord.attributes.student.firstname') %></th>
+              <th class="sort" data-sort="lastname"><%= t('activerecord.attributes.student.lastname') %></th>
+              <th class="sort" data-sort="firstname"><%= t('activerecord.attributes.student.firstname') %></th>
               <% if current_user.superadmin? %>
                 <th><%= t('activerecord.attributes.student.school') %></th>
               <% end %>
-              <th><%= t('activerecord.attributes.student.level') %></th>
-              <th><%= t('activerecord.attributes.student.classroom') %></th>
-              <th><%= t('activerecord.attributes.student.code') %></th>
+              <th class="sort" data-sort="level"><%= t('activerecord.attributes.student.level') %></th>
+              <th class="sort" data-sort="classroom"><%= t('activerecord.attributes.student.classroom') %></th>
+              <th class="sort" data-sort="code"><%= t('activerecord.attributes.student.code') %></th>
               <th></th>
             </tr>
           </thead>
@@ -29,12 +29,12 @@
               <tr>
                 <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
                 <% if policy(student).edit? %>
-                  <td class="lastname"><%= link_to student.lastname, edit_student_path(student) %></td>
+                  <td><%= link_to student.lastname, edit_student_path(student), class: "lastname" %></td>
                 <% else %>
                   <td class="lastname"><%= student.lastname %></td>
                 <% end %>
                 <% if policy(student).edit? %>
-                  <td class="firstname"><%= link_to student.firstname, edit_student_path(student) %></td>
+                  <td><%= link_to student.firstname, edit_student_path(student), class: "firstname" %></td>
                 <% else %>
                   <td class="firstname"><%= student.firstname %></td>
                 <% end %>

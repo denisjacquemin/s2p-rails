@@ -9,7 +9,7 @@ class Student < ApplicationRecord
 
   belongs_to :school, required: false
 
-  default_scope { order('lastname ASC, firstname ASC') }
+  default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
 
   validates :firstname, presence: true
   validates :lastname, presence: true
