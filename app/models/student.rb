@@ -107,7 +107,7 @@ class Student < ApplicationRecord
         old_group = find_group(old_name, self.school_id)
         old_group_id = old_group.id unless old_group.nil?
       end
-      old_group_id
+      old_group
     end
 
     def get_new_group(new_name)
@@ -122,8 +122,10 @@ class Student < ApplicationRecord
     def update_level_and_classroom_groups
       # check if level has changed, if yes get the old and the new group_id
       # check if classroom has changed, if yes get the old and the new group_id
-      old_level_group_id = get_old_group(self.level_was)
-      old_classroom_group_id = get_old_group(self.classroom_was)
+      old_level_group = get_old_group(self.level_was)
+      old_level_group_id = old_level_group.id if old_level_group.present?
+      old_classroom_group = get_old_group(self.classroom_was)
+      old_classroom_group_id = old_classroom_group.id if old_classroom_group.present?
 
       new_level_group_id = get_new_group(self.level)
       new_classroom_group_id = get_new_group(self.classroom)
@@ -134,6 +136,10 @@ class Student < ApplicationRecord
       Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
       array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
       Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
+
+      # for all groups removed, check if the group still contains students
+      old_level_group.delete if old_level_group.students.empty?
+      old_classroom_group.delete if old_classroom_group.students.empty?
     end
 
     def set_groups
