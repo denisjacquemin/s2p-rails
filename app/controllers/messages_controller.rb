@@ -76,16 +76,20 @@ class MessagesController < ApplicationController
     # before update, compares the actual groups for the message against the submitted list
     actual_groups_ids = @message.groups
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
-    submitted_groups_ids = [] if submitted_groups_ids.nil?
+#    submitted_groups_ids = [] if submitted_groups_ids.nil?
 
     # get the ids to be removed (remove_groups)
-    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
+#    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
 
     # check if submited groups are not yet in db
-    submitted_groups_to_add = submitted_groups_ids.select { |g| !actual_groups_ids.include?(g.to_i) }
+#    submitted_groups_to_add = submitted_groups_ids.select { |g| !actual_groups_ids.include?(g.to_i) }
 
-    Message.add_groups(@message.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
-    Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
+#    Message.add_groups(@message.id, submitted_groups_to_add.map(&:to_i)) if submitted_groups_to_add.any?
+#    Message.remove_groups(@message.id, actual_groups_to_delete) if actual_groups_to_delete.any?
+
+    @message.groups = submitted_groups_ids
+    @message.save
+
     redirect_to edit_message_path(@message, t: 'groups'), notice: 'Le message a été mis à jour.'
   end
 
