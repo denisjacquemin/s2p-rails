@@ -35,7 +35,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to groups_path, notice: 'Le groupe a été créé avec succès.' }
+        format.html { redirect_to edit_group_path(@group), notice: 'Le groupe a été créé avec succès.' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }

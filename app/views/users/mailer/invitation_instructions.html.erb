@@ -1,6 +1,8 @@
-<p><%= t("devise.mailer.invitation_instructions.hello", firstname: @resource.firstname) %></p>
+<p><%= t("devise.mailer.invitation_instructions.hello", firstname: @resource.firstname) %>,</p>
 
-<p><%= t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url) %></p>
+<% sender = User.find @resource.invited_by_id %>
+
+<p><%= t("devise.mailer.invitation_instructions.someone_invited_you", { url: root_url, sender:sender.fullname}) %></p>
 
 <p><%= link_to t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token) %></p>
 

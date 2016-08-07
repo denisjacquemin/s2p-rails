@@ -10,6 +10,10 @@ class School < ApplicationRecord
     User.by_school(self.id)
   end
 
+  def admins
+    self.users.active_and_invitation_accepted.admin
+  end
+
   before_destroy do
     users = User.by_school(self.id)
     users.each do |u|

@@ -17,6 +17,7 @@ class User < ApplicationRecord
   scope :active, -> { where(deleted_at: nil) }
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
+  scope :admin, -> { where(role: :admin)}
 
   before_create do
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
