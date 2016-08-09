@@ -37,7 +37,7 @@
                 <% end %>
                 <td><%= message.author_fullname %></td>
                 <td><%= render 'status', message: message %></td>
-                <td>
+                <td class="text-right">
                   <%= render 'change_status_dropdown', message: message, size: 'btn-xs' %>
               </tr>
             <% end %>

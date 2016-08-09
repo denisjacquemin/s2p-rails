@@ -37,3 +37,12 @@ body {
 .field_with_errors label {
   color: #FF0039;
 }
+
+.dropdown-menu > li > a.icon {
+  padding: 3px 20px 3px 10px;
+
+}
+
+.dropdown-menu > li > a.icon > .glyphicon {
+  margin-right: 12px
+}

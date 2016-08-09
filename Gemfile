@@ -17,7 +17,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-gem "wysiwyg-rails"
+gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
 gem 'mail'
 gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
