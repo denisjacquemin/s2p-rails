@@ -1,0 +1,27 @@
+<div class="btn-group">
+  <button class="btn <%= size %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Actions <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+      <% if policy(message).publish? and message.draft? %>
+        <li><%= link_to 'Publier', publish_message_path(message), :method=> :patch %></li>
+      <% end %>
+      <% if policy(message).unpublish? and message.published? %>
+        <li><%= link_to 'Dépublier', unpublish_message_path(message), :method=> :patch %></li>
+      <% end %>
+      <% if message.school.validation_workflow_active %>
+        <% if policy(message).send_for_approval? and (message.draft? or message.approval_refused?) %>
+          <li><%= link_to "Demander l'approbation", send_for_approval_message_path(message), :method=> :patch %></li>
+        <% end %>
+        <% if policy(message).accept? and message.waiting_for_approval? %>
+          <li><%= link_to 'Accepter', accept_message_path(message), :method=> :patch %></li>
+        <% end %>
+        <% if policy(message).reject? and message.waiting_for_approval? %>
+          <li><%= link_to 'Rejeter', reject_message_path(message), :method=> :patch %></li>
+        <% end %>
+      <% end %>
+      <% if policy(message).destroy? %>
+        <li><%= link_to 'Supprimer', message, method: :delete, data: { confirm: t('views.global.areyousure') } %></li>
+      <% end %>
+  </ul>
+</div>

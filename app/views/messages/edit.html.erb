@@ -1,7 +1,4 @@
-<h1>Edition message</h1>
+<%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + 'Retour a la liste des messages', messages_path %>
+<h1>Edition message <small><%= render 'status', message: @message %></small></h1>
 <hr />
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render 'form', {message: @message, mfile: @mfile} %>
-  </div>
-</div>
+<%= render 'form', {message: @message, mfile: @mfile} %>

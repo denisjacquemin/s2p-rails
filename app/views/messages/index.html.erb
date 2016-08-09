@@ -38,14 +38,7 @@
                 <td><%= message.author_fullname %></td>
                 <td><%= render 'status', message: message %></td>
                 <td>
-                  <div class="btn-group">
-                    <button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Actions <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><%= render 'change_status_link', message: message %></li>
-                    </ul>
-                  </div>
+                  <%= render 'change_status_dropdown', message: message, size: 'btn-xs' %>
               </tr>
             <% end %>
           </tbody>

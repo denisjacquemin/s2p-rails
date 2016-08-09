@@ -18,6 +18,8 @@ class User < ApplicationRecord
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :admin, -> { where(role: :admin)}
+  scope :superdamin, -> { where(role: :superadmin)}
+  scope :no_superadmin, -> { where.not(role: :superadmin)}
 
   before_create do
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")

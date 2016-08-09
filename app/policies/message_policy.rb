@@ -36,18 +36,21 @@ class MessagePolicy < ApplicationPolicy
     # only author can publish a message
     return true if @record.author === @user
 
+    return true if @user.superadmin?
+
     return false
   end
 
   def unpublish?
-    # superadmin can unpublish
-    return true if @user.superadmin?
 
     # admin can unpublish
     return true if @user.admin? and @user.schools.include?(@record.school_id)
 
     # user can unpublish own message
     return true if @user.user? and @record.author === @user
+
+    # superadmin can unpublish
+    return true if @user.superadmin?
 
     return false
   end

@@ -1,6 +1,25 @@
 <%= form_for(student) do |f| %>
   <%= render 'layouts/errors', object: student %>
 
+  <%
+    submit_label = t('views.students.new.submit')
+    submit_label = t('views.students.edit.submit') unless @student.new_record?
+  %>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+      <div class="pull-right">
+        <%= f.submit submit_label, class: 'btn btn-primary' %>
+        <% if policy(student).destroy? and not student.new_record? %>
+          <%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
+        <% end %>
+        <% if student.new_record? %>
+          <%= link_to 'Annuler', students_path, class: 'btn btn-default' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="form-group">
@@ -57,20 +76,18 @@
   <% end %>
 
   <% if current_user.superadmin? %>
-    <div class="form-group">
-      <%= f.label :school %>
-      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+          <%= f.label :school %>
+          <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
+        </div>
+      </div>
     </div>
   <% end %>
-
-  <%
-    submit_label = t('views.students.new.submit')
-    submit_label = t('views.students.edit.submit') unless @student.new_record?
-  %>
-
-
-  <%= f.submit submit_label, class: 'btn btn-primary' %>
-  <% if policy(student).destroy? %>
-    <td><%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %></td>
-  <% end %>
+  <div class="row" id="student_manage_group">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <%= render "students_'_groups_manager", student: @student %>
+    </div>
+  </div>
 <% end %>

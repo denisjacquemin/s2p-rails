@@ -39,6 +39,9 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     authorize @message
 
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
+
     @message.author = current_user
 
     unless current_user.superadmin?
@@ -50,7 +53,10 @@ class MessagesController < ApplicationController
         format.html { redirect_to edit_message_path(@message), notice: 'Le message à été créé avec succès.' }
         format.json { render :show, status: :created, location: @message }
       else
-        format.html { render :new }
+        format.html {
+          @mfile = Mfile.new
+          render :new
+        }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
@@ -60,12 +66,18 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     authorize @message
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present? 
+
     respond_to do |format|
       if @message.update(message_params)
         format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
         format.json { render :show, status: :ok, location: @message }
       else
-        format.html { render :edit }
+        format.html {
+          @mfile = Mfile.new
+          render :edit
+        }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
@@ -74,7 +86,7 @@ class MessagesController < ApplicationController
   def update_groups
     authorize @message
     # before update, compares the actual groups for the message against the submitted list
-    actual_groups_ids = @message.groups
+#    actual_groups_ids = @message.groups
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
 #    submitted_groups_ids = [] if submitted_groups_ids.nil?
 
@@ -98,58 +110,59 @@ class MessagesController < ApplicationController
     @message.published!
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
-      students = Student.by_groups(groups)
-      student_codes = students.map {|s| s.code }
-      codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+      if groups.present?
+        students = Student.by_groups(groups)
+        student_codes = students.map {|s| s.code }
+        codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
-      devicesIOS = Device.active.ios.by_codes(codes)
-      build_ios_notifications(@message, devicesIOS) if @message.send_to_app
+        devicesIOS = Device.active.ios.by_codes(codes)
+        build_ios_notifications(@message, devicesIOS) if @message.send_to_app
 
-      @message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
+        @message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
 
-      devicesAndroid = Device.active.android.by_codes(codes)
-      build_android_notifications(@message, devicesAndroid) if @message.send_to_app
+        devicesAndroid = Device.active.android.by_codes(codes)
+        build_android_notifications(@message, devicesAndroid) if @message.send_to_app
 
-      build_emails(students, @message) if @message.send_by_email
-
-      # devicesIOS = Device.active.ios.by_codes(student_codes)
-      # devicesIOS.each { |device|
-      #   # check if device.token is present in Rpush::Apns::Feedback
-      #   n = Rpush::Apns::Notification.new
-      #   n.app = Rpush::Apns::App.find_by_name("ios_app")
-      #   n.device_token = device.registration_id # 64-character hex string
-      #   n.alert = @message.title
-      #   n.data = {
-      #     "title": truncate(@message.title, :length => 200),
-      #     "message_id": @message.id,
-      #     "content-available": 1,
-      #     "badge": 1
-      #   }
-      #   begin
-      #     n.save!
-      #   rescue ActiveRecord::RecordInvalid
-      #     logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
-      #   end
-      # }
-      # devicesAndroid = Device.active.android.by_codes(student_codes)
-      # devicesAndroid.each { |device|
-        # registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
-        # unless registration_ids.nil?
-        #   n = Rpush::Gcm::Notification.new
-        #   n.app = Rpush::Gcm::App.find_by_name("android_app")
-        #   n.registration_ids =
-        #   n.data = { "message_id": @message.id }
-        #   n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
-        #   n.content_available = true # Optional
-        #   # Optional notification payload. See the reference below for more keys you can use!
-        #   n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
-        #                      icon: 'myicon'
-        #                    }
-        #   n.save!
-        # end
-      # }
-
-      redirect_to messages_url, notice: 'Message publié avec succès'
+        build_emails(students, @message) if @message.send_by_email
+      end
+        # devicesIOS = Device.active.ios.by_codes(student_codes)
+        # devicesIOS.each { |device|
+        #   # check if device.token is present in Rpush::Apns::Feedback
+        #   n = Rpush::Apns::Notification.new
+        #   n.app = Rpush::Apns::App.find_by_name("ios_app")
+        #   n.device_token = device.registration_id # 64-character hex string
+        #   n.alert = @message.title
+        #   n.data = {
+        #     "title": truncate(@message.title, :length => 200),
+        #     "message_id": @message.id,
+        #     "content-available": 1,
+        #     "badge": 1
+        #   }
+        #   begin
+        #     n.save!
+        #   rescue ActiveRecord::RecordInvalid
+        #     logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+        #   end
+        # }
+        # devicesAndroid = Device.active.android.by_codes(student_codes)
+        # devicesAndroid.each { |device|
+          # registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
+          # unless registration_ids.nil?
+          #   n = Rpush::Gcm::Notification.new
+          #   n.app = Rpush::Gcm::App.find_by_name("android_app")
+          #   n.registration_ids =
+          #   n.data = { "message_id": @message.id }
+          #   n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
+          #   n.content_available = true # Optional
+          #   # Optional notification payload. See the reference below for more keys you can use!
+          #   n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
+          #                      icon: 'myicon'
+          #                    }
+          #   n.save!
+          # end
+        # }
+      redirect_back fallback_location: messages_url, notice: 'Message publié avec succès'
+      #redirect_to messages_url, notice: 'Message publié avec succès'
     else
       render :edit
     end
@@ -159,7 +172,7 @@ class MessagesController < ApplicationController
     authorize @message
     @message.draft!
     if @message.update(publish_date: nil)
-      redirect_to messages_url, notice: 'Message dépublié avec succès'
+      redirect_back fallback_location: messages_url, notice: 'Message dépublié avec succès'
     else
       render :edit
     end
@@ -177,7 +190,7 @@ class MessagesController < ApplicationController
     build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
     if @message.save
-      redirect_to messages_url, notice: 'Message envoyé pour approbation avec succès'
+      redirect_back fallback_location: messages_url, notice: 'Message envoyé pour approbation avec succès'
     else
       render :edit
     end
@@ -188,7 +201,8 @@ class MessagesController < ApplicationController
     @message.approval_accepted!
     # send notification to author
     if @message.save
-      redirect_to messages_url, notice: 'Message accepté'
+
+      redirect_back fallback_location: messages_url, notice: 'Message accepté'
     else
       render :edit
     end
@@ -199,7 +213,7 @@ class MessagesController < ApplicationController
     @message.approval_refused!
     # send notification to author
     if @message.save
-      redirect_to messages_url, notice: 'Message refusé'
+      redirect_back fallback_location: messages_url, notice: 'Message refusé'
     else
       render :edit
     end
@@ -211,7 +225,7 @@ class MessagesController < ApplicationController
     authorize @message
     @message.destroy
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message a été effacé.' }
+      format.html { redirect_to messages_url, notice: 'Le message a été effacé.' }
       format.json { head :no_content }
     end
   end

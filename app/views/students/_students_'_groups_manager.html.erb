@@ -1,5 +1,4 @@
 <div class="row groups">
-  <%= form_for(student, url: {action: "update_groups"}) do |s_form| %>
     <div class="col-xs-5">
       <div class="panel panel-default">
         <div class="panel-heading">Liste des groupes</div>
@@ -10,7 +9,7 @@
                 <th>Nom du groupe</th>
               </thead>
               <tbody>
-                <% Group.by_school(@student.school_id).each do |group| %>
+                <% Group.by_school(current_school).each do |group| %>
                   <tr>
                     <td><input type="checkbox" value="<%= group.id %>"/></td>
                     <td><label><%= group.name %></label></td>
@@ -30,7 +29,6 @@
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
         Enlever
       </button>
-      <%= s_form.submit 'Enregister', class: 'btn btn-primary' %>
     </div>
     <div class="col-xs-5">
       <div class="panel panel-default">
@@ -41,7 +39,11 @@
                 <tr>
                   <%= fields_for g do |g_form| %>
                     <%= g_form.hidden_field :id, multiple: true%>
-                    <td><input type="checkbox" id="group[<%= g.id %>]"/></td>
+                    <td>
+                      <% if ! g.managed_automaticaly_for_student?(student) %>
+                        <input type="checkbox" id="group[<%= g.id %>]"/>
+                      <% end %>
+                    </td>
                     <td><%= g_form.label :id, g.name %></td>
                   <% end %>
                 </tr>
@@ -50,5 +52,4 @@
         </div>
       </div>
     </div>
-  <% end %>
 </div>

@@ -89,9 +89,9 @@ fr:
         not_editable_group_help: 'Ce groupe ne peut pas être modifié car il est géré automatiquement.'
     students:
       edit:
-        submit: "Enregistrer l'étudiant"
+        submit: "Enregistrer l'élève"
       new:
-        submit: "Créer l'étudiant"
+        submit: "Créer l'élève"
     messages:
       listofstudents: Liste des groupes
       edit:

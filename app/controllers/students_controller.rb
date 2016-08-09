@@ -35,8 +35,11 @@ class StudentsController < ApplicationController
       @student.school_id = current_school.id
     end
     authorize @student
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
+
     if @student.save
-      redirect_to students_path, notice: t('controller.students.create.notice.success')
+      redirect_to edit_student_path(@student), notice: t('controller.students.create.notice.success')
     else
       render :new
     end
@@ -46,6 +49,9 @@ class StudentsController < ApplicationController
   # PATCH/PUT /students/1.json
   def update
     authorize @student
+
+    submitted_groups_ids = params[:group][:id] unless params[:group].nil?
+    @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
     respond_to do |format|
       if @student.update(student_params)
         format.html { redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success') }
@@ -64,7 +70,7 @@ class StudentsController < ApplicationController
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     submitted_groups_ids = [] if submitted_groups_ids.nil?
 
-    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i)
+    actual_groups_to_delete = actual_groups_ids - submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
     # check if submited groups are not yet in db
     submitted_groups_to_add = submitted_groups_ids.select { |g| !actual_groups_ids.include?(g.to_i) }

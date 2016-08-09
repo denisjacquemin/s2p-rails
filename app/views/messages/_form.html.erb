@@ -1,28 +1,50 @@
-<ul class="nav nav-tabs" role="tablist" id="message_tabs">
-  <li role="presentation" class="active">
-    <a href="#details" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
-  </li>
-  <% if @message.mtype == 'message' %>
-  <li role="presentation">
-    <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
-  </li>
-  <% end %>
-  <li role="presentation">
-    <a href="#groups" aria-controls="profile" role="tab" data-toggle="tab">Groupes de diffusions</a>
-  </li>
-  <div class="pull-right"><%= render 'status', message: @message %></small></div>
-</ul>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ul class="nav nav-tabs" role="tablist" id="message_tabs">
+      <li role="presentation" class="active">
+        <a href="#details" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
+      </li>
+      <% if not message.new_record? and @message.mtype == 'message' %>
+      <li role="presentation">
+        <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
+      </li>
+      <% end %>
+      <% unless message.new_record? %>
+        <div class="pull-right"><%= render 'change_status_dropdown', message: @message, size: 'btn-sm' %></div>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="tab-content">
 
-<!-- Tab panes -->
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane active" id="details">
-    <%= render 'form_details', message: message %>
-  </div>
-  <div role="tabpanel" class="tab-pane" id="files">
-    <%= render 'form_files', {message: message, mfile: mfile} %>
-  </div>
-  <div role="tabpanel" class="tab-pane" id="groups">
-    <%= render 'form_groups', {message: message, mfile: mfile} %>
+      <div role="tabpanel" class="tab-pane active" id="details">
+        <%= form_for(@message) do |f| %>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= render 'layouts/errors', object: @message %>
+            </div>
+          </div>
+          <%
+            submit_label = t('views.messages.new.submit')
+            submit_label = t('views.messages.edit.submit') unless @message.new_record?
+          %>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="pull-right"><%= f.submit submit_label, class: 'btn btn-primary' %></div>
+            </div>
+          </div>
+          <%= render 'form_details', f: f, message: @message %>
+          <%= render 'form_groups', f: f, message: @message %>
+        <% end %>
+      </div>
+      <% if not message.new_record? and @message.mtype == 'message' %>
+        <div role="tabpanel" class="tab-pane" id="files">
+          <%= render 'form_files', {message: @message, mfile: mfile} %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 

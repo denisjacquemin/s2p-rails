@@ -1,5 +1,4 @@
 <div class="row groups">
-  <%= form_for(message, url: {action: "update_groups"}) do |s_form| %>
     <div class="col-xs-5">
       <div class="panel panel-default">
         <div class="panel-heading"><%= t('views.messages.listofstudents') %></div>
@@ -10,7 +9,7 @@
                 <th>Nom du groupe</th>
               </thead>
               <tbody id="group_list">
-                <% Group.by_school(@message.school_id).each do |group| %>
+                <% Group.by_school(current_school).each do |group| %>
                   <tr>
                     <td><input type="checkbox" value="<%= group.id %>"/></td>
                     <td><label><%= group.name %></label></td>
@@ -30,7 +29,6 @@
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
         Enlever
       </button>
-      <%= s_form.submit 'Enregister', class: 'btn btn-primary' %>
     </div>
     <div class="col-xs-5">
         <div class="panel panel-default">
@@ -56,5 +54,4 @@
           </div>
         </div>
     </div>
-  <% end %>
 </div>

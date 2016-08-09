@@ -4,8 +4,11 @@ class Student < ApplicationRecord
 
   before_create :set_code, if: "code.blank?"
   before_update :set_code, if: "code.blank?"
-  after_create  :set_groups
+  before_create  :set_groups
   before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
+  after_update :clean_old_level, if: "level_changed?"
+  after_update :clean_old_classroom, if: "classroom_changed?"
+  after_destroy :clean_groups
 
   belongs_to :school, required: false
 
@@ -39,18 +42,26 @@ class Student < ApplicationRecord
     #uniq(sort('{1,2,3,2,1}'::int[]))
   end
 
-  def self.add_groups(student_ids, group_ids)
-    Student.by_ids(student_ids).update_all(['groups = array_cat(groups, ARRAY[?])', group_ids])
-  end
+  # def self.add_groups(student_ids, group_ids)
+  #   Student.by_ids(student_ids).update_all(['groups = array_cat(groups, ARRAY[?])', group_ids])
+  # end
 
   def self.remove_group(student_ids, group_ids)
     Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', group_ids])
   end
 
-  def self.remove_groups(student_ids, group_ids)
-    group_ids.each do |g_id|
-      Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', g_id])
-    end
+  # def self.remove_groups(student_ids, group_ids)
+  #   group_ids.each do |g_id|
+  #     Student.by_ids(student_ids).update_all(['groups = array_remove(groups, ?)', g_id])
+  #   end
+  # end
+
+  def remove_groups(groups_to_remove)
+    self.groups = self.groups - groups_to_remove
+  end
+
+  def add_groups(groups_to_add)
+    self.groups = self.groups + groups_to_add
   end
 
 
@@ -133,29 +144,59 @@ class Student < ApplicationRecord
       # update student's groups by removing old groups
       # update student's groups by adding new groups
       array_of_groups = [old_level_group_id, old_classroom_group_id].flatten.uniq.compact
-      Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
-      array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
-      Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
 
-      # for all groups removed, check if the group still contains students
-      old_level_group.delete if old_level_group.students.empty?
-      old_classroom_group.delete if old_classroom_group.students.empty?
+      self.remove_groups(array_of_groups) if array_of_groups.present?
+
+      #Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
+      array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
+
+
+      self.add_groups(array_of_groups) if array_of_groups.present?
+      #Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
+
+    end
+
+    def clean_old_level
+      byebug
+      group = Group.where(name: self.level_was, school_id: self.school_id).first
+      group.clean_automatic_group unless group.nil?
+    end
+
+    def clean_old_classroom
+      group = Group.where(name: self.classroom_was, school_id: self.school_id).first
+      group.clean_automatic_group unless group.nil?
+    end
+
+    def clean_groups
+      # delete groups if empty
+      if self.groups.present?
+        self.groups.each do |g_id|
+          group = Group.find(g_id)
+          # don't delete all_students and all_writers
+          group.clean_automatic_group unless group.nil?
+        end
+      end
     end
 
     def set_groups
       # if group is already in self.groups don't add it
       # if remove old level and classroom from self.groups add new ones
+      self.groups = [] if self.groups.nil?
+
       if self.level.present?
         group = find_or_create_group(self.level, self.school_id)
-        Student.add_group(self.id, group.id)
+        #Student.add_group(self.id, group.id)
+        self.groups.push(group.id)
       end
       if self.classroom.present?
         group = find_or_create_group(self.classroom, self.school_id)
-        Student.add_group(self.id, group.id)
+        #Student.add_group(self.id, group.id)
+        self.groups.push(group.id)
       end
 
       all_students = Group.find_by(internal_id: 'all_students', school_id: self.school_id)
-      Student.add_group(self.id, all_students.id) unless all_students.nil?
+      self.groups.push(all_students.id) unless all_students.nil?
+      #Student.add_group(self.id, all_students.id) unless all_students.nil?
     end
 
     def find_group(name, school_id)
