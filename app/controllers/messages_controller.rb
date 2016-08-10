@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
   def update
     authorize @message
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
-    @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present? 
+    @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
     respond_to do |format|
       if @message.update(message_params)
@@ -111,7 +111,8 @@ class MessagesController < ApplicationController
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
       if groups.present?
-        students = Student.by_groups(groups)
+        students = Student.by_groups(groups) unless groups.nil?
+        students = students + Student.find(@messages.students) unless @messages.students.nil?
         student_codes = students.map {|s| s.code }
         codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
