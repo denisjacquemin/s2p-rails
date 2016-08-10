@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807160020) do
+ActiveRecord::Schema.define(version: 20160810081714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160807160020) do
     t.integer  "mtype"
     t.boolean  "send_by_email", default: true
     t.boolean  "send_to_app",   default: true
+    t.integer  "students",      default: [],                array: true
   end
 
   create_table "mfiles", force: :cascade do |t|
