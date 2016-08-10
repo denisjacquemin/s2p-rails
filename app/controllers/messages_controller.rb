@@ -67,7 +67,11 @@ class MessagesController < ApplicationController
   def update
     authorize @message
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
-    @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
+    if submitted_groups_ids.present?
+      @message.groups = submitted_groups_ids.map(&:to_i)
+    else
+      @message.groups = []
+    end
 
     respond_to do |format|
       if @message.update(message_params)
