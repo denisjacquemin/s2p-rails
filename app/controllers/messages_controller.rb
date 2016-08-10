@@ -114,7 +114,7 @@ class MessagesController < ApplicationController
     @message.published!
     if @message.update(publish_date: DateTime.now)
       groups = @message.groups
-      if groups.present?
+      if groups.present? or @message.students.present?
         students = Student.by_groups(groups) unless groups.nil?
         students = students + Student.find(@message.students) unless @message.students.nil?
         student_codes = students.map {|s| s.code }
