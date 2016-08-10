@@ -12,7 +12,7 @@
         <% end %>
       <% end %>
       <% if message.school.validation_workflow_active %>
-        <% if policy(message).publish? and (message.approval_accepted? or (current_user.admin? and message.draft?)%>
+        <% if policy(message).publish? and (message.approval_accepted? or (current_user.admin? and message.draft?)) %>
           <li><%= link_to content_tag(:i, nil, class: "glyphicon glyphicon-send", aria_hidden: true) + 'Publier', publish_message_path(message), :method=> :patch, class: "icon"  %></li>
         <% end %>
         <% if policy(message).unpublish? and message.published? %>
