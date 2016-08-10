@@ -112,7 +112,7 @@ class MessagesController < ApplicationController
       groups = @message.groups
       if groups.present?
         students = Student.by_groups(groups) unless groups.nil?
-        students = students + Student.find(@messages.students) unless @messages.students.nil?
+        students = students + Student.find(@message.students) unless @message.students.nil?
         student_codes = students.map {|s| s.code }
         codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
