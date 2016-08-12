@@ -18,7 +18,7 @@
                 La première étape consiste à l'inviter via le menu <em>Utilisateurs</em>.</br>
                 L'invitation contient un lien permettant d'accepter l'invitation en définissant le mot de passe.</br>
                 Une fois l'invitation acceptée, l'enseignant pourra créer des messages.</br>
-                Le menu <em>Utilisateur</em> est uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(',') %>).
+                Le menu <em>Utilisateur</em> est uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).
               </p>
             </div>
           </div>
