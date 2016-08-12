@@ -42,6 +42,9 @@ class MessagesController < ApplicationController
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
+    submitted_students_ids = params[:student][:id] unless params[:student].nil?
+    @message.students = submitted_students_ids
+
     @message.author = current_user
 
     unless current_user.superadmin?
@@ -66,8 +69,12 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     authorize @message
+    
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
+
+    submitted_students_ids = params[:student][:id] unless params[:student].nil?
+    @message.students = submitted_students_ids
 
     respond_to do |format|
       if @message.update(message_params)

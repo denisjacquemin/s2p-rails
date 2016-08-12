@@ -32,6 +32,10 @@ class Message < ApplicationRecord
     Group.by_ids(self.groups)
   end
 
+  def students_obj
+    Student.by_ids(self.students)
+  end
+
   def self.add_groups(message_ids, group_ids)
     Message.by_ids(message_ids).update_all(['groups = array_cat(groups, ARRAY[?]), updated_at = ?', group_ids, Time.now.utc])
   end

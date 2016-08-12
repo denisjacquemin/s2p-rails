@@ -19,7 +19,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="tab-content">
 
-      <div role="tabpanel" class="tab-pane active" id="details">
+      <div role="tabpanel" class="tab-pane fade in active" id="details">
         <%= form_for(@message) do |f| %>
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -40,7 +40,7 @@
         <% end %>
       </div>
       <% if not message.new_record? and @message.mtype == 'message' %>
-        <div role="tabpanel" class="tab-pane" id="files">
+        <div role="tabpanel" class="tab-pane fade in" id="files">
           <%= render 'form_files', {message: @message, mfile: mfile} %>
         </div>
       <% end %>
