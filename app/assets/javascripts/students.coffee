@@ -58,6 +58,25 @@ $(document).on 'ready page:load', ->
             console.log 'request sent'
         })
 
+  $('#send_code').click (e) ->
+    if $('input.scb:checked').size() == 0
+      alert 'Selectionnez au moins un élève'
+      e.preventDefault()
+    else
+      form = $('#new_message')[0]
+      for cb, i in $('input.scb:checked')
+        $("<input/>", {
+            multiple: 'multiple',
+            type: 'hidden',
+            value: cb.value,
+            name: 'student[id][]'
+          }).appendTo(form)
+      # students = $('input.scb:checked').each (s) ->
+      #   input = $("<input>", {type: 'hidden', name: "student[" + s.value + "]"}).appendTo(form)
+      form.submit (e) ->
+         e.preventDefault();
+
+
   $('#export_csv').click (e) ->
     if $('input.scb:checked').size() == 0
       alert 'Selectionnez au moins un élève'

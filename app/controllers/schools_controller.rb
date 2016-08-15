@@ -39,7 +39,7 @@ class SchoolsController < ApplicationController
     authorize @school
     respond_to do |format|
       if @school.save
-        format.html { redirect_to edit_school_path(@school), notice: "L'école à été créé" }
+        format.html { redirect_to edit_school_path(@school), notice: "L'école a été créé" }
         format.json { render :show, status: :created, location: @school }
       else
         format.html { render :new }
@@ -61,9 +61,9 @@ class SchoolsController < ApplicationController
     respond_to do |format|
       if @school.update(school_params)
         if current_user.admin?
-          format.html { redirect_to edit_current_school_path, notice: "L'école à été mise à jour" }
+          format.html { redirect_to edit_current_school_path, notice: "L'école a été mise à jour" }
         else
-          format.html { redirect_to edit_school_path(@school), notice: "L'école à été mise à jour" }
+          format.html { redirect_to edit_school_path(@school), notice: "L'école a été mise à jour" }
         end
 
         format.json { render :show, status: :ok, location: @school }

@@ -92,6 +92,9 @@ fr:
         submit: "Enregistrer l'élève"
       new:
         submit: "Créer l'élève"
+      sendcode:
+        title: "Code Konecto"
+        content: "<p>Bonjour,</p><p>Voici le(s) code(s) necessaire à rentrer dans l'app Konecto</p><p>[code]</p>"
     messages:
       listofstudents: Liste des groupes
       edit:

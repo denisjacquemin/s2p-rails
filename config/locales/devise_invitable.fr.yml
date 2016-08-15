@@ -3,7 +3,7 @@ fr:
     failure:
       invited: "Vous n'avez pas encore accepté votre invitation."
     invitations:
-      send_instructions: "Un email d'invitation à été envoyé à %{email}."
+      send_instructions: "Un email d'invitation a été envoyé à %{email}."
       invitation_token_invalid: "Le token d'invitation n'est pas valable."
       updated: "Votre mot de passe à bien été enregistré, vous êtes maintenant authentifié."
       updated_not_active: "Votre mot de passe à bien été enregistré."

@@ -38,7 +38,6 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     authorize @message
-
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @message.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
@@ -53,7 +52,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to edit_message_path(@message), notice: 'Le message à été créé avec succès.' }
+        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été créé avec succès.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html {
@@ -69,7 +68,7 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     authorize @message
-    
+
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     if submitted_groups_ids.present?
       @message.groups = submitted_groups_ids.map(&:to_i)

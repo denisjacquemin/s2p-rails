@@ -87,6 +87,17 @@
               <%= link_to 'Effacer', '#' , class: 'btn btn-primary btn-block', id: 'destroy_all'%>
             </div>
           </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= form_for(@message) do |f| %>
+                <%= f.hidden_field :title, value: t('views.students.sendcode.title') %>
+                <%= f.hidden_field :content, value: t('views.students.sendcode.content') %>
+                <%= f.hidden_field :send_by_email, value: true %>
+                <%= f.hidden_field :send_to_app, value: false %>
+              <% end %>
+              <%= link_to 'Envoyer code', '#' , class: 'btn btn-primary btn-block', id: 'send_code'%>
+            </div>
+          </div>
         <% end %>
       </div>
     <% end %>

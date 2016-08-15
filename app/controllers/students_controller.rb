@@ -7,6 +7,7 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = Student.where(school_id: current_school.id)
+    @message = Message.new
     authorize @students
   end
 
