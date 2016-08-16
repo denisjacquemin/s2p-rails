@@ -4,10 +4,10 @@ fr:
     user:
       destroy:
         success:
-          notice: Utilisateur effacé.
+          notice: Rédacteur effacé.
       update:
         success:
-          notice: L'utilisateur à bien été mis à jour.
+          notice: Le rédacteur à bien été mis à jour.
     groups:
       update:
         notice:
@@ -45,6 +45,8 @@ fr:
         when: Quand
         send_by_email: 'Envoyer par email'
         send_to_app: 'Envoyer via Smartphone/Tablette'
+        skip_send_by_email: 'Ne pas de tenir compte de "Envoi des messages via email"'
+
       user:
         firstname: 'Prénom'
         lastname: 'Nom'
@@ -65,6 +67,7 @@ fr:
         code: Code
         school: Ecole
         sent_message_by_email: 'Envoi des messages via email'
+
   views:
     global:
       areyousure: 'Êtes-vous sûr'
@@ -94,7 +97,8 @@ fr:
         submit: "Créer l'élève"
       sendcode:
         title: "Code Konecto"
-        content: "<p>Bonjour,</p><p>Voici le(s) code(s) necessaire à rentrer dans l'app Konecto</p><p>[code]</p>"
+        content: "<p>Bonjour,</p><p>Voici le(s) code(s) nécessaire(s) à rentrer dans l'app Konecto</p><p>Un code par enfant:</p><p>[code]</p>"
+        app_download_links: "Téléchargez l'application sur <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> Ou cherchez <em>Konecto App</em> sur les stores."
     messages:
       listofstudents: Liste des groupes
       edit:

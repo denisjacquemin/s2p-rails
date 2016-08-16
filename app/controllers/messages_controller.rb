@@ -123,6 +123,7 @@ class MessagesController < ApplicationController
       if groups.present? or @message.students.present?
         students = Student.by_groups(groups) unless groups.nil?
         students = students + Student.find(@message.students) unless @message.students.nil?
+        students = students.uniq
         student_codes = students.map {|s| s.code }
         codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
@@ -133,7 +134,7 @@ class MessagesController < ApplicationController
 
         devicesAndroid = Device.active.android.by_codes(codes)
         build_android_notifications(@message, devicesAndroid) if @message.send_to_app
-
+        
         build_emails(students, @message) if @message.send_by_email
       end
         # devicesIOS = Device.active.ios.by_codes(student_codes)
@@ -249,7 +250,7 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email)
     end
 
     def set_s3_direct_post
@@ -262,11 +263,25 @@ class MessagesController < ApplicationController
     end
 
     def build_emails(students, message)
-      emails = students.collect {|s| s.emails.split(' ') unless !s.sent_message_by_email or s.emails.nil?}.compact.flatten.uniq      # build an array of emails
+      emails = students.collect { |s|
+        s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
+      }.compact.flatten.uniq      # build an array of emails
 
-      #students.map {|s| s.emails.split(' ')}
+      content = message.content
+      emails.each do |e|
+        message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
+        MessageMailer.message_email(e, message).deliver
+      end
 
-      emails.each {|e| MessageMailer.message_email(e, message).deliver}
+    end
 
+    def replace_code_smart_tag(students, email, content)
+      codes = ""
+      students.each do |s|
+        #puts "#{s.code} found for student #{s.fullname} and email #{email} $$$$ (#{s.inspect})"
+        codes << "<li>#{s.fullname}: #{s.code}</li>" if s.emails.present? and s.emails.include?(email)
+      end
+
+      content.gsub('[code]', "<ul>#{codes}</ul>")
     end
 end

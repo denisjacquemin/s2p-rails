@@ -55,7 +55,7 @@
          </li>
          <% if policy(User).index? %>
            <li>
-               <%= link_to 'Utilisateurs', users_path %>
+               <%= link_to 'Redacteurs', users_path %>
            </li>
          <% end %>
          <li class="dropdown">
@@ -71,44 +71,6 @@
        <% end %>
      </ul>
      <% end %>
-    </div><!-- /.navbar-collapse -->
+    </div>
   </div>
 </nav>
-<!--
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-            <a href="#">
-                Start Bootstrap
-            </a>
-        </li>
-        <% unless user_signed_in? %>
-          <li>
-              <%= link_to 'Identification', new_user_session_path %>
-          </li>
-        <% end %>
-        <% if user_signed_in? %>
-          <li>
-              <%= link_to 'Messages', messages_path %>
-          </li>
-          <% if policy(School).index? %>
-            <li>
-                <%= link_to 'Ecoles', schools_path %>
-            </li>
-          <% end %>
-          <li>
-              <%= link_to 'Elèves', students_path %>
-          </li>
-          <li>
-              <%= link_to 'Groupes de diffusion', groups_path %>
-          </li>
-          <% if policy(User).index? %>
-            <li>
-                <%= link_to 'Utilisateurs', users_path %>
-            </li>
-          <% end %>
-          <li><%= link_to 'Déconnexion', destroy_user_session_path, :method=>'delete' %></li>
-        <% end %>
-    </ul>
-</div>
--->
