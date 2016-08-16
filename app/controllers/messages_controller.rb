@@ -130,11 +130,11 @@ class MessagesController < ApplicationController
         devicesIOS = Device.active.ios.by_codes(codes)
         build_ios_notifications(@message, devicesIOS) if @message.send_to_app
 
-        @message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
+        #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
 
         devicesAndroid = Device.active.android.by_codes(codes)
         build_android_notifications(@message, devicesAndroid) if @message.send_to_app
-        
+
         build_emails(students, @message) if @message.send_by_email
       end
         # devicesIOS = Device.active.ios.by_codes(student_codes)
