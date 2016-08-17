@@ -194,7 +194,7 @@ class MessagesController < ApplicationController
     authorize @message
     @message.waiting_for_approval!
     # send notification to admins
-    codes = @message.school.users.admin.map{|u| u.code}
+    codes = @message.school.admins.map{|u| u.code}
 
     title = "#{@message.author.firstname} demande une approbation"
     content = @message.title
@@ -217,7 +217,22 @@ class MessagesController < ApplicationController
   def accept
     authorize @message
     @message.approval_accepted!
-    # send notification to author
+
+    codes = [] <<  @message.author.code
+
+    title = "Message approuvé"
+    content = @message.title
+
+    @message.title = title
+    @message.content = content
+
+    devicesIOS = Device.active.ios.by_codes(codes)
+    build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+
+
+
     if @message.save
 
       redirect_back fallback_location: messages_url, notice: 'Message accepté'
