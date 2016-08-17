@@ -196,6 +196,12 @@ class MessagesController < ApplicationController
     # send notification to admins
     codes = @message.school.users.admin.map{|u| u.code}
 
+    title = "#{@message.author.firstname} demande une approbation"
+    content = @message.title
+
+    @message.title = title
+    @message.content = content
+
     devicesIOS = Device.active.ios.by_codes(codes)
     build_ios_notifications(@message, devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
