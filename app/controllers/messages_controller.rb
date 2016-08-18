@@ -198,7 +198,7 @@ class MessagesController < ApplicationController
 
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "#{@message.author.firstname} demande une approbation: #{@message.title}"
-    send_ios_notifications(alert, devices) unless devicesIOS.nil?
+    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
     build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
@@ -217,7 +217,7 @@ class MessagesController < ApplicationController
 
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "Message approuvé: #{@message.title}"
-    send_ios_notifications(alert, devices) unless devicesIOS.nil?
+    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
     build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
