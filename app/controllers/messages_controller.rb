@@ -233,7 +233,15 @@ class MessagesController < ApplicationController
   def reject
     authorize @message
     @message.approval_refused!
-    # send notification to author
+
+    codes = [] <<  @message.author.code
+
+    devicesIOS = Device.active.ios.by_codes(codes)
+    alert = "Message refusé: #{@message.title}"
+    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+
     if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message refusé'
     else
