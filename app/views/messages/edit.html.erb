@@ -1,4 +1,4 @@
 <%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + 'Retour à la liste des messages', messages_path %>
-<h1>Edition message <small><%= render 'status', message: @message %></small></h1>
+<h1 style="position:relative">Edition message <small><%= render 'status', message: @message %><span class="pull-right" style="position:absolute;bottom:0;right:0;font-size:70%">Auteur: <%= @message.author.fullname %></span></small></h1>
 <hr />
 <%= render 'form', {message: @message, mfile: @mfile} %>
