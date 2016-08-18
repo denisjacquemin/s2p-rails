@@ -1,5 +1,29 @@
 module Notification extend ActiveSupport::Concern
 
+    def send_ios_notifications(alert, devices)
+      logger.info "[NOTIFICATION IOS] message(#{title} #{content}) devices(#{devices.inspect})"
+      begin
+        devices.each { |device|
+          n = Rpush::Apns::Notification.new
+          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n.device_token = device.registration_id # 64-character hex string
+          n.alert = truncate(alert, :length => 256)
+          n.content_available = true
+          n.sound = true
+          n.data = {
+            "message_id": message.id
+          }
+          begin
+            n.save!
+          rescue ActiveRecord::RecordInvalid
+            logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+          end
+        }
+      rescue => e
+        logger.error "Exception send_ios_notifications: #{e}"
+      end
+    end
+
 
     def build_ios_notifications(message, devices)
       logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
