@@ -198,7 +198,8 @@ class MessagesController < ApplicationController
 
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "#{@message.author.firstname} demande une approbation: #{@message.title}"
-    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    data = { "message_id": message.id }
+    send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
     build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 

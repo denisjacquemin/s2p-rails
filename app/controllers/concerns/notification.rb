@@ -1,6 +1,6 @@
 module Notification extend ActiveSupport::Concern
 
-    def send_ios_notifications(alert, devices)
+    def send_ios_notifications(alert, devices, data = {})
       logger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
       begin
         devices.each { |device|
@@ -10,9 +10,7 @@ module Notification extend ActiveSupport::Concern
           n.alert = truncate(alert, :length => 256)
           n.content_available = true
           n.sound = true
-          n.data = {
-            "message_id": message.id
-          }
+          n.data = data
           begin
             n.save!
             logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect}"
