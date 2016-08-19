@@ -157,7 +157,6 @@ class Student < ApplicationRecord
     end
 
     def clean_old_level
-      byebug
       group = Group.where(name: self.level_was, school_id: self.school_id).first
       group.clean_automatic_group unless group.nil?
     end
