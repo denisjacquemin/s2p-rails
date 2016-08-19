@@ -98,7 +98,7 @@ fr:
       sendcode:
         title: "Code Konecto"
         content: "<p>Bonjour,</p><p>Voici le(s) code(s) nécessaire(s) à rentrer dans l'app Konecto</p><p>Un code par enfant:</p><p>[code]</p>"
-        app_download_links: "Téléchargez l'application sur <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> Ou cherchez <em>Konecto App</em> sur les stores."
+        app_download_links: "Téléchargez l'application sur votre smartphone ou tablette via <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> Ou cherchez <em>Konecto App</em> sur les stores."
     messages:
       listofstudents: Liste des groupes
       edit:
