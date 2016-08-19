@@ -47,16 +47,17 @@ $(document).on 'ready page:load', ->
 
   $('#destroy_all').click (e) ->
     e.preventDefault()
-    if $('input.scb:checked').size() == 0
-      alert 'Selectionnez au moins un élève'
-    else
-      $.ajax('/students/destroy_all',
-        {
-          type: 'delete',
-          data: decodeURI($('input.scb:checked').serialize()),
-          success: () ->
-            console.log 'request sent'
-        })
+    if confirm 'Etes vous sûr?'
+      if $('input.scb:checked').size() == 0
+        alert 'Selectionnez au moins un élève'
+      else
+        $.ajax('/students/destroy_all',
+          {
+            type: 'delete',
+            data: decodeURI($('input.scb:checked').serialize()),
+            success: () ->
+              console.log 'request sent'
+          })
 
   $('#send_code').click (e) ->
     if $('input.scb:checked').size() == 0
