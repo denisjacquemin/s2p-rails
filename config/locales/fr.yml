@@ -94,7 +94,7 @@ fr:
       edit:
         submit: "Enregistrer l'élève"
       new:
-        submit: "Créer l'élève"
+        submit: "Enregistrer l'élève"
       sendcode:
         title: "Code Konecto"
         content: "<p>Bonjour,</p><p>Voici le(s) code(s) nécessaire(s) à rentrer dans l'app Konecto</p><p>Un code par enfant:</p><p>[code]</p>"

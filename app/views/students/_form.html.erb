@@ -13,9 +13,6 @@
         <% if policy(student).destroy? and not student.new_record? %>
           <%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
         <% end %>
-        <% if student.new_record? %>
-          <%= link_to 'Annuler', students_path, class: 'btn btn-default' %>
-        <% end %>
       </div>
     </div>
   </div>
