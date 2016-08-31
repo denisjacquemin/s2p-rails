@@ -6,12 +6,12 @@
         <div class="panel panel-default">
           <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#1" aria-expanded="true" aria-controls="collapseOne">
                 Comment permettre à un enseignant de créer des messages?
               </a>
             </h4>
           </div>
-          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+          <div id="1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
               <p>
                 La première étape consiste à l'inviter via le menu <em>Rédacteurs</em>.</br>
@@ -25,29 +25,186 @@
         <div class="panel panel-default">
           <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Comment Envoyer les codes élèves aux parents ?
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#2" aria-expanded="true" aria-controls="collapseOne">
+                Comment envoyer les codes élèves aux parents ?
               </a>
             </h4>
           </div>
-          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+          <div id="2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
               <p>
                 Le bouton <em>Envoyer code</em> est disponible sur l'écran <em>élèves</em>, uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).
                 Un message sera créé automatiquement avec les caractéristiques suivantes:
                 <dl>
                   <dt>Le titre et le contenu sont préremplis</dt>
-                  <dd>Pour que les codes apparaissent dans l'email', <em>[code]</em> doit être présent dans le corps du message, il sera remplacé par le nom prénom et le code de l'élève.</dd>
+                  <dd>Pour que les codes apparaissent dans l'email, <em>[code]</em> doit être présent dans le corps du message, il sera remplacé par le nom prénom et le code de l'élève.</dd>
                   <dt>Les destinataires sont préremplis</dt>
                   <dd>Les élèves sélectionnés sont enregistrés comme destinataires.</dd>
                   <dt>Un seul email envoyé par personne (email)<dt>
                   <dd>Une personne avec plusieurs enfants (et donc plusieur codes) recevra un seul email, dans lequel la liste des codes se trouvera.</dd>
-                  <dt>Le message sont envoyés au moment de la publication.</dt>
-                  <dt>L'option <em>Ne pas de tenir compte de "Envoi des messages via email"</em> est cochée</dt>
+                  <dt>Les messages sont envoyés au moment de la publication.</dt>
+                  <dt>L'option <em>Ne pas tenir compte de "Envoi des messages via email"</em> est cochée</dt>
                   <dd>Même si l'option "Envoi des messages via email" n'est pas cochée pour un élève, l'email sera envoyé.</dd>
                   <dt>L'option <em>Envoyer via Smartphone/Tablette</em> n'est pas cochée</dt>
                   <dd>Il n'est pas nécessaire de faire apparaître le message via l'application mobile.</dd>
                 </dl>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#3" aria-expanded="true" aria-controls="collapseOne">
+                Quelle est la version minimale d'Android supportée par l'application mobile?
+              </a>
+            </h4>
+          </div>
+          <div id="3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <p>
+                L'application est ouverte aux versions 4.1 et supérieures.</br>
+                L'application est visible sur le Play Store uniquement pour les appareils compatibles (version 4.1 +).</br>
+                </br>
+                Voici la <a href="https://developer.android.com/about/dashboards/index.html" target="_blank">liste des versions et les statistiques d'utilisation selon google</a>
+                </br>
+                Voici la liste des appareils Android testés:
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Marque</th>
+                      <th>Modèle</th>
+                      <th>Version d'Android</th>
+                      <th>Statut</th>
+                      <th>Commentaire</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Asus</td>
+                      <td>Zenfone&nbsp;2</td>
+                      <td>5.0 (Lollipop)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td>Pour recevoir les notifications lorsque l'application est fermée, autoriser l'execution en arrière-plan via le <em><a href="https://www.asus.com/fr/support/faq/1011266/" target="_blank">Gestionnaire de démarrage automatique</a></em>.</td>
+                    </tr>
+                    <tr>
+                      <td>Huawei</td>
+                      <td>Y3</td>
+                      <td>4.4.2 (KitKat)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Huawei</td>
+                      <td>Y300-0100</td>
+                      <td>4.1.1&nbsp;(Jelly&nbsp;Bean)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Samsung</td>
+                      <td>Galaxy&nbsp;J5</td>
+                      <td>5.1.1 (Lollipop)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Samsung</td>
+                      <td>Galaxy&nbsp;S5</td>
+                      <td>6.0.1 (Cyanogen)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Samsung</td>
+                      <td>Galaxy&nbsp;S6</td>
+                      <td>6.0.1&nbsp;(Marshmallow)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Samsung</td>
+                      <td>Tab&nbsp;3</td>
+                      <td>4.4.2 (KitKat)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Samsung</td>
+                      <td>Tab&nbsp;4</td>
+                      <td>5.0.2 (Lollipop)</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#4" aria-expanded="true" aria-controls="collapseOne">
+                Quelle est la version minimale d'iOS (Apple) supportée par l'application mobile?
+              </a>
+            </h4>
+          </div>
+          <div id="4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <p>
+                L'application est ouverte aux versions 8 et supérieures.</br>
+                L'application est visible sur l'App Store uniquement pour les appareils compatibles (version 8 +).</br>
+                </br>
+                Voici la liste des appareils Apple testés:
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Modèle</th>
+                      <th>Version d'iOS</th>
+                      <th>Statut</th>
+                      <th>Commentaire</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>iPhone&nbsp;5s</td>
+                      <td>9.3.4</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>iPad Air</td>
+                      <td>9.3.4</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>iPad&nbsp;mini&nbsp;2</td>
+                      <td>9.3.2</td>
+                      <td><i class="fa fa-check" style="color:green"/></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#5" aria-expanded="true" aria-controls="collapseOne">
+                Comment connaître la version d'Android de votre smartphone ou tablette?
+              </a>
+            </h4>
+          </div>
+          <div id="5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <p>
+                La procédure est décrite sur le <a href="https://support.google.com/nexus/answer/4457705?hl=fr" target="_blank">site de support de google</a>.
               </p>
             </div>
           </div>

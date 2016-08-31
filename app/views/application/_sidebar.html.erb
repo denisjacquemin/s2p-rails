@@ -67,6 +67,7 @@
                <% end %>
              </ul>
          </li>
+         <li><%= link_to 'FAQ', faq_path %></li>
          <li><%= link_to content_tag(:i, nil, class: "fa fa-power-off", aria_hidden: true), destroy_user_session_path, :method=>'delete' %></li>
        <% end %>
      </ul>
