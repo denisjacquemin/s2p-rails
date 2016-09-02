@@ -58,6 +58,10 @@ build_group_row = (group_id, group_name) ->
             }).appendTo(td2)
   return tr
 
+submit_with_status = (status) ->
+  $('#message_status').val(status)
+  $('.edit_message')[0].submit()
+
 $(document).on 'ready page:load', ->
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
@@ -75,3 +79,5 @@ $(document).on 'ready page:load', ->
     else
       $('.alert_mtype').show()
       $('.message_mtype').hide()
+  $('.submit_with_status').click (e) ->
+    submit_with_status($(e.target).data('status'))

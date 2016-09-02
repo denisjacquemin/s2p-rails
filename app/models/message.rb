@@ -14,6 +14,8 @@ class Message < ApplicationRecord
   validates :mtype, presence: true
   validates :title, presence: true
 
+  before_update :handle_status_changed, if: "status_changed?"
+
   def set_default_status
    self.status ||= :draft
   end
@@ -50,20 +52,89 @@ class Message < ApplicationRecord
     Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
   end
 
-  # def notify_ios(devices = [], text)
-  #   apn = Houston::Client.production
-  #   apn.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # certificate from prerequisites
-  #   apn.passphrase = Rails.application.secrets.ios_push_cert_password
-  #   devices.each do |device|
-  #     logger.info "Sending Push to #{device.registration_id} with alert=#{text}"
-  #     notification = Houston::Notification.new(device: device.registration_id)
-  #     notification.alert = text
-  #     # take a look at the docs about these params
-  #     notification.badge = 57
-  #     notification.sound = "sosumi.aiff"
-  #     # notification.custom_data = data unless data.nil?
-  #     apn.push(notification)
-  #   end
-  # end
+  def handle_status_changed
+    case self.status
+      when 'published'
+        handle_publish
+      when 'draft'
+        handle_draft
+      when 'waiting_for_approval'
+        handle_waiting_for_approval
+      when 'approval_refused'
+        handle_approval_refused
+      when 'approval_accepted'
+        handle_approval_accepted
+    end
+  end
 
+  def handle_publish
+    puts 'handle_publish'
+    groups = self.groups
+    if groups.present? or self.students.present?
+      students = Student.by_groups(groups) unless groups.nil?
+      students = students + Student.find(self.students) unless self.students.nil?
+      students = students.uniq
+      student_codes = students.map {|s| s.code }
+      codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+
+      devicesIOS = Device.active.ios.by_codes(codes)
+      build_ios_notifications(self, devicesIOS) if self.send_to_app
+
+      #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
+
+      devicesAndroid = Device.active.android.by_codes(codes)
+      build_android_notifications(self, devicesAndroid) if self.send_to_app
+
+      build_emails(students, self) if self.send_by_email
+    end
+  end
+
+  def handle_draft
+    puts 'handle_draft'
+  end
+
+  def handle_waiting_for_approval
+    puts 'handle_waiting_for_approval'
+    codes = self.school.admins.map{|u| u.code}
+
+    devicesIOS = Device.active.ios.by_codes(codes)
+    alert = "#{self.author.firstname} demande une approbation: #{self.title}"
+    data = { "message_id": self.id }
+    send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+  end
+
+  def approval_refused
+    codes = [] <<  self.author.code
+
+    devicesIOS = Device.active.ios.by_codes(codes)
+    alert = "Message refusé: #{self.title}"
+    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+  end
+
+  def approval_accepted
+    codes = [] <<  self.author.code
+
+    devicesIOS = Device.active.ios.by_codes(codes)
+    alert = "Message approuvé: #{self.title}"
+    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    devicesAndroid = Device.active.android.by_codes(codes)
+    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+  end
+
+  def build_emails(students, message)
+    emails = students.collect { |s|
+      s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
+    }.compact.flatten.uniq      # build an array of emails
+
+    content = message.content
+    emails.each do |e|
+      message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
+      MessageMailer.message_email(e, message).deliver
+    end
+
+  end
 end

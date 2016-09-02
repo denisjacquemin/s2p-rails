@@ -1,0 +1,35 @@
+<div class="btn-group">
+  <button class="btn <%= size %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Actions <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right">
+      <% unless message.school.validation_workflow_active %>
+        <% if policy(message).publish? and message.draft?%>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-send", aria_hidden: true) + 'Publier', "", 'data-status': 'published', class: "submit_with_status icon" %></li>
+        <% end %>
+        <% if policy(message).unpublish? and message.published? %>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-remove", aria_hidden: true) + 'Dépublier', "", 'data-status': 'draft', class: "submit_with_status icon" %></li>
+        <% end %>
+      <% end %>
+      <% if message.school.validation_workflow_active %>
+        <% if policy(message).publish? and (message.approval_accepted? or (current_user.admin? and message.draft?)) %>
+          <li><%= link_to content_tag(:i, nil, class: "glyphicon glyphicon-send", aria_hidden: true) + 'Publier', "", 'data-status': 'published', class: "submit_with_status icon"  %></li>
+        <% end %>
+        <% if policy(message).unpublish? and message.published? %>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-remove", aria_hidden: true) + 'Dépublier', "", 'data-status': 'draft', class: "submit_with_status icon" %></li>
+        <% end %>
+        <% if policy(message).send_for_approval? and (message.draft? or message.approval_refused?) %>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-ok", aria_hidden: true) + "Demander l'approbation", "", 'data-status': 'waiting_for_approval', class: "submit_with_status icon" %></li>
+        <% end %>
+        <% if policy(message).accept? and message.waiting_for_approval? %>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-thumbs-up", aria_hidden: true) + 'Accepter', "", 'data-status': 'approval_accepted', class: "submit_with_status icon" %></li>
+        <% end %>
+        <% if policy(message).reject? and message.waiting_for_approval? %>
+          <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-thumbs-down", aria_hidden: true) + 'Rejeter', "", 'data-status': 'approval_refused', class: "submit_with_status icon" %></li>
+        <% end %>
+      <% end %>
+      <% if policy(message).destroy? %>
+        <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-trash", aria_hidden: true) + 'Supprimer', message, method: :delete, data: { confirm: t('views.global.areyousure') }, class: "icon" %></li>
+      <% end %>
+  </ul>
+</div>

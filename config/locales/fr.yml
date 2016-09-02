@@ -46,7 +46,12 @@ fr:
         send_by_email: 'Envoyer par email'
         send_to_app: 'Envoyer via Smartphone/Tablette'
         skip_send_by_email: 'Ne pas de tenir compte de "Envoi des messages via email"'
-
+        status:
+          published: 'Publié'
+          draft: 'Brouillon'
+          approbation: 'Approbation'
+          accepted: 'Accepté'
+          refused: 'Refusé'
       user:
         firstname: 'Prénom'
         lastname: 'Nom'

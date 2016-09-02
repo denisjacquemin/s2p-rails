@@ -10,7 +10,7 @@
       </li>
       <% end %>
       <% unless message.new_record? %>
-        <div class="pull-right"><%= render 'change_status_dropdown', message: @message, size: 'btn-sm' %></div>
+        <div class="pull-right"><%= render 'submit_with_status_dropdown', message: @message, size: 'btn-sm' %></div>
       <% end %>
     </ul>
   </div>

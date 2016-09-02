@@ -69,6 +69,11 @@ class MessagesController < ApplicationController
   def update
     authorize @message
 
+    case params[:status]
+      when 'publish'
+        @message.published!
+    end
+
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     if submitted_groups_ids.present?
       @message.groups = submitted_groups_ids.map(&:to_i)
@@ -119,60 +124,25 @@ class MessagesController < ApplicationController
     authorize @message
     @message.published!
     if @message.update(publish_date: DateTime.now)
-      groups = @message.groups
-      if groups.present? or @message.students.present?
-        students = Student.by_groups(groups) unless groups.nil?
-        students = students + Student.find(@message.students) unless @message.students.nil?
-        students = students.uniq
-        student_codes = students.map {|s| s.code }
-        codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+      # groups = @message.groups
+      # if groups.present? or @message.students.present?
+      #   students = Student.by_groups(groups) unless groups.nil?
+      #   students = students + Student.find(@message.students) unless @message.students.nil?
+      #   students = students.uniq
+      #   student_codes = students.map {|s| s.code }
+      #   codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+      #
+      #   devicesIOS = Device.active.ios.by_codes(codes)
+      #   build_ios_notifications(@message, devicesIOS) if @message.send_to_app
+      #
+      #   #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
+      #
+      #   devicesAndroid = Device.active.android.by_codes(codes)
+      #   build_android_notifications(@message, devicesAndroid) if @message.send_to_app
+      #
+      #   build_emails(students, @message) if @message.send_by_email
+      # end
 
-        devicesIOS = Device.active.ios.by_codes(codes)
-        build_ios_notifications(@message, devicesIOS) if @message.send_to_app
-
-        #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
-
-        devicesAndroid = Device.active.android.by_codes(codes)
-        build_android_notifications(@message, devicesAndroid) if @message.send_to_app
-
-        build_emails(students, @message) if @message.send_by_email
-      end
-        # devicesIOS = Device.active.ios.by_codes(student_codes)
-        # devicesIOS.each { |device|
-        #   # check if device.token is present in Rpush::Apns::Feedback
-        #   n = Rpush::Apns::Notification.new
-        #   n.app = Rpush::Apns::App.find_by_name("ios_app")
-        #   n.device_token = device.registration_id # 64-character hex string
-        #   n.alert = @message.title
-        #   n.data = {
-        #     "title": truncate(@message.title, :length => 200),
-        #     "message_id": @message.id,
-        #     "content-available": 1,
-        #     "badge": 1
-        #   }
-        #   begin
-        #     n.save!
-        #   rescue ActiveRecord::RecordInvalid
-        #     logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
-        #   end
-        # }
-        # devicesAndroid = Device.active.android.by_codes(student_codes)
-        # devicesAndroid.each { |device|
-          # registration_ids = Device.active.android.by_codes(student_codes).map{|device| device.registration_id}
-          # unless registration_ids.nil?
-          #   n = Rpush::Gcm::Notification.new
-          #   n.app = Rpush::Gcm::App.find_by_name("android_app")
-          #   n.registration_ids =
-          #   n.data = { "message_id": @message.id }
-          #   n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
-          #   n.content_available = true # Optional
-          #   # Optional notification payload. See the reference below for more keys you can use!
-          #   n.notification = { title: truncate(@message.title, :length => 200).force_encoding("utf-8"),
-          #                      icon: 'myicon'
-          #                    }
-          #   n.save!
-          # end
-        # }
       redirect_back fallback_location: messages_url, notice: 'Message publié avec succès'
       #redirect_to messages_url, notice: 'Message publié avec succès'
     else
@@ -194,14 +164,14 @@ class MessagesController < ApplicationController
     authorize @message
     @message.waiting_for_approval!
     # send notification to admins
-    codes = @message.school.admins.map{|u| u.code}
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "#{@message.author.firstname} demande une approbation: #{@message.title}"
-    data = { "message_id": @message.id }
-    send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+    # codes = @message.school.admins.map{|u| u.code}
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # alert = "#{@message.author.firstname} demande une approbation: #{@message.title}"
+    # data = { "message_id": @message.id }
+    # send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    # build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
     if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message envoyé pour approbation avec succès'
@@ -214,16 +184,15 @@ class MessagesController < ApplicationController
     authorize @message
     @message.approval_accepted!
 
-    codes = [] <<  @message.author.code
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "Message approuvé: #{@message.title}"
-    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+    # codes = [] <<  @message.author.code
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # alert = "Message approuvé: #{@message.title}"
+    # send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    # build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
     if @message.save
-
       redirect_back fallback_location: messages_url, notice: 'Message accepté'
     else
       render :edit
@@ -234,13 +203,13 @@ class MessagesController < ApplicationController
     authorize @message
     @message.approval_refused!
 
-    codes = [] <<  @message.author.code
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "Message refusé: #{@message.title}"
-    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
+    # codes = [] <<  @message.author.code
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # alert = "Message refusé: #{@message.title}"
+    # send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    # build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
 
     if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message refusé'
@@ -268,7 +237,7 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :status)
     end
 
     def set_s3_direct_post
@@ -280,18 +249,7 @@ class MessagesController < ApplicationController
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
     end
 
-    def build_emails(students, message)
-      emails = students.collect { |s|
-        s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
-      }.compact.flatten.uniq      # build an array of emails
-
-      content = message.content
-      emails.each do |e|
-        message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
-        MessageMailer.message_email(e, message).deliver
-      end
-
-    end
+    
 
     def replace_code_smart_tag(students, email, content)
       codes = ""
