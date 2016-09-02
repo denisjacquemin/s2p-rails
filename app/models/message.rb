@@ -1,4 +1,6 @@
 class Message < ApplicationRecord
+  include Notification
+
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy
   belongs_to :author, class_name: "User"

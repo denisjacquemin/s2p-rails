@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
   include ActionView::Helpers::TextHelper # for truncate
-  include Notification
 
   before_action :authenticate_user!
   before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy]
@@ -249,7 +248,7 @@ class MessagesController < ApplicationController
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
     end
 
-    
+
 
     def replace_code_smart_tag(students, email, content)
       codes = ""
