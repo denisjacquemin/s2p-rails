@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   include Notification
+  include ActionView::Helpers::TextHelper # for truncate
 
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy
