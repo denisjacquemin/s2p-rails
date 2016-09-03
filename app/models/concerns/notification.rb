@@ -12,8 +12,8 @@ module Notification extend ActiveSupport::Concern
           n.sound = true
           n.data = data
           begin
-            n.save!
             logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect}"
+            n.save!
           rescue ActiveRecord::RecordInvalid
             logger.info "[NOTIFICATION IOS FAILED] Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
           end
