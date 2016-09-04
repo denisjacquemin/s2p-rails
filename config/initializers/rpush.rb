@@ -21,10 +21,10 @@ Rpush.configure do |config|
   # Path to log file. Relative to current directory unless absolute.
   config.log_file = 'log/rpush.log'
 
-  config.log_level = (defined?(Rails) && Rails.Rails.logger) ? Rails.Rails.logger.level : ::Rails.logger::Severity::INFO
+  config.log_level = (defined?(Rails) && Rails.logger) ? Rails.logger.level : ::Logger::Severity::INFO
 
-  # Define a custom Rails.logger.
-  # config.Rails.logger = MyRails.logger.new
+  # Define a custom logger.
+  # config.logger = MyLogger.new
 
   config.apns.feedback_receiver.enabled = true
   config.apns.feedback_receiver.frequency = 60
