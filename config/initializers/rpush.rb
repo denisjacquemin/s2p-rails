@@ -71,7 +71,8 @@ Rpush.reflect do |on|
       n = Rpush::Apns::Notification.find notification_id
       unless n.nil?
         d = Device.where(registration_id: n.device_token)
-        Rails.logger.info "[Rpush.reflect device should be removed #{d.inspect}"
+        Rails.logger.info "[Rpush.reflect device removed #{d.inspect}"
+        d.delete
       end
     end
   end
