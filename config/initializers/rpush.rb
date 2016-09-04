@@ -138,6 +138,6 @@ Rpush.reflect do |on|
 
   # Called when an exception is raised.
   on.error do |error|
-    logger.info "[Rpush.reflect error] #{error}" 
+    logger.info "[Rpush.reflect error] #{error}"
   end
-#end
+end
