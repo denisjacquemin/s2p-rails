@@ -72,7 +72,7 @@ Rpush.reflect do |on|
       unless n.nil?
         d = Device.where(registration_id: n.device_token)
         Rails.logger.info "[Rpush.reflect device removed #{d.inspect}"
-        d.delete
+        d.delete_all
       end
     end
   end
