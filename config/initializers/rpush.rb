@@ -66,6 +66,14 @@ Rpush.reflect do |on|
   # is present in memory.
   on.notification_id_failed do |app, notification_id, error_code, error_description|
     Rails.logger.info "[Rpush.reflect notification_id_failed] app: #{app}, notification_id: #{notification_id}, error_code: #{error_code}, error_description: #{error_description}"
+
+    if app.instance_of? Rpush::Client::ActiveRecord::Apns::App and error_code == 8
+      n = Rpush::Apns::Notification.find notification_id
+      unless n.nil?
+        d = Device.where(registration_id: n.device_token)
+        Rails.logger.info "[Rpush.reflect device should be removed #{d.inspect}"
+      end
+    end
   end
 
   # Called when a notification will be retried at a later date.
