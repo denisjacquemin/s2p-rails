@@ -113,6 +113,12 @@ Rpush.reflect do |on|
   # You will need to delete the registration_id from your records.
   on.gcm_invalid_registration_id do |app, error, registration_id|
     Rails.logger.info "[Rpush.reflect gcm_invalid_registration_id] app: #{app}, error: #{error}, registration_id: #{registration_id}"
+
+    if app.instance_of? Rpush::Client::ActiveRecord::Gcm::App
+      d = Device.where(registration_id: registration_id)
+      Rails.logger.info "[Rpush.reflect device removed #{d.inspect}"
+      d.delete_all
+    end
   end
 
   # Called when an SSL certificate will expire within 1 month.
