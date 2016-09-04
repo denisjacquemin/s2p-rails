@@ -120,7 +120,7 @@ class MessagesController < ApplicationController
   def publish
     authorize @message
     @message.published!
-    if @message.update(publish_date: DateTime.now)
+    if @message.save
       # groups = @message.groups
       # if groups.present? or @message.students.present?
       #   students = Student.by_groups(groups) unless groups.nil?
@@ -150,7 +150,7 @@ class MessagesController < ApplicationController
   def unpublish
     authorize @message
     @message.draft!
-    if @message.update(publish_date: nil)
+    if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message dépublié avec succès'
     else
       render :edit
@@ -188,7 +188,6 @@ class MessagesController < ApplicationController
     # send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
     # devicesAndroid = Device.active.android.by_codes(codes)
     # build_android_notifications(@message, devicesAndroid) unless devicesAndroid.nil?
-
     if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message accepté'
     else

@@ -71,7 +71,7 @@ class Message < ApplicationRecord
   end
 
   def handle_publish
-    puts 'handle_publish'
+    self.publish_date = DateTime.now
     groups = self.groups
     if groups.present? or self.students.present?
       students = Student.by_groups(groups) unless groups.nil?
@@ -93,11 +93,10 @@ class Message < ApplicationRecord
   end
 
   def handle_draft
-    puts 'handle_draft'
+    self.publish_date = nil
   end
 
   def handle_waiting_for_approval
-    puts 'handle_waiting_for_approval'
     codes = self.school.admins.map{|u| u.code}
 
     devicesIOS = Device.active.ios.by_codes(codes)
