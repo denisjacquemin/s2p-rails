@@ -18,7 +18,7 @@ class MessageMailer < ApplicationMailer
     # <% #end %>
     # <!--<td><%= image_tag attachments['logo.png'].url %></td>-->
     headers "X-SMTPAPI" => {
-      unique_args: { mid: @message.id }
+      unique_args: { mid: @message.id, sid: @message.school_id }
     }.to_json
     from = @message.author.fullname + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
     reply_to = @message.author.fullname + '<' + @message.author.email + '>' || 'konecto@konectoapp.com'
