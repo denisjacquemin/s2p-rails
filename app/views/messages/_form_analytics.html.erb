@@ -14,7 +14,7 @@
     line += "<td>" + reason + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics').append(line);
+    $('#analytics_list').append(line);
   }
 
   messagesRef.on('child_added', function(data) {
@@ -23,6 +23,6 @@
 </script>
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <table id="analytics"></table>
+    <table id="analytics_list" class="table"></table>
   </div>
 </div>
