@@ -9,7 +9,7 @@
 
   addLine = function(event, reason, source, created_at) {
     var line = "<tr>";
-    line += "<td>" + event + "</td>"
+    line += "<td>" + icon(event) + "</td>"
     line += "<td>" + source + "</td>"
     line += "<td>" + reason + "</td>"
     line += "<td>" + created_at + "</td>"
@@ -19,14 +19,18 @@
 
   icon = function(id) {
     switch(id) {
-      case 'bounce':
-          '<i class="material-icons">error_outline</i>'
-          break;
+
       case 'open':
           '<i class="material-icons">drafts</i>'
           break;
+      case 'bounce':
+          '<i class="material-icons">error_outline</i>'
+          break;
+      case 'dropped':
+          '<i class="material-icons">error_outline</i>'
+          break;
       default:
-          default code block
+          ''
       }
   }
 
