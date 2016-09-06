@@ -9,7 +9,7 @@
 
   addLine = function(event, reason, source, created_at) {
     var line = "<tr>";
-    line += "<td>" + icon(event) + "</td>"
+    line += "<td>" + geticon(event) + "</td>"
     line += "<td>" + source + "</td>"
     line += "<td>" + reason + "</td>"
     line += "<td>" + created_at + "</td>"
@@ -17,9 +17,8 @@
     $('#analytics_list').append(line);
   }
 
-  icon = function(id) {
+  geticon = function(id) {
     switch(id) {
-
       case 'open':
           icon = '<i class="material-icons">drafts</i>'
           break;
