@@ -9,6 +9,11 @@
         <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
+      <% if not message.new_record? and current_user.superadmin? %>
+        <li role="presentation">
+          <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques</a>
+        </li>
+      <% end %>
       <% unless message.new_record? %>
         <div class="pull-right"><%= render 'submit_with_status_dropdown', message: @message, size: 'btn-sm' %></div>
       <% end %>
@@ -42,6 +47,11 @@
       <% if not message.new_record? and @message.mtype == 'message' %>
         <div role="tabpanel" class="tab-pane fade in" id="files">
           <%= render 'form_files', {message: @message, mfile: mfile} %>
+        </div>
+      <% end %>
+      <% if not message.new_record? and current_user.superadmin? %>
+        <div role="tabpanel" class="tab-pane fade in" id="analytics">
+          <%= render 'form_analytics', message: @message %>
         </div>
       <% end %>
     </div>

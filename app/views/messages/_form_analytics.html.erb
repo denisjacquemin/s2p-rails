@@ -1,0 +1,28 @@
+<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
+    databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
+  };
+  firebase.initializeApp(config);
+  var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> );
+
+  addLine = function(event, reason, source, created_at) {
+    var line = "tr";
+    line += "<td>" + event + "</td>"
+    line += "<td>" + source + "</td>"
+    line += "<td>" + reason + "</td>"
+    line += "<td>" + created_at + "</td>"
+    line += "</tr>"
+    $('#analytics').append(content);
+  }
+
+  messagesRef.on('child_added', function(data) {
+    addCommentElement(postElement, data.key, data.val().text, data.val().author);
+  });
+</script>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table id="analytics"></table>
+  </div>
+</div>
