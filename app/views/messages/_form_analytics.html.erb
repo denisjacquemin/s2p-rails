@@ -37,7 +37,7 @@
       return icon;
   }
 
-  messagesRef.on('child_added', function(data) {
+  messagesRef.orderByKey().on('child_added', function(data) {
     var reason = ''
     if (data.val().reason != undefined) {
       reason = data.val().reason
@@ -47,6 +47,16 @@
 </script>
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <table id="analytics_list" class="table"></table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Source</th>
+          <th>Commentaire</th>
+          <th>Date/heure</th>
+        </tr>
+      </thead>
+      <tbody id="analytics_list"></tbody>
+    </table>
   </div>
 </div>
