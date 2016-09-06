@@ -35,6 +35,10 @@
   }
 
   messagesRef.on('child_added', function(data) {
+    var reason = ''
+    if (data.val().reason != undefined) {
+      reason = data.val().reason
+    }
     addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
   });
 </script>
