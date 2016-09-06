@@ -17,6 +17,19 @@
     $('#analytics_list').append(line);
   }
 
+  icon = function(id) {
+    switch(id) {
+      case 'bounce':
+          '<i class="material-icons">error_outline</i>'
+          break;
+      case 'open':
+          '<i class="material-icons">drafts</i>'
+          break;
+      default:
+          default code block
+      }
+  }
+
   messagesRef.on('child_added', function(data) {
     addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
   });
