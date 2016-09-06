@@ -14,7 +14,7 @@
     line += "<td>" + reason + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics').append(content);
+    $('#analytics').append(line);
   }
 
   messagesRef.on('child_added', function(data) {
