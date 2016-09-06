@@ -21,17 +21,18 @@
     switch(id) {
 
       case 'open':
-          '<i class="material-icons">drafts</i>'
+          icon = '<i class="material-icons">drafts</i>'
           break;
       case 'bounce':
-          '<i class="material-icons">error_outline</i>'
+          icon = '<i class="material-icons">error_outline</i>'
           break;
       case 'dropped':
-          '<i class="material-icons">error_outline</i>'
+          icon = '<i class="material-icons">error_outline</i>'
           break;
       default:
-          ''
+          icon = ''
       }
+      return icon;
   }
 
   messagesRef.on('child_added', function(data) {
