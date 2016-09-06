@@ -11,18 +11,18 @@
     var line = "<tr>";
     line += "<td>" + geticon(event) + "</td>"
     line += "<td>" + source + "</td>"
-    line += "<td>" + getcomment(reason) + "</td>"
+    line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
     $('#analytics_list').append(line);
   }
 
-  getcomment = function(reason) {
+  getcomment = function(reason, event) {
     var comment = ''
     if (reason != undefined) {
       comment = reason
     } else {
-      switch(id) {
+      switch(event) {
         case 'open':
             comment = 'Email ouvert'
             break;
