@@ -5,7 +5,7 @@
     databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
   };
   firebase.initializeApp(config);
-  var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> );
+  var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
   addLine = function(event, reason, source, created_at) {
     var line = "tr";
