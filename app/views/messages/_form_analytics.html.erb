@@ -11,10 +11,35 @@
     var line = "<tr>";
     line += "<td>" + geticon(event) + "</td>"
     line += "<td>" + source + "</td>"
-    line += "<td>" + reason + "</td>"
+    line += "<td>" + getcomment(reason) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
     $('#analytics_list').append(line);
+  }
+
+  getcomment = function(reason) {
+    var comment = ''
+    if (reason != undefined) {
+      comment = reason
+    } else {
+      switch(id) {
+        case 'open':
+            comment = 'Email ouvert'
+            break;
+        case 'bounce':
+            comment = 'Email incorrect'
+            break;
+        case 'dropped':
+            comment = 'Email incorrect'
+            break;
+        case 'delivered':
+            icon = 'Email envoyé'
+            break;
+        default:
+            icon = ''
+        }
+    }
+    return comment;
   }
 
   geticon = function(id) {
@@ -38,10 +63,6 @@
   }
 
   messagesRef.orderByKey().on('child_added', function(data) {
-    var reason = ''
-    if (data.val().reason != undefined) {
-      reason = data.val().reason
-    }
     addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
   });
 </script>
