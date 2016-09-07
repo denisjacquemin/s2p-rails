@@ -60,6 +60,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    animate-rails (1.0.10)
+      rails
     ansi (1.5.0)
     arel (7.0.0)
     autoprefixer-rails (6.3.3)
@@ -238,6 +240,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  animate-rails
   aws-sdk (~> 2)
   bootstrap-sass (~> 3.3.6)
   byebug

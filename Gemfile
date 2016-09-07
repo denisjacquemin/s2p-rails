@@ -21,6 +21,7 @@ gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
 gem 'mail'
 gem 'rpush' # https://github.com/rpush/rpush/wiki/Heroku
+gem "animate-rails"
 
 gem 'roadie-rails', '~> 1.0'
 
