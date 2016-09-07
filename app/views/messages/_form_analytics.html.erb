@@ -13,7 +13,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics_list').prepend(line);
+    $('#analytics_list').prepend(line).effect("highlight", {}, 3000);
   }
 
   getcomment = function(reason, event) {
