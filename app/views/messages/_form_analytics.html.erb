@@ -13,7 +13,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics_list').prepend(line).addClass("animated fadeInDown");
+    $('#analytics_list').prepend($(line).addClass("animated fadeInDown"));
   }
 
   getcomment = function(reason, event) {
