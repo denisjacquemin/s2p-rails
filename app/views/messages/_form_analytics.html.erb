@@ -13,7 +13,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics_list').append(line);
+    $('#analytics_list').prepend(line);
   }
 
   getcomment = function(reason, event) {
@@ -59,7 +59,7 @@
       return icon;
   }
 
-  messagesRef.orderByKey().on('child_added', function(data) {
+  messagesRef.on('child_added', function(data) {
     addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
   });
 </script>
