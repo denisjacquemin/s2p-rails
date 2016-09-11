@@ -87,7 +87,6 @@ class Message < ApplicationRecord
 
       devicesAndroid = Device.active.android.by_codes(codes)
       build_android_notifications(self, devicesAndroid) if self.send_to_app
-
       build_emails(students, self) if self.send_by_email
     end
   end
@@ -137,7 +136,7 @@ class Message < ApplicationRecord
       message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
       MessageMailer.message_email(e, message).deliver
     end
-
+    message.content = content
   end
 
   def replace_code_smart_tag(students, email, content)
