@@ -139,4 +139,14 @@ class Message < ApplicationRecord
     end
 
   end
+
+  def replace_code_smart_tag(students, email, content)
+    codes = ""
+    students.each do |s|
+      #puts "#{s.code} found for student #{s.fullname} and email #{email} $$$$ (#{s.inspect})"
+      codes << "<li>#{s.fullname}: #{s.code}</li>" if s.emails.present? and s.emails.include?(email)
+    end
+
+    content.gsub('[code]', "<ul>#{codes}</ul>")
+  end
 end

@@ -64,7 +64,6 @@ class Student < ApplicationRecord
     self.groups = self.groups + groups_to_add
   end
 
-
   def self.to_csv_file
     attributes = ['Prénom', 'Nom', 'Emails', 'Envoi des messages via email', 'Année', 'Titulaire', 'Code']
     CSV.generate(headers: true, :col_sep => ';') do |csv|
