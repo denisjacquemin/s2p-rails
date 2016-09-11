@@ -15,7 +15,7 @@
                   <% Group.by_school(current_school).each do |group| %>
                     <tr>
                       <td><input type="checkbox" value="<%= group.id %>"/></td>
-                      <td><label data-toggle="popover" title="Détails" data-content=""><%= group.name %></label></td>
+                      <td><label><%= group.name %></label></td>
                     </tr>
                   <% end %>
                 </tbody>
