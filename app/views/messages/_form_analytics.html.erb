@@ -13,7 +13,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics_list').prepend($(line).addClass("animated fadeInDown"));
+    $('#analytics_list').prepend($(line).addClass("animated bounceIn"));
   }
 
   getcomment = function(reason, event) {
@@ -48,7 +48,7 @@
           icon = '<i class="material-icons">drafts</i>'
           break;
       case 'open_by_mobile':
-          icon = '<i class="glyphicon glyphicon-phone">mobile</i>'
+          icon = '<i class="glyphicon glyphicon-phone"></i>'
           break;
       case 'bounce':
           icon = '<i class="material-icons">error_outline</i>'
