@@ -6,7 +6,9 @@
   firebase.initializeApp(config);
   var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
-  addLine = function(event, reason, source, created_at) {
+  addLine = function(event, reason, source = '', created_at) {
+
+
     var line = "<tr>";
     line += "<td>" + geticon(event) + "</td>"
     line += "<td>" + source + "</td>"
