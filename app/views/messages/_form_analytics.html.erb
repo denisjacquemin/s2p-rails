@@ -25,6 +25,9 @@
         case 'open':
             comment = 'Email ouvert'
             break;
+        case 'open_by_mobile':
+            comment = 'Vu sur mobile'
+            break;
         case 'bounce':
             comment = 'Email non envoyé'
             break;
@@ -43,6 +46,9 @@
     switch(id) {
       case 'open':
           icon = '<i class="material-icons">drafts</i>'
+          break;
+      case 'open_by_mobile':
+          icon = '<i class="glyphicon glyphicon-phone">mobile</i>'
           break;
       case 'bounce':
           icon = '<i class="material-icons">error_outline</i>'
