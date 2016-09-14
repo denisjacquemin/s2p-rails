@@ -18,26 +18,26 @@
 
   getcomment = function(reason, event) {
     var comment = ''
+    switch(event) {
+      case 'open':
+          comment = 'Email ouvert'
+          break;
+      case 'open_by_mobile':
+          comment = 'Vu sur mobile'
+          break;
+      case 'bounce':
+          comment = 'Email non envoyé'
+          break;
+      case 'dropped':
+          comment = 'Email non envoyé'
+          break;
+      case 'delivered':
+          comment = 'Email envoyé'
+          break;
+      }
+
     if (reason != undefined) {
-      comment = reason
-    } else {
-      switch(event) {
-        case 'open':
-            comment = 'Email ouvert'
-            break;
-        case 'open_by_mobile':
-            comment = 'Vu sur mobile'
-            break;
-        case 'bounce':
-            comment = 'Email non envoyé'
-            break;
-        case 'dropped':
-            comment = 'Email non envoyé'
-            break;
-        case 'delivered':
-            comment = 'Email envoyé'
-            break;
-        }
+       comment = '<span data-toggle="tooltip" data-placement="top" title="' + reason + '">comment</span>'
     }
     return comment;
   }
