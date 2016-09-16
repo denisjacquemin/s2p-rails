@@ -135,6 +135,7 @@ GEM
     minitest (5.8.4)
     multi_json (1.11.2)
     net-http-persistent (2.9.4)
+    newrelic_rpm (3.16.2.321)
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -255,6 +256,7 @@ DEPENDENCIES
   jquery-rails
   kramdown
   mail
+  newrelic_rpm
   pg
   puma
   pundit
