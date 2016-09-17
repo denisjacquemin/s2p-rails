@@ -74,19 +74,23 @@ class Message < ApplicationRecord
     self.publish_date = DateTime.now
     groups = self.groups
     if groups.present? or self.students.present?
-      students = Student.by_groups(groups) unless groups.nil?
-      students = students + Student.find(self.students) unless self.students.nil?
-      students = students.uniq
-      student_codes = students.map {|s| s.code }
-      codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
 
-      devicesIOS = Device.active.ios.by_codes(codes)
-      build_ios_notifications(self, devicesIOS) if self.send_to_app
+      send_message_notifications(self)
+
+
+      # students = Student.by_groups(groups) unless groups.nil?
+      # students = students + Student.find(self.students) unless self.students.nil?
+      # students = students.uniq
+      # student_codes = students.map {|s| s.code }
+      # codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
+      #
+      # devicesIOS = Device.active.ios.by_codes(codes)
+      # build_ios_notifications(self, devicesIOS) if self.send_to_app
 
       #@message.notify_ios(devicesIOS, truncate(@message.title, :length => 200))
 
-      devicesAndroid = Device.active.android.by_codes(codes)
-      build_android_notifications(self, devicesAndroid) if self.send_to_app
+      # devicesAndroid = Device.active.android.by_codes(codes)
+      # build_android_notifications(self, devicesAndroid) if self.send_to_app
       build_emails(students, self) if self.send_by_email
     end
   end

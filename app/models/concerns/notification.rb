@@ -1,5 +1,59 @@
 module Notification extend ActiveSupport::Concern
 
+    def send_message_notifications(message)
+      groups_ids = message.groups
+      students_ids = message.students
+
+      devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
+      devicesAndroid = devices.android.active
+      devicesIOS = devices.ios.active
+
+
+      dataIOS = {
+        "title": truncate(message.title, :length => 200),
+        "message_id": message.id,
+        "content-available": 1
+      }
+      byebug
+      send_ios_notifications(message.title, devicesIOS, dataIOS)
+
+      dataAndroid = {
+        "message_id": message.id,
+        "notId": message.id,
+        "priority": 2,
+        "title": truncate(message.title, :length => 200),
+        "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
+        "content-available": "1",
+        "visibility": 1 # public
+      }
+      byebug
+      send_android_notifications(message.title, devicesAndroid, dataAndroid)
+    end
+
+    def getDevicesByGroupsAndStudents(groups_ids, students_ids)
+      # handle groups == nil
+      # handle students
+      # handle groups
+      # handle all_students
+      if groups_ids.nil?
+        return nil
+      else
+        students = Student.by_groups(groups_ids).pluck(:code) unless groups_ids.nil?
+        students += Student.find(students_ids).pluck(:code) unless students_ids.nil?
+        groups = Group.find(groups_ids).pluck(:code)
+        # if groups_ids contains all_student, get all students for the targeted schools
+        #all_students_groups = Group.where(id: groups_ids, internal_id: 'all_students')
+        #alls_students = all_students_groups.map { |g| Student.by_school(g.school_id).pluck(:code)}
+        #students += alls_students
+
+        students.uniq!
+        Device.by_codes(students + groups)
+        # find devices by students.pluck(:code) groups.pluck(:code)
+      end
+
+    end
+
+
     def send_ios_notifications(alert, devices, data = {})
       logger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
       begin
@@ -20,6 +74,24 @@ module Notification extend ActiveSupport::Concern
         }
       rescue => e
         logger.error "Exception send_ios_notifications: #{e}"
+      end
+    end
+
+    def send_android_notifications(alert, devices, data = {})
+      logger.info "[NOTIFICATION ANDROID] message(#{alert}) devices(#{devices.inspect})"
+      begin
+        registration_ids = devices.map{|device| device.registration_id}
+        unless registration_ids.nil?
+          n = Rpush::Gcm::Notification.new
+          n.app = Rpush::Gcm::App.find_by_name("android_app")
+          n.registration_ids = registration_ids
+          n.delay_while_idle = true
+          n.data = data
+          n.save!
+          logger.info "payload: #{n.payload}"
+        end
+      rescue => e
+        puts "Exception build_android_notifications: #{e}"
       end
     end
 
