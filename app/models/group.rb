@@ -10,6 +10,7 @@ class Group < ApplicationRecord
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :all_writers_by_schools, ->(school_ids) { where(internal_id: 'all_writers', school_id: school_ids) }
   scope :all_students_by_school, ->(school_id) { where(internal_id: 'all_students', school_id: school_id) }
+  scope :by_code, ->(code) { where(code: code) }
 
   default_scope { order('name ASC') }
 
