@@ -4,7 +4,7 @@ module Code extend ActiveSupport::Concern
       @key = key
       custom_hash_alphabet = 'abcdefghijkmnopqrstuvwxyz23456789' # https://www.grc.com/ppp.htm
       hash = compute_hash(@key, custom_hash_alphabet)
-      while !Student.by_code(prefix + hash).empty? do
+      while !self.class.by_code(prefix + hash).empty? do
         @key = "#{rand(9999)}" + @key  # add nothing to the key to generate a different code
         hash = compute_hash(@key, custom_hash_alphabet)
       end
