@@ -91,7 +91,7 @@ class Message < ApplicationRecord
 
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
-      build_emails(students, self) if self.send_by_email
+      build_emails(students, self) if self.send_by_email and students.present?
     end
   end
 
