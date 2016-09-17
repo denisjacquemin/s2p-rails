@@ -14,7 +14,6 @@ module Notification extend ActiveSupport::Concern
         "message_id": message.id,
         "content-available": 1
       }
-      byebug
       send_ios_notifications(message.title, devicesIOS, dataIOS)
 
       dataAndroid = {
@@ -26,7 +25,6 @@ module Notification extend ActiveSupport::Concern
         "content-available": "1",
         "visibility": 1 # public
       }
-      byebug
       send_android_notifications(message.title, devicesAndroid, dataAndroid)
     end
 
