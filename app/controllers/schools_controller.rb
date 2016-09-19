@@ -87,7 +87,7 @@ class SchoolsController < ApplicationController
 
   def change_school
     session[:current_school]  = params[:selected_school_id]
-    redirect root_path
+    redirect_to root_path
   end
 
   private
