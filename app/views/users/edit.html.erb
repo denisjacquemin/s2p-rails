@@ -41,76 +41,78 @@
             <%= f.text_field :function, class: "form-control" %>
           </div>
 
-          <div class="row groups">
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <ul class="nav nav-pills">
-                      <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes</a></li>
-                      <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Elèves</a></li>
-                    </ul>
-                  </div>
-                  <div class="panel-body">
-                    <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane fade in active" id="groups">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>Groupes</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <%= hidden_field_tag "user[group_ids][]", nil %>
-                          <%
-                              groups = Group.by_school(current_school)
-                              groups.each do |g| %>
+          <% unless @user.admin? %>
+            <div class="row groups">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <ul class="nav nav-pills">
+                        <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes</a></li>
+                        <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Elèves</a></li>
+                      </ul>
+                    </div>
+                    <div class="panel-body">
+                      <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="groups">
+                          <table class="table">
+                            <thead>
                               <tr>
-                                <td>
-                                  <%= check_box_tag "user[group_ids][#{g.id}]",
-                                   g.id,
-                                   @user.groups.include?(g),
-                                   name: 'user[group_ids][]' %>
-                                  <%= g.name %>
-                                </td>
+                                <th>Groupes</th>
                               </tr>
-                            <% end %>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div role="tabpanel" class="tab-pane fade in" id="students">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>Elèves</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <%= hidden_field_tag "user[student_ids][]", nil %>
-                          <%
-                              students = Student.by_school(current_school)
-                              students.each do |s| %>
+                            </thead>
+                            <tbody>
+                            <%= hidden_field_tag "user[group_ids][]", nil %>
+                            <%
+                                groups = Group.by_school(current_school)
+                                groups.each do |g| %>
+                                <tr>
+                                  <td>
+                                    <%= check_box_tag "user[group_ids][#{g.id}]",
+                                     g.id,
+                                     @user.groups.include?(g),
+                                     name: 'user[group_ids][]' %>
+                                    <%= g.name %>
+                                  </td>
+                                </tr>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="students">
+                          <table class="table">
+                            <thead>
                               <tr>
-                                <td>
-                                  <%= check_box_tag "user[student_ids][#{s.id}]",
-                                   s.id,
-                                   @user.students.include?(s),
-                                   name: 'user[student_ids][]' %>
-                                  <%= s.fullname %>
-                                </td>
+                                <th>Elèves</th>
                               </tr>
-                            <% end %>
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                            <%= hidden_field_tag "user[student_ids][]", nil %>
+                            <%
+                                students = Student.by_school(current_school)
+                                students.each do |s| %>
+                                <tr>
+                                  <td>
+                                    <%= check_box_tag "user[student_ids][#{s.id}]",
+                                     s.id,
+                                     @user.students.include?(s),
+                                     name: 'user[student_ids][]' %>
+                                    <%= s.fullname %>
+                                  </td>
+                                </tr>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                  <h3>Droit d'accès groupes et élèves</h3>
+                  <p>Le rédacteur peux choisir d'envoyer un message uniquement aux groupes et aux élèves sélectionnés ci-contre.</p>
+                </div>
               </div>
-              <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
-                <h3>Droit d'accès groupes et élèves</h3>
-                <p>Le rédacteur peux choisir d'envoyer un message uniquement aux groupes et aux élèves sélectionnés ci-contre.</p>
-              </div>
-            </div>
+            <% end %>
       </div>
   </div>
 <% end %>
