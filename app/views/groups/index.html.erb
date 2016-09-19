@@ -37,11 +37,15 @@
           </tbody>
         </table>
       <% else %>
-        <p>Aucun groupe
-          <% if policy(:group).new? %>
-          , <%= link_to 'créer un groupe maintenant', new_group_path %>
-          <% end %>
-        </p>
+        <% if current_user.admin? %>
+          <p>Aucun groupe
+            <% if policy(:group).new? %>
+            , <%= link_to 'créer un groupe maintenant', new_group_path %>
+            <% end %>
+          </p>
+        <% else %>
+          <p><%= I18n.t('views.messages.groups_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+        <% end %>
       <% end %>
     </div>
 </div>

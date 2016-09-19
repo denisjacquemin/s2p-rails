@@ -9,16 +9,21 @@
 super_admin = CreateSuperAdminService.new.call
 puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
 
-app = Rpush::Apns::App.new
-app.name = "ios_app"
-app.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # https://github.com/rpush/rpush/wiki/Generating-Certificates
-app.environment = Rails.application.secrets.apns_env # APNs environment.
-app.password = Rails.application.secrets.ios_push_cert_password
-app.connections = 1
-app.save!
+School.create(name: 'Ecole demo') if !School.exists?(name: 'Ecole demo')
 
-appA = Rpush::Gcm::App.new
-appA.name = "android_app"
-appA.auth_key = Rails.application.secrets.gcm_auth_key
-appA.connections = 1
-appA.save!
+if !Rpush::Apns::App.exists?(name: "ios_app")
+  app = Rpush::Apns::App.new
+  app.name = "ios_app"
+  app.certificate = File.read("config/" + Rails.application.secrets.apns_cert_filename) # https://github.com/rpush/rpush/wiki/Generating-Certificates
+  app.environment = Rails.application.secrets.apns_env # APNs environment.
+  app.password = Rails.application.secrets.ios_push_cert_password
+  app.connections = 1
+  app.save!
+end
+if !Rpush::Gcm::App.exists?(name: "android_app")
+  appA = Rpush::Gcm::App.new
+  appA.name = "android_app"
+  appA.auth_key = Rails.application.secrets.gcm_auth_key
+  appA.connections = 1
+  appA.save!
+end

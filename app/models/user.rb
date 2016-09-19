@@ -5,18 +5,24 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :lockable
+         :lockable, :validate_on_invite => true
 
   belongs_to :school, required: false
   has_many :messages
+  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :students
+
 
   validates :firstname, presence: true
   validates :lastname, presence: true
+  # validates :email, presence: true
+  #validates_uniqueness_of :email
 
   scope :active_and_invitation_accepted, -> { where(deleted_at: nil).where.not(invitation_accepted_at: nil) }
   scope :active, -> { where(deleted_at: nil) }
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
+  scope :by_code, ->(code) { where(code: code) }
   scope :admin, -> { where(role: :admin)}
   scope :superdamin, -> { where(role: :superadmin)}
   scope :no_superadmin, -> { where.not(role: :superadmin)}
@@ -25,7 +31,7 @@ class User < ApplicationRecord
     compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
   end
 
-  after_invitation_accepted :set_and_save_all_writers
+  # after_invitation_accepted :set_and_save_all_writers
 
   # role used by pundit
   enum role: [:user, :superadmin, :admin]
@@ -78,19 +84,19 @@ class User < ApplicationRecord
     School.by_ids(self.schools)
   end
 
-  def set_and_save_all_writers
-    set_all_writers
-    self.save
-  end
+  # def set_and_save_all_writers
+  #   set_all_writers
+  #   self.save
+  # end
+  #
+  # def set_all_writers
+  #   groups = Group.all_writers_by_schools(self.schools).pluck(:id)
+  #   self.groups = groups
+  # end
 
-  def set_all_writers
-    groups = Group.all_writers_by_schools(self.schools).pluck(:id)
-    self.groups = groups
-  end
-
-  def set_groups
-    all_writers = Group.find_by(internal_id: 'all_writers', school_id: self.school_id)
-    User.add_group(self.id, all_writers.id) unless all_writers.nil?
-  end
+  # def set_groups
+  #   all_writers = Group.find_by(internal_id: 'all_writers', school_id: self.school_id)
+  #   User.add_group(self.id, all_writers.id) unless all_writers.nil?
+  # end
 
 end

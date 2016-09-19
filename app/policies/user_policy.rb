@@ -6,7 +6,7 @@ class UserPolicy < ApplicationPolicy
 
   def destroy?
 
-    
+
     # cannot destroy superadmin
     return false if @record.superadmin?
 

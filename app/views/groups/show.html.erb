@@ -40,7 +40,9 @@
     <% end %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-    <h3><%= t('views.groups.show.not_editable_group_title') %></h3>
-    <p><%= t('views.groups.show.not_editable_group_help') %></p>
+    <% if current_user.admin? %>
+      <h3><%= t('views.groups.show.not_editable_group_title') %></h3>
+      <p><%= t('views.groups.show.not_editable_group_help') %></p>
+    <% end %>
   </div>
 </div>

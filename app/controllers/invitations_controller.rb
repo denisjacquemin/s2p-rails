@@ -3,12 +3,16 @@ class InvitationsController < Devise::InvitationsController
   private
     def invite_resource
         resource_class.invite!(invite_params, current_inviter) do |invitable|
-            if current_user.admin?
-              invitable.schools << current_school.id
+            if invitable.errors.empty?
+              if current_user.admin?
+                invitable.schools << current_school.id
+              end
+              if current_user.superadmin?
+                invitable.admin!
+                invitable.schools << current_school.id
+              end
             end
-            if current_user.superadmin?
-              invitable.admin!
-            end
+            invitable
         end
     end
 end

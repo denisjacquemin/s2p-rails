@@ -1,49 +1,122 @@
-<h1>Rédacteurs</h1>
-<hr />
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= form_for(@user) do |f| %>
-      <%= render 'layouts/errors', object: @user %>
-        <div class="form-group">
-          <%= f.label :lastname %>
-          <%= f.text_field :lastname, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :firstname %>
-          <%= f.text_field :firstname, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.text_field :email, class: "form-control" %>
-        </div>
-        <% if current_user.admin? and current_user.schools.size > 1 %>
+<%= form_for(@user) do |f| %>
+  <h1>Rédacteurs
+    <div class="pull-right"><%= f.submit "Enregistrer", class: 'btn btn-primary' %></div>
+  </h1>
+  <hr />
+  <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+        <%= render 'layouts/errors', object: @user %>
           <div class="form-group">
-            <%= f.label :school, 'Implentation(s)' %>
-            <%= f.collection_check_boxes(:schools, current_user.schools_obj, :id, :name , {class: "form-control"})  do |b| %>
-              </br>
-              <%= b.check_box %>
-              <%= b.text %>
-            <% end %>
+            <%= f.label :lastname %>
+            <%= f.text_field :lastname, class: "form-control" %>
           </div>
-        <% end %>
-        <% roles = User.roles.keys %>
-        <% roles.delete "superadmin" if current_user.admin? %>
-        <div class="form-group">
-          <%= f.label :role %>
-          <%= f.select(:role, roles.map {|role| role === 'user'? ['Rédacteur', role] : [role.titleize,role]}, {}, {class: "form-control"})  %>
-        </div>
+          <div class="form-group">
+            <%= f.label :firstname %>
+            <%= f.text_field :firstname, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.text_field :email, class: "form-control" %>
+          </div>
+          <% if current_user.admin? and current_user.schools.size > 1 %>
+            <div class="form-group">
+              <%= f.label :school, 'Implentation(s)' %>
+              <%= f.collection_check_boxes(:schools, current_user.schools_obj, :id, :name , {class: "form-control"})  do |b| %>
+                </br>
+                <%= b.check_box %>
+                <%= b.text %>
+              <% end %>
+            </div>
+          <% end %>
+          <% roles = User.roles.keys %>
+          <% roles.delete "superadmin" if current_user.admin? %>
+          <div class="form-group">
+            <%= f.label :role %>
+            <%= f.select(:role, roles.map {|role| role === 'user'? ['Rédacteur', role] : [role.titleize,role]}, {}, {class: "form-control"})  %>
+          </div>
 
-        <div class="form-group">
-          <%= f.label :function, 'Fonction' %>
-          <%= f.text_field :function, class: "form-control" %>
-        </div>
+          <div class="form-group">
+            <%= f.label :function, 'Fonction' %>
+            <%= f.text_field :function, class: "form-control" %>
+          </div>
 
-        <%= f.submit "Sauver", class: 'btn btn-primary' %>
-      <% end %>
-      <% if current_user.superadmin? %>
-        <div class="form-group">
-          <%= render "user_'_schools_manager", user: @user %>
-        </div>
-      <% end %>
-    </div>
-</div>
+          <div class="row groups">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <ul class="nav nav-pills">
+                      <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes</a></li>
+                      <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Elèves</a></li>
+                    </ul>
+                  </div>
+                  <div class="panel-body">
+                    <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade in active" id="groups">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Groupes</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <%= hidden_field_tag "user[group_ids][]", nil %>
+                          <%
+                              groups = Group.by_school(current_school)
+                              groups.each do |g| %>
+                              <tr>
+                                <td>
+                                  <%= check_box_tag "user[group_ids][#{g.id}]",
+                                   g.id,
+                                   @user.groups.include?(g),
+                                   name: 'user[group_ids][]' %>
+                                  <%= g.name %>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade in" id="students">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Elèves</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <%= hidden_field_tag "user[student_ids][]", nil %>
+                          <%
+                              students = Student.by_school(current_school)
+                              students.each do |s| %>
+                              <tr>
+                                <td>
+                                  <%= check_box_tag "user[student_ids][#{s.id}]",
+                                   s.id,
+                                   @user.students.include?(s),
+                                   name: 'user[student_ids][]' %>
+                                  <%= s.fullname %>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                <h3>Droit d'accès groupes et élèves</h3>
+                <p>Le rédacteur peux choisir d'envoyer un message uniquement aux groupes et aux élèves sélectionnés ci-contre.</p>
+              </div>
+            </div>
+      </div>
+  </div>
+<% end %>
+
+<% if current_user.superadmin? %>
+  <div class="form-group">
+    <%= render "user_'_schools_manager", user: @user %>
+  </div>
+<% end %>

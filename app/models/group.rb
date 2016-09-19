@@ -4,11 +4,12 @@ class Group < ApplicationRecord
   validates :name, presence: true
 
   belongs_to :school, required: false
+  has_and_belongs_to_many :users
 
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_student_id, ->(student_id) { where("? = ANY(students)", student_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
-  scope :all_writers_by_schools, ->(school_ids) { where(internal_id: 'all_writers', school_id: school_ids) }
+  #scope :all_writers_by_schools, ->(school_ids) { where(internal_id: 'all_writers', school_id: school_ids) }
   scope :all_students_by_school, ->(school_id) { where(internal_id: 'all_students', school_id: school_id) }
   scope :by_code, ->(code) { where(code: code) }
 
@@ -29,7 +30,7 @@ class Group < ApplicationRecord
   end
 
   def clean_automatic_group
-    if (self.updatable === false && self.internal_id != 'all_students' && self.internal_id != 'all_writers')
+    if (self.updatable === false && self.internal_id != 'all_students' ) #&& self.internal_id != 'all_writers'
 
       students = self.students
       self.destroy if students.blank?

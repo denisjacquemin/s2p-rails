@@ -11,6 +11,8 @@ class Student < ApplicationRecord
   after_destroy :clean_groups
 
   belongs_to :school, required: false
+  has_and_belongs_to_many :users
+
 
   default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
 
@@ -204,5 +206,4 @@ class Student < ApplicationRecord
     def find_or_create_group(name, school_id)
       Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
     end
-
 end

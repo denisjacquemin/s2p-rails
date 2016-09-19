@@ -31,7 +31,6 @@ fr:
   model:
     group:
       all_students: Tous les élèves
-      all_writers: Tous les rédacteurs
       all_emails: Tous les emails
   activerecord:
     errors:
@@ -110,6 +109,8 @@ fr:
         submit: 'Enregister le message'
       new:
         submit: 'Enregister le message'
+      students_no_rights: "Aucun élève, demandez à votre administrateur (%{admins}) pour recevoir les droits d'accès sur des élèves."
+      groups_no_rights: "Aucun groupe, demandez à votre administrateur (%{admins}) pour recevoir les droits d'accès sur des groupes d'élèves."
 
   date:
     abbr_day_names:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815063511) do
+ActiveRecord::Schema.define(version: 20160919103113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,13 @@ ActiveRecord::Schema.define(version: 20160815063511) do
     t.string   "code"
     t.boolean  "updatable",   default: true
     t.string   "internal_id"
+  end
+
+  create_table "groups_users", id: false, force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "user_id"
+    t.index ["group_id"], name: "index_groups_users_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_groups_users_on_user_id", using: :btree
   end
 
   create_table "messages", force: :cascade do |t|
@@ -165,6 +172,13 @@ ActiveRecord::Schema.define(version: 20160815063511) do
     t.integer  "followers",             default: 0
     t.string   "emails"
     t.boolean  "sent_message_by_email"
+  end
+
+  create_table "students_users", id: false, force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "user_id"
+    t.index ["student_id"], name: "index_students_users_on_student_id", using: :btree
+    t.index ["user_id"], name: "index_students_users_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

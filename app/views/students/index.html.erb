@@ -53,11 +53,15 @@
           </tbody>
         </table>
       <% else %>
+        <% if current_user.admin? %>
         <p>Aucun élève
           <% if policy(:student).new? %>
             , <%= link_to 'créer un élève maintenant', new_student_path %> ou <%= link_to 'importer un fichier CSV', new_import_csv_path %></p>
           <% end %>
         </p>
+        <% else %>
+          <%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %>
+        <% end %>
       <% end %>
     </div>
     <% if @students.any? %>

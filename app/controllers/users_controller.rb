@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to users_path, notice: t('controller.user.update.success.notice')
+      render :edit, notice: t('controller.user.update.success.notice')
     else
       render :edit
     end
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     @user.schools = @user.schools - actual_schools_to_delete.map(&:to_i) if actual_schools_to_delete.any?
     #User.remove_schools(@user.id, actual_schools_to_delete) if actual_schools_to_delete.any?
 
-    @user.set_all_writers
+    #@user.set_all_writers
 
 
     @user.save
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:firstname, :lastname, :email, :role, :function, :schools => [])
+      params.require(:user).permit(:firstname, :lastname, :email, :role, :function, :schools => [], :group_ids => [], :student_ids => [])
     end
 
 end

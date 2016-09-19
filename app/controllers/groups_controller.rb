@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = policy_scope(Group).where(school_id: current_school.id)
+    @groups = Message.recipients_groups(current_school, current_user)
   end
 
   # GET /groups/1

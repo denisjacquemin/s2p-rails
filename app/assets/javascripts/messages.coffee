@@ -81,3 +81,5 @@ $(document).on 'ready page:load', ->
       $('.message_mtype').hide()
   $('.submit_with_status').click (e) ->
     submit_with_status($(e.target).data('status'))
+
+  $('[data-toggle="popover"]').popover()

@@ -10,30 +10,42 @@
         <div class="panel-body table-responsive">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active" id="groups">
-              <table class="table table-hover table-condensed" >
-                <tbody id="group_list">
-                  <% Group.by_school(current_school).each do |group| %>
-                    <tr>
-                      <td><input type="checkbox" value="<%= group.id %>"/></td>
-                      <td><label><%= group.name %></label></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
+              <% groups = Message.recipients_groups(current_school, current_user) %>
+              <% if groups.present? %>
+                <table class="table table-hover table-condensed" >
+                  <tbody id="group_list">
+                    <% groups.each do |group| %>
+                      <tr>
+                        <td><input type="checkbox" value="<%= group.id %>"/></td>
+                        <td><label><%= group.name %></label></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+              <% if groups.empty? %>
+                <p><%= I18n.t('views.messages.groups_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+              <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in" id="students">
-              <table class="table table-hover table-condensed" >
-                <tbody id="student_list">
-                  <% Student.by_school(current_school).each do |student| %>
-                    <tr>
-                      <td><input type="checkbox" value="<%= student.id %>"/></td>
-                      <td><label><%= student.fullname %></label></td>
-                      <td><%= student.level %></td>
-                      <td><%= student.classroom %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
+              <% students = Message.recipients_students(current_school, current_user) %>
+              <% if students.present? %>
+                <table class="table table-hover table-condensed" >
+                  <tbody id="student_list">
+                    <% students.each do |student| %>
+                      <tr>
+                        <td><input type="checkbox" value="<%= student.id %>"/></td>
+                        <td><label><%= student.fullname %></label></td>
+                        <td><%= student.level %></td>
+                        <td><%= student.classroom %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+              <% if students.empty? %>
+                <p><%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+              <% end %>
             </div>
           </div>
         </div>

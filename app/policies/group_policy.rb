@@ -35,8 +35,8 @@ class GroupPolicy < ApplicationPolicy
     def resolve
       if user.superadmin?
         scope.all
-      else
-        scope.where(school_id: user.schools)
+      # else
+      #   scope.where(school_id: user.schools)
       end
     end
   end

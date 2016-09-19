@@ -152,4 +152,19 @@ class Message < ApplicationRecord
 
     content.gsub('[code]', "<ul>#{codes}</ul>")
   end
+
+  def self.recipients_groups(school, user)
+    if user.admin?
+      Group.by_school(school.id)
+    else # user is a writer
+      user.groups.by_school(school.id)
+    end
+  end
+  def self.recipients_students(school, user)
+    if user.admin?
+      Student.by_school(school.id)
+    else # user is a writer
+      user.students.by_school(school.id)
+    end
+  end
 end
