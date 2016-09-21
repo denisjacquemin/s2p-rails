@@ -34,4 +34,6 @@
 //= require students
 //= require users
 //= require list
+//= require algolia/v3/algoliasearch.min
+//= require autocomplete.min
 // require_tree .

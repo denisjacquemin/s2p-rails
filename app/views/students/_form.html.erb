@@ -5,7 +5,7 @@
     submit_label = t('views.students.new.submit')
     submit_label = t('views.students.edit.submit') unless @student.new_record?
   %>
-
+  <%= hidden_field_tag 'school_id', current_school.id %> 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
       <div class="pull-right">
@@ -36,13 +36,13 @@
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="form-group">
         <%= f.label :level %>
-        <%= f.text_field :level, class: 'form-control' %>
+        <%= f.text_field :level, class: 'form-control ac' %>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="form-group">
         <%= f.label :classroom %>
-        <%= f.text_field :classroom, class: 'form-control' %>
+        <%= f.text_field :classroom, class: 'form-control ac' %>
       </div>
     </div>
   </div>

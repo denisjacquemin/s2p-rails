@@ -19,6 +19,8 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'newrelic_rpm'
 
+gem "algoliasearch-rails"
+
 gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
 gem 'mail'

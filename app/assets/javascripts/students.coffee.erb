@@ -45,6 +45,22 @@ $(document).on 'ready page:load', ->
     checkboxes = $('input.scb')
     checkboxes.prop("checked", newVal)
 
+  client = algoliasearch('<%= Rails.application.secrets.algolia_app_id %>', '<%= Rails.application.secrets.algolia_search_api_key %>');
+  index = client.initIndex('Group');
+  ac = autocomplete('.ac', { hint: true },
+    source: autocomplete.sources.hits(client.initIndex('Group'), {
+      hitsPerPage: 5,
+      numericFilters: ["school_id=" + $('#school_id').val()]
+      })
+    displayKey: 'name'
+    templates:
+      suggestion: (suggestion) ->
+        return suggestion._highlightResult.name.value
+  ).on('autocomplete:selected', (event, suggestion) ->
+    console.log 'onselected', suggestion
+    return
+  )
+
   $('#destroy_all').click (e) ->
     e.preventDefault()
     if confirm 'Etes vous sûr?'
