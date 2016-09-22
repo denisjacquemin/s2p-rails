@@ -162,39 +162,39 @@ class StudentsController < ApplicationController
 
     SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
       r.each do |data|
-
-        groups = []
-
-        data['school_id'] = current_school.id
-
-        student = nil
-        if (data[:code].nil?)
-          student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
-        else
-          student = Student.where(['code = ?', data[:code]]).first
-        end
-
-        if student.nil?
-          @student = Student.new data
-          logger.info "student to create #{@student.inspect}"
-          if policy(@student).create?
-            if @student.save
-              logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
-            else
-              logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
-            end
-          end
-        else
-          if policy(student).update?
-            if student.update_attributes(data)
-              logger.info "student #{student.firstname} #{student.lastname} updated"
-            else
-              logger.info "student update fail for #{student.firstname} #{student.lastname}"
-            end
-          else
-            logger.info "student update fail for, invalid authorization"
-          end
-        end
+        CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
+        # groups = []
+        #
+        # data['school_id'] = current_school.id
+        #
+        # student = nil
+        # if (data[:code].nil?)
+        #   student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
+        # else
+        #   student = Student.where(['code = ?', data[:code]]).first
+        # end
+        #
+        # if student.nil?
+        #   @student = Student.new data
+        #   logger.info "student to create #{@student.inspect}"
+        #   if policy(@student).create?
+        #     if @student.save
+        #       logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
+        #     else
+        #       logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+        #     end
+        #   end
+        # else
+        #   if policy(student).update?
+        #     if student.update_attributes(data)
+        #       logger.info "student #{student.firstname} #{student.lastname} updated"
+        #     else
+        #       logger.info "student update fail for #{student.firstname} #{student.lastname}"
+        #     end
+        #   else
+        #     logger.info "student update fail for, invalid authorization"
+        #   end
+        # end
 
       end
     end
