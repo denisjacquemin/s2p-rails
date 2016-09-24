@@ -21,6 +21,11 @@ gem 'newrelic_rpm'
 
 gem "algoliasearch-rails"
 
+gem "mimemagic"
+
+gem 'firebase', '~> 0.2.6'
+
+
 gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
 gem 'mail'

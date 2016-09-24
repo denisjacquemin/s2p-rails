@@ -1,0 +1,25 @@
+<h3>Importer une liste d'élèves</h3>
+<p>L'importation via fichier .csv permet de créer ou mettre à jour rapidement une liste d'élèves.</p>
+<h3>Fichier d'exemple</h3>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= link_to 'eleves.csv', '/eleves.csv' %>
+  </div>
+</div>
+<h3>Colonnes</h3>
+<dl>
+  <dt>Prénom</dt>
+  <dd>Prénom de l'élève.</dd>
+  <dt>Nom</dt>
+  <dd>Nom de l'élève.</dd>
+  <dt>Emails</dt>
+  <dd>0, 1 ou plusieurs emails, séparé(s) par un espace.</dd>
+  <dt>Envoi des messages via email</dt>
+  <dd><em>Oui</em> ou <em>Non</em>.</dd>
+  <dt>Année</dd>
+  <dd>Identifie l'année dans laquelle se trouve l'élève, un groupe de diffusion correspondant sera créé automatiquement.</dt>
+  <dt>Titulaire</dd>
+  <dd>Titulaire de l'élève, un groupe de diffusion correspondant sera créé automatiquement.</dt>
+  <dt>Code</dd>
+  <dd>Colonne inutile pour la création d'un nouvel élève, utile pour la mise à jour d'un élève, cette colonne est générée par un <em>Export CSV</em>.</dt>
+</dl>

@@ -108,6 +108,9 @@ GEM
       railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     execjs (2.7.0)
+    firebase (0.2.6)
+      httpclient
+      json
     font-awesome-rails (4.6.3.1)
       railties (>= 3.2, < 5.1)
     globalid (0.3.7)
@@ -137,6 +140,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     multi_json (1.12.1)
@@ -255,12 +259,14 @@ DEPENDENCIES
   devise!
   devise_invitable!
   dotenv-rails
+  firebase (~> 0.2.6)
   hashids
   houston
   jbuilder (~> 2.0)
   jquery-rails
   kramdown
   mail
+  mimemagic
   newrelic_rpm
   pg
   puma

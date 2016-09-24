@@ -99,6 +99,7 @@ class StudentsController < ApplicationController
   end
 
   def new_import_csv
+    render :new_import_csv, :locals => { :error_message => nil }
   end
 
   class SentMessageByEmailConverter
@@ -123,82 +124,94 @@ class StudentsController < ApplicationController
     failed_counter = 0
 
 
+    # test file mime type
+    mimemagic = MimeMagic.by_path(params[:csv].tempfile.path)
+
+    if (mimemagic.type != "text/csv")
+      render :locals => { :error_message => 'Format de fichier invalide', message: '' } and return
+    end
+
     # test encoding
     encoding = 'utf-8'
     begin
-      lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)
-    rescue ArgumentError
-      encoding = 'ISO-8859-1'
-    end
-
-    # content = File.read(params[:csv].tempfile.path)
-    # detection = CharlockHolmes::EncodingDetector.detect(content)
-    delimiters = [',',";"]
-    col_sep = sniff(params[:csv].tempfile.path, delimiters, encoding)
-    options = {
-      :unwanted_row => nil,
-      :force_simple_split => true,
-      :col_sep => col_sep,
-      :strip_chars_from_headers => /[\-"]/,
-      :chunk_size => 100,
-      :key_mapping => {
-        :prénom => :firstname,
-        :nom => :lastname,
-        :emails => :emails,
-        :envoi_des_messages_via_email => :sent_message_by_email,
-        :année => :level,
-        :titulaire => :classroom,
-        :code => :code
-      },
-      :remove_unmapped_keys => true,
-      :value_converters => {
-        :sent_message_by_email => SentMessageByEmailConverter
-      },
-      :file_encoding => encoding #detection[:encoding]
-    }
-    # content = File.read(params[:csv].tempfile.path)
-    # detection = CharlockHolmes::EncodingDetector.detect(content)
-    # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
-
-    SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-      r.each do |data|
-        CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
-        # groups = []
-        #
-        # data['school_id'] = current_school.id
-        #
-        # student = nil
-        # if (data[:code].nil?)
-        #   student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
-        # else
-        #   student = Student.where(['code = ?', data[:code]]).first
-        # end
-        #
-        # if student.nil?
-        #   @student = Student.new data
-        #   logger.info "student to create #{@student.inspect}"
-        #   if policy(@student).create?
-        #     if @student.save
-        #       logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
-        #     else
-        #       logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
-        #     end
-        #   end
-        # else
-        #   if policy(student).update?
-        #     if student.update_attributes(data)
-        #       logger.info "student #{student.firstname} #{student.lastname} updated"
-        #     else
-        #       logger.info "student update fail for #{student.firstname} #{student.lastname}"
-        #     end
-        #   else
-        #     logger.info "student update fail for, invalid authorization"
-        #   end
-        # end
-
+      begin
+        lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)
+      rescue ArgumentError
+        encoding = 'ISO-8859-1'
       end
+
+      # content = File.read(params[:csv].tempfile.path)
+      # detection = CharlockHolmes::EncodingDetector.detect(content)
+      delimiters = [',',";"]
+      col_sep = sniff(params[:csv].tempfile.path, delimiters, encoding)
+      options = {
+        :unwanted_row => nil,
+        :force_simple_split => true,
+        :col_sep => col_sep,
+        :strip_chars_from_headers => /[\-"]/,
+        :chunk_size => 100,
+        :key_mapping => {
+          :prénom => :firstname,
+          :nom => :lastname,
+          :emails => :emails,
+          :envoi_des_messages_via_email => :sent_message_by_email,
+          :année => :level,
+          :titulaire => :classroom,
+          :code => :code
+        },
+        :remove_unmapped_keys => true,
+        :value_converters => {
+          :sent_message_by_email => SentMessageByEmailConverter
+        },
+        :file_encoding => encoding #detection[:encoding]
+      }
+      # content = File.read(params[:csv].tempfile.path)
+      # detection = CharlockHolmes::EncodingDetector.detect(content)
+      # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
+
+
+      SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+        r.each do |data|
+          CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
+          # groups = []
+          #
+          # data['school_id'] = current_school.id
+          #
+          # student = nil
+          # if (data[:code].nil?)
+          #   student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
+          # else
+          #   student = Student.where(['code = ?', data[:code]]).first
+          # end
+          #
+          # if student.nil?
+          #   @student = Student.new data
+          #   logger.info "student to create #{@student.inspect}"
+          #   if policy(@student).create?
+          #     if @student.save
+          #       logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
+          #     else
+          #       logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+          #     end
+          #   end
+          # else
+          #   if policy(student).update?
+          #     if student.update_attributes(data)
+          #       logger.info "student #{student.firstname} #{student.lastname} updated"
+          #     else
+          #       logger.info "student update fail for #{student.firstname} #{student.lastname}"
+          #     end
+          #   else
+          #     logger.info "student update fail for, invalid authorization"
+          #   end
+          # end
+
+        end
+      end
+    rescue Exception => e
+      render :locals => { :error_message => e.message, message: '' } and return
     end
-    redirect_to students_path, notice: t('controller.students.cvs_upload.notice.success')
+    render :locals => { :error_message => '', :message => t('controller.students.cvs_upload.notice.success') }
   end
 
   def export_csv

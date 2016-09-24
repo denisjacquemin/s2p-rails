@@ -11,28 +11,21 @@
       <div class="tab-content">
        <div role="tabpanel" class="tab-pane active" id="upload">
          <br/>
-         <%= form_tag({action: :csv_upload}, multipart: true) do %>
-           <div class="form-group">
-             <%= file_field_tag 'csv' %>
-           </div>
-           <%= submit_tag 'Envoyer', class: 'btn btn-primary' %>
-         <% end %>
-         <% unless error_message.nil? %>
-           <h3>Un problème est survenu avec votre fichier</h3>
-           <p>Message d'erreur: <%= error_message %></p>
-           <h4>A vérifier:</h4>
-           <ul>
-             <li>Le fichier doit être au format .csv</li>
-           </ul>
-         <% end %>
-       </div>
-       <div role="tabpanel" class="tab-pane" id="errors">
-         <%= render 'csv_errors' %>
-       </div>
+          <% unless error_message.empty? %>
+            <h3>Un problème est survenu avec votre fichier</h3>
+            <p>Message d'erreur: <%= error_message %></p>
+          <% end %>
+          <% if error_message.empty? %>
+            <h3><%= message %></h3>
+            <p>La création des élèves peut prendre du temps</p>
+          <% end %>
+          <%= link_to 'importer un nouveau fichier CSV', new_import_csv_path %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="errors">
+          <%= render 'csv_errors' %>
+        </div>
       </div>
-
     </div>
-
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-5">
       <%= render 'help_csv' %>
     </div>
