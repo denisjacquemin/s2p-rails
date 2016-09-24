@@ -4,7 +4,7 @@
 
 
 
-ready = () ->
+$(document).on 'ready turbolinks:load', ->
   # uploadButton = $('<button/>').addClass('btn btn-primary').prop('disabled', true).text('Processing...').on('click', ->
   #   $this = $(this)
   #   data = $this.data()
