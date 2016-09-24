@@ -28,7 +28,7 @@ build_school_row = (school_id, school_name) ->
   console.log 'adding school' + tr
   return tr
 
-$(document).on 'ready page:load', ->
+$(document).on 'ready', ->
   $('#user_manage_school #add').click ->
     add school for school in $("#school_list input:checkbox:checked").closest('tr')
     $("#school_list input:checkbox:checked").attr('checked', false)

@@ -37,7 +37,7 @@ build_student_row = (student_id, student_fullname, classroom) ->
             }).appendTo(td3)
   return tr
 
-$(document).on 'ready turbolinks:load', ->
+$(document).on 'ready', ->
   $('#group_manage_students #add').click ->
     add student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#student_list input:checkbox:checked").attr('checked', false)
