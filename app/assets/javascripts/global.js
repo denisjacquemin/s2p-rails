@@ -1,5 +1,6 @@
 var ready;
 ready = function() {
+  console.log('fire')
   $.each( flashMessages, function(key, value){
     console.log('value: ' + value + ' key: ' + key)
     $.snackbar({content: value, style: key, timeout: 10000});
@@ -17,8 +18,7 @@ ready = function() {
 
 };
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
+$(document).on('turbolinks:load', ready);
 
 
 function getParameterByName(name, url) {

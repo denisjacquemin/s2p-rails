@@ -11,9 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require turbolinks
 //= require snackbar
 //= require froala_editor.min.js
 //= require plugins/lists.min.js
@@ -37,4 +37,3 @@
 //= require algolia/v3/algoliasearch.min
 //= require autocomplete.min
 // require_tree .
-//= require turbolinks

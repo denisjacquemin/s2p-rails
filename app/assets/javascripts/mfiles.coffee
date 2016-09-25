@@ -4,7 +4,7 @@
 
 
 
-$(document).on 'ready', ->
+$(document).on 'turbolinks:load', ->
   # uploadButton = $('<button/>').addClass('btn btn-primary').prop('disabled', true).text('Processing...').on('click', ->
   #   $this = $(this)
   #   data = $this.data()
@@ -128,6 +128,3 @@ $(document).on 'ready', ->
         # return
     return
   return
-
-$(document).ready(ready)
-$(document).on('page:load', ready)

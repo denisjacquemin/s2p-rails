@@ -32,7 +32,7 @@ build_group_row = (group_id, group_name) ->
   console.log 'adding group' + tr
   return tr
 
-$(document).on 'ready', ->
+$(document).on 'turbolinks:load', ->
   console.log 'init algolia ac'
   $('#student_manage_group #add').click ->
     add group for group in $("#group_list input:checkbox:checked").closest('tr')

@@ -62,7 +62,7 @@ submit_with_status = (status) ->
   $('#message_status').val(status)
   $('.edit_message')[0].submit()
 
-$(document).on 'ready', ->
+$(document).on 'turbolinks:load', ->
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
