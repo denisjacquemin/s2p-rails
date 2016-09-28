@@ -94,7 +94,9 @@ class StudentsController < ApplicationController
   end
 
   def destroy_all
-    Student.destroy(params[:s])
+    ActiveRecord::Base.transaction do
+      Student.where(id: params[:s]).delete_all
+    end
     render js: %(window.location.href='#{students_url}') and return
   end
 
@@ -169,13 +171,13 @@ class StudentsController < ApplicationController
       # detection = CharlockHolmes::EncodingDetector.detect(content)
       # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
 
-
+      current_school_id = current_school.id
       SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
         r.each do |data|
           #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           groups = []
 
-          data['school_id'] = current_school.id
+          data['school_id'] = current_school_id
 
           student = nil
           if (data[:code].nil?)
@@ -205,7 +207,6 @@ class StudentsController < ApplicationController
               logger.info "student update fail for, invalid authorization"
             end
           end
-
         end
       end
     rescue Exception => e
