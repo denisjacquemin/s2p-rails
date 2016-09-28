@@ -58,11 +58,10 @@ class StudentPolicy < ApplicationPolicy
 
   def update?
     # only admin and superadmin can edit a user
-    return  unless @user.admin? || @user.superadmin?
+    return unless @user.admin? || @user.superadmin?
 
     # if user is admin then can edit only students with the same school
     return false if @user.admin? and not @user.schools.include?(@record.school_id)
-
 
     true
   end
