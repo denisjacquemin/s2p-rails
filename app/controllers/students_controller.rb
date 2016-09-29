@@ -220,7 +220,7 @@ class StudentsController < ApplicationController
     send_data(students.to_csv_file,
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',
-      filename: "eleves-#{Date.today}.csv")
+      filename: "eleves-#{current_school.name.parameterize}-#{Date.today}.csv")
   end
 
   private
