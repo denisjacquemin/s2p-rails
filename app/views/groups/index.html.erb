@@ -17,6 +17,7 @@
               <% if current_user.superadmin? %>
                 <th>Ecole</th>
               <% end %>
+              <th># membres</th>
             </tr>
           </thead>
 
@@ -32,6 +33,7 @@
                 <% if current_user.superadmin? %>
                   <td><% if group.school.present? %><%= group.school.name %><% end %></td>
                 <% end %>
+                <td><%= group.students.size %></td>
               </tr>
             <% end %>
           </tbody>
