@@ -83,7 +83,9 @@
           </div>
           <div class="row" style="margin-top: 30px">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <%= link_to 'Export CSV', '/students/export_csv', class: 'btn btn-primary btn-block', id: 'export_csv' %>
+              <%= form_for @message, as: :post, url: students_export_csv_path, method: :post, html: { id: "export_csv" } do |f| %>
+                <%= f.submit 'Export CSV', class: 'btn btn-primary btn-block', id: 'export_csv_submit', :data => { disable_with: false } %>
+              <% end %>
             </div>
           </div>
           <div class="row" style="margin-top: 30px">

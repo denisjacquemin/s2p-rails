@@ -100,8 +100,11 @@ $(document).on 'turbolinks:load', ->
       alert 'Selectionnez au moins un élève'
       e.preventDefault()
     else
-      e.target.href = e.target.href + '?' + $('input.scb:checked').serialize()
-      # $.ajax('/students/export_csv',
+      $(this).append($('input.scb:checked').clone().attr("type", "hidden"))
+      return
+      # #e.target.href = e.target.href + '?' + $('input.scb:checked').serialize()
+      # e.preventDefault()
+      # $.post('/students/export_csv',
       #   {
       #     type: 'post',
       #     data: decodeURI($('input.scb:checked').serialize()),
