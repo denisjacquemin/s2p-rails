@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Message.recipients_groups(current_school, current_user)
+    @groups = current_user.groups_by_school(current_school.id)
   end
 
   # GET /groups/1

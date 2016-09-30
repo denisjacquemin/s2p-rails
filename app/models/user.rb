@@ -41,6 +41,14 @@ class User < ApplicationRecord
    self.role ||= :user
   end
 
+  def groups_by_school(school_id)
+    if self.admin?
+      return Group.by_school(school_id)
+    else
+      return self.groups.select {|g| g.school_id = school_id}
+    end
+  end
+
   def active?
     self.deleted_at === nil
   end
