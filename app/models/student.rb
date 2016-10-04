@@ -207,6 +207,7 @@ class Student < ApplicationRecord
       begin
         group = Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
         logger.debug "errors if any #{group.errors.full_messages}"
+        return group
       rescue ActiveRecord::RecordNotUnique
         retry
       end
