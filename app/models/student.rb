@@ -204,9 +204,11 @@ class Student < ApplicationRecord
     end
 
     def find_or_create_group(name, school_id)
-
-      group = Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
-      logger.debug "group: #{group.inspect}"
-      group
+      begin
+        group = Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
+        logger.debug "errors if any #{group.errors.full_messages}"
+      rescue ActiveRecord::RecordNotUnique
+        retry
+      end
     end
 end
