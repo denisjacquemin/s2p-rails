@@ -2,8 +2,8 @@ require 'csv'
 class Student < ApplicationRecord
   include Code
 
-  before_create :set_code, if: "code.blank?"
-  before_update :set_code, if: "code.blank?"
+  # after_save :set_code, if: "code.blank?"
+  # after_update :set_code, if: "code.blank?"
   before_create  :set_groups
   before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
   after_update :clean_old_level, if: "level_changed?"
@@ -18,7 +18,7 @@ class Student < ApplicationRecord
 
   validates :firstname, presence: true
   validates :lastname, presence: true
-  validates :code, uniqueness: true, if: "code_changed?"
+  validates :code, uniqueness: true, :on => :update
 
   def groups_obj
     Group.by_ids(self.groups)
@@ -110,7 +110,7 @@ class Student < ApplicationRecord
   private
 
     def set_code
-      compute_code('s', "#{self.school_id}#{self.firstname}#{self.lastname}")
+      SetCodeForAStudentJob.perform_later(self)
     end
 
     def get_old_group(old_name)

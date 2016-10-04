@@ -4,14 +4,13 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <ul class="nav nav-tabs" role="tablist">
      <li role="presentation" class="active"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">Nouveau fichier</a></li>
-     <li role="presentation"><a href="#errors" aria-controls="errors" role="tab" data-toggle="tab">Erreurs de creation <span class="badge" id="error_counter"></span></a></li>
+     <li role="presentation"><a href="#errors" aria-controls="errors" role="tab" data-toggle="tab">Erreurs de création <span class="badge" id="error_counter"></span></a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
      <div role="tabpanel" class="tab-pane active" id="upload">
-       <p>Fichier envoyé avec succès, la création de tous les élèves peut prendre un peu de temps</p>
-       <%= link_to 'importer un nouveau fichier CSV', new_import_csv_path, class: 'btn btn-primary'  %>
+       <%= render 'new_import_csv', error_message: error_message %>
      </div>
      <div role="tabpanel" class="tab-pane" id="errors">
        <%= render 'csv_errors' %>

@@ -32,8 +32,24 @@ build_group_row = (group_id, group_name) ->
   console.log 'adding group' + tr
   return tr
 
+addLine = (data, key, errors, created_at) ->
+  line = '<tr class="err" id="' + key + '">'
+  line += '<td>' + data + '</td>'
+  line += '<td>' + errors + '</td>'
+  line += '<td>' + created_at + '</td>'
+  line += '</tr>'
+  $('#errors_list').prepend $(line)
+  return
+
+setErrorCounterValue = () ->
+  $('#error_counter').text($('.err').length)
+
+
+removeLine = (key) ->
+  console.log 'removing line ' + key
+  $('#' + key).remove()
+
 $(document).on 'turbolinks:load', ->
-  console.log 'init algolia ac'
   $('#student_manage_group #add').click ->
     add group for group in $("#group_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked").attr('checked', false)
@@ -116,4 +132,21 @@ $(document).on 'turbolinks:load', ->
     valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
   }
   studentList = new List('students', options);
-  return
+
+  errorsRef = firebase.database().ref('csv/' + $('#fb_path').val())
+  errorsRef.on 'child_added', (data) ->
+    addLine JSON.stringify(data.val().data), data.key, JSON.stringify(data.val().errors), data.val().created_at
+    setErrorCounterValue()
+    return
+  errorsRef.on 'child_removed', (data) ->
+    removeLine data.key
+    setErrorCounterValue()
+    return
+
+  $('#empty_error_list').click ->
+    console.log 'empty_error_list'
+    res = errorsRef.remove().then ->
+      console.log "empty_error_list succeeded."
+    .catch ->
+      console.log "empty_error_list failed: " + error.message
+    false

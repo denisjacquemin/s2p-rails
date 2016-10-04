@@ -101,7 +101,7 @@ class StudentsController < ApplicationController
   end
 
   def new_import_csv
-    render :new_import_csv, :locals => { :error_message => nil }
+    render :csv, :locals => { :error_message => nil }
   end
 
   class SentMessageByEmailConverter
@@ -122,15 +122,16 @@ class StudentsController < ApplicationController
   end
 
   def csv_upload
-    success_counter = 0
-    failed_counter = 0
+    if params[:csv].nil?
+      render :csv, :locals => { :error_message => 'Aucun fichier à importer', message: '' } and return
+    end
 
 
     # test file mime type
     mimemagic = MimeMagic.by_path(params[:csv].tempfile.path)
 
     if (mimemagic.type != "text/csv")
-      render :locals => { :error_message => 'Format de fichier invalide', message: '' } and return
+      render :csv, :locals => { :error_message => 'Format de fichier invalide', message: '' } and return
     end
 
     # test encoding
@@ -173,44 +174,45 @@ class StudentsController < ApplicationController
 
       current_school_id = current_school.id
       SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-        r.each do |data|
-          #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
-          groups = []
-
-          data['school_id'] = current_school_id
-
-          student = nil
-          if (data[:code].nil?)
-            student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
-          else
-            student = Student.where(['code = ?', data[:code]]).first
-          end
-
-          if student.nil?
-            @student = Student.new data
-            logger.info "student to create #{@student.inspect}"
-            if policy(@student).create?
-              if @student.save
-                logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
-              else
-                logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
-              end
-            end
-          else
-            if policy(student).update?
-              if student.update_attributes(data)
-                logger.info "student #{student.firstname} #{student.lastname} updated"
-              else
-                logger.info "student update fail for #{student.firstname} #{student.lastname}"
-              end
-            else
-              logger.info "student update fail for, invalid authorization"
-            end
-          end
-        end
+        CreateStudentFromCsvJob.perform_later(r, current_school.id, current_user)
+        # r.each do |data|
+        #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
+        #   groups = []
+        #
+        #   data['school_id'] = current_school_id
+        #
+        #   student = nil
+        #   if (data[:code].nil?)
+        #     student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
+        #   else
+        #     student = Student.where(['code = ?', data[:code]]).first
+        #   end
+        #
+        #   if student.nil?
+        #     @student = Student.new data
+        #     logger.info "student to create #{@student.inspect}"
+        #     if policy(@student).create?
+        #       if @student.save
+        #         logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
+        #       else
+        #         logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+        #       end
+        #     end
+        #   else
+        #     if policy(student).update? and current_school_id == student.school_id
+        #       if student.update_attributes(data)
+        #         logger.info "student #{student.firstname} #{student.lastname} updated"
+        #       else
+        #         logger.info "student update fail for #{student.firstname} #{student.lastname}"
+        #       end
+        #     else
+        #       logger.info "student update fail for, invalid authorization"
+        #     end
+        #   end
+        # end
       end
     rescue Exception => e
-      render :locals => { :error_message => e.message, message: '' } and return
+      render :csv, :locals => { :error_message => e.message, message: '' } and return
     end
     render :locals => { :error_message => '', :message => t('controller.students.cvs_upload.notice.success') }
   end

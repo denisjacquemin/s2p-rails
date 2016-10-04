@@ -1,33 +1,21 @@
-<script>
-  var config = {
-    apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
-    databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
-  };
-  firebase.initializeApp(config);
-  var errorsRef = firebase.database().ref('csv/' + <%= current_school.id %> + '/' +  <%= current_user.id %>);
-  errorsRef.on('child_added', function(data) {
-    addLine(JSON.stringify(data.val().data), JSON.stringify(data.val().errors), data.val().created_at);
-  });
-
-  addLine = function(data, errors, created_at) {
-
-
-    var line = "<tr>";
-    line += "<td>" + data + "</td>"
-    line += "<td>" + errors + "</td>"
-    line += "<td>" + created_at + "</td>"
-    line += "</tr>"
-    $('#errors_list').prepend($(line));
-  }
-</script>
-<p>Ci-dessous la liste des erreurs rencontrées lors de la creation des élèves depuis un fichier .CSV</p>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Donnees</th>
-      <th>Erreur(s)</th>
-      <th>Date/heure</th>
-    </tr>
-  </thead>
-  <tbody id="errors_list"></tbody>
-</table>
+<div class="row">
+  <%= hidden_field_tag 'fb_path', "#{current_school.id}/#{current_user.id}" %>
+  <div class="col-xs-12 col-sm-9 col-md-9 col-lg-8">
+    <p>Ci-dessous la liste des erreurs rencontrées lors de la creation des élèves depuis un fichier .CSV</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Données</th>
+          <th>Erreur(s)</th>
+          <th>Date/heure</th>
+        </tr>
+      </thead>
+      <tbody id="errors_list"></tbody>
+    </table>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-4">
+    <h3>Erreurs de création</h3>
+    <p>Certains élèves importé via fichier .CSV peuvent ne pas avoir été créé correctement. Ceux-ci seront listé dans cet écran avec pour chacun la raison de l'erreur de création.</p>
+    <%= button_tag 'Effacer la liste des erreurs', data: { disable_with: "Please wait..." }, id: 'empty_error_list', class: 'btn btn-primary' %>
+  </div>
+</div>

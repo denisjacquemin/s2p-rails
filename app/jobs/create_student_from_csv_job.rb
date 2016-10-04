@@ -1,57 +1,81 @@
 class CreateStudentFromCsvJob < ApplicationJob
   queue_as :default
 
-  def perform(data, school_id, user)
-    logger.info "perform CreateStudentFromCsvJob"
+  def perform(rows, school_id, user)
 
-    # check authorization
-    if user.schools.include?(school_id) and user.admin?
-
-      groups = []
-
-      data['school_id'] = school_id
-
-      student = nil
-      if (data[:code].nil?)
-        student = Student.where(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']] ).first
-      else
-        student = Student.where(['code = ?', data[:code]]).first
-      end
-
-      if student.nil?
+    logger.info "perform CreateStudentsFromCsvJob"
+    rows.each do |data|
+      row_id = rand(999999)
+      if data[:code].nil?
+        data['school_id'] = school_id
         @student = Student.new data
-        logger.info "student to create #{@student.inspect}"
-
-      # check access rights
-        if @student.save
-          logger.info "student #{@student.firstname} #{@student.lastname} successfully created"
-        else
-          write_error_to_firebase(data, @student.errors, school_id, user.id)
-          logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+        key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+        @student.code = compute_code('s', key)
+        logger.info "collision: [#{row_id}] #{@student.code} for [#{key}] (first comuputed code)"
+        begin
+          unless @student.save
+            write_error_to_firebase(data, @student.errors, school_id, user.id)
+            logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+          end
+        rescue ActiveRecord::RecordNotUnique => e
+          logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+          logger.info "collision: [#{row_id}] #{@student.code} for [#{key}]"
+          key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+          @student.code = compute_code('s',key )
+          retry
+        rescue Exception => e
+          logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
         end
       else
-        if student.update_attributes(data)
+        # code given for the student
+        # get student by code and current school
+        student = Student.where(code: data[:code], school_id: school_id).first
+        if student.nil?
+          write_error_to_firebase(data, "Pas d'élève trouvé pour le code #{data[:code]}", school_id, user.id)
+        elsif student.update_attributes(data)
           logger.info "student #{student.firstname} #{student.lastname} updated"
         else
           write_error_to_firebase(data, @student.errors, school_id, user.id)
-
           logger.info "student update fail for #{student.firstname} #{student.lastname}"
         end
       end
-    else
-      logger.info "student update fail invalid authorization, for #{data.inspect},"
+
     end
   end
 
+private
   def write_error_to_firebase(data, errors, school_id, user_id)
-    logger.debug "write_error_to_firebase"
-    base_uri = Rails.application.secrets.firebase_base_uri
-    secret_key = Rails.application.secrets.firebase_secret_key
-    firebase = Firebase::Client.new(base_uri, secret_key)
-    response = firebase.push("csv/#{school_id}/#{user_id}", { :data => data.select { |key, value| /firstname|lastname|emails|sent_message_by_email|level|classroom/.match(key.to_s) }.values().join(', '),
-                                                              :errors => errors.full_messages.join(', '),
-                                                              :created_at => I18n.l(Time.now).to_datetime().in_time_zone
-                                                            })
-    logger.debug "Firebase response: #{response.inspect}"
+    begin
+      logger.debug "write_error_to_firebase"
+      base_uri = Rails.application.secrets.firebase_base_uri
+      secret_key = Rails.application.secrets.firebase_secret_key
+      firebase = Firebase::Client.new(base_uri, secret_key)
+      errorsMessage = errors if errors.is_a? String
+      errorsMessage = errors.full_messages.join(', ') if errors.is_a? ActiveModel::Errors
+
+      response = firebase.push("csv/#{school_id}/#{user_id}", { :data => data.select { |key, value| /firstname|lastname|emails|sent_message_by_email|level|classroom/.match(key.to_s) }.values().join(', '),
+                                                                :errors => errorsMessage,
+                                                                :created_at => I18n.l(Time.now.to_datetime().in_time_zone, format: :short)
+                                                              })
+      logger.debug "Firebase response: #{response.inspect}"
+    rescue Exception => e
+      logger.debug e
+    end
+  end
+
+  def compute_code(prefix, key)
+    @key = key
+    custom_hash_alphabet = 'abcdefghijkmnopqrstuvwxyz23456789' # https://www.grc.com/ppp.htm
+    hash = compute_hash(@key, custom_hash_alphabet)
+    # while !self.class.by_code(prefix + hash).empty? do
+    #   @key = "#{rand(9999)}" + @key  # add nothing to the key to generate a different code
+    #   hash = compute_hash(@key, custom_hash_alphabet)
+    # end
+    return prefix + hash
+  end
+
+  def compute_hash(key, hash_alphabet)
+    hashids = Hashids.new(Rails.application.secrets.salt_hashids, 7, hash_alphabet)
+    hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
   end
 end

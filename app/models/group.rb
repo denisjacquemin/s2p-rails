@@ -10,6 +10,7 @@ class Group < ApplicationRecord
   end
 
   validates :name, presence: true
+  validates :code, uniqueness: true
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
@@ -33,7 +34,7 @@ class Group < ApplicationRecord
 
   before_destroy :clean_students, :clean_messages
 
-  before_create do
+  before_save do
     compute_code('g', "#{self.school_id}#{self.name}")
   end
 

@@ -29,6 +29,13 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
+    <script>
+    var config = {
+      apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
+      databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
+    };
+    firebase.initializeApp(config);
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
