@@ -204,9 +204,10 @@ class Student < ApplicationRecord
     end
 
     def find_or_create_group(name, school_id)
-      logger.debug("find_or_create_group name: #{name}")
-      group = Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
-      logger.debug("group found or created: #{group.inspect}")
-      group
+      begin
+        Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
+      rescue Exception => e
+        logger.debug "find_or_create_group: #{e.inspect}"
+      end
     end
 end
