@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  
+  include Code
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
@@ -27,7 +28,7 @@ class User < ApplicationRecord
   scope :no_superadmin, -> { where.not(role: :superadmin)}
 
   before_create do
-    compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
+    self.code = compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
   end
 
   # after_invitation_accepted :set_and_save_all_writers

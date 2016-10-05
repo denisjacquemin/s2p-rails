@@ -204,12 +204,23 @@ class Student < ApplicationRecord
     end
 
     def find_or_create_group(name, school_id)
+      key = "#{school_id}#{name}"
+      group = nil
       begin
-        group = Group.find_or_create_by(name: name, school_id: school_id, updatable: false)
-        logger.debug "[group error] errors if any #{group.errors.full_messages}"
-        return group
+        # find it
+        if not Group.exists?(name: name, school_id: school_id, updatable: false)
+          # group not found, needs to be created
+          group = Group.new(name: name, school_id: school_id, updatable: false)
+          group.code = compute_code('g', key)
+          group.save
+        else
+          group = Group.where(name: name, school_id: school_id, updatable: false).first
+        end
       rescue ActiveRecord::RecordNotUnique
+        key = "#{rand(999999)}#{school_id}#{name}"
+        group.code = compute_code('g', key)
         retry
       end
+      group
     end
 end

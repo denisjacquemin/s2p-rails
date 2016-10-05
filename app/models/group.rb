@@ -34,10 +34,10 @@ class Group < ApplicationRecord
 
   before_destroy :clean_students, :clean_messages
 
-  before_save do
-    logger.debug "Group.before_save compute_code"
-    compute_code('g', "#{self.school_id}#{self.name}")
-  end
+  # before_save do
+  #   logger.debug "Group.before_save compute_code"
+  #   self.code = compute_code('g', "#{self.school_id}#{self.name}")
+  # end
 
   def clean_automatic_group
     if (self.updatable === false && self.internal_id != 'all_students' ) #&& self.internal_id != 'all_writers'

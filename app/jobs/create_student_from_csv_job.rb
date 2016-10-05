@@ -26,6 +26,7 @@ class CreateStudentFromCsvJob < ApplicationJob
           retry
         rescue Exception => e
           logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
+          retry
         end
       else
         # code given for the student
