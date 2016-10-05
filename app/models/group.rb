@@ -35,6 +35,7 @@ class Group < ApplicationRecord
   before_destroy :clean_students, :clean_messages
 
   before_save do
+    logger.debug "Group.before_save compute_code"
     compute_code('g', "#{self.school_id}#{self.name}")
   end
 
