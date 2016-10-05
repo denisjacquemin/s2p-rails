@@ -1,4 +1,5 @@
 class CreateStudentFromCsvJob < ApplicationJob
+  include Code
   queue_as :default
 
   def perform(rows, school_id, user)
@@ -61,21 +62,5 @@ private
     rescue Exception => e
       logger.debug e
     end
-  end
-
-  def compute_code(prefix, key)
-    @key = key
-    custom_hash_alphabet = 'abcdefghijkmnopqrstuvwxyz23456789' # https://www.grc.com/ppp.htm
-    hash = compute_hash(@key, custom_hash_alphabet)
-    # while !self.class.by_code(prefix + hash).empty? do
-    #   @key = "#{rand(9999)}" + @key  # add nothing to the key to generate a different code
-    #   hash = compute_hash(@key, custom_hash_alphabet)
-    # end
-    return prefix + hash
-  end
-
-  def compute_hash(key, hash_alphabet)
-    hashids = Hashids.new(Rails.application.secrets.salt_hashids, 7, hash_alphabet)
-    hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)
   end
 end

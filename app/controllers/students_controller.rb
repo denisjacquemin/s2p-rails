@@ -1,5 +1,7 @@
 # require 'charlock_holmes/string'
 class StudentsController < ApplicationController
+  include Code
+
   before_action :authenticate_user!
   before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]
 
@@ -39,10 +41,23 @@ class StudentsController < ApplicationController
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
-    if @student.save
-      redirect_to edit_student_path(@student), notice: t('controller.students.create.notice.success')
-    else
+    key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+    @student.code = compute_code('s', key)
+    begin
+      s = Student.where(code: @student.code)
+      #logger.debug("[compute_hash]m Student exists with #{@student.code}: #{s.firstname}-#{s.lastname}")
+      @student.save
+    rescue ActiveRecord::RecordNotUnique => e
+      logger.debug("[compute_hash] ********* RecordNotUnique")
+      #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+      key = "#{rand(99)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+      @student.code = compute_code('s',key )
+      retry
+    end
+    if @student.errors.any?
       render :new
+    else
+      redirect_to edit_student_path(@student), notice: t('controller.students.create.notice.success')
     end
   end
 

@@ -10,7 +10,7 @@ class Group < ApplicationRecord
   end
 
   validates :name, presence: true
-  validates :code, uniqueness: true
+  validates :code, uniqueness: true, :on => :update
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
