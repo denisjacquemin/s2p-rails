@@ -131,7 +131,6 @@ class Message < ApplicationRecord
   end
 
   def build_emails(students, message)
-    byebug
     emails = students.collect { |s|
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
     }.compact.flatten.uniq      # build an array of emails
