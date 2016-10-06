@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  include Code
+
   before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update, :update_students, :destroy]
 
@@ -28,19 +30,23 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-
-    unless current_user.superadmin?
+    if current_user.admin?
       @group.school_id = current_school.id
     end
 
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to edit_group_path(@group), notice: 'Le groupe a été créé avec succès.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    key = "#{@group.school_id}#{@group.name}"
+    @group.code = compute_code('g', key)
+    begin
+        @group.save
+    rescue ActiveRecord::RecordNotUnique => e
+      key = "#{rand(99)}#{@group.school_id}#{@group.name}"
+      @group.code = compute_code('g', key)
+      retry
+    end
+    if @group.errors.any?
+      render :new
+    else
+      redirect_to edit_group_path(@group), notice: 'Le groupe a été créé avec succès.'
     end
   end
 

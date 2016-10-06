@@ -43,12 +43,8 @@ class StudentsController < ApplicationController
     key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
     @student.code = compute_code('s', key)
     begin
-      s = Student.where(code: @student.code)
-      #logger.debug("[compute_hash]m Student exists with #{@student.code}: #{s.firstname}-#{s.lastname}")
       @student.save
     rescue ActiveRecord::RecordNotUnique => e
-      logger.debug("[compute_hash] ********* RecordNotUnique")
-      #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
       key = "#{rand(99)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
       @student.code = compute_code('s',key )
       retry
