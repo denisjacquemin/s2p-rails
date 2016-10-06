@@ -10,7 +10,6 @@ class StudentsController < ApplicationController
   def index
     @students = current_user.students_by_school(current_school.id)
     @message = Message.new
-    authorize @students
   end
 
   # GET /students/1
