@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def resend_invite
-    User.invite!(:email => @user.email, :firstname => @user.firstname)
+    User.invite!({:email => @user.email, :firstname => @user.firstname}, current_user)
     redirect_to users_path, notice: 'Invitation renvoyée'
   end
 
