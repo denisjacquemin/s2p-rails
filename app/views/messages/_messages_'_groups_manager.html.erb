@@ -10,7 +10,7 @@
         <div class="panel-body table-responsive">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active" id="groups">
-              <% groups = Message.recipients_groups(current_school, current_user) %>
+              <% groups = current_user.groups_by_school(current_school.id) %>
               <% if groups.present? %>
                 <table class="table table-hover table-condensed" >
                   <tbody id="group_list">
@@ -28,7 +28,7 @@
               <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in" id="students">
-              <% students = Message.recipients_students(current_school, current_user) %>
+              <% students = current_user.students_by_school(current_school.id) %>
               <% if students.present? %>
                 <table class="table table-hover table-condensed" >
                   <tbody id="student_list">
