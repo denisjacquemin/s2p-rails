@@ -24,7 +24,7 @@
           <tbody>
             <% @groups.each do |group| %>
               <tr>
-                <% if group.updatable or not current_user.admin? %>
+                <% if group.updatable and current_user.admin? %>
                   <td><%= link_to group.name , edit_group_path(group) %></td>
                 <% else %>
                   <td><%= link_to group.name , group_path(group) %></td>
