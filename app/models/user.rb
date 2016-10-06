@@ -42,10 +42,18 @@ class User < ApplicationRecord
   end
 
   def groups_by_school(school_id)
-    if self.admin?
+    if self.admin? or self.superadmin?
       return Group.by_school(school_id)
     else
       return self.groups.select {|g| g.school_id = school_id}
+    end
+  end
+
+  def students_by_school(school_id)
+    if self.admin? or self.superadmin?
+      return Student.by_school(school_id)
+    else
+      return self.students.select {|g| g.school_id = school_id}
     end
   end
 
