@@ -8,24 +8,27 @@ module Notification extend ActiveSupport::Concern
       devicesAndroid = devices.android.active
       devicesIOS = devices.ios.active
 
+      if devicesIOS.any?
+        dataIOS = {
+          "title": truncate(message.title, :length => 200),
+          "message_id": message.id,
+          "content-available": 1
+        }
+        send_ios_notifications(message.title, devicesIOS, dataIOS)
+      end
 
-      dataIOS = {
-        "title": truncate(message.title, :length => 200),
-        "message_id": message.id,
-        "content-available": 1
-      }
-      send_ios_notifications(message.title, devicesIOS, dataIOS)
-
-      dataAndroid = {
-        "message_id": message.id,
-        "notId": message.id,
-        "priority": 2,
-        "title": truncate(message.title, :length => 200),
-        "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
-        "content-available": "1",
-        "visibility": 1 # public
-      }
-      send_android_notifications(message.title, devicesAndroid, dataAndroid)
+      if devicesAndroid.any?
+        dataAndroid = {
+          "message_id": message.id,
+          "notId": message.id,
+          "priority": 2,
+          "title": truncate(message.title, :length => 200),
+          "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
+          "content-available": "1",
+          "visibility": 1 # public
+        }
+        send_android_notifications(message.title, devicesAndroid, dataAndroid)
+      end
     end
 
     def getDevicesByGroupsAndStudents(groups_ids, students_ids)

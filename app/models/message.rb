@@ -78,9 +78,9 @@ class Message < ApplicationRecord
       send_message_notifications(self)
 
 
-      # students = Student.by_groups(groups) unless groups.nil?
-      # students = students + Student.find(self.students) unless self.students.nil?
-      # students = students.uniq
+      students = Student.by_groups(groups) unless groups.nil?
+      students = students + Student.find(self.students) unless self.students.nil?
+      students = students.uniq
       # student_codes = students.map {|s| s.code }
       # codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
       #
@@ -131,6 +131,7 @@ class Message < ApplicationRecord
   end
 
   def build_emails(students, message)
+    byebug
     emails = students.collect { |s|
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
     }.compact.flatten.uniq      # build an array of emails
