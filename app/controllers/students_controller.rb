@@ -167,7 +167,7 @@ class StudentsController < ApplicationController
         :force_simple_split => true,
         :col_sep => col_sep,
         :strip_chars_from_headers => /[\-"]/,
-        :chunk_size => 100,
+        :chunk_size => 1000,
         :key_mapping => {
           :prénom => :firstname,
           :nom => :lastname,

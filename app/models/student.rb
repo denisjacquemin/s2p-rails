@@ -193,6 +193,7 @@ class Student < ApplicationRecord
         #Student.add_group(self.id, group.id)
         self.groups.push(group.id)
       end
+      self.groups.uniq!
 
       all_students = Group.find_by(internal_id: 'all_students', school_id: self.school_id)
       self.groups.push(all_students.id) unless all_students.nil?
