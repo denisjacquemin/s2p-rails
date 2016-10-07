@@ -72,11 +72,26 @@ class Student < ApplicationRecord
       csv << attributes
 
       all.each do |student|
+        firstname = (student.firstname == nil or student.firstname.strip == "")? nil : student.firstname
+        lastname = (student.lastname == nil or student.lastname.strip == "")? nil : student.lastname
+        emails = (student.emails == nil or student.emails.strip == "")? nil : student.emails
         sent = if student.sent_message_by_email then 'oui' else 'non' end
-        csv << [student.firstname, student.lastname, student.emails, sent, student.level, student.classroom, student.code]
+        level = (student.level == nil or student.level.strip == "")? nil : student.level
+        classroom = (student.classroom == nil or student.classroom.strip == "")? nil : student.classroom
+        code = (student.code == nil or student.code.strip == "")? nil : student.code
+
+        csv << [firstname,
+                lastname,
+                emails,
+                sent,
+                level,
+                classroom,
+                code]
       end
     end
   end
+
+
 
   # def self.update_or_create(attributes)
   #   logger.info "update_or_create for #{attributes.inspect}"

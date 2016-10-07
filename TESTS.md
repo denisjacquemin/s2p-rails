@@ -12,3 +12,8 @@
 5. poster un message avec redacteur
 6. ajouter le code admin et le code redacteur sur app mobile
 7. verifier le worflow et notifications
+8. publier un message uniquement par email, ne pas recevoir de notification et pas visible dans app
+9. publier un message uniquement pour les apps, ne pas recevoir d'email
+10. publier un message meme pour ceux qui n'ont pas chosis de recevoir d'email
+11. publier un message a des eleves
+12. publier un message a un groupe d'eleves
