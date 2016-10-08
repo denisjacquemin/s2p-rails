@@ -92,7 +92,7 @@ module Notification extend ActiveSupport::Concern
           logger.info "payload: #{n.payload}"
         end
       rescue => e
-        puts "Exception build_android_notifications: #{e}"
+        puts "Exception send_android_notifications: #{e}"
       end
     end
 
