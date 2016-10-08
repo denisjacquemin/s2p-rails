@@ -107,7 +107,13 @@ class Message < ApplicationRecord
     data = { "message_id": self.id }
     send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+
+    dataAndroid = {
+      "priority": 2,
+      "title": alert,
+      "visibility": 1 # public
+    }
+    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def handle_approval_refused
@@ -117,7 +123,12 @@ class Message < ApplicationRecord
     alert = "Message refusé: #{self.title}"
     send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+    dataAndroid = {
+      "priority": 2,
+      "title": alert,
+      "visibility": 1 # public
+    }
+    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def handle_approval_accepted
@@ -127,7 +138,12 @@ class Message < ApplicationRecord
     alert = "Message approuvé: #{self.title}"
     send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
-    build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
+    dataAndroid = {
+      "priority": 2,
+      "title": alert,
+      "visibility": 1 # public
+    }
+    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def build_emails(students, message)
