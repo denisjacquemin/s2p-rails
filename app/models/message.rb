@@ -110,7 +110,7 @@ class Message < ApplicationRecord
     build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
   end
 
-  def approval_refused
+  def handle_approval_refused
     codes = [] <<  self.author.code
 
     devicesIOS = Device.active.ios.by_codes(codes)
@@ -120,7 +120,7 @@ class Message < ApplicationRecord
     build_android_notifications(self, devicesAndroid) unless devicesAndroid.nil?
   end
 
-  def approval_accepted
+  def handle_approval_accepted
     codes = [] <<  self.author.code
 
     devicesIOS = Device.active.ios.by_codes(codes)
