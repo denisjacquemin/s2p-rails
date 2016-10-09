@@ -3,26 +3,26 @@ class CreateStudentFromCsvJob < ApplicationJob
   queue_as :default
 
   def perform(rows, school_id, user)
-
     logger.info "perform CreateStudentsFromCsvJob"
+    number_of_collision = 0
     rows.each do |data|
-      row_id = rand(999999)
       if data[:code].nil?
         data['school_id'] = school_id
         @student = Student.new data
         key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-        @student.code = compute_code('s', key)
-        logger.info "collision: [#{row_id}] #{@student.code} for [#{key}] (first comuputed code)"
+        hash = compute_code('s', key)
+        @student.code = 's' + hash.last(4 + key.length % 5)
         begin
           unless @student.save
             write_error_to_firebase(data, @student.errors, school_id, user.id)
-            logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+            #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
           end
         rescue ActiveRecord::RecordNotUnique => e
-          logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
-          logger.info "collision: [#{row_id}] #{@student.code} for [#{key}]"
-          key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-          @student.code = compute_code('s',key )
+          #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+          number_of_collision = number_of_collision +1
+          #logger.debug "[collision]: [#{row_id}] #{@student.code} for [#{key}] #{hash}"
+          #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+          @student.code = 's' + hash.last(@student.code.length)
           retry
         rescue Exception => e
           logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
@@ -41,8 +41,10 @@ class CreateStudentFromCsvJob < ApplicationJob
           logger.info "student update fail for #{student.firstname} #{student.lastname}"
         end
       end
-
+      
     end
+    logger.info "Number Of collision: #{number_of_collision}"
+
   end
 
 private

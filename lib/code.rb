@@ -8,7 +8,7 @@ module Code
     #   @key = "#{rand(9999)}" + @key  # add nothing to the key to generate a different code
     #   hash = compute_hash(@key, custom_hash_alphabet)
     # end
-    return prefix + hash
+    return hash
   end
 
   private
@@ -19,7 +19,7 @@ module Code
       #logger.debug "[compute_hash] hashids generated: #{hashids.encode_hex(key.unpack('H*')[0])}"
       #logger.debug "[compute_hash] hash returned: #{hashids.encode_hex(key.unpack('H*')[0]).slice(0, 6)}"
 
-      generatedHash = hashids.encode_hex(key.unpack('H*')[0])
-      generatedHash.last(6)
+      generatedHash = hashids.encode_hex(key.unpack('H*')[0]) + hash_alphabet[(key.length % hash_alphabet.length)]
+      #generatedHash.last(6)
     end
 end
