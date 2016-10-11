@@ -28,7 +28,9 @@ class User < ApplicationRecord
   scope :no_superadmin, -> { where.not(role: :superadmin)}
 
   before_create do
-    self.code = compute_code('u', "#{self.schools[0]}#{self.firstname}#{self.lastname}")
+    user_key = shake_name(self.firstname,self.lastname).join
+    hash = compute_code(0, user_key)
+    self.code = 'u' + hash[1].last(4 + user_key.length % 4)
   end
 
   # after_invitation_accepted :set_and_save_all_writers
