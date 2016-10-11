@@ -108,6 +108,7 @@ $(document).on 'turbolinks:load', ->
             'mfile[file_url]': url,
             format: 'js',
             'mfile[message_id]': $('#message_id').val()
+            'mfile[school_id]': $('#school_id').val()
           }
         });
 

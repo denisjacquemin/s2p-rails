@@ -49,7 +49,7 @@ class SchoolsController < ApplicationController
   end
 
   def add_logo
-    @school = current_school
+    @school = School.find(params[:mfile][:school_id])
     @school.file_url = params[:mfile][:file_url]
     @school.save
   end

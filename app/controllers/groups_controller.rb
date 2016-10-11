@@ -34,13 +34,16 @@ class GroupsController < ApplicationController
       @group.school_id = current_school.id
     end
 
-    key = "#{@group.school_id}#{@group.name}"
-    @group.code = compute_code('g', key)
+    hash = compute_code(@group.school_id, @group.name)
+    @group.code = 'g' + hash[0] + hash[1].last(4 + @group.name.length % 3)
+    recordUniqueCount = 0
     begin
         @group.save
     rescue ActiveRecord::RecordNotUnique => e
-      key = "#{rand(99)}#{@group.school_id}#{@group.name}"
-      @group.code = compute_code('g', key)
+      recordUniqueCount = recordUniqueCount + 1
+      logger.debug "hash[1]: #{hash[1]} 4 + recordUniqueCount + @group.name.length % 3: #{4 + recordUniqueCount + @group.name.length % 3}"
+      byebug
+      @group.code = 'g' + hash[0] + hash[1].last(4 + recordUniqueCount + @group.name.length % 3)
       retry
     end
     if @group.errors.any?

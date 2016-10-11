@@ -40,13 +40,15 @@ class StudentsController < ApplicationController
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
-    key = "#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-    @student.code = compute_code('s', key)
+    student_key = shake_name(@student.firstname,@student.lastname).join
+    hash = compute_code(@student.school_id, student_key)
+    @student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+    recordUniqueCount = 0
     begin
       @student.save
     rescue ActiveRecord::RecordNotUnique => e
-      key = "#{rand(99)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-      @student.code = compute_code('s',key )
+      recordUniqueCount = recordUniqueCount + 1
+      @student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
       retry
     end
     if @student.errors.any?

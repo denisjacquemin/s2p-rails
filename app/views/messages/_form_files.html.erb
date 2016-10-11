@@ -17,14 +17,16 @@
       </div>
     <% end %>
     <%= hidden_field_tag 'message_id', message.id %>
-    <% if message.mfiles.any? %>
-      <br/>
-      <% message.mfiles.each do |mfile| %>
-        <%= render '/mfiles/file', mfile: mfile %>
+    <div class="files">
+      <% if message.mfiles.any? %>
+        <br/>
+        <% message.mfiles.each do |mfile| %>
+          <%= render '/mfiles/file', mfile: mfile %>
+        <% end %>
+      <% else %>
+        <p>Pas encore d'image associé à ce message</p>
       <% end %>
-    <% else %>
-      <p>Pas encore d'image associé à ce message</p>
-    <% end %>
+    </div>
   </div>
   <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <h3>Importer des images</h3>
