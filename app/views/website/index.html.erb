@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= csrf_meta_tags %>
+
+    <title>New Age - Start Bootstrap Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="vendor/device-mockups/device-mockups.min.css">
+
+    <!-- Theme CSS -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+    <%= analytics_init if GoogleAnalytics.valid_tracker? %>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                  <img src="img/logo_konectoapp.png" height="30px" width="30px" class="img-responsive" alt="">
+                  Konecto App
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#why">Pourquoi / Pour Qui?</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#features">Fonctionnalitées</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#download">Demo</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#price">Prix</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="header-content">
+                        <div class="header-content-inner">
+                            <h1>Konecto App est un outil digital qui aide les écoles à communiquer avec les parents efficacement.</h1>
+                            <a href="#download" class="btn btn-outline btn-xl page-scroll">Découvrez la demo!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="device-container">
+                        <div class="device-mockup iphone6_plus portrait white">
+                            <div class="device">
+                                <div class="screen">
+                                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                                    <img src="img/iphone.png" class="img-responsive" alt="">
+                                </div>
+                                <div class="button">
+                                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="content-section-b" id="why">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Origine de l'idée</h2>
+                    <p class="lead">Moi même parent j'ai construit Konecto App sur base d'une frustration personnelle. Chaque parent l'a deja vécu :<br/>Le message papier vu trop tard car il était caché au fond du cartable. Le message jamais vu, on ne sait pas ce qu'il est devenu. Le message qu'on aurait du garder. Tout ca complique le quotidien, et on s'en passerait bien.<br/><br/>Le papier à vécu, il y a mieux à faire aujourd'hui.<br/>Les gens utilisent leur smartphone constamment, les tablettes et l'email sont aussi très répandus, utiliser ces medias pour atteindre les parents est devenu une évidence.</p>
+                </div>
+                <div class="col-lg-4 col-lg-offset-1 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="img/bouledepapier.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section-a">
+      <div class="container">
+          <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Pour les écoles</h2>
+                <p class="lead">Parce ce qu'il est essentiel que les informations transmises par l'école soient lues à temps. Passer au digital c'est du temps gagné à ne plus photocopier et distribuer ces messages. Moins de papier dans l'école c'est un geste écologique et économique, c'est positif.</p>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <section class="content-section-b">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Pour les parents<br><small>mais aussi les grands parents, les tontons, les tatas, les élèves</small></h2>
+                    <p class="lead">Parce ce que tout le monde à besoin d'être informé. Le mot clé est pratique</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Simple et efficace</h2>
+                        <p class="text-muted">Découvrez ce que l'application a à offrir <span class="highlighted-yellow">aux écoles</span>.</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="device-container">
+                        <div class="device-mockup imac imac white">
+                            <div class="device">
+                                <div class="screen">
+                                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                                    <img src="img/admin.png" class="img-responsive" alt=""> </div>
+                                <div class="button">
+                                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-wrench text-primary"></i>
+                                    <h3>Gestion centralisée</h3>
+                                    <p class="text-muted">Tous les messages sont géré via interface Web.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-picture text-primary"></i>
+                                    <h3>Personnalisé</h3>
+                                    <p class="text-muted">Chaque message contient le logo de l'école, les données de contacts de l'école et de l'auteur du message.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-lock text-primary"></i>
+                                    <h3>Securisé</h3>
+                                    <p class="text-muted">Espace Web privé à chaque école.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-cloud-upload text-primary"></i>
+                                    <h3>Service Cloud</h3>
+                                    <p class="text-muted">Rien n'a installer sur votre PC, une connection à internet et un navigateur suffisent.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-cup text-primary"></i>
+                                    <h3>Malin</h3>
+                                    <p class="text-muted">Moins de temps passé devant la photocopieuse, moins de papier consommé</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <section class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Simple, simple simple</h2>
+                        <p class="text-muted">Découvrez ce que l'application a à offrir <span class="highlighted-yellow">aux parents</span>.</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="device-container">
+                        <div class="device-mockup iphone6_plus portrait black">
+                            <div class="device">
+                                <div class="screen">
+                                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                                    <img src="img/iphone.png" class="img-responsive" alt=""> </div>
+                                <div class="button">
+                                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-screen-smartphone text-primary"></i>
+                                    <h3>Une app mobile</h3>
+                                    <p class="text-muted">Une application smartphone / tablette pour consulter les messages, ou recevez les dans votre boite email.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-shuffle text-primary"></i>
+                                    <h3>Flexible</h3>
+                                    <p class="text-muted">Consultez les messages la ou vous vous trouvez, ils sont dans votre poche.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-present text-primary"></i>
+                                    <h3>&euro;ratuit...</h3>
+                                    <p class="text-muted">pour les parents et ca le restera.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-mustache text-primary"></i>
+                                    <h3>Simple</h3>
+                                    <p class="text-muted">Téléchargez l'app, entrez le code donné par l'école et c'est parti.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-paper-plane text-primary"></i>
+                                    <h3>Pratique</h3>
+                                    <p class="text-muted">Recevez une notification à chaque message reçu.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-picture text-primary"></i>
+                                    <h3>Personnalisé</h3>
+                                    <p class="text-muted">Chaque parent reçoit uniquement les messages concernant son ou ses enfants.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section id="download" class="download bg-primary text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2 class="section-heading">Découvrez la demo maintenant!</h2>
+                    <p>Téléchargez l'app sur <u>votre mobile</u>, et entrez le code <span class="highlighted-grey">&nbsp;sdemo&nbsp;</span>!</p>
+                    <div class="badges">
+                        <a class="badge-link" href="#"><img src="img/google-play-badge.svg" alt=""></a>
+                        <a class="badge-link" href="#"><img src="img/app-store-badge.svg" alt=""></a>
+                        <br/>ou<br/> cherchez <em>Konecto app</em> sur les stores
+                        <br/>Pour une demo de l'interface Web de gestion des messages, <u><a class="page-scroll" href="#contact" style="color:white;">contactez nous</a></u>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="price" id="price">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Prix</h2>
+                    <hr class="calc-light">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <p>Mon école accueil <input type="text" id="nbrStudents" name="nbrStudents" data-toggle="tooltip" data-placement="auto" title="Entrez le nombre d'élèves" /> élèves, le coût de Konecto App pour l'école sera donc de <span id="computeprice">...</span>&nbsp;euros par an. Gratuit pour les parents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta">
+        <div class="cta-content">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 text-center">
+                      <h2 class="section-heading">Contactez nous</h2>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-lg-12">
+                      <%= form_tag('/contactme', method: "post", remote: true) do %>
+                        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                    <%= label_tag 'Votre nom *' %>
+                                    <%= text_field_tag 'name', '', class: 'form-control', required: 'required' %>
+                                    <p class="help-block text-danger"></p>
+                                  </div>
+                                  <div class="form-group">
+                                    <%= label_tag 'Votre Email *' %>
+                                    <%= text_field_tag 'email', '', class: 'form-control', required: 'required' %>
+                                    <p class="help-block text-danger"></p>
+                                  </div>
+                                  <div class="form-group">
+                                    <%= label_tag 'Votre téléphone *' %>
+                                    <%= text_field_tag 'tel', '', class: 'form-control', required: 'required' %>
+                                    <p class="help-block text-danger"></p>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                    <%= label_tag 'Votre message *' %>
+                                    <%= text_area_tag 'message', '', class: 'form-control', required: 'required' %>
+                                    <p class="help-block text-danger"></p>
+                                  </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="col-lg-12 text-center">
+                                  <div id="success"></div>
+                                  <button type="submit" class="btn btn-xl">Envoyer</button>
+                              </div>
+                          </div>
+                      <% end %>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2016 Konecto App.</p>
+            <!--
+            <ul class="list-inline">
+                <li>
+                    <a href="#">Privacy</a>
+                </li>
+                <li>
+                    <a href="#">Terms</a>
+                </li>
+                <li>
+                    <a href="#">FAQ</a>
+                </li>
+            </ul>
+            -->
+        </div>
+    </footer>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/new-age.min.js"></script>
+
+</body>
+
+</html>

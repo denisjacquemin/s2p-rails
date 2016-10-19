@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get '/website', to: 'website#index'
+  post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
 
   resources :mfiles

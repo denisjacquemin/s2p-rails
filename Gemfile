@@ -21,6 +21,8 @@ gem 'newrelic_rpm'
 
 gem "algoliasearch-rails"
 
+gem 'google-analytics-rails', '1.1.0'
+
 gem "mimemagic"
 
 gem 'firebase', '~> 0.2.6'

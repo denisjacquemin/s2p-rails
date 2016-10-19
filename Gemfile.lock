@@ -115,6 +115,7 @@ GEM
       railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    google-analytics-rails (1.1.0)
     hashids (1.0.2)
     highline (1.7.8)
     houston (2.2.3)
@@ -260,6 +261,7 @@ DEPENDENCIES
   devise_invitable!
   dotenv-rails
   firebase (~> 0.2.6)
+  google-analytics-rails (= 1.1.0)
   hashids
   houston
   jbuilder (~> 2.0)
