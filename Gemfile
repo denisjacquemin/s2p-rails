@@ -23,6 +23,8 @@ gem "algoliasearch-rails"
 
 gem 'google-analytics-rails', '1.1.0'
 
+gem "recaptcha", require: "recaptcha/rails"
+
 gem "mimemagic"
 
 gem 'firebase', '~> 0.2.6'
