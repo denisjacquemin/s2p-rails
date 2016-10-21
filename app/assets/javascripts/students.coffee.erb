@@ -131,7 +131,9 @@ $(document).on 'turbolinks:load', ->
   options = {
     valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
   }
-  studentList = new List('students', options);
+
+  if $( "#students .list" ).length
+    studentList = new List('students', options)
 
   errorsRef = firebase.database().ref('csv/' + $('#fb_path').val())
   errorsRef.on 'child_added', (data) ->
