@@ -37,7 +37,7 @@
     <![endif]-->
 </head>
 
-<body id="page-top" data-no-turbolink>
+<body id="page-top">
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -71,7 +71,7 @@
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                     <li>
-                        <%= link_to 'Accès Membre', new_user_session_path %>
+                        <%= link_to 'Accès Membre', new_user_session_path, data: { turbolinks: false } %>
                     </li>
                 </ul>
             </div>
