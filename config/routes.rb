@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  get '/website', to: 'website#index'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
 
@@ -42,6 +41,6 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    root to: "devise/sessions#new"
+    root to: 'website#index'
   end
 end
