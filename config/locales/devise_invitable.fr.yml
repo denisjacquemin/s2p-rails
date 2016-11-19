@@ -13,7 +13,8 @@ fr:
         header: "Inviter un nouveau rédacteur"
         submit_button: "Envoyer l'invitation"
       edit:
-        header: "Choisissez votre mot de passe"
+        header: "Bienvenu %{firstname}, vous y êtes presque!"
+        subheader: "Choisissez un mot de passe pour créer votre compte Konecto App"
         submit_button: "Enregistrer mon mot de passe"
     mailer:
       invitation_instructions:
