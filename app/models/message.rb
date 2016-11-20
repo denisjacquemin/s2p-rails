@@ -152,6 +152,7 @@ class Message < ApplicationRecord
     }.compact.flatten.uniq      # build an array of emails
 
     content = message.content
+    emails.push(message.author.email)
     emails.each do |e|
       message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
       MessageMailer.message_email(e, message).deliver
