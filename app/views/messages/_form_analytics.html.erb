@@ -45,13 +45,13 @@
           icon = '<i class="material-icons">drafts</i>'
           break;
       case 'open_by_mobile':
-          icon = '<i class="glyphicon glyphicon-phone"></i>'
+          icon = '<i class="fa fa-mobile-phone fa-2x"></i>'
           break;
       case 'bounce':
-          icon = '<i class="material-icons">error_outline</i>'
+          icon = '<i class="fa fa-warning"></i>'
           break;
       case 'dropped':
-          icon = '<i class="material-icons">error_outline</i>'
+          icon = '<i class="fa fa-warning">'
           break;
       case 'delivered':
           icon = '<i class="material-icons">mail</i>'
@@ -65,7 +65,71 @@
   messagesRef.on('child_added', function(data) {
     addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
   });
+
 </script>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-mobile-phone fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>Vues sur mobile</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-envelope fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">124</div>
+                        <div>Vues Email</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-eye fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">13</div>
+                        <div>Vues total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-warning fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">13</div>
+                        <div>Emails en erreur</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
     <table class="table">
@@ -85,11 +149,11 @@
     <p>La page <em>Statistiques</em> vous permet d'afficher un aperçu de l'activité liée à un message <em>publié</em>.</p>
     <p>Vous êtes en mesure de voir les données sur les types d'événements suivants:</p>
     <dl>
-      <dt><i class="material-icons">mail</i> Email envoyé</dt>
+      <dt><i class="fa fa-mobile-phone fa-2x"></i> Email envoyé</dt>
       <dd>Un email a été envoyé à un destinataire.</dd>
       <dt><i class="material-icons">drafts</i> Email ouvert</dt>
       <dd>Chaque fois qu'un email est ouvert par un destinataire. Le système ne peut pas détecter l'ouverture d'un email si celui-ci est ouvert par le destinataire en mode non connecté.</dd>
-      <dt><i class="material-icons">error_outline</i> Email non envoyé</dt>
+      <dt><i class="fa fa-warning"></i> Email non envoyé</dt>
       <dd>L'email n'a pu être envoyé, la colonne <em>commentaire</em> contient la raison de l'échec de l'envoi.</dd>
     </dl>
   </div>
