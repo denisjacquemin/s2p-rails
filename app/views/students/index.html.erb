@@ -45,7 +45,7 @@
                 <td class="classroom"><%= student.classroom %></td>
                 <td class="code"><%= student.code %></td>
                 <td>
-                  <% if student.followers > 0 %><span class="glyphicon glyphicon-phone aria-hidden="true" alt="<%= student.followers %>"></span><% end %>
+                  <% if student.followers > 0 %><% if student.followers > 1 %><%= student.followers %><% end %><span class="glyphicon glyphicon-phone aria-hidden="true"></span><% end %>
                   <% if student.sent_message_by_email %><i class="fa fa-envelope"></i><% end %>
                 </td>
               </tr>
