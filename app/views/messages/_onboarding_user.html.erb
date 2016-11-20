@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="onboarding jumbotron">
+      <h1>Bienvenu à bord!</h1>
+      <p class="lead">Vous trouverez ci-dessous quelques informations utiles avant de</br></br><%= link_to 'Créer votre premier message', new_message_path, class: 'btn btn-lg btn-primary' %></p>
+      <p></p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 centerindiv">
+    <i class="fa fa-envelope fa-7x" aria-hidden="true"></i></br></br>
+    <span class="label label-default" style="font-size:20px">Statuts</span>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <h2>Les statuts d'un message</h2>
+    <p>Ci-dessous la liste des statuts possible qu'un message peut avoir avec l'explication qui correspond.</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Le status</th>
+          <th>Explication</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="label label-default">Brouillon</span></td>
+          <td>Premier statut à la création. Le message est uniquement visible par vous.</td>
+        </tr>
+        <tr>
+          <td><span class="label label-warning">Approbation</span></td>
+          <td>Le message est en attente d'approbation par l'administrateur.</td>
+        </tr>
+        <tr>
+          <td><span class="label label-success">Accepté</span></td>
+          <td>L'administrateur a validé le message qui est prêt à être publié.</td>
+        </tr>
+        <tr>
+          <td><span class="label label-danger">Refusé</span></td>
+          <td>L'administrateur a refusé le message, une nouvelle approbation doit être demandée avant publication.</td>
+        </tr>
+        <tr>
+          <td><span class="label label-primary">Publié</span></td>
+          <td>Le message est visible par les parents, les emails et les notifications sont envoyés au moment de la publication.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 centerindiv">
+      <i class="fa fa-users fa-7x" aria-hidden="true"></i>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+      <h2>Droits d'accès</h2>
+      <h3>Groupes de diffusion</h3>
+      <p>L'administrateur donne à chaque rédacteur le droit de publier un message à une liste de groupes de diffusion.</p>
+      <% groups = current_user.groups_by_school(current_school.id) %>
+      <% if groups.any? %>
+      <ul>
+        <p>Ci-dessous la liste des groupes pour lesquels vous avez les droits d'accès</p>
+        <% groups.each do |group| %>
+          <li><%= group.name %></li>
+        <% end %>
+      </ul>
+      <% else %>
+        <p>Votre administrateur (<%= current_school.admins.map {|u| u.fullname}.join(', ') %>) nous vous a pas encore donné de droits</p>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 centerindiv">
+      <i class="fa fa-user fa-7x" aria-hidden="true"></i>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+      <h3>Elèves</h3>
+      <p>L'administrateur donne à chaque rédacteur le droit de publier un message à une liste d'élèves.</p>
+      <% students = current_user.students_by_school(current_school.id) %>
+      <% if students.any? %>
+      <ul>
+        <p>Ci-dessous la liste des groupes pour lesquels vous avez les droits d'accès</p>
+        <% students.each do |student| %>
+          <li><%= student.fullname %></li>
+        <% end %>
+      </ul>
+      <% else %>
+        <p>Votre administrateur (<%= current_school.admins.map {|u| u.fullname}.join(', ') %>) nous vous a pas encore donné de droits</p>
+      <% end %>
+    </div>
+  </div>
+</div>
