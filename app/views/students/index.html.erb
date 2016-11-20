@@ -111,6 +111,17 @@
             <%= "Nombre d'élèves: #{@students.size}" %>
           </div>
         </div>
+        <div class="row" style="margin-top: 30px">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>FAQ</h3>
+            <p><%= link_to 'Comment envoyer les codes élèves aux parents ?', faq_path(:anchor => '2') %></p>
+<!--
+            <p><a href="#">Comment créer un ou plusieurs élèves?</a></p>
+            <p><a href="#">Comment mettre à jour un ou plusieurs élèves?</a></p>
+            <p><a href="#">Comment gérer le passage des élèves d'une année à une autre?</a></p>
+-->
+          </div>
+        </div>
       </div>
     <% end %>
 </div>

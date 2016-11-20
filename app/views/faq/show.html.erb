@@ -13,12 +13,15 @@
           </div>
           <div id="1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
-              <p>
-                La première étape consiste à l'inviter via le menu <em>Rédacteurs</em>.</br>
-                L'invitation contient un lien permettant d'accepter l'invitation, ce lien pointe vers la page permettant de définir le mot de passe.</br>
-                Une fois l'invitation acceptée, l'enseignant pourra créer des messages.</br>
-                Le menu <em>Rédacteurs</em> est uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).
-              </p>
+              <p>Fonctionalité uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).</p>
+              <ol>
+                <li>Sur l'écran <em>Rédacteurs</em>, créez un nouveau rédacteur en cliquant sur le bouton <em>Nouvelle invitation</em>.</li>
+                <li>Une email d'invitation est envoyé, celui-ci contient un lien permettant au nouveau rédacteur de choisir le mot de passe de son compte.</li>
+                <li>Une fois connecté il pourra créer des messages.</li>
+                <li>Après l'envoi de l'invitation, l'administrateur doit donner les droits d'accès à une sélection de groupes et/ou d'élèves auquelles le rédacteur aura le droit d'envoyer des messages.</li>
+              </ol>
+              <p>Demo:</p>
+              <%= image_tag asset_path("gif/Commentpermettreaunenseignantdecreerdesmessages.gif") %>
             </div>
           </div>
         </div>
@@ -32,23 +35,29 @@
           </div>
           <div id="2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
+              <p>Fonctionalité uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).</p>
+              <ol>
+                <li>Sur l'écran <em>Elèves</em>, sélectionner les élèves pour qui vous voulez envoyer le code.</li>
+                <li>Cliquez sur le bouton <em>Envoyer code</em>. Un message sera créé automatiquement</li>
+              </ol>
               <p>
-                Le bouton <em>Envoyer code</em> est disponible sur l'écran <em>élèves</em>, uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).
-                Un message sera créé automatiquement avec les caractéristiques suivantes:
+                Ci-dessous les caractéristiques du message créé:
                 <dl>
                   <dt>Le titre et le contenu sont préremplis</dt>
                   <dd>Pour que les codes apparaissent dans l'email, <em>[code]</em> doit être présent dans le corps du message, il sera remplacé par le nom prénom et le code de l'élève.</dd>
                   <dt>Les destinataires sont préremplis</dt>
-                  <dd>Les élèves sélectionnés sont enregistrés comme destinataires.</dd>
+                  <dd>Les élèves sélectionnés à l'étape 1 sont enregistrés comme destinataires.</dd>
                   <dt>Un seul email envoyé par personne (email)<dt>
                   <dd>Une personne avec plusieurs enfants (et donc plusieur codes) recevra un seul email, dans lequel la liste des codes se trouvera.</dd>
                   <dt>Les messages sont envoyés au moment de la publication.</dt>
                   <dt>L'option <em>Ne pas tenir compte de "Envoi des messages via email"</em> est cochée</dt>
                   <dd>Même si l'option "Envoi des messages via email" n'est pas cochée pour un élève, l'email sera envoyé.</dd>
                   <dt>L'option <em>Envoyer via Smartphone/Tablette</em> n'est pas cochée</dt>
-                  <dd>Il n'est pas nécessaire de faire apparaître le message via l'application mobile.</dd>
+                  <dd>Il n'est pas nécessaire de faire apparaître ce message via l'application mobile.</dd>
                 </dl>
               </p>
+              <p>Demo:</p>
+              <%= image_tag asset_path("gif/Commentenvoyerlescodeselevesauxparents.gif") %>
             </div>
           </div>
         </div>
@@ -228,6 +237,41 @@
             </div>
           </div>
         </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#6" aria-expanded="true" aria-controls="collapseOne">
+                Comment créer un ou plusieurs élèves?
+              </a>
+            </h4>
+          </div>
+          <div id="6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <p>Fonctionalité uniquement accessible à un administrateur (<%= @admins.map {|u| u.fullname}.join(', ') %>).</p>
+              <p>A la création d'un élève</p>
+              <ul>
+                <li>Un code unique est automatiquement attribué à l'élève.</li>
+                <li>L'élève est automatiquement inclu dans les groupes correspondant aux champs <em>Année</em> et <em>Titulaire</em>.</li>
+              </ul>
+
+              <h4>Un élève à la fois</h4>
+              <p>Sur l'écran <em>Elèves</em>, cliquez sur le bouton <em>Nouvel élève</em>, et complétez le formulaire.</p>
+              <h4>Plusieurs élèves à la fois</h4>
+              <ul>
+                <li>Sur l'écran <em>Elèves</em>, cliquez sur le bouton <em>Import CSV</em>.</li>
+                <li>Créez un <a data-toggle="popover" data-trigger="hover" data-placement="top" title="Fichier CSV" data-content="Fichier contenant des données sous forme de valeurs séparées par des (points-)virgules. Ce type de fichier est habituellement géré par des logiciels tableur comme Microsoft Excel.">fichier CSV <i class="fa fa-info-circle" aria-hidden="true"></i></a> contenant la liste des élèves, <%= link_to "fichier CSV d'exemple", '/eleves.csv' %>.</li>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 </div>
+<script>
+var url = document.location.toString();
+if ( url.match('#') ) {
+    $('#'+url.split('#')[1]).addClass('in');
+}
+</script>
