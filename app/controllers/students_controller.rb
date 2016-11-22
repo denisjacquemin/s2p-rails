@@ -166,11 +166,11 @@ class StudentsController < ApplicationController
         :strip_chars_from_headers => /[\-"]/,
         :chunk_size => 1000,
         :key_mapping => {
-          :prénom => :firstname,
+          :prenom => :firstname,
           :nom => :lastname,
           :emails => :emails,
           :envoi_des_messages_via_email => :sent_message_by_email,
-          :année => :level,
+          :annee => :level,
           :titulaire => :classroom,
           :code => :code
         },
