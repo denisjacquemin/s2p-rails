@@ -62,6 +62,19 @@ submit_with_status = (status) ->
   $('#message_status').val(status)
   $('.edit_message')[0].submit()
 
+
+remaining_count = ->
+  cs = $(this).val().length
+  maxlength = $(this).attr('maxLength')
+  $('#' + $(this).data('counter')).text parseInt(maxlength) - cs
+  return
+
+init_count = (el) ->
+  cs = el.val().length
+  maxlength = el.attr('maxLength')
+  $('#' + el.data('counter')).text parseInt(maxlength) - cs
+  return
+
 $(document).on 'turbolinks:load', ->
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
@@ -83,3 +96,6 @@ $(document).on 'turbolinks:load', ->
     submit_with_status($(e.target).data('status'))
 
   $('[data-toggle="popover"]').popover()
+
+  init_count $('#message_title')
+  $('#message_title').bind('propertychange change click keyup input paste', remaining_count)

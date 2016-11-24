@@ -2,7 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <% if message.new_record? %>
       <div class="form-group">
-        <%= f.label :mtype %>
+        <%= f.label :mtype %> <%= link_to faq_path(:anchor => '7') do %><i class="fa fa-question-circle" aria-hidden="true"></i><% end %>
         <%= f.select(:mtype, [['Message', 'message'], ['Message court', 'rappel']], {}, {id: 'mtype', class: "form-control"})  %>
       </div>
     <% end %>
@@ -13,13 +13,16 @@
 
     <div class="form-group">
       <%= f.label :title %>
-      <%= f.text_field :title, class: 'form-control' %>
+      <%= f.text_field :title, id: "message_title", class: 'form-control counter_field', maxlength: 80, "data-counter" => "counter" %>
+      <span class="help-block">Maximum 80 caractères, reste <span id="counter"></span>.</span>
     </div>
 
+  <!--
     <div class="form-group alert_mtype" style=<%= "#{'display:none' if message.mtype == 'message'}" %>>
       <%= f.label :when %>
       <%= f.text_field :when, class: 'form-control' %>
     </div>
+  -->
 
     <div class="form-group message_mtype" style=<%= "#{'display:none' if message.mtype == 'rappel'}" %>>
       <%= f.label :content %>

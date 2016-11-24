@@ -1,6 +1,6 @@
-<% if message.draft? %>  <span class="label label-default">Brouillon</span>
-<% elsif message.published? %> <span class="label label-primary">Publié</span>
-<% elsif message.waiting_for_approval? %> <span class="label label-warning">Approbation</span>
-<% elsif message.approval_refused? %> <span class="label label-danger">Refusé</span>
-<% elsif message.approval_accepted? %> <span class="label label-success">Accepté</span>
+<% if message.draft? %>  <span data-toggle="tooltip" data-placement="top" title="Dernière mise à jour le <%= I18n.l(message.updated_at, format: :short)%>" class="label label-default">Brouillon</span>
+<% elsif message.published? %> <span data-toggle="tooltip" data-placement="top" title="Publié le <%= I18n.l(message.publish_date, format: :short)%>" class="label label-primary">Publié</span>
+<% elsif message.waiting_for_approval? %> <span data-toggle="tooltip" data-placement="top" title="Dernière mise à jour le <%= I18n.l(message.updated_at, format: :short)%> class="label label-warning">Approbation</span>
+<% elsif message.approval_refused? %> <span data-toggle="tooltip" data-placement="top" title="Dernière mise à jour le <%= I18n.l(message.updated_at, format: :short)%> class="label label-danger">Refusé</span>
+<% elsif message.approval_accepted? %> <span data-toggle="tooltip" data-placement="top" title="Dernière mise à jour le <%= I18n.l(message.updated_at, format: :short)%> class="label label-success">Accepté</span>
 <% end %>

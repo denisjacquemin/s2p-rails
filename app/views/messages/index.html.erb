@@ -11,13 +11,13 @@
             <table class="table table-striped table-hover">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Titre</th>
                   <th>Contenu</th>
                   <% if current_user.superadmin? %>
                     <th>Ecole</th>
                   <% end %>
                   <th>Auteur</th>
-                  <th>Statut</th>
                   <th></th>
                 </tr>
               </thead>
@@ -25,17 +25,15 @@
               <tbody>
                 <% @messages.each do |message| %>
                   <tr>
-                    <td><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
-                    <% if message.mtype == 'rappel' %>
-                      <td><%= link_to message.when, edit_message_path(message) %></td>
-                    <% else %>
+                    <td><%= render 'status', message: message %></td>
+                    <td <%= "colspan=2" if message.mtype == 'rappel' %>><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
+                    <% if message.mtype != 'rappel' %>
                       <td><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
                     <% end %>
                     <% if current_user.superadmin? %>
                       <td><% if message.school.present? %><%= message.school.name %><% end %></td>
                     <% end %>
                     <td><%= message.author_fullname %></td>
-                    <td><%= render 'status', message: message %></td>
                     <td class="text-right">
                       <%= render 'change_status_dropdown', message: message, size: 'btn-xs' %>
                   </tr>
