@@ -2,8 +2,7 @@
   <h2><%= @message.title %></h2>
   <%= @message.content.html_safe %>
 <% elsif @message.rappel? %>
-  <h4><%= @message.title %></h4>
-  <p><%= @message.when.html_safe %></p>
+  <p><%= @message.title %></p>
 <% end %>
 
 <%# <style>.keepratio { display: block; max-width:230px; max-height:95px; width: auto;height: auto; margin: 15px;}</style> %>
