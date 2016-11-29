@@ -70,9 +70,10 @@ remaining_count = ->
   return
 
 init_count = (el) ->
-  cs = el.val().length
-  maxlength = el.attr('maxLength')
-  $('#' + el.data('counter')).text parseInt(maxlength) - cs
+  if el
+    cs = el.val().length
+    maxlength = el.attr('maxLength')
+    $('#' + el.data('counter')).text parseInt(maxlength) - cs
   return
 
 $(document).on 'turbolinks:load', ->
