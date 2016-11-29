@@ -70,7 +70,7 @@ remaining_count = ->
   return
 
 init_count = (el) ->
-  if el
+  if el.length # test if el exist http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery 
     cs = el.val().length
     maxlength = el.attr('maxLength')
     $('#' + el.data('counter')).text parseInt(maxlength) - cs
