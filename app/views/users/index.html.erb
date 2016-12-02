@@ -21,7 +21,7 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td><%= link_to "#{user.firstname} #{user.lastname}", edit_user_path(user) %></td>
+              <td><%= link_to "#{user.lastname} #{user.firstname}", edit_user_path(user) %></td>
               <td><%= link_to user.email, edit_user_path(user) %></td>
               <td><% if user.schools.any? %><%= School.find(user.schools).pluck(:name).join(', ') %><% end %></td>
               <td><%= user.code %></td>
