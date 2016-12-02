@@ -38,16 +38,15 @@
         });
       </script>
     </div>
-
-    <div class="form-group">
-      <%= f.check_box :send_by_email %>
-      <%= f.label :send_by_email%>
-    </div>
-    <div class="form-group">
-      <%= f.check_box :send_to_app %>
-      <%= f.label :send_to_app %>
-    </div>
-    <% unless current_user.user? %>
+    <% if current_user.admin? %>
+      <div class="form-group">
+        <%= f.check_box :send_by_email %>
+        <%= f.label :send_by_email%>
+      </div>
+      <div class="form-group">
+        <%= f.check_box :send_to_app %>
+        <%= f.label :send_to_app %>
+      </div>
       <div class="form-group">
         <%= f.check_box :skip_send_by_email %>
         <%= f.label :skip_send_by_email %>
