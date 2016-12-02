@@ -13,5 +13,7 @@ module School2parents
     # -- all .rb files in that directory are automatically loaded.
     config.i18n.default_locale = :fr
     config.autoload_paths << Rails.root.join('lib')
+
+    config.time_zone = "Brussels"
   end
 end
