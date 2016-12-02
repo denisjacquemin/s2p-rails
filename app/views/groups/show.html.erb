@@ -9,12 +9,14 @@
         <tr>
           <th><%= t('activerecord.attributes.student.lastname') %></th>
           <th><%= t('activerecord.attributes.student.firstname') %></th>
+          <th>Code</th>
           <th></th>
         </tr>
         <% students.each do |s| %>
           <tr>
             <td><%= s.lastname %></td>
             <td><%= s.firstname %></td>
+            <td class="code"><%= s.code %></td>
             <td>
               <% if s.followers > 0 %><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><% if s.followers > 1 %><sup><%= s.followers %></sup><% end %><% end %>
               <% if s.sent_message_by_email %><i class="fa fa-envelope"></i><% end %>
