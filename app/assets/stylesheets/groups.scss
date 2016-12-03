@@ -3,15 +3,13 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .groups {
-  margin-top: 50px;
-
   .panel-body {
     height: 350px;
     overflow: auto;
   }
 
   .buttons {
-    padding: 40px 0 0 0;
+    padding: 20px 0 20px 0;
     text-align:center;
     #remove, input[type='submit'] {
       margin-top: 40px;
