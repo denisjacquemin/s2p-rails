@@ -37,7 +37,8 @@
           %>
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="pull-right"><%= f.submit submit_label, class: 'btn btn-primary' %></div>
+              <%= f.submit submit_label, class: 'btn btn-primary fab visible-xs' %>
+              <div class="pull-right hidden-xs"><%= f.submit submit_label, class: 'btn btn-primary' %></div>
             </div>
           </div>
           <%= render 'form_details', f: f, message: @message %>

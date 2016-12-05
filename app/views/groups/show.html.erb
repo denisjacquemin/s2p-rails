@@ -1,7 +1,7 @@
 <h1><%= t('views.groups.show.member_list') %> (<%= @group.name %>)</h1>
 <hr />
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 table-responsive">
     <% students = @group.students %>
     <% if students.any? %>
       <h3><%= t('views.groups.show.student_list') %></h3>

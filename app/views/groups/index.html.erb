@@ -1,13 +1,14 @@
 <h1>Groupes de diffusion
   <% if policy(:group).new? %>
-    <div class="pull-right">
+    <%= link_to t('views.groups.index.new'), new_group_path, class: 'btn btn-primary fab visible-xs' %>
+    <div class="pull-right hidden-xs">
       <%= link_to t('views.groups.index.new'), new_group_path, class: 'btn btn-primary' %>
     </div>
   <% end %>
 </h1>
 <hr />
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
       <% if @groups.any? %>
         <table class="table table-striped table-hover">
           <thead>

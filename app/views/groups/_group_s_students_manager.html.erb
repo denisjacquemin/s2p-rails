@@ -1,6 +1,6 @@
 <div class="row groups">
   <%= form_for(group, url: {action: "update_students"}) do |g_form| %>
-  <div class="col-xs-5">
+  <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
     <div class="panel panel-default">
       <div class="panel-heading"><%= t('views.groups.listofstudents') %></div>
       <div class="panel-body table-responsive">
@@ -23,18 +23,24 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-2 buttons">
-    <button type="button" class="btn" id="add" aria-label="Left Align">
-      Ajouter
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    </button>
-    <button type="button" class="btn" id="remove" aria-label="Left Align">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      Enlever
-    </button>
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 buttons">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <button type="button" class="btn" id="add" aria-label="Left Align">
+            Ajouter
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <button type="button" class="btn" id="remove" aria-label="Left Align">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            Enlever
+          </button>
+        </div>
+      </div>
     <%= g_form.submit 'Enregistrer', class: 'btn btn-primary'%>
   </div>
-  <div class="col-xs-5">
+  <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 
       <div class="panel panel-default">
         <div class="panel-heading">Elèves du groupe</div>

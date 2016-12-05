@@ -67,3 +67,10 @@ body {
 .text-wrap {
   white-space: normal;
 }
+
+.fab {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  z-index: 2000;
+}

@@ -5,10 +5,11 @@
     submit_label = t('views.students.new.submit')
     submit_label = t('views.students.edit.submit') unless @student.new_record?
   %>
-  <%= hidden_field_tag 'school_id', current_school.id %> 
+  <%= hidden_field_tag 'school_id', current_school.id %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-      <div class="pull-right">
+      <%= f.submit submit_label, class: 'btn btn-primary fab visible-xs' %>
+      <div class="pull-right hidden-xs">
         <%= f.submit submit_label, class: 'btn btn-primary' %>
         <% if policy(student).destroy? and not student.new_record? %>
           <%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
