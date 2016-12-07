@@ -18,9 +18,6 @@
               <% end %>
               <th class="sort" data-sort="lastname"><%= t('activerecord.attributes.student.lastname') %></th>
               <th class="sort" data-sort="firstname"><%= t('activerecord.attributes.student.firstname') %></th>
-              <% if current_user.superadmin? %>
-                <th><%= t('activerecord.attributes.student.school') %></th>
-              <% end %>
               <th class="sort" data-sort="level"><%= t('activerecord.attributes.student.level') %></th>
               <th class="sort" data-sort="classroom"><%= t('activerecord.attributes.student.classroom') %></th>
               <th class="sort" data-sort="code"><%= t('activerecord.attributes.student.code') %></th>
@@ -42,9 +39,6 @@
                   <td><%= link_to student.firstname, edit_student_path(student), class: "firstname" %></td>
                 <% else %>
                   <td class="firstname"><%= student.firstname %></td>
-                <% end %>
-                <% if current_user.superadmin? %>
-                  <td><% if student.school.present? %><%= student.school.name %><% end %></td>
                 <% end %>
                 <td class="level"><%= student.level %></td>
                 <td class="classroom"><%= student.classroom %></td>
