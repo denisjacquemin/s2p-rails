@@ -36,7 +36,8 @@
                 <% @messages.each do |message| %>
                   <tr>
                     <td><%= render 'status', message: message %></td>
-                    <td <%= "colspan=2" if message.mtype == 'rappel' %>><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
+                    <td class="visible-xs"><%= link_to truncate(message.title, :length => 25), edit_message_path(message) %></td>
+                    <td class="hidden-xs" <%= "colspan=2" if message.mtype == 'rappel' %>><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
                     <% if message.mtype != 'rappel' %>
                       <td class="hidden-xs"><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
                     <% end %>
