@@ -33,7 +33,7 @@
 //= require schools
 //= require students
 //= require users
-//= require list
+//= require list1.3.0
 //= require algolia/v3/algoliasearch.min
 //= require autocomplete.min
 // require_tree .
