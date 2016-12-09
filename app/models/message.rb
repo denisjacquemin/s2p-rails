@@ -161,10 +161,18 @@ class Message < ApplicationRecord
   end
 
   def author_email
-    if self.author.nil? or self.author.email.nil?
+    if self.author.nil? or self.author.email.blank?
       return nil
     else
       return self.author.email
+    end
+  end
+
+  def admins_emails
+    if self.school.nil? or self.school.admins.blank?
+      return nil
+    else
+      return self.school.admins
     end
   end
 
