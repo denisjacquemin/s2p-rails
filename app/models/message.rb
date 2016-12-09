@@ -149,10 +149,12 @@ class Message < ApplicationRecord
   def build_emails(students, message)
     emails = students.collect { |s|
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
-    }.compact.flatten.uniq      # build an array of emails
+    }      # build an array of emails
 
     content = message.content
-    emails.push(message.author.email)
+    emails.push(message.author_email) unless message.author_email.blank?
+    message.admins_emails.each {|e| emails.push(e)} unless message.admins_emails.blank?
+    emails = emails.compact.flatten.uniq
     emails.each do |e|
       message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
       MessageMailer.message_email(e, message).deliver_later
