@@ -172,7 +172,7 @@ class Message < ApplicationRecord
     if self.school.nil? or self.school.admins.blank?
       return nil
     else
-      return self.school.admins
+      return self.school.admins.pluck(:email)
     end
   end
 
