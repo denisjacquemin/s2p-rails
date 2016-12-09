@@ -155,9 +155,17 @@ class Message < ApplicationRecord
     emails.push(message.author.email)
     emails.each do |e|
       message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
-      MessageMailer.message_email(e, message).deliver
+      MessageMailer.message_email(e, message).deliver_later
     end
     message.content = content
+  end
+
+  def author_email
+    if self.author.nil? or self.author.email.nil?
+      return nil
+    else
+      return self.author.email
+    end
   end
 
   def replace_code_smart_tag(students, email, content)
