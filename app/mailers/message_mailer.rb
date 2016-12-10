@@ -20,7 +20,8 @@ class MessageMailer < ApplicationMailer
     headers "X-SMTPAPI" => {
       unique_args: { mid: @message.id, sid: @message.school_id }
     }.to_json
-    from = @message.author.fullname + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
+
+    from = "#{@message.school_name} #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
     reply_to = @message.author.fullname + '<' + @message.author.email + '>' || 'konecto@konectoapp.com'
     mail(from: from, to: to, subject: @message.title, reply_to: reply_to )
   end
