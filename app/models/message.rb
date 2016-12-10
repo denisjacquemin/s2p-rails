@@ -178,6 +178,14 @@ class Message < ApplicationRecord
     end
   end
 
+  def school_name
+    if self.school.nil? or self.school.name.blank?
+      return nil
+    else
+      return self.school.name
+    end
+  end
+
   def replace_code_smart_tag(students, email, content)
     codes = ""
     students.each do |s|
