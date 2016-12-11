@@ -44,7 +44,7 @@ class MessageMailer < ApplicationMailer
         end.join || ""
       end
     end
-    
+
     unless codes.blank?
       x_smptapi_hash['sub'] = {
         "[code]": codes
@@ -52,7 +52,7 @@ class MessageMailer < ApplicationMailer
     end
     headers "X-SMTPAPI" => x_smptapi_hash.to_json
 
-    from = "#{@message.school_name} #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
+    from = "#{@message.school_name} - #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
     reply_to = @message.author.fullname + '<' + @message.author.email + '>' || 'konecto@konectoapp.com'
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: @message.title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
