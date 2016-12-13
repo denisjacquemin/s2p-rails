@@ -21,6 +21,8 @@ gem 'newrelic_rpm'
 
 gem "algoliasearch-rails"
 
+gem 'data-confirm-modal'
+
 gem 'google-analytics-rails', '1.1.0'
 
 gem "recaptcha", require: "recaptcha/rails"
