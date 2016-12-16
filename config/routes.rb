@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  get '/amp', to: 'website#amp'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
 
