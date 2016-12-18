@@ -24,6 +24,7 @@ module Notification extend ActiveSupport::Concern
           "priority": 2,
           "title": truncate(message.title, :length => 200),
           "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
+          "badge": 1,
           "content-available": "1",
           "visibility": 1 # public
         }
