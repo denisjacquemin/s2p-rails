@@ -12,7 +12,8 @@ module Notification extend ActiveSupport::Concern
         dataIOS = {
           "title": truncate(message.title, :length => 200),
           "message_id": message.id,
-          "content-available": 1
+          "content-available": 1,
+          "badge": 1
         }
         send_ios_notifications(message.title, devicesIOS, dataIOS)
       end
@@ -67,6 +68,17 @@ module Notification extend ActiveSupport::Concern
           n.content_available = true
           n.sound = true
           n.data = data
+
+# {
+#   "aps": {
+#     "alert":"Visite du château de Bouillion",
+#     "sound":"t",
+#     "content-available":1
+#   },
+#   "title":"Visite du château de Bouillion",
+#   "message_id":82,
+#   "content-available":1}
+
           begin
             logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect} + payload: #{n.payload}"
             n.save!
