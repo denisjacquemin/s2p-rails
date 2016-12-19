@@ -66,7 +66,7 @@ module Notification extend ActiveSupport::Concern
           n.alert = truncate(alert, :length => 256)
           n.content_available = true
           n.sound = true
-          n.aps = data
+          n.data = data
           begin
             logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect}"
             n.save!
