@@ -38,6 +38,13 @@ Rpush.reflect do |on|
   # Further notifications should not be sent to the device.
   on.apns_feedback do |feedback|
     Rails.logger.info "[Rpush.reflect apns_feedback] #{feedback.inspect}"
+    #<Rpush::Client::ActiveRecord::Apns::Feedback id: 211, device_token: "96ca35462a4c0bfa9f490e361773736e7ce23ef754d451fd9e...", failed_at: "2016-12-19 20:53:07", created_at: "2016-12-19 20:53:32", updated_at: "2016-12-19 20:53:32", app_id: 8>
+
+    # Find Devices with no more valid token
+    d = Device.where(registration_id: feedback.device_token)
+    Rails.logger.info "[Rpush.reflect device removed #{d.inspect}"
+    d.delete_all
+
   end
 
   # Called when a notification is queued internally for delivery.
