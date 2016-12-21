@@ -4,13 +4,13 @@
   addLine = function(target, event, reason, source = '', created_at) {
 
 
-    var line = "<tr>";
+    var line = '<tr class="' + target + '">';
     line += "<td>" + geticon(event) + "</td>"
     line += "<td>" + source + "</td>"
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    target.prepend($(line).addClass("animated bounceIn"));
+    $('#' + target + '_list').prepend($(line).addClass("animated bounceIn"));
   }
 
   getcomment = function(reason, event) {
@@ -62,9 +62,9 @@
       return icon;
   }
 
-  messagesRef.child('delivered').on('child_added', function(data) {
-    addLine($('#delivered_list'), data.val().event, data.val().reason, data.val().source, data.val().created_at);
-    $('#counter_delivered').text(data.numChildren());
+  messagesRef.child('delivered').on('value', function(data) {
+    addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+    $('#counter_delivered').text($('.delivered').length);
   });
 
 
