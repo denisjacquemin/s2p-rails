@@ -1,7 +1,7 @@
 <script>
   var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
-  addLine = function(event, reason, source = '', created_at) {
+  addLine = function(target, event, reason, source = '', created_at) {
 
 
     var line = "<tr>";
@@ -10,7 +10,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#analytics_list').prepend($(line).addClass("animated bounceIn"));
+    target.prepend($(line).addClass("animated bounceIn"));
   }
 
   getcomment = function(reason, event) {
@@ -62,12 +62,29 @@
       return icon;
   }
 
-  messagesRef.on('child_added', function(data) {
-    addLine(data.val().event, data.val().reason, data.val().source, data.val().created_at);
+  messagesRef.child('delivered').on('child_added', function(data) {
+    addLine($('#delivered_list'), data.val().event, data.val().reason, data.val().source, data.val().created_at);
+    $('#counter_delivered').text(data.numChildren());
   });
+
 
 </script>
 <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-envelope fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge" id="counter_delivered">12</div>
+                        <div>Emails envoyés</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -88,7 +105,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-envelope fa-5x"></i>
+                        <i class="material-icons">drafts</i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">124</div>
@@ -141,7 +158,7 @@
           <th>Date/heure</th>
         </tr>
       </thead>
-      <tbody id="analytics_list"></tbody>
+      <tbody id="delivered_list"></tbody>
     </table>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
