@@ -50,7 +50,7 @@
           <%= render 'form_files', {message: @message, mfile: mfile} %>
         </div>
       <% end %>
-      <% if not message.new_record? and current_user.superadmin? %>
+      <% if not message.new_record? and (current_user.superadmin? or current_user.admin?) %>
         <div role="tabpanel" class="tab-pane fade in" id="analytics">
           <%= render 'form_analytics', message: @message %>
         </div>
