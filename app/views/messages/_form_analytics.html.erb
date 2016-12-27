@@ -72,6 +72,11 @@
     $('#counter_open').text($('.open').length);
   });
 
+  messagesRef.child('view').on('child_added', function(data) {
+    addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+    $('#counter_mobile').text($('.mobile').length);
+  });
+
 </script>
 <div class="row">
       <div class="row nav nav-tabs" role="tablist">
@@ -84,7 +89,7 @@
                               <i class="fa fa-envelope fa-5x"></i>
                           </div>
                           <div class="col-xs-9 text-right">
-                              <div class="huge" id="counter_delivered">12</div>
+                              <div class="huge" id="counter_delivered">-</div>
                               <div>Emails envoyés</div>
                           </div>
 
@@ -98,13 +103,12 @@
             <div class="panel panel-green">
                 <div class="panel-heading">
                     <div class="row">
-
                         <div class="col-xs-3">
-                            <i class="fa fa-mobile-phone fa-5x"></i>
+                            <i class="material-icons" style="font-size:5.2em">drafts</i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge" id="counter_open">12</div>
-                            <div>Vues sur mobile</div>
+                            <div class="huge" id="counter_open">-</div>
+                            <div>Emails ouverts</div>
                         </div>
                       </a>
                     </div>
@@ -112,20 +116,18 @@
             </div>
           </div>
         </a>
-        <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+        <a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <div class="panel panel-yellow">
                 <div class="panel-heading">
                     <div class="row">
-                        <a href="#mobile_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
                           <div class="col-xs-3">
-                              <i class="material-icons">drafts</i>
+                              <i class="fa fa-mobile-phone fa-5x"></i>
                           </div>
                           <div class="col-xs-9 text-right">
-                              <div class="huge" id="counter_open">124</div>
+                              <div class="huge" id="counter_mobile">124</div>
                               <div>Vues Email</div>
                           </div>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -160,7 +162,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>Source1</th>
+              <th>Source</th>
               <th>Commentaire</th>
               <th>Date/heure</th>
             </tr>
@@ -173,7 +175,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>Source2</th>
+              <th>Source</th>
               <th>Commentaire</th>
               <th>Date/heure</th>
             </tr>
