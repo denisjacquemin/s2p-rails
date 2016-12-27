@@ -10,7 +10,7 @@
     line += "<td>" + getcomment(reason, event) + "</td>"
     line += "<td>" + created_at + "</td>"
     line += "</tr>"
-    $('#' + target + '_list').prepend($(line).addClass("animated bounceIn"));
+    $('#' + target + '_rows').prepend($(line).addClass("animated bounceIn"));
   }
 
   getcomment = function(reason, event) {
@@ -67,99 +67,148 @@
     $('#counter_delivered').text($('.delivered').length);
   });
 
+  messagesRef.child('open').on('child_added', function(data) {
+    addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+    $('#counter_open').text($('.open').length);
+  });
 
 </script>
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-envelope fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge" id="counter_delivered">12</div>
-                        <div>Emails envoyés</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-mobile-phone fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">12</div>
-                        <div>Vues sur mobile</div>
+      <div class="row nav nav-tabs" role="tablist">
+        <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+
+                          <div class="col-xs-3">
+                              <i class="fa fa-envelope fa-5x"></i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="counter_delivered">12</div>
+                              <div>Emails envoyés</div>
+                          </div>
+
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="material-icons">drafts</i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
-                        <div>Vues Email</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-eye fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>Vues total</div>
+          </div>
+        </a>
+        <a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+
+                        <div class="col-xs-3">
+                            <i class="fa fa-mobile-phone fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">12</div>
+                            <div>Vues sur mobile</div>
+                        </div>
+                      </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-warning fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>Emails en erreur</div>
+          </div>
+        </a>
+        <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <a href="#mobile_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+                          <div class="col-xs-3">
+                              <i class="material-icons">drafts</i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="counter_open">124</div>
+                              <div>Vues Email</div>
+                          </div>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
+          </div>
+        </a>
+        <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-warning fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">13</div>
+                            <div>Emails en erreur</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="analyticstabs">
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-    <table class="table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Source</th>
-          <th>Commentaire</th>
-          <th>Date/heure</th>
-        </tr>
-      </thead>
-      <tbody id="delivered_list"></tbody>
-    </table>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="delivered_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source1</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="delivered_rows"></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane " id="open_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source2</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody ></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane " id="mobile_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody ></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane " id="open_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody ></tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
     <h3>Statistiques</h3>
