@@ -9,7 +9,7 @@
         <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
-      <% if not message.new_record? and current_user.superadmin? %>
+      <% if not message.new_record? and (current_user.superadmin? or current_user.admin?)%>
         <li role="presentation">
           <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques</a>
         </li>
