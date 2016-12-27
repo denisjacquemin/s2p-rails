@@ -1,6 +1,8 @@
 class WebsiteController < ApplicationController
   layout false
 
+  newrelic_ignore
+
   def contactme
 
     if verify_recaptcha()

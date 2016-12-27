@@ -25,7 +25,6 @@
     <meta name="twitter:image" content="https://www.konectoapp.com/konectoappthumbnail.jpeg" />
     <meta name="apple-itunes-app" content="app-id=1141643283">
     <meta name="google-play-app" content="app-id=com.dsjn.s2p">
-    <link rel="amphtml" href="https://www.konectoapp.com/amp.html">
     <%= csrf_meta_tags %>
 
     <title>Konecto App</title>
@@ -33,20 +32,14 @@
 
     <!-- Plugin CSS -->
     <%= render 'website_css' %>
-    <%= analytics_init if GoogleAnalytics.valid_tracker? %>
+    <%= render 'website_fonts' %>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <%= analytics_init if GoogleAnalytics.valid_tracker? %>
+    <%= render 'website_js' %>
 </head>
 
 <body id="page-top">
   <%= render 'website_body' %>
-  <%= render 'website_js' %>
 </body>
 
 </html>
