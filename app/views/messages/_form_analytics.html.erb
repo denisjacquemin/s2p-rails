@@ -77,6 +77,11 @@
     $('#counter_mobile').text($('.mobile').length);
   });
 
+  messagesRef.child('dropped').on('child_added', function(data) {
+    addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+    $('#counter_dropped').text($('.dropped').length);
+  });
+
 </script>
 <div class="row">
       <div class="row nav nav-tabs" role="tablist">
@@ -126,14 +131,14 @@
                           </div>
                           <div class="col-xs-9 text-right">
                               <div class="huge" id="counter_mobile">124</div>
-                              <div>Vues Email</div>
+                              <div>Vues App mobile</div>
                           </div>
                     </div>
                 </div>
             </div>
           </div>
         </a>
-        <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+        <a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">
           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
             <div class="panel panel-red">
                 <div class="panel-heading">
@@ -196,7 +201,7 @@
           <tbody id="mobile_rows"></tbody>
         </table>
       </div>
-      <div role="tabpanel" class="tab-pane " id="open_list">
+      <div role="tabpanel" class="tab-pane " id="dropped_list">
         <table class="table">
           <thead>
             <tr>
@@ -206,7 +211,7 @@
               <th>Date/heure</th>
             </tr>
           </thead>
-          <tbody ></tbody>
+          <tbody id="dropped_rows"></tbody>
         </table>
       </div>
     </div>
