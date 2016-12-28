@@ -97,7 +97,6 @@
       <% end %>
       <br/>
     </div>
-
   </div>
 </div>
 
@@ -177,7 +176,7 @@
 <div class="row" id="analyticstabs">
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="delivered_list">
+      <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
         <table class="table">
           <thead>
             <tr>
@@ -190,7 +189,7 @@
           <tbody id="delivered_rows"></tbody>
         </table>
       </div>
-      <div role="tabpanel" class="tab-pane " id="open_list">
+      <div role="tabpanel" class="tab-pane table-responsive" id="open_list">
         <table class="table">
           <thead>
             <tr>
@@ -203,7 +202,7 @@
           <tbody id="open_rows"></tbody>
         </table>
       </div>
-      <div role="tabpanel" class="tab-pane " id="mobile_list">
+      <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
         <table class="table">
           <thead>
             <tr>
@@ -216,7 +215,7 @@
           <tbody id="mobile_rows"></tbody>
         </table>
       </div>
-      <div role="tabpanel" class="tab-pane " id="dropped_list">
+      <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
         <table class="table">
           <thead>
             <tr>
@@ -236,10 +235,12 @@
     <p>La page <em>Statistiques</em> vous permet d'afficher un aperçu de l'activité liée à un message <em>publié</em>.</p>
     <p>Vous êtes en mesure de voir les données sur les types d'événements suivants:</p>
     <dl>
-      <dt><i class="fa fa-mobile-phone fa-2x"></i> Email envoyé</dt>
+      <dt><i class="fa fa-envelope"></i> Email envoyé</dt>
       <dd>Un email a été envoyé à un destinataire.</dd>
       <dt><i class="material-icons">drafts</i> Email ouvert</dt>
-      <dd>Chaque fois qu'un email est ouvert par un destinataire. Le système ne peut pas détecter l'ouverture d'un email si celui-ci est ouvert par le destinataire en mode non connecté.</dd>
+      <dd>Un email a été ouvert par un destinataire. Le système ne peut pas détecter l'ouverture d'un email si celui-ci est ouvert par le destinataire en mode non connecté.</dd>
+      <dt><i class="fa fa-mobile-phone fa-2x"></i> Ouvert par une app mobile</dt>
+      <dd>Le message a été vu sur smartphone ou tablette. Le système ne peut pas détecter la vue d'un message si celui-ci est ouvert en mode non connecté.</dd>
       <dt><i class="fa fa-warning"></i> Email non envoyé</dt>
       <dd>L'email n'a pu être envoyé, la colonne <em>commentaire</em> contient la raison de l'échec de l'envoi.</dd>
     </dl>
