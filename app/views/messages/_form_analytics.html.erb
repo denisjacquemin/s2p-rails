@@ -62,6 +62,7 @@
       return icon;
   }
 
+  $('.open, .mobile, .delivered, .dropped').remove();
   messagesRef.child('delivered').on('child_added', function(data) {
     addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_delivered').text($('.delivered').length);
