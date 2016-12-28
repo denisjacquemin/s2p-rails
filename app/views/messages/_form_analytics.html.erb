@@ -65,24 +65,38 @@
   messagesRef.child('delivered').on('child_added', function(data) {
     addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_delivered').text($('.delivered').length);
+    $('#total_counter').text($('.delivered, .open, .mobile, .dropped').length);
   });
 
   messagesRef.child('open').on('child_added', function(data) {
     addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_open').text($('.open').length);
+    $('#total_counter').text($('.delivered, .open, .mobile, .dropped').length);
   });
 
   messagesRef.child('view').on('child_added', function(data) {
     addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_mobile').text($('.mobile').length);
+    $('#total_counter').text($('.delivered, .open, .mobile, .dropped').length);
   });
 
   messagesRef.child('dropped').on('child_added', function(data) {
     addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_dropped').text($('.dropped').length);
+    $('#total_counter').text($('.delivered, .open, .mobile, .dropped').length);
   });
 
 </script>
+<div class="row">
+  <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-4 col-md-offset-8 col-lg-4 col-lg-offset-8">
+    <div class="jumbotron" style="text-align:right">
+      <h1 id="total_counter">124</h1><p>Vues total</p>
+      <br/>
+    </div>
+
+  </div>
+</div>
+
 <div class="row">
   <div class="row nav nav-tabs" role="tablist">
     <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
