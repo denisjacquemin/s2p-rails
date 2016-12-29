@@ -70,11 +70,17 @@ remaining_count = ->
   return
 
 init_count = (el) ->
-  if el.length # test if el exist http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery 
+  if el.length # test if el exist http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
     cs = el.val().length
     maxlength = el.attr('maxLength')
     $('#' + el.data('counter')).text parseInt(maxlength) - cs
   return
+
+sent_by_email_message = () ->
+  if $('#message_send_by_email').checked
+    return "<li>Sera envoyé par email aux parents</li>"
+  else
+    return "<li>Ne Sera pas envoyé par email aux parents</li>"
 
 $(document).on 'turbolinks:load', ->
   $('#message_manage_group #add').click ->
@@ -94,7 +100,24 @@ $(document).on 'turbolinks:load', ->
       $('.alert_mtype').show()
       $('.message_mtype').hide()
   $('.submit_with_status').click (e) ->
-    submit_with_status($(e.target).data('status'))
+    console.log "$('.submit_with_status').click"
+    if $(e.target).data('before-submit-confirm') # if data-confirm is present don't submit form
+      bootbox.confirm
+        title: $(e.target).data('title')
+        message: $(e.target).data('message')
+        buttons:
+          confirm:
+            label: 'Oui'
+            className: 'btn-success'
+          cancel:
+            label: 'Non'
+            className: 'btn-danger'
+        callback: (result) ->
+          if result
+            submit_with_status($(e.target).data('status'))
+          return
+    else
+      submit_with_status($(e.target).data('status'))
 
   $('[data-toggle="popover"]').popover()
 
