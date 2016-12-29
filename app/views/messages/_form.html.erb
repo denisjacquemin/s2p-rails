@@ -11,7 +11,7 @@
       <% end %>
       <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
         <li role="presentation">
-          <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques</a>
+          <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a>
         </li>
       <% end %>
       <% unless message.new_record? %>

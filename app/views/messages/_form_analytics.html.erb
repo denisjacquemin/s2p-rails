@@ -84,14 +84,14 @@
   messagesRef.child('dropped').on('child_added', function(data) {
     addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_dropped').text($('.dropped').length);
-    $('#total_counter').text($('.open, .mobile').length);
+    $('.total_counter').text($('.open, .mobile').length);
   });
 
 </script>
 <div class="row">
   <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-4 col-md-offset-8 col-lg-4 col-lg-offset-8">
     <div class="total_counter_container" style="text-align:right">
-      <h1 id="total_counter">0</h1>
+      <h1 class="total_counter">0</h1>
       <p>Vues total</p>
       <% unless message.publish_date.nil? %>
         <p>Depuis le <%= I18n.l(message.publish_date, format: :short)%></p>
