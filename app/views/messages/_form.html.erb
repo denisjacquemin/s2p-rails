@@ -9,7 +9,7 @@
         <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
-      <% if not message.publish_date.nil? and current_user.superadmin? %>
+      <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
         <li role="presentation">
           <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques</a>
         </li>
@@ -50,7 +50,7 @@
           <%= render 'form_files', {message: @message, mfile: mfile} %>
         </div>
       <% end %>
-      <% if not message.publish_date.nil? and current_user.superadmin? %>
+      <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
         <div role="tabpanel" class="tab-pane fade in" id="analytics">
           <%= render 'form_analytics', message: @message %>
         </div>
