@@ -66,25 +66,23 @@
   messagesRef.child('delivered').on('child_added', function(data) {
     addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_delivered').text($('.delivered').length);
-    $('#total_counter').text($('.open, .mobile').length);
   });
 
   messagesRef.child('open').on('child_added', function(data) {
     addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_open').text($('.open').length);
-    $('#total_counter').text($('.open, .mobile').length);
+    $('.total_counter').text($('.open, .mobile').length);
   });
 
   messagesRef.child('view').on('child_added', function(data) {
     addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_mobile').text($('.mobile').length);
-    $('#total_counter').text($('.open, .mobile').length);
+    $('.total_counter').text($('.open, .mobile').length);
   });
 
   messagesRef.child('dropped').on('child_added', function(data) {
     addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_dropped').text($('.dropped').length);
-    $('.total_counter').text($('.open, .mobile').length);
   });
 
 </script>
