@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require nprogress
+//= require nprogress-turbolinks
 //= require snackbar
 //= require froala_editor.min.js
 //= require plugins/lists.min.js
@@ -36,4 +38,6 @@
 //= require list1.3.0
 //= require algolia/v3/algoliasearch.min
 //= require autocomplete.min
+//= require bootbox
+//= require confirm-bootbox
 // require_tree .
