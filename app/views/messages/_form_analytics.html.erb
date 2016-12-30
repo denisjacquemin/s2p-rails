@@ -87,12 +87,15 @@
 
 </script>
 <div class="row">
-  <div class="col-xs-12 col-sm-7 col-sm-offset-5 col-md-4 col-md-offset-8 col-lg-4 col-lg-offset-8">
+  <div class="col-xs-12 col-sm-5 col-md-8 col-lg-8">
+    <h2><%= message.title %></h2>
+    <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
+  </div>
+  <div class="col-xs-12 col-sm-7 col-md-4  col-lg-4 ">
     <div class="total_counter_container" style="text-align:right">
       <h1 class="total_counter">0</h1>
       <p>Vues total</p>
       <% unless message.publish_date.nil? %>
-        <p>Depuis le <%= I18n.l(message.publish_date, format: :short)%></p>
       <% end %>
       <br/>
     </div>
@@ -101,9 +104,9 @@
 
 <div class="row">
   <div class="row nav nav-tabs" role="tablist">
-    <a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">
+    <a href="#delivered_list" class="active" aria-controls="delivered_list" role="tab" data-toggle="tab">
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <div class="panel panel-green">
+        <div class="panel">
           <div class="panel-heading">
             <div class="row">
               <div class="col-xs-3">
