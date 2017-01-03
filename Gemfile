@@ -33,6 +33,9 @@ gem 'firebase', '~> 0.2.6'
 
 gem 'nprogress-rails'
 
+gem 'cloudinary'
+gem 'attachinary'
+
 
 gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
