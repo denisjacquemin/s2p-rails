@@ -40,4 +40,8 @@
 //= require autocomplete.min
 //= require bootbox
 //= require confirm-bootbox
+//= require cloudinary
+//= require cloudinary/jquery.cloudinary
+//= require attachinary
+//= require cloudinary_page
 // require_tree .

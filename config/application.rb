@@ -15,5 +15,6 @@ module School2parents
     config.autoload_paths << Rails.root.join('lib')
 
     config.time_zone = "Brussels"
+    require "attachinary/orm/active_record" # 
   end
 end
