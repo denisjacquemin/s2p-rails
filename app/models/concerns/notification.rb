@@ -12,7 +12,7 @@ module Notification extend ActiveSupport::Concern
         dataIOS = {
           "title": truncate(message.title, :length => 200),
           "message_id": message.id,
-          "content-available": 1
+          "content-available": 1,
           "notId": message.id
         }
         send_ios_notifications(message.title, devicesIOS, dataIOS)
