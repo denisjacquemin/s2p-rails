@@ -4,6 +4,17 @@
 <% elsif @message.rappel? %>
   <p><%= @message.title %></p>
 <% end %>
+<br>
+
+<% if @message.photos.any? %>
+  <% @message.photos.each do |photo| %>
+    <span style="padding: 10px">
+      <a href="<%= cloudinary_url(photo.path) %>" target="_blank">
+        <%= cl_image_tag(photo.path, :width => 150, :height => 150, :crop => :fill) %>
+      </a>
+  </span>
+  <% end %>
+<% end %>
 
 <%# <style>.keepratio { display: block; max-width:230px; max-height:95px; width: auto;height: auto; margin: 15px;}</style> %>
 
