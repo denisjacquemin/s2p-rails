@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   include Notification
   include ActionView::Helpers::TextHelper # for truncate
 
-  has_attachments :photos, maximum: 10
+  has_attachments :photos, accept: [:jpg, :png, :gif]
 
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy

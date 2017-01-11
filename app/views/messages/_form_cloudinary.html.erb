@@ -1,13 +1,18 @@
-<%= form_for(message, html: { multipart: true }) do |f| %>
+<%= form_for(message, url: messages_add_photo_path(message.id), method: :patch, html: { id: 'message_add_photo', multipart: true }) do |f| %>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12">
+      <div style="visibility:hidden;" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-bar progress-bar-success" style="width: 0;"></div>
+      </div>
       <%= f.attachinary_file_field :photos %>
     </div>
   </div>
+<!--
   <div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12">
       <%= f.submit "Enregistrer" %>
     </div>
   </div>
+-->
 <% end %>
 <%= cloudinary_js_config %>

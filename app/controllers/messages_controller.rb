@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -61,11 +61,27 @@ class MessagesController < ApplicationController
     end
   end
 
+  def add_photo
+    respond_to do |format|
+      if @message.update(add_photo_params)
+        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
+        format.js   {}
+        format.json { render :show, status: :ok, location: @message }
+      else
+        format.html {
+          @mfile = Mfile.new
+          render :edit
+        }
+        format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
   def update
     authorize @message
-
     case params[:status]
       when 'publish'
         @message.published!
@@ -232,8 +248,12 @@ class MessagesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    def add_photo_params
+      params.require(:message).permit(:photos)
+    end
+
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :status, {photos: []})
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :status)
     end
 
     def set_s3_direct_post

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/faq', to: 'faq#show'
 
   resources :mfiles
+  patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   resources :messages
   patch '/messages/update_groups/:id', to: 'messages#update_groups'
   patch '/messages/publish/:id', to: 'messages#publish', as: 'publish_message'
