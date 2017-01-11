@@ -225,7 +225,7 @@ GEM
       activesupport
       ansi
       multi_json (~> 1.0)
-      net-http-persistent (>= 2, < 3)
+      net-http-persistent (>= 2, < 2.9.4)
       railties
       thor (>= 0.18.1, < 2.0)
     sass (3.4.23)
