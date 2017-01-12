@@ -105,7 +105,6 @@ GEM
     commander (4.4.3)
       highline (~> 1.7.2)
     concurrent-ruby (1.0.4)
-    connection_pool (2.2.1)
     css_parser (1.4.7)
       addressable
     debug_inspector (0.0.2)
@@ -161,8 +160,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     multi_json (1.12.1)
-    net-http-persistent (3.0.0)
-      connection_pool (~> 2.2)
+    net-http-persistent (2.9.4)
     netrc (0.11.0)
     newrelic_rpm (3.17.2.327)
     nio4r (1.2.1)
@@ -300,6 +298,7 @@ DEPENDENCIES
   kramdown
   mail
   mimemagic
+  net-http-persistent (= 2.9.4)
   newrelic_rpm
   nprogress-rails
   pg
@@ -309,7 +308,7 @@ DEPENDENCIES
   rails_12factor
   recaptcha
   roadie-rails (~> 1.0)
-  rpush (< 2.7.0)
+  rpush
   sass-rails (~> 5.0)
   smarter_csv
   snackbarjs-rails
