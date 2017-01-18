@@ -23,6 +23,7 @@
 //= require plugins/link.min.js
 //= require languages/fr.js
 //= require jquery.ui.widget
+//= require jquery-ui/widgets/sortable
 //= require jquery.fileupload
 //= require jquery.fileupload-ui
 //= require jquery.iframe-transport
@@ -44,4 +45,6 @@
 //= require cloudinary/jquery.cloudinary
 //= require attachinary
 //= require cloudinary_page
+//= require form-builder
+//= require formbuilder_page
 // require_tree .

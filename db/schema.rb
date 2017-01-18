@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102125358) do
+ActiveRecord::Schema.define(version: 20170117100202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20170102125358) do
     t.integer  "students",           default: [],                 array: true
     t.boolean  "skip_send_by_email", default: false
     t.json     "attachments"
+    t.json     "formdata"
+    t.uuid     "uuid"
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -189,6 +191,7 @@ ActiveRecord::Schema.define(version: 20170102125358) do
     t.integer  "followers",             default: 0
     t.string   "emails"
     t.boolean  "sent_message_by_email"
+    t.uuid     "uuid"
     t.index ["code"], name: "index_students_on_code", unique: true, using: :btree
   end
 

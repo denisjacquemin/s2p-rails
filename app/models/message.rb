@@ -4,6 +4,8 @@ class Message < ApplicationRecord
 
   has_attachments :photos, accept: [:jpg, :png, :gif]
 
+  before_create :generate_uuid
+
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy
   belongs_to :author, class_name: "User"
@@ -221,5 +223,11 @@ class Message < ApplicationRecord
     else # user is a writer
       user.students.by_school(school.id)
     end
+  end
+
+  private
+
+  def generate_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

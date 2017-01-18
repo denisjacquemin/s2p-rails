@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_message, only: [:show, :edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo]
+  before_action :authenticate_user!, except: [:show]
+  before_action :set_message, only: [:edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -14,7 +14,9 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
-    authorize @messages
+    @message = Message.find_by_uuid(params[:uuid])
+
+    render layout: "show"
   end
 
   # GET /messages/new
@@ -74,6 +76,16 @@ class MessagesController < ApplicationController
         }
         format.json { render json: @message.errors, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_formdata
+    respond_to do |format|
+      if @message.update(update_formdata_params)
+        format.js   {}
+      else
+        format.js { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -250,6 +262,10 @@ class MessagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def add_photo_params
       params.require(:message).permit(:photos)
+    end
+
+    def update_formdata_params
+      params.require(:message).permit(:formdata)
     end
 
     def message_params

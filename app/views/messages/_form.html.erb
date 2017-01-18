@@ -14,6 +14,11 @@
         <a href="#cloudinary" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
+      <li role="presentation">
+        <a href="#formbuilder" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
+      </li>
+      <% end %>
       <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
         <li role="presentation">
           <a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a>
@@ -59,6 +64,12 @@
       <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
         <div role="tabpanel" class="tab-pane fade in" id="cloudinary">
           <%= render 'form_cloudinary', {message: @message} %>
+        </div>
+      <% end %>
+
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
+        <div role="tabpanel" class="tab-pane fade in" id="formbuilder">
+          <%= render 'form_formbuilder', {message: @message} %>
         </div>
       <% end %>
 

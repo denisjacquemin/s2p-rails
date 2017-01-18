@@ -1,19 +1,54 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h1><%= @message.title %></h1>
+    <br/>
+    <%= @message.content.html_safe%>
+  </div>
+</div>
+<br/>
+<div class="row" style="background-color: #ddd; padding: 20px 0">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= hidden_field_tag :formdata, @message.formdata %>
+    <%= form_tag @message, id: 'message_form' do |f| %>
+      <div id="formrender-wrap"></div>
+      <button type="submit" value="Envoyer" class="btn btn-primary" />
+    <% end %>
+  </div>
+</div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @message.title %>
-</p>
+<br>
+<br>
 
-<p>
-  <strong>Content:</strong>
-  <%= @message.content %>
-</p>
+<% if @message.photos.any? %>
+  <% @message.photos.each do |photo| %>
+    <span style="padding: 10px">
+      <a href="<%= cloudinary_url(photo.path) %>" target="_blank">
+        <%= cl_image_tag(photo.path, :width => 150, :height => 150, :crop => :fill) %>
+      </a>
+  </span>
+  <% end %>
+<% end %>
 
-<p>
-  <strong>School:</strong>
-  <%= @message.school_id %>
-</p>
-
-<%= link_to t('views.global.edit'), edit_message_path(@message) %> |
-<%= link_to 'Back', messages_path %>
+<br/>
+<br/>
+<br/>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td>
+            <% unless @message.author.fullname.nil? %><%= @message.author.fullname %><br><% end %>
+            <% unless @message.school.name.nil? %><%= @message.school.name %><br><% end %>
+            <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
+            <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
+            <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
+            <% unless @message.author.email.nil? %><a href="mailto:<%= @message.author.email %>"><%= @message.author.email %></a><br><% end %>
+            <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
