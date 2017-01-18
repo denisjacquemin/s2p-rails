@@ -4,12 +4,12 @@
       <li role="presentation" class="active">
         <a href="#details" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
       </li>
-      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
+      <% if not message.new_record? and @message.mtype == 'message' %>
       <li role="presentation">
         <a href="#files" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
-      <% if not message.new_record? and @message.mtype == 'message' %>
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
       <li role="presentation">
         <a href="#cloudinary" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
@@ -55,13 +55,13 @@
           <%= render 'form_groups', f: f, message: @message %>
         <% end %>
       </div>
-      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin?%>
+      <% if not message.new_record? and @message.mtype == 'message' %>
         <div role="tabpanel" class="tab-pane fade in" id="files">
           <%= render 'form_files', {message: @message, mfile: mfile} %>
         </div>
       <% end %>
 
-      <% if not message.new_record? and @message.mtype == 'message' %>
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
         <div role="tabpanel" class="tab-pane fade in" id="cloudinary">
           <%= render 'form_cloudinary', {message: @message} %>
         </div>
