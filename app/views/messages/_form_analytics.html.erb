@@ -1,16 +1,20 @@
 <script>
   var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
+  var uniqueTr = {};
   addLine = function(target, event, reason, source = '', created_at) {
 
-
-    var line = '<tr class="' + target + '">';
-    line += "<td>" + geticon(event) + "</td>"
-    line += "<td>" + source + "</td>"
-    line += "<td>" + getcomment(reason, event) + "</td>"
-    line += "<td>" + created_at + "</td>"
-    line += "</tr>"
-    $('#' + target + '_rows').prepend($(line));
+    var text = event + source + created_at
+    if (!uniqueTr[text]) {
+      uniqueTr[text] = true;
+      var line = '<tr class="' + target + '">';
+      line += "<td>" + geticon(event) + "</td>"
+      line += "<td>" + source + "</td>"
+      line += "<td>" + getcomment(reason, event) + "</td>"
+      line += "<td>" + created_at + "</td>"
+      line += "</tr>"
+      $('#' + target + '_rows').prepend($(line));
+    }
   }
 
   getcomment = function(reason, event) {
@@ -68,7 +72,7 @@
     $('#counter_delivered').text($('.delivered').length);
   });
 
-  messagesRef.child('open').on('child_added', function(data) {
+  messagesRef.child('open').orderByChild('timestamp').on('child_added', function(data) {
     addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_open').text($('.open').length);
     $('.total_counter').text($('.open, .mobile').length);
@@ -80,7 +84,7 @@
     $('.total_counter').text($('.open, .mobile').length);
   });
 
-  messagesRef.child('dropped').on('child_added', function(data) {
+  messagesRef.child('dropped').orderByChild('timestamp').on('child_added', function(data) {
     addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
     $('#counter_dropped').text($('.dropped').length);
   });
