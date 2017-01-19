@@ -4,7 +4,7 @@
   var uniqueTr = {};
   addLine = function(target, event, reason, source = '', created_at) {
 
-    var text = event + source + created_at
+    var text = event + source
     if (!uniqueTr[text]) {
       uniqueTr[text] = true;
       var line = '<tr class="' + target + '">';
