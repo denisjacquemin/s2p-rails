@@ -1,4 +1,4 @@
-<div class="row groups">
+<div class="row groups" id="messages-groups-manager">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -13,11 +13,11 @@
               <% groups = current_user.groups_by_school(current_school.id) %>
               <% if groups.present? %>
                 <table class="table table-hover table-condensed" >
-                  <tbody id="group_list">
+                  <tbody id="group_list" class="list">
                     <% groups.each do |group| %>
                       <tr>
                         <td><input type="checkbox" value="<%= group.id %>"/></td>
-                        <td><label><%= group.name %></label></td>
+                        <td class="groupname"><label><%= group.name %></label></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -31,13 +31,13 @@
               <% students = current_user.students_by_school(current_school.id) %>
               <% if students.present? %>
                 <table class="table table-hover table-condensed" >
-                  <tbody id="student_list">
+                  <tbody id="student_list" class="list">
                     <% students.each do |student| %>
                       <tr>
                         <td><input type="checkbox" value="<%= student.id %>"/></td>
-                        <td><label><%= student.fullname %></label></td>
-                        <td><%= student.level %></td>
-                        <td><%= student.classroom %></td>
+                        <td class="studentfullname"><label><%= student.fullname %></label></td>
+                        <td class="studentfulllevel"><%= student.level %></td>
+                        <td class="studentclassroom"><%= student.classroom %></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -70,15 +70,15 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         <div class="panel panel-default">
           <div class="panel-heading">Destinataires</div>
-          <div class="panel-body table-responsive">
+          <div class="panel-body table-responsive" id="in_groups_list">
             <table class="table table-hover table-condensed" id="in_groups">
-              <tbody>
+              <tbody class="list">
                 <% message.groups_obj.each do |g| %>
                   <tr>
                     <%= fields_for g do |g_form| %>
                       <%= g_form.hidden_field :id, multiple: true%>
                       <td><input type="checkbox" id="group[<%= g.id %>]"/></td>
-                      <td><i class="fa fa-users"></i> <%= g_form.label :id, g.name %></td>
+                      <td class="targetname"><i class="fa fa-users"></i> <%= g_form.label :id, g.name %></td>
                     <% end %>
                   </tr>
                 <% end %>
@@ -87,7 +87,7 @@
                     <%= fields_for s do |s_form| %>
                       <%= s_form.hidden_field :id, multiple: true%>
                       <td><input type="checkbox" id="student[<%= s.id %>]"/></td>
-                      <td><i class="fa fa-user"></i> <%= s_form.label :id, s.fullname %></td>
+                      <td class="targetname"><i class="fa fa-user"></i> <%= s_form.label :id, s.fullname %></td>
                     <% end %>
                   </tr>
                 <% end %>

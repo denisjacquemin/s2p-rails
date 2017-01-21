@@ -5,12 +5,14 @@
 add_group = (group) ->
   group_id = $(group).find("input:checkbox").val()
   group_name = $(group).find("label").text()
-  $('#in_groups').prepend(build_group_row(group_id, group_name))
+  if (!$('#in_groups').find('input[value="' + group_id + '"]').length)
+    $('#in_groups').prepend(build_group_row(group_id, group_name))
 
 add_student = (student) ->
   student_id = $(student).find("input:checkbox").val()
   student_name = $(student).find("label").text()
-  $('#in_groups').prepend(build_student_row(student_id, student_name))
+  if (!$('#in_groups').find('input[value="' + student_id + '"]').length)
+    $('#in_groups').prepend(build_student_row(student_id, student_name))
 
 remove = (group) ->
   console.log('group to be removed')
@@ -82,11 +84,14 @@ sent_by_email_message = () ->
   else
     return "<li>Ne Sera pas envoyé par email aux parents</li>"
 
+
+
 $(document).on 'turbolinks:load', ->
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked").attr('checked', false)
+    $("#student_list input:checkbox:checked").attr('checked', false)
   $('#message_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     remove student for student in $("#in_groups input:checkbox:checked").closest('tr')

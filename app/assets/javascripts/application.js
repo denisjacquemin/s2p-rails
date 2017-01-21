@@ -36,7 +36,7 @@
 //= require schools
 //= require students
 //= require users
-//= require list1.3.0
+//= require list1.4.0
 //= require algolia/v3/algoliasearch.min
 //= require autocomplete.min
 //= require bootbox

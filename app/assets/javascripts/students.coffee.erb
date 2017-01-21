@@ -128,11 +128,12 @@ $(document).on 'turbolinks:load', ->
       #       console.log 'request sent'
       #   })
 
-  options = {
-    valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
-  }
 
-  if $( "#students .list" ).length
+
+  if $(".students-index#students .list").length
+    options = {
+      valueNames: [ 'firstname', 'lastname', 'code', 'classroom', 'level' ]
+    }
     studentList = new List('students', options)
 
   errorsRef = firebase.database().ref('csv/' + $('#fb_path').val())
