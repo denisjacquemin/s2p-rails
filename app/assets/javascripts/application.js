@@ -21,6 +21,7 @@
 //= require plugins/lists.min.js
 //= require plugins/table.min.js
 //= require plugins/link.min.js
+//= require plugins/align.min.js
 //= require languages/fr.js
 //= require jquery.ui.widget
 //= require jquery-ui/widgets/sortable
