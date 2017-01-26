@@ -5,3 +5,24 @@
 .fb-checkbox .checkbox, .fb-checkbox .radio {
   display: inline-block;
 }
+
+.form-builder {
+  .description-wrap,
+  .subtype-wrap,
+  .placeholder-wrap,
+  .className-wrap,
+  .value-wrap,
+  .access-wrap,
+  .maxlength-wrap,
+  .toggle-wrap,
+  .rows-wrap,
+  .name-wrap,
+  .other-wrap,
+  .required-wrap {
+    display: none;
+  }
+}
+
+#jsGrid {
+  margin-top: 20px;
+}

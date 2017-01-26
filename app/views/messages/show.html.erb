@@ -9,9 +9,11 @@
 <div class="row" style="background-color: #ddd; padding: 20px 0">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <%= hidden_field_tag :formdata, @message.formdata %>
-    <%= form_tag @message, id: 'message_form' do |f| %>
+    <%= form_tag '/m/save_form', id: 'message_form' do %>
+      <%= hidden_field_tag 'muuid', @message.muuid %>
+      <%= hidden_field_tag 'message_form_formdata' %>
       <div id="formrender-wrap"></div>
-      <button type="submit" value="Envoyer" class="btn btn-primary" />
+      <%= submit_tag 'Enregister', class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

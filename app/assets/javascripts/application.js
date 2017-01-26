@@ -48,4 +48,5 @@
 //= require cloudinary_page
 //= require form-builder
 //= require formbuilder_page
+//= require jsgrid.min
 // require_tree .

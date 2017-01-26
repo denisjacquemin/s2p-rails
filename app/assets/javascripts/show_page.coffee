@@ -5,3 +5,17 @@ $(document).on 'turbolinks:load', ->
     showActionButtons: false,
     formData: $('#formdata').val()
   })
+
+  $('#message_form').submit (e) ->
+    serializedForm = $('input, textarea', this).not( "[name='utf8']").not("[name='formdata']").not( "[name='authenticity_token']").not( "#message_form_formdata").not( "[name='muuid']").not('.btn').serializeArray()
+
+
+    serializedWithLabel = []
+    $.each(serializedForm, (index, data) ->
+    #//$("[name='" + data.name + "']")
+        label = $("[for='" + data.name.replace('[', '').replace(']', '') + "']").text()
+        elem  = data
+        elem['label'] = label
+        serializedWithLabel.push(elem)
+    )
+    $('#message_form_formdata').val(JSON.stringify(serializedWithLabel))

@@ -14,9 +14,16 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
-    @message = Message.find_by_uuid(params[:uuid])
+    @message = Message.find_by_muuid(params[:uuid])
 
     render layout: "show"
+  end
+
+  def save_form
+    
+    @form = Form.new(muuid: params[:muuid], formdata: params[:message_form_formdata])
+
+    @form.save
   end
 
   # GET /messages/new
@@ -263,6 +270,7 @@ class MessagesController < ApplicationController
     def add_photo_params
       params.require(:message).permit(:photos)
     end
+
 
     def update_formdata_params
       params.require(:message).permit(:formdata)

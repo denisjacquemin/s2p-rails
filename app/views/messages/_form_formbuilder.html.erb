@@ -1,14 +1,91 @@
-<div class="row">
-  <div class="col-lg-12 col-md-12 col-xs-12">
-    <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
-      <%= f.hidden_field :formdata %>
-    <% end %>
-    <div class="pull-right"><%= link_to 'Enregistrer le formulaire', nil, id: 'frmb-0-save', class: 'btn btn-primary form-builder-save' %></div>
+<div class="row" id="formbuilder_page">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ul class="nav nav-pills" id="formbuilder_pills">
+      <li role="presentation" class="active"><a href="#questions">Questions</a></li>
+      <li role="presentation"><a href="#answers">Réponses</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="questions">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-xs-12">
+            <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
+              <%= f.hidden_field :formdata %>
+            <% end %>
+            <div class="pull-right"><%= link_to 'Enregistrer le formulaire', nil, id: 'frmb-0-save', class: 'btn btn-primary form-builder-save' %></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-xs-12">
+            <label>Formulaire</label>
+            <div id="formbuilder-wrap"></div>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="answers">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-xs-12">
+            <%= hidden_field_tag :tabledata, '[' + Form.by_muuid(@message.muuid).pluck(:formdata).join(',') + ']' %>
+            <div id="jsGrid"></div>
+            <script>
+              var headers = new Array();
+              var rows = new Array();
+
+              $.each( JSON.parse($('#tabledata').val()), function( key, value ) { // for each form
+                var row = {};
+                $.each( value, function(value_key, data) { // for each value get headers and data
+                  headers.push(data['label']);
+                  if (row[data['label']] == undefined) {
+                    row[data['label']] = data['value'];
+                  } else {
+                    row[data['label']] = [row[data['label']], data['value']].join(", ")
+                  }
+                });
+                rows.push(row);
+              });
+
+              var uniqueHeaders = [];
+              $.each(headers, function(i, el){
+                  if($.inArray(el, uniqueHeaders) === -1) uniqueHeaders.push(el);
+              });
+
+              jsGridHeaders = []
+              $.each(uniqueHeaders, function(i, el){
+                  jsGridHeaders.push({'name':el});
+              });
+
+              var formsdata =
+
+              $("#jsGrid").jsGrid({
+                  width: "100%",
+                  //height: "100%",
+                  inserting: false,
+                  editing: false,
+                  sorting: true,
+                  paging: true,
+                  pageSize: 25,
+                  pageButtonCount: 5,
+
+                  data: rows,
+                  fields: jsGridHeaders
+                  // fields: [
+                  //     { name: "Name", width: 150, validate: "required" },
+                  //     { name: "Age", type: "number", width: 50 },
+                  //     { name: "Address", type: "text", width: 200 },
+                  //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
+                  //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                  //     { type: "control" }
+                  // ]
+              });
+          </script>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-lg-12 col-md-12 col-xs-12">
-    <label>Formulaire</label>
-    <div id="formbuilder-wrap"></div>
-  </div>
-</div>
+<script>
+$('#formbuilder_pills a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+</script>

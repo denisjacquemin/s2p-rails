@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117100202) do
+ActiveRecord::Schema.define(version: 20170122080554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(version: 20170117100202) do
     t.index ["uuid"], name: "index_devices_on_uuid", unique: true, using: :btree
   end
 
+  create_table "forms", force: :cascade do |t|
+    t.uuid     "muuid"
+    t.json     "formdata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",                 null: false
@@ -94,7 +101,7 @@ ActiveRecord::Schema.define(version: 20170117100202) do
     t.boolean  "skip_send_by_email", default: false
     t.json     "attachments"
     t.json     "formdata"
-    t.uuid     "uuid"
+    t.uuid     "muuid"
   end
 
   create_table "mfiles", force: :cascade do |t|

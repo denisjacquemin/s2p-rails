@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   patch 'messages/update_formdata/:id', to: 'messages#update_formdata', as: 'messages_update_form'
   get 'm/:uuid', to: 'messages#show', as: "message_form"
+  post 'm/save_form', to: 'messages#save_form'
   resources :messages
   patch '/messages/update_groups/:id', to: 'messages#update_groups'
   patch '/messages/publish/:id', to: 'messages#publish', as: 'publish_message'
