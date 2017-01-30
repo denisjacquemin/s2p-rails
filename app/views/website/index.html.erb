@@ -35,11 +35,12 @@
     <%= render 'website_fonts' %>
 
     <%= analytics_init if GoogleAnalytics.valid_tracker? %>
-    <%= render 'website_js' %>
 </head>
 
 <body id="page-top">
   <%= render 'website_body' %>
+  <%= render 'website_js' %>
+
 </body>
 
 </html>
