@@ -228,6 +228,6 @@ class Message < ApplicationRecord
   private
 
   def generate_uuid
-    self.uuid = SecureRandom.uuid
+    self.muuid = SecureRandom.uuid
   end
 end
