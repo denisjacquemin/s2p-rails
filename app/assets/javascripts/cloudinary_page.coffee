@@ -1,6 +1,6 @@
 $(document).on 'turbolinks:load', ->
   $('.attachinary-input').attachinary
-    disableWith: 'Téléchargement'
+    disableWith: 'Téléchargement...'
     indicateProgress: false
     invalidFormatMessage: 'Format d\'image invalide'
     template: """
@@ -27,16 +27,16 @@ $(document).on 'turbolinks:load', ->
     console.log 'fileadded'
   $('.attachinary-input').bind 'attachinary:fileremoved', (event, data) ->
     console.log 'fileremoved'
-    save_photos $('#message_add_photo')
+    #save_photos $('#message_add_photo')
   $('.attachinary-input').bind 'fileuploadprogressall', (event, data) ->
     console.log 'in fileuploadprogressall'
     progress = parseInt(data.loaded / data.total * 100, 10)
     $('.progress').visible().attr('aria-valuenow', progress).children().first().css 'width', progress + '%'
     if progress == 100
-      setTimeout ->
-        save_photos $('#message_add_photo')
-        $('.progress').invisible()
-      , 1200
+      $('.progress').invisible()
+      #setTimeout ->
+        #save_photos $('#message_add_photo')
+      #, 1200
     return
 
 

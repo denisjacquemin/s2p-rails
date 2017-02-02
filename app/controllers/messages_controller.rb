@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
   end
 
   def save_form
-    
+
     @form = Form.new(muuid: params[:muuid], formdata: params[:message_form_formdata])
 
     @form.save
@@ -71,19 +71,8 @@ class MessagesController < ApplicationController
   end
 
   def add_photo
-    respond_to do |format|
-      if @message.update(add_photo_params)
-        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
-        format.js   {}
-        format.json { render :show, status: :ok, location: @message }
-      else
-        format.html {
-          @mfile = Mfile.new
-          render :edit
-        }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+    if @message.update(add_photo_params)
+      redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
     end
   end
 
@@ -268,7 +257,7 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def add_photo_params
-      params.require(:message).permit(:photos)
+      params.require(:message).permit(:photos => [])
     end
 
 
