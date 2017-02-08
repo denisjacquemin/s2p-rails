@@ -33,12 +33,12 @@
               $.each( JSON.parse($('#tabledata').val()), function( key, value ) { // for each form
                 var row = {};
                 $.each( value, function(value_key, data) { // for each value get headers and data
-                  console.log ('#' + data['label'] + '#' + data['label'].trim() + '#')
-                  headers.push(data['label']);
-                  if (row[data['label']] == undefined) {
-                    row[data['label']] = data['value'];
+                  var label = data['label'].trim()
+                  headers.push(label);
+                  if (row[label] == undefined) {
+                    row[label] = data['value'];
                   } else {
-                    row[data['label']] = [row[data['label']], data['value']].join(", ")
+                    row[label] = [row[label], data['value']].join(", ")
                   }
                 });
                 rows.push(row);
