@@ -20,8 +20,9 @@ class MessagesController < ApplicationController
   end
 
   def save_form
-
-    @form = Form.new(muuid: params[:muuid], formdata: params[:message_form_formdata])
+    j = JSON.parse params[:message_form_formdata]
+    j.prepend({'horodateur': I18n.l(Time.now, format: :short)})
+    @form = Form.new(muuid: params[:muuid], formdata: j.to_s)
 
     @form.save
   end

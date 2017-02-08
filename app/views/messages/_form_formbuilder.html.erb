@@ -35,7 +35,6 @@
                 $.each( value, function(value_key, data) { // for each value get headers and data
                   var label = data['label'].trim()
                   headers.push(label);
-                  row['Horodateur'] = 'Just now'
                   if (row[label] == undefined) {
                     row[label] = data['value'];
                   } else {
@@ -50,7 +49,7 @@
                   if($.inArray(el, uniqueHeaders) === -1) uniqueHeaders.push(el);
               });
 
-              jsGridHeaders = [{'name': 'Horodateur'}]
+              jsGridHeaders = []
               $.each(uniqueHeaders, function(i, el){
                   jsGridHeaders.push({'name':el});
               });
