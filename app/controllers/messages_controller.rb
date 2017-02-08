@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :save_form]
   before_action :set_message, only: [:edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
