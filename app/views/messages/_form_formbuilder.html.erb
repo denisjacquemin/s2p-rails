@@ -33,7 +33,10 @@
               $.each( JSON.parse($('#tabledata').val()), function( key, value ) { // for each form
                 var row = {};
                 $.each( value, function(value_key, data) { // for each value get headers and data
-                  var label = data['label'].trim()
+                  var label = "Pas de titre"
+                  if (data['label'] != undefined) {
+                   label = data['label'].trim()
+                  }
                   headers.push(label);
                   if (row[label] == undefined) {
                     row[label] = data['value'];
