@@ -209,17 +209,21 @@
         </table>
       </div>
       <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody id="mobile_rows"></tbody>
-        </table>
+        <% if @message.mtype == "rappel" %>
+          <p>Pas de statistique App mobile pour un message court.</p>
+        <% else %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Source</th>
+                <th>Commentaire</th>
+                <th>Date/heure</th>
+              </tr>
+            </thead>
+            <tbody id="mobile_rows"></tbody>
+          </table>
+        <% end %>
       </div>
       <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
         <table class="table">
