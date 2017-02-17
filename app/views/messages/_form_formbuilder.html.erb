@@ -27,7 +27,7 @@
             <% formdata = Form.by_muuid(@message.muuid).pluck(:formdata) %>
             <% if formdata.any? %>
               <%= hidden_field_tag :tabledata, '[' + formdata.join(',') + ']' %>
-              <div><%= link_to "Export Excel", export_formdata(format: "xls") %></div>
+              <div><%= link_to "Export Excel", export_formdata_path(format: "xls") %></div>
               <div id="jsGrid"></div>
               <script>
                 var headers = new Array();
