@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/faq', to: 'faq#show'
 
   resources :mfiles
+  get 'messages/exportform', to: 'messages#export_formdata', as: 'export_formdata'
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   patch 'messages/update_formdata/:id', to: 'messages#update_formdata', as: 'messages_update_form'
   get 'm/:uuid', to: 'messages#show', as: "message_form"

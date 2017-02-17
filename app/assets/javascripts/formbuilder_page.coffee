@@ -128,6 +128,7 @@ $(document).on 'turbolinks:load', ->
     yes: 'Yes'
   formBuilder = $('#formbuilder-wrap').formBuilder({
     messages: language['fr'],
+    editOnAdd: true,
     dataType: 'json',
     disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
     showActionButtons: false,
@@ -136,7 +137,8 @@ $(document).on 'turbolinks:load', ->
   $(".form-builder-save").click (e) ->
     e.preventDefault()
     save_form(formBuilder.formData)
-
+  $('.option-label').change (e) ->
+    console.log e.target.value
 save_form = (form_json) ->
   form = $('#message_update_form')
   utf8 = form.find( "input[name='utf8']" ).val()

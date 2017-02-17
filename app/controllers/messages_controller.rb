@@ -78,13 +78,12 @@ class MessagesController < ApplicationController
   end
 
   def update_formdata
-    respond_to do |format|
-      if @message.update(update_formdata_params)
-        format.js   {}
-      else
-        format.js { render json: @message.errors, status: :unprocessable_entity }
-      end
+    if @message.update(update_formdata_params)
+      redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
     end
+  end
+
+  def export_formdata
   end
 
   # PATCH/PUT /messages/1

@@ -1,11 +1,11 @@
 <div class="row" id="formbuilder_page">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <ul class="nav nav-pills" id="formbuilder_pills">
-      <li role="presentation" class="active"><a href="#questions">Questions</a></li>
-      <li role="presentation"><a href="#answers">Réponses</a></li>
+      <li role="presentation" <%= 'class=active' if @message.status != "published" %>><a href="#questions">Questions</a></li>
+      <li role="presentation" <%= 'class=active' if @message.status == "published" %>><a href="#answers">Réponses</a></li>
     </ul>
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="questions">
+      <div role="tabpanel" class="tab-pane <%= 'active' if @message.status != "published" %>" id="questions">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12">
             <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
@@ -21,66 +21,73 @@
           </div>
         </div>
       </div>
-      <div role="tabpanel" class="tab-pane" id="answers">
+      <div role="tabpanel" class="tab-pane <%= 'active' if @message.status == "published" %>" id="answers">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12">
-            <%= hidden_field_tag :tabledata, '[' + Form.by_muuid(@message.muuid).pluck(:formdata).join(',') + ']' %>
-            <div id="jsGrid"></div>
-            <script>
-              var headers = new Array();
-              var rows = new Array();
+            <% formdata = Form.by_muuid(@message.muuid).pluck(:formdata) %>
+            <% if formdata.any? %>
+              <%= hidden_field_tag :tabledata, '[' + formdata.join(',') + ']' %>
+              <div><%= link_to "Export Excel", export_formdata(format: "xls") %></div>
+              <div id="jsGrid"></div>
+              <script>
+                var headers = new Array();
+                var rows = new Array();
 
-              $.each( JSON.parse($('#tabledata').val()), function( key, value ) { // for each form
-                var row = {};
-                $.each( value, function(value_key, data) { // for each value get headers and data
-                  var label = "Pas de titre"
-                  if (data['label'] != undefined) {
-                   label = data['label'].trim()
-                  }
-                  headers.push(label);
-                  if (row[label] == undefined) {
-                    row[label] = data['value'];
-                  } else {
-                    row[label] = [row[label], data['value']].join(", ")
-                  }
+                $.each( JSON.parse($('#tabledata').val()), function( key, value ) { // for each form
+                  var row = {};
+                  $.each( value, function(value_key, data) { // for each value get headers and data
+                    var label = "Pas de titre"
+                    if (data['label'] != undefined) {
+                     label = data['label'].trim()
+                    }
+                    headers.push(label);
+                    if (row[label] == undefined) {
+                      row[label] = data['value'];
+                    } else {
+                      row[label] = [row[label], data['value']].join(", ")
+                    }
+                  });
+                  rows.push(row);
                 });
-                rows.push(row);
-              });
 
-              var uniqueHeaders = [];
-              $.each(headers, function(i, el){
-                  if($.inArray(el, uniqueHeaders) === -1) uniqueHeaders.push(el);
-              });
+                var uniqueHeaders = [];
+                $.each(headers, function(i, el){
+                    if($.inArray(el, uniqueHeaders) === -1) uniqueHeaders.push(el);
+                });
 
-              jsGridHeaders = []
-              $.each(uniqueHeaders, function(i, el){
-                  jsGridHeaders.push({'name':el});
-              });
+                jsGridHeaders = []
+                $.each(uniqueHeaders, function(i, el){
+                    jsGridHeaders.push({'name':el});
+                });
 
-              var formsdata =
+                var formsdata =
 
-              $("#jsGrid").jsGrid({
-                  width: "100%",
-                  //height: "100%",
-                  inserting: false,
-                  editing: false,
-                  sorting: true,
-                  paging: true,
-                  pageSize: 25,
-                  pageButtonCount: 5,
+                $("#jsGrid").jsGrid({
+                    width: "100%",
+                    //height: "100%",
+                    inserting: false,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    pageSize: 25,
+                    pageButtonCount: 5,
 
-                  data: rows,
-                  fields: jsGridHeaders
-                  // fields: [
-                  //     { name: "Name", width: 150, validate: "required" },
-                  //     { name: "Age", type: "number", width: 50 },
-                  //     { name: "Address", type: "text", width: 200 },
-                  //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
-                  //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                  //     { type: "control" }
-                  // ]
-              });
-          </script>
+                    data: rows,
+                    fields: jsGridHeaders
+                    // fields: [
+                    //     { name: "Name", width: 150, validate: "required" },
+                    //     { name: "Age", type: "number", width: 50 },
+                    //     { name: "Address", type: "text", width: 200 },
+                    //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
+                    //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    //     { type: "control" }
+                    // ]
+                });
+                </script>
+            <% else %>
+              <br/>
+              <p>Aucune réponse pour l'instant.</p>
+            <% end %>
           </div>
         </div>
       </div>

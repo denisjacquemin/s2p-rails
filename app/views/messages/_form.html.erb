@@ -14,7 +14,7 @@
         <a href="#cloudinary" aria-controls="profile" role="tab" data-toggle="tab">Images</a>
       </li>
       <% end %>
-      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.admin? %>
       <li role="presentation">
         <a href="#formbuilder" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
       </li>
@@ -67,7 +67,7 @@
         </div>
       <% end %>
 
-      <% if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
+      <% if not message.new_record? and @message.mtype == 'message' and current_user.admin? %>
         <div role="tabpanel" class="tab-pane fade in" id="formbuilder">
           <%= render 'form_formbuilder', {message: @message} %>
         </div>
