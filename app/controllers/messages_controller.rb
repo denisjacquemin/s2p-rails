@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form]
-  before_action :set_message, only: [:edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata]
+  before_action :set_message, only: [:edit, :update, :publish, :unpublish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -84,6 +84,17 @@ class MessagesController < ApplicationController
   end
 
   def export_formdata
+    forms = Form.by_muuid(@message.muuid)
+    rows = {}
+    forms.each do |form|
+      formjson = JSON.parse(form.formdata)
+      formjson.each do |column|
+        rows[column['label']] = column['value']
+      end
+    end
+    respond_to do |format|
+      format.csv { send_data rows.to_a.to_csv }
+    end
   end
 
   # PATCH/PUT /messages/1
