@@ -85,15 +85,31 @@ class MessagesController < ApplicationController
 
   def export_formdata
     forms = Form.by_muuid(@message.muuid)
-    rows = {}
-    forms.each do |form|
+    rows = []
+    column_names = Set.new
+    forms.each do |form| # for each form get the colum names
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
+        column_names.add(column['label']) # if it does't exist yet add column name to columns_names Set
+
         rows[column['label']] = column['value']
       end
+
     end
+
+    rows = [column_names]
+
+    forms.each do |form| # for each form build row
+      formjson = JSON.parse(form.formdata)
+      row = []
+      column_names.each do |column_name|
+        row[column_name] = formjson[column_name] || ''
+      end
+      rows.push(row)
+    end
+
     respond_to do |format|
-      format.csv { send_data rows.to_a.to_csv }
+      format.csv { send_data rows.to_csv }
     end
   end
 
