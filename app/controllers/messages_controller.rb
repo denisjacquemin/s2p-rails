@@ -94,7 +94,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    rows = [column_names]
+    rows = []
 
     forms.each do |form| # for each form build row
       formjson = JSON.parse(form.formdata)
@@ -107,11 +107,18 @@ class MessagesController < ApplicationController
           end
         end
       end
-      rows.push(row)
+      rows.push(row.join(';'))
     end
 
     respond_to do |format|
-      format.csv { send_data rows.to_csv }
+      format.csv {
+        send_data CSV.generate(options) do |csv|
+          csv << column_names.to_a
+          rows.each do |r|
+            csv << r
+          end
+        end
+      }
     end
   end
 
