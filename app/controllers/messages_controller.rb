@@ -99,6 +99,7 @@ class MessagesController < ApplicationController
     forms.each do |form| # for each form build row
       formjson = JSON.parse(form.formdata)
       row = []
+      logger.info column_names.inspect
       column_names.each_with_index do |column_name, index|
         formjson.each do |column|
           row[index] = ""
