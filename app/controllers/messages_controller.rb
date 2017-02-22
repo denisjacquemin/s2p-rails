@@ -99,7 +99,7 @@ class MessagesController < ApplicationController
     forms.each do |form| # for each form build row
       formjson = JSON.parse(form.formdata)
       row = []
-      column_names.each do |column_name, index|
+      column_names.each_with_index do |column_name, index|
         formjson.each do |column|
           row[index] = ""
           if column['label'] == column_name
