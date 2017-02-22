@@ -107,7 +107,7 @@ class MessagesController < ApplicationController
           end
         end
       end
-      rows.push(row.join(';'))
+      rows.push(row)
     end
 
     respond_to do |format|
@@ -119,8 +119,7 @@ class MessagesController < ApplicationController
         csv_data = CSV.generate(options) do |csv|
           csv << column_names.to_a
           rows.each do |r|
-            logger.info r.inspect
-          #   csv << r
+            csv << r
           end
         end
         send_data csv_data, filename: 'test.csv'
