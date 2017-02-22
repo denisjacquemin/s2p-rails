@@ -102,6 +102,7 @@ class MessagesController < ApplicationController
       column_names.each_with_index do |column_name, index|
         formjson.each do |column|
           row[index] = ""
+          logger.info "#{column['label']} == #{column_name}"
           if column['label'] == column_name
             row[index] = column['value']
           end
