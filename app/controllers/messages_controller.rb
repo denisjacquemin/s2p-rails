@@ -112,12 +112,13 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.csv {
-        send_data CSV.generate({}) do |csv|
+        csv_data = CSV.generate({}) do |csv|
           csv << column_names.to_a
           # rows.each do |r|
           #   csv << r
           # end
-        end, filename: 'test.csv'
+        end
+        send_data csv_data, filename: 'test.csv'
       }
     end
   end
