@@ -91,10 +91,7 @@ class MessagesController < ApplicationController
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
         column_names.add(column['label']) # if it does't exist yet add column name to columns_names Set
-
-        rows[column['label']] = column['value']
       end
-
     end
 
     rows = [column_names]
@@ -102,8 +99,13 @@ class MessagesController < ApplicationController
     forms.each do |form| # for each form build row
       formjson = JSON.parse(form.formdata)
       row = []
-      column_names.each do |column_name|
-        row[column_name] = formjson[column_name] || ''
+      column_names.each do |column_name, index|
+        formjson.each do |column|
+          row[index] = ""
+          if column['label'] == column_name
+            row[index] = column['value']
+          end
+        end
       end
       rows.push(row)
     end
