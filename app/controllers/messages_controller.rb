@@ -114,9 +114,9 @@ class MessagesController < ApplicationController
       format.csv {
         send_data = CSV.generate({}) do |csv|
           csv << column_names.to_a
-          rows.each do |r|
-            csv << r
-          end
+          # rows.each do |r|
+          #   csv << r
+          # end
         end
       }
     end
