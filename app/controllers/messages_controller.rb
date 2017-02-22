@@ -112,11 +112,16 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.csv {
-        csv_data = CSV.generate({}) do |csv|
+        options = {
+          col_sep: ';',
+          headers: true
+        }
+        csv_data = CSV.generate(options) do |csv|
           csv << column_names.to_a
-          # rows.each do |r|
+          rows.each do |r|
+            logger.info r.inspect
           #   csv << r
-          # end
+          end
         end
         send_data csv_data, filename: 'test.csv'
       }
