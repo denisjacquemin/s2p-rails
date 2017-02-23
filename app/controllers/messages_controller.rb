@@ -127,10 +127,10 @@ class MessagesController < ApplicationController
         end
         filename_title = ""
         unless @message.title.empty?
-          filename_title = @message.title.slice(15).parameterize
+          filename_title = @message.title.slice(0..20).parameterize
         end
 
-        send_data csv_data, filename: "export_#{filename_title}.csv"
+        send_data csv_data, filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short)}.csv"
       }
     end
   end
