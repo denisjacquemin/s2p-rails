@@ -130,7 +130,7 @@ class MessagesController < ApplicationController
           filename_title = @message.title.slice(0..20).parameterize
         end
 
-        send_data csv_data, filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short)}.csv"
+        send_data csv_data, filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv"
       }
     end
   end

@@ -128,7 +128,7 @@ $(document).on 'turbolinks:load', ->
     yes: 'Yes'
   formBuilder = $('#formbuilder-wrap').formBuilder({
     messages: language['fr'],
-    editOnAdd: true,
+    # editOnAdd: true,
     dataType: 'json',
     disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
     showActionButtons: false,
