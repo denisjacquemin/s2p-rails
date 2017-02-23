@@ -106,6 +106,7 @@ class MessagesController < ApplicationController
           logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
           if column['label'] == column_name
             row[index] = column['value']
+            break
           end
         end
       end
