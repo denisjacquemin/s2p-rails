@@ -125,7 +125,12 @@ class MessagesController < ApplicationController
             csv << r
           end
         end
-        send_data csv_data, filename: 'test.csv'
+        filename_title = ""
+        unless @message.title.empty?
+          filename_title = @message.title.slice(15).parameterize
+        end
+
+        send_data csv_data, filename: "export_#{filename_title}.csv"
       }
     end
   end
