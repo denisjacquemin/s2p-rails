@@ -27,7 +27,7 @@
             <% formdata = Form.by_muuid(@message.muuid).latest_first.pluck(:formdata) %>
             <% if formdata.any? %>
               <%= hidden_field_tag :tabledata, '[' + formdata.join(',') + ']' %>
-              <div class="pull-right"> <i class="fa fa-file-excel-o"></i><%= link_to "Export Excel", export_formdata_path(id: @message.id , format: "csv") %></div>
+              <div class="pull-right"> <i class="fa fa-file-excel-o"></i> <%= link_to "Export Excel", export_formdata_path(id: @message.id , format: "csv") %></div>
               <br/>
               <div id="jsGrid"></div>
               <script>
