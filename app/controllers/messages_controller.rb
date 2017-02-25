@@ -84,7 +84,7 @@ class MessagesController < ApplicationController
   end
 
   def export_formdata
-    forms = Form.by_muuid(@message.muuid)
+    forms = Form.by_muuid(@message.muuid).latest_first
     rows = []
     column_names = Set.new
     forms.each do |form| # for each form get the colum names
