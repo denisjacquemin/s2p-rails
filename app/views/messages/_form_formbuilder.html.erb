@@ -43,7 +43,11 @@
                     }
                     headers.push(label);
                     if (row[label] == undefined) {
-                      row[label] = data['value'];
+                      var value = data['value'];
+                      if (value === 'on') {
+                        value = '&#10003;'
+                      }
+                      row[label] = value;
                     } else {
                       row[label] = [row[label], data['value']].join(", ")
                     }
