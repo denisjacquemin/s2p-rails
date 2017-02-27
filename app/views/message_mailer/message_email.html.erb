@@ -78,7 +78,7 @@ fieldset[disabled] .btn.active {
 <% if @message.photos.any? %>
   <% @message.photos.each do |photo| %>
     <span style="padding: 10px">
-      <a href="<%= cloudinary_url(photo.path) %>" target="_blank">
+      <a href="<%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>" target="_blank">
         <%= cl_image_tag(photo.path, :width => 150, :height => 150, :crop => :fill) %>
       </a>
   </span>
