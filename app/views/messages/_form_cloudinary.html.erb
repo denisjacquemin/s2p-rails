@@ -10,7 +10,20 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
       <%= f.submit "Enregistrer les images", class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
     </div>
-    <%= f.attachinary_file_field :photos %>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <div class="dropzone">
+        <div class="middle">
+          <div class="inner">
+            <br/>
+            <p>Glisser déposer des images ici</p>
+            <p>ou</p>
+            <p><%= f.attachinary_file_field :photos %></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 <%= cloudinary_js_config %>

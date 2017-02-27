@@ -5,3 +5,25 @@
 #thumbnails {
   margin: 30px 0;
 }
+
+.dropzone {
+  margin-top: 30px;
+  height: 150px;
+  width: 100%;
+  border: 3px dashed #ccc;
+  display: table;
+  .middle {
+    display: table-cell;
+    vertical-align: middle;
+    .inner {
+      text-align: center;
+      margin: 0 auto;
+      input {
+        display: inline-flex;
+      }
+    }
+  }
+}
+.dropzone.dragover {
+  border: 3px dashed #888;
+}

@@ -1,7 +1,20 @@
 $(document).on 'turbolinks:load', ->
+
+  $(document).bind 'drop dragover', (e) ->
+    e.preventDefault()
+    return
+
+  $('.dropzone').bind 'dragover', (e) ->
+    $('.dropzone').addClass('dragover')
+
+  $('.dropzone').bind 'dragleave', (e) ->
+    $('.dropzone').removeClass('dragover')
+
+
   $('.attachinary-input').attachinary
     disableWith: 'Téléchargement...'
     indicateProgress: false
+    dropZone: $('.dropzone')
     invalidFormatMessage: 'Format d\'image invalide'
     template: """
         <div id="thumbnails">
