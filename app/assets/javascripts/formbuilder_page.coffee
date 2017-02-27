@@ -54,7 +54,7 @@ $(document).on 'turbolinks:load', ->
       optionValuePlaceholder: 'Value'
       optionEmpty: 'Option value required'
       other: 'Autre'
-      paragraph: 'Paragraph'
+      paragraph: 'Paragraphe'
       placeholder: 'Placeholder'
       placeholders: {
         value: 'Value'
@@ -132,6 +132,15 @@ $(document).on 'turbolinks:load', ->
     dataType: 'json',
     disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
     showActionButtons: false,
+    typeUserEvents: {
+        'checkbox-group': {
+          onadd: (fld) ->
+            $('.option-selected, .checkbox-group', fld).prop('checked', false)
+            $(fld).on('keyup', '.option-label', (e) ->
+              $(this).next().val(e.target.value)
+            )
+        }
+    },
     formData: $('#message_formdata').val()
   }).data('formBuilder')
   $(".form-builder-save").click (e) ->
