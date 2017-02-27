@@ -11,7 +11,7 @@
             <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
               <%= f.hidden_field :formdata %>
             <% end %>
-            <div class="pull-right"><%= link_to 'Enregistrer le formulaire', nil, id: 'frmb-0-save', class: 'btn btn-primary form-builder-save' %></div>
+            <div class="pull-right"><%= link_to 'Enregistrer le formulaire', nil, id: 'frmb-0-save', class: 'btn btn-primary form-builder-save', data: { disable_with: "Enregistrement..." } %></div>
           </div>
         </div>
         <div class="row">
