@@ -23,6 +23,9 @@
   .option-selected {
     display: none;
   }
+  .option-label{
+    width: calc(90% - 17px) !important;
+  }
 }
 
 #jsGrid {
