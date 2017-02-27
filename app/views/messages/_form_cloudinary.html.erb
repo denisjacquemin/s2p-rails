@@ -4,13 +4,13 @@
       <div style="visibility:hidden;" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="progress-bar progress-bar-success" style="width: 0;"></div>
       </div>
-      <%= f.attachinary_file_field :photos %>
     </div>
   </div>
   <div class="row pull-right">
     <div class="col-lg-12 col-md-12 col-xs-12">
       <%= f.submit "Enregistrer les images", class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
     </div>
+    <%= f.attachinary_file_field :photos %>
   </div>
 <% end %>
 <%= cloudinary_js_config %>
