@@ -100,13 +100,16 @@ class MessagesController < ApplicationController
       formjson = JSON.parse(form.formdata)
       row = []
       column_names.each_with_index do |column_name, index|
+        row[index] = ""
         formjson.each do |column|
-          row[index] = ""
           logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
           logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
           if column['label'].strip == column_name
-            row[index] = column['value']
-            break
+            if row[index] === ""
+              row[index] = column['value']
+            else
+              row[index] += ', ' + column['value']
+            end
           end
         end
       end
