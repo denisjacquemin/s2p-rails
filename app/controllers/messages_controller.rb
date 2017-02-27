@@ -104,7 +104,7 @@ class MessagesController < ApplicationController
           row[index] = ""
           logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
           logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
-          if column['label'] == column_name
+          if column['label'].strip == column_name
             row[index] = column['value']
             break
           end
