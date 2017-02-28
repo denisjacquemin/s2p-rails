@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#252e39"
+    },
+    "button": {
+      "background": "transparent",
+      "border": "#ffa700",
+      "text": "#ffa700"
+    }
+  },
+  "position": "bottom-right",
+  "type": "opt-in",
+  "content": {
+    "message": "Ce site utilise des cookies pour améliorer votre expérience utilisateur. En utilisant celui-ci, vous acceptez donc les-dits cookies.",
+    "dismiss": "Ok",
+    "allow": "Accepter",
+    "link": "C'est quoi un cookie?"
+  }
+})});
+</script>
