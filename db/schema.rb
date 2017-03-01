@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20170228154447) do
     t.json     "formdata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid     "duuid"
+    t.string   "duuid"
   end
 
   create_table "groups", force: :cascade do |t|
