@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/amp', to: 'website#amp'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
+  get '/help', to: 'faq#help'
 
   resources :mfiles
   get 'messages/exportform', to: 'messages#export_formdata', as: 'export_formdata'

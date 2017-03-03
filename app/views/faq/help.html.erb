@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" >
+    <h1 id="guidededemarrage">Guide de démarrage</h1>
+    <p>Vous trouverez sur ci-dessous les étapes nécessaire pour démarrer avec Konecto App</p>
+    <blockquote>Seul un administrateur peut réaliser ces tâches</blockquote>
+    <h2>Création des élèves</h2>
+    <p>Pour faciliter l'importation de la liste des élèves il est conseillé de passer par un fichier de type excel (CSV).<br/>L'alternative consiste a les créer un par un grâce au formulaire Nouvel élève.</p>
+    <blockquote>Un ficier CSV est un type très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de ficier est Microsoft excel.</blockquote>
+    <p>Pour démarrer, constituez un ficher d'importation dans Excel reprenant les colonnes suivantes</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <ol>
+          <li>Prenom</li>
+          <li>Nom</li>
+          <li>Emails</li>
+          <li>Envoi des messages via email</li>
+          <li>Annee</li>
+          <li>Titulaire</li>
+        </ol>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <blockquote>Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %></blockquote>
+      </div>
+    </div>
+    <dl>
+      <dt>Colonne <i>Emails</i></dt>
+      <dd>Contient la liste des emails des parents séparés par un espace.</dd>
+      <dt>Colonne <i>Envoi des messages via email</i></dt>
+      <dd>2 valeurs possibles: <i>oui</i> ou <i>non</i>. Oui signifie que les messages seront envoyés par email aux parents, <i>Non</i> signifie que aucun message ne sera envoyé par email pour l'élève. Pour un démarage il est recommandé de choisir la valeur <i>oui</i> (cela n'empêche pas l'utilisation de l'application mobile)</dd>
+      <dt>Colonnes <i>Annee</i> et <i>Titulaire</i></dt>
+      <dd>Ces 2 colonnes vont aideront plus tard a communiquer vers les parents d'élèves. A chaque année et titulaire correspondra un groupe de diffusion.</dd>
+    </dl>
+    <p>Une fois ce fichier constitué, naviguez sur la page Eleve > Import CSV<br/>
+    Sélectionnez votre fichier CSV et cliquez sur Envoyer, en fonction du nombre d'élèves, cette étape peut prendre jusqu'à une trentaine de secondes.</p>
+    <p>Naviguez sur l'écran élèves pour vérifier que tout à été importé correctement.</p>
+    <h2>Création des groupes de diffusions</h2>
+    <p>L'étape de création des élève crée automatiquement des groupes de diffusions correspondant aux champ <i>Année</i> et <i>Titulaire</i>. Ceux-ci devraient vous suffire pour la plupart des messages. A ceux-ci s'ajoute le group <i>Tous les élèves</i> qui permet bien sûr d'envoyer un message aux parents de tous les élèves.</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <p>Via le Groupes > Nouveau groupe, il est possible de créer un groupe à la main en choisissant un par un les élèves qui en feront parties.</p>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <blockquote>Il est recommandé d'utiliser un maximum les groupes créé automatiquement. La gestion automatique évitera des oublis lorsque par exemple un élève change de classe.</blockquote>
+      </div>
+    </div>
+    <p>Si, comme recommandé, vous vous contentez des groupes créé automatiquement, cette étape ne requière aucune action de votre part.</p>
+    <h2>Création des rédacteurs</h2>
+    <p>En tant qu'administrateur vous pouvez inviter une autre personne à se connecter à Konecto App.</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        Naviguez sur l'écran Rédacteurs, le bouton <i>Nouvelle invitation</i> permet d'envoyer un email d'invitation à rejoindre la platforme.<br/>
+        Une fois l'invitation envoyée, il faut attribuer au rédacteur les groupes de diffusions auquels il aura le droit d'envoyer des messages. Pour ce faire cliquez sur le nom du rédacteur et cocher les groupes dans la rubrique <i>Droit d'accès</i>.
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <blockquote>Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option TODO est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.</blockquote>
+      </div>
+    </div>
+    <h2>Communiquer les codes aux parents</h2>
+    <p>A chaque élève correspond un code unique. Ces codes doivent être communiqué aux parents qui souhaitent recevoire les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email en suivant la procédure <i>Comment envoyer les codes élèves aux parents?</i></p>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <nav class="bs-docs-sidebar hidden-print hidden-sm hidden-xs affix">
+      <ul class="nav bs-docs-sidenav">
+        <li class=""> <a href="#guidededemarrage">Guide de démarrage</a>
+          <ul class="nav">
+            <li class=""><a href="#js-individual-compiled">Individual or compiled</a></li>
+            <li><a href="#js-data-attrs">Data attributes</a></li>
+            <li><a href="#js-programmatic-api">Programmatic API</a></li>
+            <li><a href="#js-noconflict">No conflict</a></li>
+            <li><a href="#js-events">Events</a></li>
+            <li><a href="#js-version-nums">Version numbers</a></li>
+            <li><a href="#js-disabled">When JavaScript is disabled</a></li>
+            <li><a href="#callout-third-party-libs">Third-party libraries</a></li>
+          </ul>
+        </li>
+        <li class=""><a href="#transitions">Transitions</a></li>
+        <li> <a href="#modals">Modal</a>
+          <ul class="nav">
+            <li><a href="#modals-examples">Examples</a></li>
+            <li><a href="#modals-sizes">Sizes</a></li>
+            <li><a href="#modals-remove-animation">Remove animation</a></li>
+            <li><a href="#modals-related-target">Varying content based on trigger button</a></li>
+            <li><a href="#modals-usage">Usage</a></li>
+            <li><a href="#modals-options">Options</a></li>
+            <li><a href="#modals-methods">Methods</a></li>
+            <li><a href="#modals-events">Events</a></li>
+          </ul>
+        </li>
+        <li> <a href="#dropdowns">Dropdown</a>
+          <ul class="nav">
+            <li><a href="#dropdowns-examples">Examples</a></li>
+            <li><a href="#dropdowns-usage">Usage</a></li>
+            <li><a href="#dropdowns-methods">Methods</a></li>
+            <li><a href="#dropdowns-events">Events</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#scrollspy">Scrollspy</a>
+          <ul class="nav">
+            <li><a href="#scrollspy-examples">Examples</a></li>
+            <li><a href="#scrollspy-usage">Usage</a></li>
+            <li><a href="#scrollspy-methods">Methods</a></li>
+            <li><a href="#scrollspy-options">Options</a></li>
+            <li><a href="#scrollspy-events">Events</a></li>
+          </ul>
+        </li>
+        <li> <a href="#tabs">Tab</a>
+          <ul class="nav">
+            <li><a href="#tabs-examples">Examples</a></li>
+            <li><a href="#tabs-usage">Usage</a></li>
+            <li><a href="#tabs-methods">Methods</a></li>
+            <li><a href="#tabs-events">Events</a></li>
+          </ul>
+        </li>
+        <li> <a href="#tooltips">Tooltip</a>
+          <ul class="nav"> <li><a href="#tooltips-examples">Examples</a></li>
+            <li><a href="#tooltips-usage">Usage</a></li>
+            <li><a href="#tooltips-options">Options</a></li>
+            <li><a href="#tooltips-methods">Methods</a></li>
+            <li><a href="#tooltips-events">Events</a></li>
+          </ul>
+        </li>
+        <li> <a href="#popovers">Popover</a>
+          <ul class="nav">
+            <li><a href="#popovers-examples">Examples</a></li>
+            <li><a href="#popovers-usage">Usage</a></li>
+            <li><a href="#popovers-options">Options</a></li>
+            <li><a href="#popovers-methods">Methods</a></li>
+            <li><a href="#popovers-events">Events</a></li> </ul> </li> <li> <a href="#alerts">Alert</a> <ul class="nav"> <li><a href="#alerts-examples">Examples</a></li> <li><a href="#alerts-usage">Usage</a></li> <li><a href="#alerts-methods">Methods</a></li> <li><a href="#alerts-events">Events</a></li> </ul> </li> <li> <a href="#buttons">Button</a> <ul class="nav"> <li><a href="#buttons-stateful">Stateful</a></li> <li><a href="#buttons-single-toggle">Single toggle</a></li> <li><a href="#buttons-checkbox-radio">Checkbox / Radio</a></li> <li><a href="#buttons-methods">Methods</a></li> </ul> </li> <li> <a href="#collapse">Collapse</a> <ul class="nav"> <li><a href="#collapse-example">Example</a></li> <li><a href="#collapse-example-accordion">Accordion example</a></li> <li><a href="#collapse-usage">Usage</a></li> <li><a href="#collapse-options">Options</a></li> <li><a href="#collapse-methods">Methods</a></li> <li><a href="#collapse-events">Events</a></li> </ul> </li> <li class="active"> <a href="#carousel">Carousel</a> <ul class="nav"> <li class="active"><a href="#carousel-examples">Examples</a></li> <li><a href="#carousel-usage">Usage</a></li> <li><a href="#carousel-options">Options</a></li> <li class=""><a href="#carousel-methods">Methods</a></li> <li class=""><a href="#carousel-events">Events</a></li> </ul> </li> <li class=""> <a href="#affix">Affix</a> <ul class="nav"> <li class=""><a href="#affix-examples">Examples</a></li> <li class=""><a href="#affix-usage">Usage</a></li> <li class=""><a href="#affix-options">Options</a></li> <li class=""><a href="#affix-methods">Methods</a></li> <li class=""><a href="#affix-events">Events</a></li> </ul> </li> </ul> <a href="#top" class="back-to-top"> Back to top </a> <a href="#" class="bs-docs-theme-toggle" role="button"> Preview theme </a> </nav>
+  </div>
+</div>
