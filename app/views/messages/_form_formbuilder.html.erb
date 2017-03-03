@@ -25,9 +25,8 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12">
             <% formdata = Form.by_muuid(@message.muuid).latest_first.pluck(:formdata) %>
+            <%= paginate @forms %>
             <% if formdata.any? %>
-              <%= paginate @forms %>
-
               <%= hidden_field_tag :tabledata, '[' + formdata.join(',') + ']' %>
               <div class="pull-right"> <i class="fa fa-file-excel-o"></i> <%= link_to "Export Excel", export_formdata_path(id: @message.id , format: "csv") %></div>
               <br/>
