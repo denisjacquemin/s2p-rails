@@ -38,6 +38,7 @@ class MessagesController < ApplicationController
   def edit
     authorize @message
     @mfile = Mfile.new
+    @forms = Form.by_muuid(@message.muuid).latest_first.pluck(:formdata).page params[:page]
   end
 
   # POST /messages
