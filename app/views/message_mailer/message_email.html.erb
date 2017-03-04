@@ -65,7 +65,7 @@ fieldset[disabled] .btn.active {
     <tbody>
       <tr>
         <td style="text-align:center">
-          <%= link_to "Remplir le formulaire", message_form_url(@message.muuid), class: 'btn btn-lg' %>
+          <%= link_to "Remplir le formulaire", message_form_url(@message.muuid, Base64.strict_encode64()), class: 'btn btn-lg' %>
         </td>
       </tr>
     </tbody>

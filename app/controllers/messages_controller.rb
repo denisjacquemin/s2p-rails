@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
 
   def save_form
     j = JSON.parse params[:message_form_formdata]
-    j.prepend({value: 'horodateur', label: 'horodateur', value: I18n.l(Time.now.to_datetime().in_time_zone, format: :short)})
+    j.prepend({label: 'horodateur', value: I18n.l(Time.now.to_datetime().in_time_zone, format: :short)})
     @form = Form.new(muuid: params[:muuid], formdata: JSON.generate(j))
 
     @form.save
@@ -38,7 +38,6 @@ class MessagesController < ApplicationController
   def edit
     authorize @message
     @mfile = Mfile.new
-    @forms = Form.by_muuid(@message.muuid).latest_first.page params[:page]
   end
 
   # POST /messages

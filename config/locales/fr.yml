@@ -100,9 +100,9 @@ fr:
       new:
         submit: "Enregistrer l'élève"
       sendcode:
-        title: "Code Konecto"
-        content: "<p>Bonjour,</p><p>Voici le(s) code(s) nécessaire(s) à rentrer dans l'app Konecto</p><p>Un code par enfant:</p><p>[code]</p>"
-        app_download_links: "Téléchargez l'application sur votre smartphone ou tablette via <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> Ou cherchez <em>Konecto App</em> sur les stores."
+        title: "Les informations de l'école via Konecto App"
+        content: "<p>Madame, Monsieur, chers parents,</p><p>Notre école privilégie la communication numérique. Toutes les informations des enseignants et de la direction passent par voie d'email et/ou via une application mobile (Konecto App).</p><p>Pour recevoir les informations via smartphone ou tablette, voici la marche à suivre:</p><ol><li>Téléchargez l'application sur votre smartphone ou tablette via <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> ou cherchez <em>Konecto App</em> sur les stores.</li><li>Ouvrez l'application Konecto et entrez le(s) code(s) nécessaire(s).</li></ol><p>[code]</p>"
+        app_download_links: "<p>Téléchargez l'application sur votre smartphone ou tablette via <a href='https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8'>l'Apple Store</a> ou <a href='http://play.google.com/store/apps/details?id=com.dsjn.s2p'>le Play Store Android</a><br /> Ou cherchez <em>Konecto App</em> sur les stores.</p>"
     messages:
       listofstudents: Liste des groupes
       edit:

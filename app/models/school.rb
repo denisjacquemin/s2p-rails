@@ -6,6 +6,14 @@ class School < ApplicationRecord
 
   scope :by_ids, ->(ids) { where(id: ids) }
 
+  def send_code_template
+    self[:send_code_template] || I18n.t('views.students.sendcode.content')
+  end
+
+  def send_code_title_template
+    self[:send_code_title_template] || I18n.t('views.students.sendcode.title')
+  end
+
   def users
     User.by_school(self.id)
   end

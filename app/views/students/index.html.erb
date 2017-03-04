@@ -95,8 +95,8 @@
           <div class="row" style="margin-top: 30px">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <%= form_for(@message) do |f| %>
-                <%= f.hidden_field :title, value: t('views.students.sendcode.title') %>
-                <%= f.hidden_field :content, value: "#{t('views.students.sendcode.content')}<br/>#{t('views.students.sendcode.app_download_links')}" %>
+                <%= f.hidden_field :title, value: current_school.send_code_title_template  %>
+                <%= f.hidden_field :content, value:  current_school.send_code_template %>
                 <%= f.hidden_field :send_by_email, value: true %>
                 <%= f.hidden_field :send_to_app, value: false %>
                 <%= f.hidden_field :skip_send_by_email, value: true %>

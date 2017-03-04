@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228154447) do
+ActiveRecord::Schema.define(version: 20170303171022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,8 @@ ActiveRecord::Schema.define(version: 20170228154447) do
     t.string   "url"
     t.string   "filename"
     t.string   "file_url"
+    t.text     "send_code_template"
+    t.string   "send_code_title_template"
   end
 
   create_table "students", force: :cascade do |t|

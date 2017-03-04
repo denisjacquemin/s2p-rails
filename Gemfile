@@ -43,7 +43,6 @@ gem 'mail'
 gem 'rpush'#, '< 2.7.0' # https://github.com/rpush/rpush/wiki/Heroku
 gem 'net-http-persistent', '2.9.4'
 gem "animate-rails"
-gem 'kaminari'
 
 gem 'roadie-rails', '~> 1.0'
 
