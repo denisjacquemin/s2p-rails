@@ -30,7 +30,6 @@ class MessagesController < ApplicationController
     @form = Form.new(muuid: params[:muuid], formdata: JSON.generate(j))
 
     @form.save
-    render :ok
   end
 
   # GET /messages/new
