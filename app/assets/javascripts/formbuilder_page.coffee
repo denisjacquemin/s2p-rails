@@ -135,10 +135,14 @@ $(document).on 'turbolinks:load', ->
     typeUserEvents: {
         'checkbox-group': {
           onadd: (fld) ->
-            $('.option-selected, .checkbox-group', fld).prop('checked', false)
+            $('.option-selected, .checkbox-group', fld).prop('checked', false).attr("disabled", true)
             $(fld).on('keyup', '.option-label', (e) ->
               $(this).next().val(e.target.value)
             )
+        },
+        'checkbox': {
+          onadd: (fld) ->
+            $('label.field-label').hide()
         }
     },
     formData: $('#message_formdata').val()
