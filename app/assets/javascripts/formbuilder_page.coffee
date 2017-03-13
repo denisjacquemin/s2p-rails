@@ -37,7 +37,7 @@ $(document).on 'turbolinks:load', ->
       header: 'Header'
       hide: 'Edition'
       hidden: 'Hidden Input'
-      label: 'Label'
+      label: 'Question'
       labelEmpty: 'Field Label cannot be empty'
       limitRole: 'Limit access to one or more of the following roles:'
       mandatory: 'Mandatory'
