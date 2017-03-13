@@ -1,0 +1,23 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Création des rédacteurs</h2>
+    <p>En tant qu'administrateur vous pouvez inviter une autre personne à se connecter à Konecto App.</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        Naviguez sur l'écran Rédacteurs, le bouton <i>Nouvelle invitation</i> permet d'envoyer un email d'invitation à rejoindre la platforme.<br/>
+        Une fois l'invitation envoyée, il faut attribuer au rédacteur les groupes de diffusions auquels il aura le droit d'envoyer des messages. Pour ce faire cliquez sur le nom du rédacteur et cochez les groupes dans la rubrique <i>Droit d'accès</i>.
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <blockquote>
+          Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option TODO est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.
+          <br/>
+          Qui peut être rédacteur? Un instituteur, un éducateur, le secrétariat de l'école, un responsable de l'association de parents, etc...
+        </blockquote>
+      </div>
+    </div>
+    <%= image_tag asset_path("help/inviter_redacteur"), class: "img-responsive img-thumbnail" %>
+  </div>
+</div>

@@ -11,6 +11,11 @@ class MessagesController < ApplicationController
     @school_id = current_school
   end
 
+  # def algolia_index
+  #   @messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
+  #   @school_id = current_school
+  # end
+
   # GET /messages/1
   # GET /messages/1.json
   def show
@@ -25,6 +30,7 @@ class MessagesController < ApplicationController
     @form = Form.new(muuid: params[:muuid], formdata: JSON.generate(j))
 
     @form.save
+    render :ok
   end
 
   # GET /messages/new

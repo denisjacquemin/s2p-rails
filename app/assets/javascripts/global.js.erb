@@ -32,6 +32,16 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+var truncate_with_dots;
+truncate_with_dots = function(string) {
+  if (string.length > 5) {
+    return string.substring(0, 5) + '...';
+  } else {
+    return string;
+  }
+};
+
+
 (function($) {
     $.fn.invisible = function() {
         return this.each(function() {

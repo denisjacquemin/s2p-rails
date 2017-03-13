@@ -1,5 +1,5 @@
 class WebsiteController < ApplicationController
-  layout false
+  layout 'website'
 
   newrelic_ignore
 

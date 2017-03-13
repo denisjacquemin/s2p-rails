@@ -1,0 +1,49 @@
+$(document).on 'turbolinks:load', ->
+  if $('.algolia_js').length
+    search = instantsearch(
+      appId: '<%= Rails.application.secrets.algolia_app_id %>'
+      apiKey: '<%= Rails.application.secrets.algolia_search_api_key %>'
+      indexName: 'Message'
+      urlSync: true
+      poweredBy: true)
+    search.addWidget instantsearch.widgets.searchBox(
+      container: '#search-input'
+      placeholder: 'Search for products'
+      autofocus: true
+    )
+    search.addWidget instantsearch.widgets.hits(
+      container: '#hits'
+      hitsPerPage: 10
+      templates:
+        item: getTemplate('hit')
+        empty: getTemplate('no-results'))
+    search.addWidget instantsearch.widgets.stats(container: '#stats')
+    search.addWidget instantsearch.widgets.sortBySelector(
+      container: '#sort-by'
+      autoHideContainer: true
+      indices: [
+        {
+          name: search.indexName
+          label: 'Most relevant'
+        }
+        {
+          name: search.indexName + '_price_asc'
+          label: 'Lowest price'
+        }
+        {
+          name: search.indexName + '_price_desc'
+          label: 'Highest price'
+        }
+      ])
+    search.addWidget instantsearch.widgets.pagination(
+      container: '#pagination'
+      cssClasses: {
+        root: 'pagination'
+        active: 'active'
+        })
+
+
+    search.start()
+
+getTemplate = (templateName) ->
+  document.getElementById(templateName + '-template').innerHTML

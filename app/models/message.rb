@@ -1,6 +1,15 @@
 class Message < ApplicationRecord
   include Notification
+  include Status
   include ActionView::Helpers::TextHelper # for truncate
+  include AlgoliaSearch
+
+  algoliasearch do
+    attribute :title, :content, :publish_date, :author_id, :school_id, :status, :author_fullname
+    attributesToIndex [:title, :content, :publish_date, :author_fullname, :status]
+    attributesForFaceting [:publish_date, :author_fullname]
+    attributesToSnippet ['content:20']
+  end
 
   has_attachments :photos, accept: [:jpg, :png, :gif]
 

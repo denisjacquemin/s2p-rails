@@ -1,0 +1,29 @@
+.affix  {
+  li.active > a {
+    border-left: 2px solid #165ba8;
+    color: #165ba8;
+  }
+  .nav .nav li a {
+    padding-left: 30px;
+  }
+  .nav .nav li.active a{
+    padding-left: 28px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .affix, .affix-bottom {
+    width: 263px;
+  }
+}
+@media (min-width: 992px) {
+  .affix {
+    position: fixed;
+    top: 20px;
+  }
+}
+@media (min-width: 992px) {
+  .affix, .affix-bottom {
+      width: 213px;
+  }
+}

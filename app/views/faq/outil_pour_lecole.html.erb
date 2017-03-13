@@ -1,0 +1,39 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Outil pour l'école</h2>
+    <p>
+      La gestion des messages par l'école se fait en ligne à l'adresse <a href="https://www.konectoapp.com" target="_blank">konectoapp.com</a>.
+      <br/>
+      Chaque école possède son espace privé, ce portail est accessible à toute l'équipe éducative, mais aussi à d'autres personnes comme par exemple au responsable de l'association des parents.
+      <br/>
+      Pour chaque école, une personne responsable de la gestion de l'outil est désignée, cette personne endosse le rôle d'administrateur. Les autres utilisateurs ont le rôle de rédacteur.
+    </p>
+    <h3>Rôle administrateur</h3>
+    <p>
+      Personne responsable de Konecto App dans son école.
+      <br />
+      Cette personne possède les droits d'accès nécessaires pour gérer <a href="/help/comment_demarrer">les étapes du démarrage de l'outil dans l'établissement</a>.
+    </p>
+    <h3>Rôle rédacteur</h3>
+    <p>
+      Personne ayant les droits d'accès pour publier des messages.
+      Une option permet de rendre obligatoire <a href="/help/approbation_message">l'approbation par l'administrateur de la publication d'un message</a>.
+      <br/>
+      C'est l'administrateur qui est chargé d'<a href="/help/creation_des_redacteurs">inviter une personne à devenir rédacteur</a>.
+    </p>
+    <h3>Connexion</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>
+          Pour accéder à la platforme un administrateur ou un rédacteur se rend sur le site <a href="https://www.konectoapp.com" target="_blank">konectoapp.com</a>, et s'authentifie via le menu Accès membre.
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-offset-1 col-lg-5">
+        <%= image_tag asset_path("help/acces_membre"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+  </div>
+</div>

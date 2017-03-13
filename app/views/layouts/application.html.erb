@@ -34,6 +34,14 @@
 
     <%= stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons', media: 'all',  'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
+    <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
     <script>
@@ -43,15 +51,9 @@
     };
     firebase.initializeApp(config);
     </script>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
-  <body>
+  <body data-spy="scroll" data-offset="100" data-target="#affixnav">
       <%= render 'sidebar' %>
       <div class="container">
         <div id="page-content-wrapper">
@@ -63,6 +65,5 @@
     <%= javascript_tag do %>
       window.flashMessages = $.parseJSON('<%=j flash.to_hash.to_json.html_safe %>');
     <% end %>
-
   </body>
 </html>

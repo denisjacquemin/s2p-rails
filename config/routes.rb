@@ -2,10 +2,26 @@ Rails.application.routes.draw do
 
   mount Attachinary::Engine => "/attachinary"
 
+  get 'messages/algolia_index', to: 'messages#algolia_index'
+
   get '/amp', to: 'website#amp'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
   get '/help', to: 'faq#help'
+  get '/guide-d-installation', to: 'website#install_app'
+
+  get 'help/creation_des_eleves', to: 'faq#creation_des_eleves'
+  get 'help/creation_des_groupes_de_diffusions', to: 'faq#creation_des_groupes_de_diffusions'
+  get 'help/creation_des_redacteurs', to: 'faq#creation_des_redacteurs'
+  get 'help/communiquer_les_codes_aux_parents', to: 'faq#communiquer_les_codes_aux_parents'
+  get 'help/version_minimale_android', to: 'faq#version_minimale_android'
+  get 'help/version_minimale_ios', to: 'faq#version_minimale_ios'
+  get 'help/version_android', to: 'faq#version_android'
+  get 'help/comment_demarrer', to: 'faq#comment_demarrer'
+  get 'help/outil_pour_lecole', to: 'faq#outil_pour_lecole'
+  get 'help/outil_pour_les_parents', to: 'faq#outil_pour_les_parents'
+  get 'help/approbation_message', to: 'faq#approbation_message'
+  get 'help/codes_dacces', to: 'faq#codes_dacces'
 
   resources :mfiles
   get 'messages/exportform', to: 'messages#export_formdata', as: 'export_formdata'

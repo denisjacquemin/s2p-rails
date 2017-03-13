@@ -1,14 +1,14 @@
-<div class="row">
+<div class="row help">
   <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" >
     <h1 id="guidededemarrage">Guide de démarrage</h1>
     <p>Vous trouverez sur ci-dessous les étapes nécessaire pour démarrer avec Konecto App</p>
-    <blockquote>Seul un administrateur peut réaliser ces tâches</blockquote>
-    <h2>Création des élèves</h2>
+    <blockquote>Seul un administrateur peut réaliser ces tâches. Pour devenir administrateur faites en la demande via le <a href="https://www.konectoapp.com#contact">formulaire de contact</a>.</blockquote>
+    <h2 id="creationdeseleves">Création des élèves</h2>
     <p>Pour faciliter l'importation de la liste des élèves il est conseillé de passer par un fichier de type excel (CSV).<br/>L'alternative consiste a les créer un par un grâce au formulaire Nouvel élève.</p>
-    <blockquote>Un fichier CSV est un type très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de fichier est Microsoft excel.</blockquote>
+    <blockquote>Un fichier CSV est un type de fichier très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de fichier est Microsoft excel.</blockquote>
     <p>Pour démarrer, constituez un ficher d'importation dans Excel reprenant les colonnes suivantes</p>
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
         <ol>
           <li>Prenom</li>
           <li>Nom</li>
@@ -17,24 +17,29 @@
           <li>Annee</li>
           <li>Titulaire</li>
         </ol>
+        <dl>
+          <dt>Colonne <i>Emails</i></dt>
+          <dd>Contient la liste des emails des parents séparés par un espace.</dd>
+          <dt>Colonne <i>Envoi des messages via email</i></dt>
+          <dd>2 valeurs possibles: <i>oui</i> ou <i>non</i>. Oui signifie que les messages seront envoyés par email aux parents, <i>Non</i> signifie que aucun message ne sera envoyé par email pour l'élève. Pour un démarage il est recommandé de choisir la valeur <i>oui</i> (cela n'empêche pas l'utilisation de l'application mobile)</dd>
+          <dt>Colonnes <i>Annee</i> et <i>Titulaire</i></dt>
+          <dd>Ces 2 colonnes vons aideront plus tard a communiquer vers les parents d'élèves. A chaque année et titulaire correspondra un groupe de diffusion.</dd>
+        </dl>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <blockquote>Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %></blockquote>
+      <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+        <blockquote>
+          Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %>
+          <%= image_tag asset_path("help/eleves_csv"), class: "img-responsive img-thumbnail" %>
+        </blockquote>
+        <%= image_tag asset_path("help/import_csv"), class: "img-responsive img-thumbnail" %>
       </div>
     </div>
-    <dl>
-      <dt>Colonne <i>Emails</i></dt>
-      <dd>Contient la liste des emails des parents séparés par un espace.</dd>
-      <dt>Colonne <i>Envoi des messages via email</i></dt>
-      <dd>2 valeurs possibles: <i>oui</i> ou <i>non</i>. Oui signifie que les messages seront envoyés par email aux parents, <i>Non</i> signifie que aucun message ne sera envoyé par email pour l'élève. Pour un démarage il est recommandé de choisir la valeur <i>oui</i> (cela n'empêche pas l'utilisation de l'application mobile)</dd>
-      <dt>Colonnes <i>Annee</i> et <i>Titulaire</i></dt>
-      <dd>Ces 2 colonnes vont aideront plus tard a communiquer vers les parents d'élèves. A chaque année et titulaire correspondra un groupe de diffusion.</dd>
-    </dl>
-    <p>Une fois ce fichier constitué, naviguez sur la page Eleve > Import CSV<br/>
+
+    <p>Une fois ce fichier constitué, naviguez sur la page Elèves > Import CSV<br/>
     Sélectionnez votre fichier CSV et cliquez sur Envoyer, en fonction du nombre d'élèves, cette étape peut prendre jusqu'à une trentaine de secondes.</p>
-    <p>Naviguez sur l'écran élèves pour vérifier que tout à été importé correctement.</p>
-    <h2>Création des groupes de diffusions</h2>
-    <p>L'étape de création des élève crée automatiquement des groupes de diffusions correspondant aux champ <i>Année</i> et <i>Titulaire</i>. Ceux-ci devraient vous suffire pour la plupart des messages. A ceux-ci s'ajoute le group <i>Tous les élèves</i> qui permet bien sûr d'envoyer un message aux parents de tous les élèves.</p>
+    <p>Naviguez sur l'écran élèves pour vérifier que tout a été importé correctement.</p>
+    <h2 id="creationdesgroupesdediffusions">Création des groupes de diffusions</h2>
+    <p>L'étape de création des élèves crée automatiquement des groupes de diffusions correspondant aux champ <i>Année</i> et <i>Titulaire</i>. Ceux-ci devraient vous suffire pour la plupart des messages. A ceux-ci s'ajoute le groupe <i>Tous les élèves</i> qui permet d'envoyer un message aux parents de tous les élèves.</p>
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <p>Via le Groupes > Nouveau groupe, il est possible de créer un groupe à la main en choisissant un par un les élèves qui en feront parties.</p>
@@ -44,88 +49,65 @@
       </div>
     </div>
     <p>Si, comme recommandé, vous vous contentez des groupes créé automatiquement, cette étape ne requière aucune action de votre part.</p>
-    <h2>Création des rédacteurs</h2>
+    <h2 id="creationdesredacteurs">Création des rédacteurs</h2>
     <p>En tant qu'administrateur vous pouvez inviter une autre personne à se connecter à Konecto App.</p>
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         Naviguez sur l'écran Rédacteurs, le bouton <i>Nouvelle invitation</i> permet d'envoyer un email d'invitation à rejoindre la platforme.<br/>
-        Une fois l'invitation envoyée, il faut attribuer au rédacteur les groupes de diffusions auquels il aura le droit d'envoyer des messages. Pour ce faire cliquez sur le nom du rédacteur et cocher les groupes dans la rubrique <i>Droit d'accès</i>.
+        Une fois l'invitation envoyée, il faut attribuer au rédacteur les groupes de diffusions auquels il aura le droit d'envoyer des messages. Pour ce faire cliquez sur le nom du rédacteur et cochez les groupes dans la rubrique <i>Droit d'accès</i>.
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <blockquote>Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option TODO est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.</blockquote>
+        <blockquote>
+          Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option TODO est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.
+          <br/>
+          Qui peut être rédacteur? Un instituteur, un éducateur, le secrétariat de l'école, un responsable de l'association de parents, etc...
+        </blockquote>
       </div>
     </div>
-    <h2>Communiquer les codes aux parents</h2>
-    <p>A chaque élève correspond un code unique. Ces codes doivent être communiqué aux parents qui souhaitent recevoire les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email en suivant la procédure <i>Comment envoyer les codes élèves aux parents?</i></p>
+    <%= image_tag asset_path("help/inviter_redacteur"), class: "img-responsive img-thumbnail" %>
+    <h2 id="communiquerlescodesauxparents">Communiquer les codes aux parents</h2>
+    <p>A chaque élève correspond un code unique. Ces codes doivent être communiqué aux parents qui souhaitent reçevoir les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email.</p>
+    <ol>
+      <li>Sur l'écran <em>Elèves</em>, sélectionner les élèves pour qui vous voulez envoyer le code.</li>
+      <li>Cliquez sur le bouton <em>Envoyer code</em>. Un message sera créé automatiquement</li>
+    </ol>
+    <p>
+      Ci-dessous les caractéristiques du message créé:
+      <dl>
+        <dt>Le titre et le contenu sont préremplis</dt>
+        <dd>Pour que les codes apparaissent dans l'email, <em>[code]</em> doit être présent dans le corps du message, il sera remplacé par le nom prénom et le code de l'élève.</dd>
+        <dt>Les destinataires sont préremplis</dt>
+        <dd>Les élèves sélectionnés à l'étape 1 sont enregistrés comme destinataires.</dd>
+        <dt>Un seul email envoyé par personne (email)<dt>
+        <dd>Une personne avec plusieurs enfants (et donc plusieur codes) recevra un seul email, dans lequel la liste des codes se trouvera.</dd>
+        <dt>Les messages sont envoyés au moment de la publication.</dt>
+        <dt>L'option <em>Ne pas tenir compte de "Envoi des messages via email"</em> est cochée</dt>
+        <dd>Même si l'option "Envoi des messages via email" n'est pas cochée pour un élève, l'email sera envoyé.</dd>
+        <dt>L'option <em>Envoyer via Smartphone/Tablette</em> n'est pas cochée</dt>
+        <dd>Il n'est pas nécessaire de faire apparaître ce message via l'application mobile.</dd>
+      </dl>
+    </p>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-    <nav class="bs-docs-sidebar hidden-print hidden-sm hidden-xs affix">
-      <ul class="nav bs-docs-sidenav">
-        <li class=""> <a href="#guidededemarrage">Guide de démarrage</a>
+  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" id="affixnav">
+    <nav data-spy="affix" data-offset-top="100" class="affix hidden-print hidden-sm hidden-xs">
+      <ul class="nav">
+        <li><a href="#guidededemarrage">Guide de démarrage</a>
           <ul class="nav">
-            <li class=""><a href="#js-individual-compiled">Individual or compiled</a></li>
-            <li><a href="#js-data-attrs">Data attributes</a></li>
-            <li><a href="#js-programmatic-api">Programmatic API</a></li>
-            <li><a href="#js-noconflict">No conflict</a></li>
-            <li><a href="#js-events">Events</a></li>
-            <li><a href="#js-version-nums">Version numbers</a></li>
-            <li><a href="#js-disabled">When JavaScript is disabled</a></li>
-            <li><a href="#callout-third-party-libs">Third-party libraries</a></li>
+            <li class=""><a href="#creationdeseleves">Création des élèves</a></li>
+            <li><a href="#creationdesgroupesdediffusions">Création des groupes de diffusions</a></li>
+            <li><a href="#creationdesredacteurs">Création des rédacteurs</a></li>
+            <li><a href="#communiquerlescodesauxparents">Communiquer les codes aux parents</a></li>
           </ul>
         </li>
-        <li class=""><a href="#transitions">Transitions</a></li>
-        <li> <a href="#modals">Modal</a>
+        <li><a href="#faq">FAQ</a>
           <ul class="nav">
-            <li><a href="#modals-examples">Examples</a></li>
-            <li><a href="#modals-sizes">Sizes</a></li>
-            <li><a href="#modals-remove-animation">Remove animation</a></li>
-            <li><a href="#modals-related-target">Varying content based on trigger button</a></li>
-            <li><a href="#modals-usage">Usage</a></li>
-            <li><a href="#modals-options">Options</a></li>
-            <li><a href="#modals-methods">Methods</a></li>
-            <li><a href="#modals-events">Events</a></li>
+            <li class=""><a href="#versionminimaldandroid">Quelle est la version minimale d'Android supportée par l'application mobile?</a></li>
+            <li><a href="#creationdesgroupesdediffusions">Quelle est la version minimale d'iOS (Apple) supportée par l'application mobile?</a></li>
+            <li><a href="#creationdesredacteurs">Comment connaître la version d'Android de votre smartphone ou tablette?</a></li>
+            <li><a href="#communiquerlescodesauxparents">Qu'est ce qu'un type de message?</a></li>
           </ul>
         </li>
-        <li> <a href="#dropdowns">Dropdown</a>
-          <ul class="nav">
-            <li><a href="#dropdowns-examples">Examples</a></li>
-            <li><a href="#dropdowns-usage">Usage</a></li>
-            <li><a href="#dropdowns-methods">Methods</a></li>
-            <li><a href="#dropdowns-events">Events</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#scrollspy">Scrollspy</a>
-          <ul class="nav">
-            <li><a href="#scrollspy-examples">Examples</a></li>
-            <li><a href="#scrollspy-usage">Usage</a></li>
-            <li><a href="#scrollspy-methods">Methods</a></li>
-            <li><a href="#scrollspy-options">Options</a></li>
-            <li><a href="#scrollspy-events">Events</a></li>
-          </ul>
-        </li>
-        <li> <a href="#tabs">Tab</a>
-          <ul class="nav">
-            <li><a href="#tabs-examples">Examples</a></li>
-            <li><a href="#tabs-usage">Usage</a></li>
-            <li><a href="#tabs-methods">Methods</a></li>
-            <li><a href="#tabs-events">Events</a></li>
-          </ul>
-        </li>
-        <li> <a href="#tooltips">Tooltip</a>
-          <ul class="nav"> <li><a href="#tooltips-examples">Examples</a></li>
-            <li><a href="#tooltips-usage">Usage</a></li>
-            <li><a href="#tooltips-options">Options</a></li>
-            <li><a href="#tooltips-methods">Methods</a></li>
-            <li><a href="#tooltips-events">Events</a></li>
-          </ul>
-        </li>
-        <li> <a href="#popovers">Popover</a>
-          <ul class="nav">
-            <li><a href="#popovers-examples">Examples</a></li>
-            <li><a href="#popovers-usage">Usage</a></li>
-            <li><a href="#popovers-options">Options</a></li>
-            <li><a href="#popovers-methods">Methods</a></li>
-            <li><a href="#popovers-events">Events</a></li> </ul> </li> <li> <a href="#alerts">Alert</a> <ul class="nav"> <li><a href="#alerts-examples">Examples</a></li> <li><a href="#alerts-usage">Usage</a></li> <li><a href="#alerts-methods">Methods</a></li> <li><a href="#alerts-events">Events</a></li> </ul> </li> <li> <a href="#buttons">Button</a> <ul class="nav"> <li><a href="#buttons-stateful">Stateful</a></li> <li><a href="#buttons-single-toggle">Single toggle</a></li> <li><a href="#buttons-checkbox-radio">Checkbox / Radio</a></li> <li><a href="#buttons-methods">Methods</a></li> </ul> </li> <li> <a href="#collapse">Collapse</a> <ul class="nav"> <li><a href="#collapse-example">Example</a></li> <li><a href="#collapse-example-accordion">Accordion example</a></li> <li><a href="#collapse-usage">Usage</a></li> <li><a href="#collapse-options">Options</a></li> <li><a href="#collapse-methods">Methods</a></li> <li><a href="#collapse-events">Events</a></li> </ul> </li> <li class="active"> <a href="#carousel">Carousel</a> <ul class="nav"> <li class="active"><a href="#carousel-examples">Examples</a></li> <li><a href="#carousel-usage">Usage</a></li> <li><a href="#carousel-options">Options</a></li> <li class=""><a href="#carousel-methods">Methods</a></li> <li class=""><a href="#carousel-events">Events</a></li> </ul> </li> <li class=""> <a href="#affix">Affix</a> <ul class="nav"> <li class=""><a href="#affix-examples">Examples</a></li> <li class=""><a href="#affix-usage">Usage</a></li> <li class=""><a href="#affix-options">Options</a></li> <li class=""><a href="#affix-methods">Methods</a></li> <li class=""><a href="#affix-events">Events</a></li> </ul> </li> </ul> <a href="#top" class="back-to-top"> Back to top </a> <a href="#" class="bs-docs-theme-toggle" role="button"> Preview theme </a> </nav>
+      </ul>
+    </nav>
   </div>
 </div>

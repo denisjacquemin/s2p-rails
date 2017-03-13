@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="canonical" href="https://www.konectoapp.com" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="description" content="Konecto App est un outil numérique qui aide les écoles à communiquer efficacement avec les parents.">
+    <meta name="author" content="Denis Jacquemin">
+    <meta name="keywords" content="ecoles, efficace, enfants, communication, smart, city, commune, enseignement, numerique, citoyen, services, administration, communale, connectee, ville, intelligente, bons, plans, parents, connectés, belgique, push, messages, alertes, école, wallonie,  wallonia, digital, numérique, dans, ma, poche, application, liège, namur, charleroi, brabant, hainaut, luxembourg, startup, region, denis, jacquemin">
+    <meta name="dcterms.title" content="Konecto App - outil numérique de communication écoles parents">
+    <meta name="dcterms.contributor" content="Denis Jacquemin">
+    <meta name="dcterms.description" content="Konecto App est un outil numérique qui aide les écoles à communiquer efficacement avec les parents.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.konectoapp.com" />
+    <meta property="og:title" content="Konecto App - outil numérique de communication écoles parents">
+    <meta property="og:description" content="Konecto App est un outil numérique qui aide les écoles à communiquer efficacement avec les parents.">
+    <meta property="og:image" content="https://www.konectoapp.com/konectoappfbimage.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@denisjacquemin" />
+    <meta name="twitter:title" content="Konecto App" />
+    <meta name="twitter:description" content="Outil numérique qui aide les écoles à communiquer efficacement avec les parents." />
+    <meta name="twitter:image" content="https://www.konectoapp.com/konectoappthumbnail.jpeg" />
+    <meta name="apple-itunes-app" content="app-id=1141643283">
+    <meta name="google-play-app" content="app-id=com.dsjn.s2p">
+    <%= csrf_meta_tags %>
+
+    <title>Konecto App</title>
+
+
+    <%= render 'website_css' %>
+    <%= render 'website_fonts' %>
+
+    <%= analytics_init if GoogleAnalytics.valid_tracker? %>
+    <%= render 'cookie' %>
+</head>
+
+<body id="page-top">
+  <%= yield %>
+  <%= render 'website_js' %>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Outil pour les parents</h2>
+    <h3>Recevoir les messages via email</h3>
+    <p>
+      Le parent n'a pas d'action effectuer si ce n'est de communiquer son email à l'école.
+      <br />
+      L'email est à renseigner par l'administrateur sur le fiche d'un élèves.
+      <br />
+      Si l'email est erroné (une faute de frappe?) ou la boite email est pleine, l'email est renseigné en erreur dans l'écran statistique d'un message.
+      <br />
+      Plusieurs emails peuvent être configuré pour un élève.
+      <br />
+      Si un parent a plusieurs enfants et qu'un message concerne plusieurs de ses enfants, un seul email est envoyé.
+    </p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>
+          Les parents reçoivent les messages via email et/ou via une application mobile à installer sur leur smartphone ou leur tablette.
+        </p>
+
+        <h3>Recevoir les messages via une application mobile</h3>
+        <p>
+          L'application est disponible sur les stores Apple et Android.
+          <ul>
+            <li>Fiche Konecto App sur l'<a href="https://itunes.apple.com/be/app/konecto-app/id1141643283?mt=8" target="_blank">Apple Store</a></li>
+            <li>Fiche Konecto App sur <a href="http://play.google.com/store/apps/details?id=com.dsjn.s2p" target="_blank">Google Play</a>
+          </ul>
+          Après installation de l'application, un parent doit entrer le code correspondant à son enfant, celui-ci est fourni par l'école, voir le point <a href="/help/communiquer_les_codes_aux_parents">"Communiquer les codes aux parents"</a> pour la marche à suivre.
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-offset-1 col-lg-5">
+        <%= image_tag asset_path("help/iphone_tablette"), class: "img-responsive" %>
+      </div>
+    </div>
+    <p>
+      Une notification est envoyée à chaque envoi de message, et un badge apparaît sur l'îcone de l'application.
+    </p>
+    <p><%= image_tag asset_path("help/notification"), class: "img-responsive img-thumbnail" %></p>
+    <p>
+      <%= image_tag asset_path("help/badge"), class: "img-responsive img-thumbnail" %>
+
+    </p>
+
+  </div>
+</div>

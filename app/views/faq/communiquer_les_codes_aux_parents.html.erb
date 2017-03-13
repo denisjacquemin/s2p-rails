@@ -1,0 +1,38 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="communiquerlescodesauxparents">Communiquer les codes aux parents</h2>
+    <p>A chaque élève correspond un code unique. Ces codes doivent être communiqué aux parents qui souhaitent reçevoir les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email.</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <ol>
+          <li>Sur l'écran <em>Elèves</em>, sélectionner les élèves pour qui vous voulez envoyer le code.</li>
+          <li>Cliquez sur le bouton <em>Envoyer code</em>. Un message sera créé automatiquement</li>
+        </ol>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <blockquote>
+          Un parent ayant plusieurs enfants recevra 1 seul email contenant les codes de tous ses enfants.
+        </blockquote>
+      </div>
+    </div>
+    <p>
+      Ci-dessous les caractéristiques du message créé:
+      <dl>
+        <dt>Le titre et le contenu sont préremplis</dt>
+        <dd>Pour que les codes apparaissent dans l'email, <em>[code]</em> doit être présent dans le corps du message, il sera remplacé par le nom prénom et le code de l'élève.</dd>
+        <dt>Les destinataires sont préremplis</dt>
+        <dd>Les élèves sélectionnés à l'étape 1 sont enregistrés comme destinataires.</dd>
+        <dt>Un seul email envoyé par personne (email)<dt>
+        <dd>Une personne avec plusieurs enfants (et donc plusieur codes) recevra un seul email, dans lequel la liste des codes se trouvera.</dd>
+        <dt>Les messages sont envoyés au moment de la publication.</dt>
+        <dt>L'option <em>Ne pas tenir compte de "Envoi des messages via email"</em> est cochée</dt>
+        <dd>Même si l'option "Envoi des messages via email" n'est pas cochée pour un élève, l'email sera envoyé.</dd>
+        <dt>L'option <em>Envoyer via Smartphone/Tablette</em> n'est pas cochée</dt>
+        <dd>Il n'est pas nécessaire de faire apparaître ce message via l'application mobile.</dd>
+      </dl>
+    </p>
+  </div>
+</div>
