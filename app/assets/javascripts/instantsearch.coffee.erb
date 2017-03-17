@@ -8,7 +8,7 @@ $(document).on 'turbolinks:load', ->
       poweredBy: true)
     search.addWidget instantsearch.widgets.searchBox(
       container: '#search-input'
-      placeholder: 'Search for products'
+      placeholder: 'Rechercher'
       autofocus: true
     )
     search.addWidget instantsearch.widgets.hits(
@@ -17,30 +17,38 @@ $(document).on 'turbolinks:load', ->
       templates:
         item: getTemplate('hit')
         empty: getTemplate('no-results'))
-    search.addWidget instantsearch.widgets.stats(container: '#stats')
-    search.addWidget instantsearch.widgets.sortBySelector(
-      container: '#sort-by'
-      autoHideContainer: true
-      indices: [
-        {
-          name: search.indexName
-          label: 'Most relevant'
-        }
-        {
-          name: search.indexName + '_price_asc'
-          label: 'Lowest price'
-        }
-        {
-          name: search.indexName + '_price_desc'
-          label: 'Highest price'
-        }
-      ])
+    search.addWidget instantsearch.widgets.stats({
+      container: '#stats',
+      templates: {
+        body: getTemplate('stats')
+      }
+    })
     search.addWidget instantsearch.widgets.pagination(
       container: '#pagination'
       cssClasses: {
         root: 'pagination'
         active: 'active'
         })
+    search.addWidget instantsearch.widgets.refinementList(
+      container: '#authors'
+      attributeName: 'author_fullname'
+      limit: 10
+      cssClasses:
+        root: 'well'
+      sortBy: [
+        'isRefined'
+        'count:desc'
+        'name:asc'
+      ]
+      operator: 'or'
+      templates: header: '<h5>Auteurs</h5>'
+      searchForFacetValues: {
+        placeholder: 'Auteur',
+        templates: {
+          noResults: '<div class="sffv_no-results">Aucun auteur correspondant</div>'
+        }
+      })
+
 
 
     search.start()

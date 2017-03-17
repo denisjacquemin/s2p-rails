@@ -50,4 +50,5 @@
 //= require formbuilder_page
 //= require jsgrid.min
 //= require instantsearch
+//= require table_filter
 // require_tree .

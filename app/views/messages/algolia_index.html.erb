@@ -1,69 +1,88 @@
-<% if @messages.any? %>
-  <div class="row algolia_js">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-          <h1>Messages</h1>
-        </div>
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-          <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary fab visible-xs' %>
-          <div class="pull-right hidden-xs">
-            <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary' %>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <hr />
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-        <header>
-          <a href="." title="Home"><img src="img/instant_search_logo@2x.png"/></a>
-          <div id="search-input"></div>
-          <div id="search-input-icon"></div>
-        </header>
-        <div id="category" class="facet"></div>
-        <div id="brand" class="facet"></div>
-        <div id="price" class="facet"></div>
-        <div id="type" class="facet"></div>
-      </div>
-
-      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-        <main>
-          <div id="sort-by-wrapper"><span id="sort-by"></span></div>
-          <div id="stats"></div>
-          <div id="hits"></div>
-          <div id="pagination"></div>
-        </main>
-        <script type="text/html" id="hit-template">
-          <div class="hit">
-            <div class="hit-content">
-              <div class="status">{{> message_status}}</div>
-              <div class="title"><a href="/messages/{{{objectID}}}/edit">{{{_highlightResult.title.value}}}</a></div>
-              <div class="content"><a href="/messages/{{{objectID}}}/edit">{{{_snippetResult.content.value}}}...</a></div>
-              <div class="author">{{{author_fullname}}}</div>
+  <% if @messages.any? %>
+      <div class="row algolia_js algolia">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="row">
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+              <h1>Messages</h1>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+              <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary fab visible-xs' %>
+              <div class="pull-right hidden-xs">
+                <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary' %>
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <hr />
             </div>
           </div>
-        </script>
-        <script type="text/html" id="message_status-template">
-          if('published' =={{status}}) {
-            console.log 'published'
-          }
-        </script>
-        <script type="text/html" id="no-results-template">
-          <div id="no-results-message">
-            <p>Aucun message correspondant <em>"{{query}}"</em>.</p>
-            <a href="." class="clear-all">Clear search</a>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+              <div id="search-input"></div>
+              <div id="search-input-icon"></div>
+              <div id="authors" class="facet"></div>
+              <div id="brand" class="facet"></div>
+              <div id="price" class="facet"></div>
+              <div id="type" class="facet"></div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+              <div class=row>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div id="stats"></div>
+                </div>
+              </div>
+              <main>
+                <div id="hits"></div>
+                <div id="pagination"></div>
+              </main>
+              <script type="text/html" id="hit-template">
+                <div class="hit">
+                  <div class="hit-content">
+                    <div class="title-and-content">
+                      <a href="/messages/{{{objectID}}}/edit">
+                        <div class="title">{{{_highlightResult.title.value}}}</div>
+                        <div class="content">{{{_snippetResult.content.value}}}...</div>
+                      </a>
+                    </div>
+                    <div class="author-label">
+                      <span data-toggle="tooltip" data-placement="top" title="" class="label {{{status}}}" data-original-title="Dernière mise à jour le 09 mar. 13h19"> </span>
+
+                      <span class="author">{{{_highlightResult.author_fullname.value}}}</span>
+                    </div>
+                  </div>
+                </div>
+              </script>
+              <script type="text/html" id="message_status-template">
+                if('published' =={{status}}) {
+                  console.log 'published'
+                }
+              </script>
+              <script type="text/html" id="stats-template">
+                  <div data-reactroot="" class="ais-root ais-stats">
+                    <div class="ais-body ais-stats--body">
+                      <div>
+                        {{nbHits}} messages trouvés
+                      </div>
+                    </div>
+                  </div>
+              </script>
+              <script type="text/html" id="no-results-template">
+                <div id="no-results-message">
+                  <p>Aucun message correspondant <em>"{{query}}"</em>.</p>
+                </div>
+              </script>
+            </div>
           </div>
-        </script>
+        </div>
       </div>
-  </div>
-<% else %>
-  <% if current_user.user? %>
-    <%= render 'onboarding_user' %>
   <% else %>
-    <%= render 'onboarding_admin' %>
+    <% if current_user.user? %>
+      <%= render 'onboarding_user' %>
+    <% else %>
+      <%= render 'onboarding_admin' %>
+    <% end %>
   <% end %>
-<% end %>
 </div>

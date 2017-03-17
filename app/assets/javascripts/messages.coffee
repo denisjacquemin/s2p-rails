@@ -26,13 +26,13 @@ build_student_row = (student_id, student_name) ->
       value: student_id,
       name: 'student[id][]'
     }).appendTo(tr)
-  td1   = $("<td/>").appendTo(tr)
+  td1   = $("<td/>", {class: 'nowrap'}).appendTo(tr)
   $("<input/>", {
       type:"checkbox",
       id:"student[" + student_id + "]"
     }).appendTo(td1)
-  td2   = $("<td/>").appendTo(tr)
-  icon  = $("<i/>", {class: "fa fa-user"}).appendTo(td2)
+  td2   = $("<td/>", {class: 'fullwidth'}).appendTo(tr)
+  icon  = $("<i/>", {class: "fa fa-user", style: "margin-right: 5px;"}).appendTo(td2)
   label = $("<label/>", {
               for: "student[" + student_id + "]",
               text: ' ' + student_name
@@ -47,13 +47,13 @@ build_group_row = (group_id, group_name) ->
       value: group_id,
       name: 'group[id][]'
     }).appendTo(tr)
-  td1   = $("<td/>").appendTo(tr)
+  td1   = $("<td/>", {class: 'nowrap'}).appendTo(tr)
   $("<input/>", {
       type:"checkbox",
       id:"group[" + group_id + "]"
     }).appendTo(td1)
-  td2   = $("<td/>").appendTo(tr)
-  icon  = $("<i/>", {class: "fa fa-users"}).appendTo(td2)
+  td2   = $("<td/>", {class: 'fullwidth'}).appendTo(tr)
+  icon  = $("<i/>", {class: "fa fa-users", style: "margin-right: 5px;"}).appendTo(td2)
   label = $("<label/>", {
               for: "group[" + group_id + "]",
               text: group_name

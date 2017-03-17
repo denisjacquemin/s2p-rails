@@ -7,8 +7,8 @@ class Message < ApplicationRecord
   algoliasearch do
     attribute :title, :content, :publish_date, :author_id, :school_id, :status, :author_fullname
     attributesToIndex [:title, :content, :publish_date, :author_fullname, :status]
-    attributesForFaceting [:publish_date, :author_fullname]
-    attributesToSnippet ['content:20']
+    attributesForFaceting [:publish_date, 'searchable(author_fullname)']
+    attributesToSnippet ['content:22']
   end
 
   has_attachments :photos, accept: [:jpg, :png, :gif]
