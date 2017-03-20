@@ -1,9 +1,9 @@
 <div class="row help">
   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-    <%= render 'nav' %>
+    <%= render 'nav', active: 'communiquerlescodesauxparents' %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
-    <h2 id="communiquerlescodesauxparents">Communiquer les codes aux parents</h2>
+    <h2>Communiquer les codes aux parents</h2>
     <p>A chaque élève correspond un code unique. Ces codes doivent être communiqué aux parents qui souhaitent reçevoir les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email.</p>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -34,5 +34,15 @@
         <dd>Il n'est pas nécessaire de faire apparaître ce message via l'application mobile.</dd>
       </dl>
     </p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>Le message est pré-rempli avec un texte se voulant générique. Ce contenu type est modifiable pour chaque école dans l'écran de configuration de l'école.</p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <%= image_tag asset_path("help/menu_configuration"), class: "img-responsive img-thumbnail" %>
+        <br/><br/>
+        <%= image_tag asset_path("help/modele_demail"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
   </div>
 </div>

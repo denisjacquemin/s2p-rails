@@ -3,39 +3,39 @@
   <div class="nav-docs-section">
     <h3>Présentation de Konecto App</h3>
     <ul>
-        <li><a href="/help/outil_pour_lecole">Outil pour l'école</a></li>
-        <li><a href="/help/outil_pour_les_parents">Outil pour les parents</a></li>
-        <li><a href="/help/codes_dacces">Les codes d'accès</a></li>
+        <li class="<%= 'active' if active == 'outil_pour_lecole' %>"><a href="/help/outil_pour_lecole">Outil pour l'école</a></li>
+        <li class="<%= 'active' if active == 'outil_pour_les_parents' %>"><a href="/help/outil_pour_les_parents"><a href="/help/outil_pour_les_parents">Outil pour les parents</a></li>
+        <li class="<%= 'active' if active == 'codes_dacces' %>"><a href="/help/codes_dacces">Les codes élèves</a></li>
+      <!--
         <li><a href="/help/creation_des_groupes_de_diffusions">Les messages</a></li>
         <li><a href="/help/approbation_message">Approbation des messages</a></li>
         <li><a href="/help/creation_des_redacteurs">Les images</a></li>
         <li><a href="/help/creation_des_redacteurs">Les formulaires</a></li>
         <li><a href="/help/communiquer_les_codes_aux_parents">Les statistiques</a></li>
+      -->
     </ul>
   </div>
 
     <div class="nav-docs-section">
       <h3>Guide de démarrage</h3>
       <ul>
-          <li>
+          <li class="<%= 'active' if active == 'comment_demarrer' %>">
             <a href="/help/comment_demarrer">Comment démarrer avec Konneto App?</a>
           </li>
-          <li>
+
+          <li class="<%= 'active' if active == 'creation_des_eleves' %>">
             <a href="/help/creation_des_eleves">Création des élèves</a>
-
           </li>
 
-          <li>
+          <li class="<%= 'active' if active == 'creation_des_groupes_de_diffusions' %>">
             <a href="/help/creation_des_groupes_de_diffusions">Création des groupes de diffusions</a>
-
           </li>
 
-          <li>
+          <li class="<%= 'active' if active == 'creation_des_redacteurs' %>">
             <a href="/help/creation_des_redacteurs">Création des rédacteurs</a>
-
           </li>
 
-          <li>
+          <li class="<%= 'active' if active == 'communiquerlescodesauxparents' %>">
             <a href="/help/communiquer_les_codes_aux_parents">Communiquer les codes aux parents</a>
 
           </li>
@@ -49,19 +49,18 @@
       <h3>Faq</h3>
       <ul>
 
-          <li>
+          <li class="<%= 'active' if active == 'version_minimale_android' %>">
             <a href="/help/version_minimale_android">Quelle est la version minimale d'Android supportée par l'application mobile?</a>
 
           </li>
 
-          <li>
+          <li class="<%= 'active' if active == 'version_minimale_ios' %>">
             <a href="/help/version_minimale_ios">Quelle est la version minimale d'iOS (Apple) supportée par l'application mobile?</a>
 
           </li>
 
-          <li>
+          <li class="<%= 'active' if active == 'version_android' %>">
             <a href="/help/version_android">Comment connaître la version d'Android de votre smartphone ou tablette?</a>
-
           </li>
       </ul>
     </div>

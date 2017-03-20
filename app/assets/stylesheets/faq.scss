@@ -23,6 +23,16 @@
         font-size: 15px;
       }
     }
+    li.active {
+      color: #2780E3;
+      list-style: circle;
+      a {
+        color: #2780E3;
+        font-weight: 400;
+        text-decoration: underline;
+      }
+
+    }
   }
 
   blockquote {
