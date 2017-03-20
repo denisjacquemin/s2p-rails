@@ -4,10 +4,10 @@ $(document).on 'turbolinks:load', ->
       appId: '<%= Rails.application.secrets.algolia_app_id %>'
       apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
       indexName: 'Message'
-      searchParameters:
-        numericRefinements :
-          school_id:
-            '=': $('#current_school_id').val()
+      # searchParameters:
+      #   numericRefinements :
+      #     school_id:
+      #       '=': $('#current_school_id').val()
       urlSync: true
       poweredBy: true)
     search.addWidget instantsearch.widgets.searchBox(
