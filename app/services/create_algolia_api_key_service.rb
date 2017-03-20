@@ -14,28 +14,24 @@ class CreateAlgoliaApiKeyService
 
   private
     def build_filters(user)
-      if user.superadmin?
-        # No restriction
-        return ""
-      elsif user.admin?
+      filters = ""
+      # if user is superadmin filters is ""
+      if user.admin?
         # Restrict on user.schools
         schools = @user.schools.reject!(&:blank?)
-        if schools.nil?
-          return ""
-        else
-          return schools.map {|s| "school_id=#{s}"}.join(' OR ')
+        unless schools.nil?
+          filters = schools.map {|s| "school_id=#{s}"}.join(' OR ')
         end
       elsif user.user?
         # Restrict on user.schools and author_id = user.id
         schools = @user.schools.reject!(&:blank?)
-        if schools.nil?
-          filters = ""
-        else
-          filters = '(' + schools.map {|s| "school_id=#{s}"}.join(' OR ') + ') AND'
+        unless schools.nil?
+          filters = '(' + schools.map {|s| "school_id=#{s}"}.join(' OR ') + ') AND '
         end
         filters += "author_id = #{user.id}"
-        return filters
       end
+      Rails.logger.info "Filters for #{user.fullname}: #{filters}"
+      return filters
     end
 
 end
