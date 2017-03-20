@@ -2,8 +2,12 @@ $(document).on 'turbolinks:load', ->
   if $('.algolia_js').length
     search = instantsearch(
       appId: '<%= Rails.application.secrets.algolia_app_id %>'
-      apiKey: '<%= Rails.application.secrets.algolia_search_api_key %>'
+      apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
       indexName: 'Message'
+      searchParameters:
+        numericRefinements :
+          school_id:
+            '=': $('#current_school_id').val()
       urlSync: true
       poweredBy: true)
     search.addWidget instantsearch.widgets.searchBox(
@@ -48,9 +52,6 @@ $(document).on 'turbolinks:load', ->
           noResults: '<div class="sffv_no-results">Aucun auteur correspondant</div>'
         }
       })
-
-
-
     search.start()
 
 getTemplate = (templateName) ->

@@ -6,7 +6,7 @@ class Message < ApplicationRecord
 
   algoliasearch do
     attribute :title, :content, :publish_date, :author_id, :school_id, :status, :author_fullname
-    attributesToIndex [:title, :content, :publish_date, :author_fullname, :status]
+    attributesToIndex [:title, :content, :publish_date, :author_fullname, :status, :school_id]
     attributesForFaceting [:publish_date, 'searchable(author_fullname)']
     attributesToSnippet ['content:22']
   end
