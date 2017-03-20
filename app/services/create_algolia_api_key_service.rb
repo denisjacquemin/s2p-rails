@@ -19,11 +19,21 @@ class CreateAlgoliaApiKeyService
         return ""
       elsif user.admin?
         # Restrict on user.schools
-        return @user.schools.reject!(&:blank?).map {|s| "school_id=#{s}"}.join(' OR ')
+        schools = @user.schools.reject!(&:blank?)
+        if schools.nil?
+          return ""
+        else
+          return schools.map {|s| "school_id=#{s}"}.join(' OR ')
+        end
       elsif user.user?
         # Restrict on user.schools and author_id = user.id
-        filters = '(' + @user.schools.map {|s| "school_id=#{s}"}.join(' OR ') + ')'
-        filters += " AND author_id = #{user.id}"
+        schools = @user.schools.reject!(&:blank?)
+        if schools.nil?
+          filters = ""
+        else
+          filters = '(' + schools.map {|s| "school_id=#{s}"}.join(' OR ') + ') AND'
+        end
+        filters += "author_id = #{user.id}"
         return filters
       end
     end
