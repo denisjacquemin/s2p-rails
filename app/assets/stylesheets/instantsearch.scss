@@ -22,6 +22,14 @@
       content: 'Accepté'
     }
 
+    &.waiting_for_approval {
+      background-color: rgb(255, 117, 24);
+
+    }
+    &.waiting_for_approval::before {
+      content: 'Approbation'
+    }
+
 
   }
 
@@ -67,59 +75,51 @@
   }
 
   #hits {
-    display: flex;
-    flex-direction: column;
     .ais-hits--item {
       border-top: 1px solid #ddd;
     }
-    .ais-hits--item:nth-child(even) {
-      background: #f9f9f9;
+    // .ais-hits--item:nth-child(even) {
+    //   background: #f9f9f9;
+    // }
+    .hit-content:hover {
+      background-color: #f5f7f7;
     }
     .hit-content {
-      display: flex;
-      flex-direction: row;
-
-      > div {
-        em {
-          background-color: #FFFF00;
-          font-style: normal;
+      width: 100%;
+      padding: 12px 5px;
+      em {
+        background-color: #FFFF00;
+        font-style: normal;
+      }
+      .title-and-content {
+        a {
+          text-decoration: none;
         }
-        padding: 8px 5px;
-
-        &.status {
-          min-width: 80px;
-          max-width: 80px;
-          flex-basis: auto;
-          flex-grow: 1;
+        a:hover .title, a:hover .content {
+          color: #2780E3;
+          text-decoration: underline;
         }
-        &.title-and-content {
-          flex-basis: auto;
-          flex-grow: 4;
-          .title, .content {
-            width: 100%;
-          }
-          .title {
-
-          }
+        .title {
+          color: rgb(57, 67, 71);
+          font-size: 20px;
         }
-
-        &.author-label {
-          min-width: 120px;
-          text-align: right;
-          position: relative;
-          .label {
-            position: absolute;
-            top: 13px;
-            right: 5px;
-          }
-          .author {
-            position: absolute;
-            bottom: 8px;
-            right: 5px;
-            white-space: nowrap;
-          }
+        .content, .author, .meta {
+          color: rgb(120, 133, 138);
+          font-size: 15px;
+        }
+        .field-label {
+          font-weight: 600;
         }
       }
+
+      .label-container {
+        text-align: right;
+        .label {
+          font-size: 13px;
+          margin-right: 5px;
+        }
+      }
+
     }
 
   }

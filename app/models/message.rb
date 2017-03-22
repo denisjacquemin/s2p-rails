@@ -5,10 +5,11 @@ class Message < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch do
-    attribute :title, :content, :publish_date, :author_id, :school_id, :status, :author_fullname
-    attributesToIndex [:title, :content, :publish_date, :author_fullname, :status, :school_id]
-    attributesForFaceting [:publish_date, 'searchable(author_fullname)']
-    attributesToSnippet ['content:22']
+    attribute :title, :content, :created_at_ISO8601, :author_id, :school_id, :status, :author_fullname, :last_update_meta
+    attributesToIndex [:title, :content, :created_at_ISO8601, :author_fullname, :school_id]
+    #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
+    attributesToSnippet ['content:35']
+    customRanking ['desc(created_at_ISO8601)']
   end
 
   has_attachments :photos, accept: [:jpg, :png, :gif]
@@ -38,6 +39,18 @@ class Message < ApplicationRecord
 
   def set_default_mtype
     self.mtype ||= :message
+  end
+
+  def created_at_ISO8601
+    self.created_at.utc.iso8601
+  end
+
+  def last_update_meta
+    if self.published?
+      return "Publié le #{I18n.l(self.publish_date.to_datetime().in_time_zone, format: :short)}"
+    else
+      return "Dernière mise à jour le #{I18n.l(self.updated_at.to_datetime().in_time_zone, format: :short)}"
+    end
   end
 
   def author_fullname

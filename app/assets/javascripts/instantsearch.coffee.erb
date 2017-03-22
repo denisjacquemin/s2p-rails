@@ -12,46 +12,51 @@ $(document).on 'turbolinks:load', ->
       poweredBy: true)
     search.addWidget instantsearch.widgets.searchBox(
       container: '#search-input'
-      placeholder: 'Rechercher'
+      placeholder: "Rechercher sur le titre, le contenu, l'auteur"
       autofocus: true
     )
     search.addWidget instantsearch.widgets.hits(
       container: '#hits'
-      hitsPerPage: 10
+      hitsPerPage: 15
       templates:
         item: getTemplate('hit')
         empty: getTemplate('no-results'))
-    search.addWidget instantsearch.widgets.stats({
-      container: '#stats',
-      templates: {
-        body: getTemplate('stats')
-      }
-    })
+    # search.addWidget instantsearch.widgets.stats({
+    #   container: '#stats',
+    #   templates: {
+    #     body: getTemplate('stats')
+    #   }
+    # })
     search.addWidget instantsearch.widgets.pagination(
       container: '#pagination'
       cssClasses: {
         root: 'pagination'
         active: 'active'
         })
-    search.addWidget instantsearch.widgets.refinementList(
-      container: '#authors'
-      attributeName: 'author_fullname'
-      limit: 10
-      cssClasses:
-        root: 'well'
-      sortBy: [
-        'isRefined'
-        'count:desc'
-        'name:asc'
-      ]
-      operator: 'or'
-      templates: header: '<h5>Auteurs</h5>'
-      searchForFacetValues: {
-        placeholder: 'Auteur',
-        templates: {
-          noResults: '<div class="sffv_no-results">Aucun auteur correspondant</div>'
-        }
-      })
+    onPaginationRenderHandler = (params) ->
+      console.log search
+
+    search.once 'render', onPaginationRenderHandler
+
+    # search.addWidget instantsearch.widgets.refinementList(
+    #   container: '#authors'
+    #   attributeName: 'author_fullname'
+    #   limit: 10
+    #   cssClasses:
+    #     root: 'well'
+    #   sortBy: [
+    #     'isRefined'
+    #     'count:desc'
+    #     'name:asc'
+    #   ]
+    #   operator: 'or'
+    #   templates: header: '<h5>Auteurs</h5>'
+    #   searchForFacetValues: {
+    #     placeholder: 'Auteur',
+    #     templates: {
+    #       noResults: '<div class="sffv_no-results">Aucun auteur correspondant</div>'
+    #     }
+    #   })
     search.start()
 
 getTemplate = (templateName) ->
