@@ -1,13 +1,6 @@
-
-@import "bootstrap-sprockets";
-@import "cosmo/variables";
-@import "bootstrap";
-@import "cosmo/bootswatch";
 @import "froala_editor.min";
 @import "plugins/table.min";
 @import "froala_style.min";
-@import "font-awesome";
-@import "animate";
 @import "nprogress";
 @import "nprogress-bootstrap";
 @import "nprogress-turbolinks5";
@@ -17,13 +10,7 @@
 @import "formbuilder_page";
 @import "jsgrid.min";
 @import "jsgrid-theme.min";
-@import "bootstrap_navbar";
-@import "faq";
 @import "instantsearch";
-
-
-@import "global";
-@import "global-responsive";
 @import "groups";
 @import "mfiles";
 @import "students";

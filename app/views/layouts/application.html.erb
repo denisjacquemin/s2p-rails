@@ -33,7 +33,12 @@
     <meta name="theme-color" content="#ffffff">
 
     <%= stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons', media: 'all',  'data-turbolinks-track' => true %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'application_logout', media: 'all', 'data-turbolinks-track' => true %>
+    <% if user_signed_in? %>
+      <%= stylesheet_link_tag    'application_login', media: 'all', 'data-turbolinks-track' => true %>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
+    <% end %>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,17 +46,18 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
-    <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
-    <script>
-    var config = {
-      apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
-      databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
-    };
-    firebase.initializeApp(config);
-    </script>
+    <% if user_signed_in? %>
+      <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+      <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
+      <script>
+      var config = {
+        apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
+        databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
+      };
+      firebase.initializeApp(config);
+      </script>
+    <% end %>
   </head>
 
   <body>
