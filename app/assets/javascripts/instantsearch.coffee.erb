@@ -29,6 +29,7 @@ $(document).on 'turbolinks:load', ->
     # })
     search.addWidget instantsearch.widgets.pagination(
       container: '#pagination'
+      maxPages: 2
       cssClasses: {
         root: 'pagination'
         active: 'active'
