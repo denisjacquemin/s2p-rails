@@ -83,6 +83,12 @@
     // }
     .hit-content:hover {
       background-color: #f5f7f7;
+      .title-and-content {
+        span.title, div.content {
+          color: #2780E3;
+          text-decoration: underline;
+        }
+      }
     }
     .hit-content {
       width: 100%;
@@ -95,10 +101,7 @@
         a {
           text-decoration: none;
         }
-        a:hover .title, a:hover .content {
-          color: #2780E3;
-          text-decoration: underline;
-        }
+
         .title {
           color: #111;
           font-size: 20px;
