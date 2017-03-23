@@ -100,12 +100,13 @@
           text-decoration: underline;
         }
         .title {
-          color: rgb(57, 67, 71);
+          color: #111;
           font-size: 20px;
         }
         .content, .author, .meta {
           color: rgb(120, 133, 138);
           font-size: 15px;
+          margin-top: 7px;
         }
         .field-label {
           font-weight: 600;
