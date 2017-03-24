@@ -4,7 +4,7 @@ class Message < ApplicationRecord
   include ActionView::Helpers::TextHelper # for truncate
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch synchronous: true do
     attribute :title, :content, :created_at_ISO8601, :author_id, :school_id, :status, :author_fullname, :last_update_meta
     attributesToIndex [:title, :content, :created_at_ISO8601, :author_fullname, :school_id]
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']

@@ -1,5 +1,74 @@
 $(document).on 'turbolinks:load', ->
   if $('.algolia_js').length
+
+    $('#hits').on 'click', '.title-and-content', (event) ->
+      Turbolinks.visit('/messages/' + $(this).data('message-id') + '/edit')
+      event.preventDefault()
+
+    linkAction = (action, message_id) ->
+      switch action
+        when 'edit'
+          return '<a data-disable-with="Edition..." href="/messages/' + message_id + '/edit"><i class="glyphicon glyphicon-pencil"></i>Editer</a>'
+        when 'publish'
+          return '<a data-disable-with="Publication..." href="/messages/publish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-send"></i>Publier</a>'
+        when 'unpublish'
+          return '<a data-disable-with="Dépublication..." href="/messages/unpublish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-remove"></i>Dépublier</a>'
+        when 'approbation'
+          return '<a data-disable-with="Envoi pour approbation..." href="/messages/send_for_approval/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-ok"></i>Demander l\'approbation</a>'
+        when 'accept'
+          return '<a data-disable-with="Approbation..." href="/messages/accept/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-thumbs-up"></i>Accepter</a>'
+        when 'reject'
+          return '<a data-disable-with="Rejet..." href="/messages/reject/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-thumbs-down"></i>Rejeter</a>'
+        when 'delete'
+          return '<a data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
+
+
+    $('#hits').on 'click', '.dropdown-toggle', (event) ->
+      ul = $(this).next('.dropdown-menu')
+      if $(ul).find('li').length == 0
+        workflowActive = $('#worflow_active').val()
+        role = $('#role').val()
+        message_id = $(this).data('message-id')
+        ul.append('<li>' + linkAction('edit', message_id) + '</li>')
+        ul.append('<li role="separator" class="divider"></li>')
+        if workflowActive == "true"
+          switch $(this).data('status')
+            when 'draft'
+              if role == 'admin'
+                ul.append('<li>' + linkAction('publish', message_id) + '</li>')
+              else
+                if role == 'user'
+                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
+            when 'waiting_for_approval'
+              if role == 'admin'
+                ul.append('<li>' + linkAction('accept', message_id) + '</li>')
+                ul.append('<li>' + linkAction('reject', message_id) + '</li>')
+            when 'approval_accepted'
+              ul.append('<li>' + linkAction('publish', message_id) + '</li>')
+            when 'approval_refused'
+              if role == 'admin'
+                ul.append('<li>' + linkAction('publish', message_id) + '</li>')
+              else
+                if role == 'user'
+                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
+            when 'published'
+              ul.append('<li>' + linkAction('unpublish', message_id) + '</li>')
+          ul.append('<li>' + linkAction('delete', message_id) + '</li>')
+        else
+          switch $(this).data('status')
+            when 'draft'
+              ul.append('<li>' + linkAction('publish', message_id) + '</li>')
+            when 'published'
+              ul.append('<li><a href="#"><i class="glyphicon glyphicon-send"></i>Dépublier</li>')
+          ul.append('<li><a href="#"><i class="glyphicon glyphicon-trash"></i>InaSupprimer</li>')
+      event.preventDefault()
+
+    isDraft = (status) ->
+      console.log status
+      status == 'draft'
+
+
+
     search = instantsearch(
       appId: '<%= Rails.application.secrets.algolia_app_id %>'
       apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
@@ -17,7 +86,7 @@ $(document).on 'turbolinks:load', ->
     )
     search.addWidget instantsearch.widgets.hits(
       container: '#hits'
-      hitsPerPage: 15
+      hitsPerPage: 12
       templates:
         item: getTemplate('hit')
         empty: getTemplate('no-results'))
@@ -34,10 +103,6 @@ $(document).on 'turbolinks:load', ->
         root: 'pagination'
         active: 'active'
         })
-    onPaginationRenderHandler = (params) ->
-      console.log search
-
-    search.once 'render', onPaginationRenderHandler
 
     # search.addWidget instantsearch.widgets.refinementList(
     #   container: '#authors'

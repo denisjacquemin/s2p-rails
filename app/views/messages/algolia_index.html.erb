@@ -1,5 +1,8 @@
 <%= hidden_field_tag 'algolia_search_api_key', @algolia_search_api_key %>
 <%= hidden_field_tag 'current_school_id', @current_school_id %>
+<%= hidden_field_tag 'worflow_active', @workflow_active %>
+<%= hidden_field_tag 'role', @current_user_role %>
+
 <div class="row algolia_js algolia">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
@@ -18,7 +21,6 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div id="search-input"></div>
@@ -32,24 +34,33 @@
         <script type="text/html" id="hit-template">
           <div class="hit row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="hit-content">
-                <a href="/messages/{{{objectID}}}/edit">
+              <div class="hit-content" data-message-id="{{{objectID}}}">
+                <div class="row">
+                  <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="{{{objectID}}}">
+                      <div class="row">
+                        <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}}</span></div></div>
+                        <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
+                        <div class="col-xs-12"><div class="content">{{{_snippetResult.content.value}}}...</div></div>
+                        <div class="col-xs-12"><div class="meta"><i class="fa fa-user-o"></i> <span class="author">{{{_highlightResult.author_fullname.value}}}</span> - <i class="fa fa-clock-o"></i> {{last_update_meta}}</div></div>
+                      </div>
+                  </div>
+                  <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
 
-                  <div class="row">
-                    <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10">
-                        <div class="row">
-                          <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}}</span></div></div>
-                          <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
-                          <div class="col-xs-12"><div class="content">{{{_snippetResult.content.value}}}...</div></div>
-                          <div class="col-xs-12"><div class="meta"><i class="fa fa-user-o"></i> <span class="author">{{{_highlightResult.author_fullname.value}}}</span> - <i class="fa fa-clock-o"></i> {{last_update_meta}}</div></div>
-                        </div>
-
-                    </div>
-                    <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
-                      <span title="" class="label {{{status}}}"> </span>
+                        <span title="" class="label {{{status}}}">&nbsp;</span>
+                        <div class="btn-group">
+                          <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status={{status}} data-message-id="{{{objectID}}}">
+                            <i class="material-icons">more_vert</i>
+                          </a>
+                          <ul class="dropdown-menu pull-right">
+                          </ul>
+                          <!-- {{#thisIsDraft}} <li><a href="#">Draft</a></li>{{/thisIsDraft}}
+                          <li><a href="#">Another action</a></li>
+                          <li><a href="#">Something else here</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="#">Separated link</a></li> -->
                     </div>
                   </div>
-                </a>
+                </div>
               </div>
             </div>
           </div>

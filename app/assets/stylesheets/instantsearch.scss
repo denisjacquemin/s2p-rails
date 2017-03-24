@@ -22,6 +22,14 @@
       content: 'Accepté'
     }
 
+    &.approval_refused {
+      background-color: #FF0039;
+
+    }
+    &.approval_refused::before {
+      content: 'Refusé'
+    }
+
     &.waiting_for_approval {
       background-color: rgb(255, 117, 24);
 
@@ -75,6 +83,36 @@
   }
 
   #hits {
+    .btn-group {
+      .dropdown-toggle {
+        color: #000;
+        box-shadow: none;
+        .material-icons {
+          font-size: 16px;
+        }
+        &.btn {
+          padding: 5px 3px 2px 3px;
+          margin: 0;
+        }
+      }
+      .dropdown-toggle:hover {
+        background: #fff;
+        border: 1px solid #9ea9ad;
+      }
+      .dropdown-menu li a .glyphicon {
+        margin-right: 12px;
+      }
+
+      &.open .dropdown-toggle {
+        background: #fff;
+        border: 1px solid #9ea9ad;
+        box-shadow: none;
+      }
+    }
+
+  }
+
+  #hits {
     .ais-hits--item {
       border-top: 1px solid #ddd;
     }
@@ -83,11 +121,13 @@
     // }
     .hit-content:hover {
       background-color: #f5f7f7;
-      .title-and-content {
-        span.title, div.content {
-          color: #2780E3;
-          text-decoration: underline;
-        }
+
+    }
+    .title-and-content:hover {
+      span.title, div.content {
+        color: #2780E3;
+        text-decoration: underline;
+        cursor: pointer;
       }
     }
     .hit-content {
