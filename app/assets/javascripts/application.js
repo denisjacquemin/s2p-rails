@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require nprogress
-//= require nprogress-turbolinks
 //= require snackbar
 //= require froala_editor.min.js
 //= require plugins/lists.min.js
