@@ -87,6 +87,7 @@ sent_by_email_message = () ->
 
 
 $(document).on 'turbolinks:load', ->
+  console.log('messages.coffee.erb run')
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
