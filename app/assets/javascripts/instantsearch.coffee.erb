@@ -1,4 +1,6 @@
+console.log('instantsearch.coffee.erb loaded')
 $(document).on 'turbolinks:load', ->
+  console.log('instantsearch.coffee.erb run')
   if $('.algolia_js').length
 
     $('#hits').on 'click', '.title-and-content', (event) ->
