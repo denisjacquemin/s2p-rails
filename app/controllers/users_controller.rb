@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def update
     @user_params = user_params
-    @user_params['schools'] = user_params[:schools].reject { |c| c.empty? }
+    @user_params['schools'] = user_params[:schools].reject { |c| c.empty? } unless user_params[:schools].nil?
 
     if @user.update(@user_params)
       render :edit, notice: t('controller.user.update.success.notice')
