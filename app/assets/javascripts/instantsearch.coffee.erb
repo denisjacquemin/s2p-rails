@@ -1,7 +1,3 @@
-$(document).ready ->
-  console.log 'ready'
-$(document).on 'turbolinks:load', ->
-  console.log 'turbolinks:load'
 $(document).on 'turbolinks:load', ->
   if $('.algolia_js').length
 
@@ -71,8 +67,6 @@ $(document).on 'turbolinks:load', ->
       console.log status
       status == 'draft'
 
-
-
     search = instantsearch(
       appId: '<%= Rails.application.secrets.algolia_app_id %>'
       apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
@@ -81,7 +75,10 @@ $(document).on 'turbolinks:load', ->
         numericRefinements :
           school_id:
             '=': [$('#current_school_id').val()]
-      urlSync: true
+      urlSync: {
+        getHistoryState: ->
+          { turbolinks: true }
+      }
       poweredBy: true)
     search.addWidget instantsearch.widgets.searchBox(
       container: '#search-input'
