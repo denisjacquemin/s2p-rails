@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   get 'help/outil_pour_les_parents', to: 'faq#outil_pour_les_parents'
   get 'help/approbation_message', to: 'faq#approbation_message'
   get 'help/codes_dacces', to: 'faq#codes_dacces'
+  get 'help/notifications', to: 'faq#notifications'
+
+
 
   resources :mfiles
   get 'messages/exportform', to: 'messages#export_formdata', as: 'export_formdata'

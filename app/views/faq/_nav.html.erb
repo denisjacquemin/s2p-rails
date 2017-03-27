@@ -6,6 +6,7 @@
         <li class="<%= 'active' if active == 'outil_pour_lecole' %>"><a href="/help/outil_pour_lecole">Outil pour l'école</a></li>
         <li class="<%= 'active' if active == 'outil_pour_les_parents' %>"><a href="/help/outil_pour_les_parents"><a href="/help/outil_pour_les_parents">Outil pour les parents</a></li>
         <li class="<%= 'active' if active == 'codes_dacces' %>"><a href="/help/codes_dacces">Les codes élèves</a></li>
+
       <!--
         <li><a href="/help/creation_des_groupes_de_diffusions">Les messages</a></li>
         <li><a href="/help/approbation_message">Approbation des messages</a></li>
@@ -48,6 +49,10 @@
     <div class="nav-docs-section">
       <h3>Faq</h3>
       <ul>
+          <li class="<%= 'active' if active == 'notifications' %>">
+            <a href="/help/notifications">Faq notifications</a>
+
+          </li>
 
           <li class="<%= 'active' if active == 'version_minimale_android' %>">
             <a href="/help/version_minimale_android">Quelle est la version minimale d'Android supportée par l'application mobile?</a>
