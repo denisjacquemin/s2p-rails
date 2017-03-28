@@ -40,12 +40,13 @@
                       <div class="row">
                         <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}}</span></div></div>
                         <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
+                        {{#content}}
                         <div class="col-xs-12"><div class="content">{{{_snippetResult.content.value}}}...</div></div>
+                        {{/content}}
                         <div class="col-xs-12"><div class="meta"><i class="fa fa-user-o"></i> <span class="author">{{{_highlightResult.author_fullname.value}}}</span> - <i class="fa fa-clock-o"></i> {{last_update_meta}}</div></div>
                       </div>
                   </div>
                   <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
-
                         <span title="" class="label {{{status}}}">&nbsp;</span>
                         <div class="btn-group">
                           <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status={{status}} data-message-id="{{{objectID}}}">
@@ -53,11 +54,6 @@
                           </a>
                           <ul class="dropdown-menu pull-right">
                           </ul>
-                          <!-- {{#thisIsDraft}} <li><a href="#">Draft</a></li>{{/thisIsDraft}}
-                          <li><a href="#">Another action</a></li>
-                          <li><a href="#">Something else here</a></li>
-                          <li role="separator" class="divider"></li>
-                          <li><a href="#">Separated link</a></li> -->
                     </div>
                   </div>
                 </div>
