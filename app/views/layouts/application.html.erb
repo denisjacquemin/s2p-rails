@@ -49,6 +49,18 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
       <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <![endif]-->
+  </head>
+
+  <body>
+      <%= render 'sidebar' %>
+      <div class="container">
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+              <%= yield %>
+            </div>
+        </div>
+      </div>
+
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <% if user_signed_in? %>
       <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
@@ -61,17 +73,6 @@
       firebase.initializeApp(config);
       </script>
     <% end %>
-  </head>
-
-  <body>
-      <%= render 'sidebar' %>
-      <div class="container">
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-              <%= yield %>
-            </div>
-        </div>
-      </div>
     <%= javascript_tag do %>
       window.flashMessages = $.parseJSON('<%=j flash.to_hash.to_json.html_safe %>');
     <% end %>
