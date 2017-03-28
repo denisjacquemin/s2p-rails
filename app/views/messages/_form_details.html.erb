@@ -27,16 +27,6 @@
     <div class="form-group message_mtype" style=<%= "#{'display:none' if message.mtype == 'rappel'}" %>>
       <%= f.label :content %>
       <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
-      <script>
-        $(function() {
-            $('#wysiwyg').froalaEditor({
-              key: 'gknlfgqifxyG5hcj1==',
-              language: 'fr',
-              heightMin: 300,
-              toolbarButtons: ['undo', 'redo',  '|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',  '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'insertTable', 'clearFormatting', 'selectAll']
-            })
-        });
-      </script>
     </div>
     <% if current_user.admin? %>
       <div class="form-group">

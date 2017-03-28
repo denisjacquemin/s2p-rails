@@ -50,16 +50,6 @@
    <%= f.label :send_code_template, "Modèle d'email d'envoi des codes" %>
    <%= f.text_area :send_code_template, rows: 10, class: 'form-control' %>
   </div>
-  <script>
-    $(function() {
-        $('#school_send_code_template').froalaEditor({
-          key: 'gknlfgqifxyG5hcj1==',
-          language: 'fr',
-          heightMin: 300,
-          toolbarButtons: ['undo', 'redo',  '|', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',  '|', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'insertTable', 'clearFormatting', 'selectAll']
-        })
-    });
-  </script>
 
   <%= f.submit 'Sauver', class: 'btn btn-primary' %>
 
