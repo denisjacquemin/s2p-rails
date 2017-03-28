@@ -1,8 +1,8 @@
 <div class="row" id="formbuilder_page">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <ul class="nav nav-pills" id="formbuilder_pills">
-      <li role="presentation" <%= 'class=active' if @message.status != "published" %>><a href="#questions">Questions</a></li>
-      <li role="presentation" <%= 'class=active' if @message.status == "published" %>><a href="#answers">Réponses</a></li>
+      <li role="presentation" <%= 'class=active' if @message.status != "published" %>><a class="tab-link" href="#questions">Questions</a></li>
+      <li role="presentation" <%= 'class=active' if @message.status == "published" %>><a class="tab-link" href="#answers">Réponses</a></li>
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane <%= 'active' if @message.status != "published" %>" id="questions">
@@ -99,9 +99,3 @@
     </div>
   </div>
 </div>
-<script>
-$('#formbuilder_pills a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
-</script>
