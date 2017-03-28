@@ -49,9 +49,9 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
       <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <![endif]-->
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <% if user_signed_in? %>
       <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
-      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
       <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
       <script>
       var config = {
