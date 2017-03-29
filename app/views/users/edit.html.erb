@@ -53,53 +53,44 @@
                     </div>
                     <div class="panel-body">
                       <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="groups">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>Groupes</th>
-                              </tr>
-                            </thead>
-                            <tbody>
+                        <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
+                          <input type="text" class="filter" data-table="#user_group_list" placeholder="Filtre">
+                          <table class="table table-hover table-condensed">
+                            <tbody id="user_group_list" class="list">
                             <%= hidden_field_tag "user[group_ids][]", nil %>
                             <%
                                 groups = Group.by_school(current_school)
                                 groups.each do |g| %>
                                 <tr>
-                                  <td>
+                                  <td class="nowrap">
                                     <%= check_box_tag "user[group_ids][#{g.id}]",
-                                     g.id,
-                                     @user.groups.include?(g),
-                                     name: 'user[group_ids][]' %>
-                                    &nbsp;<%= g.name %>
+                                       g.id,
+                                       @user.groups.include?(g),
+                                       name: 'user[group_ids][]' %>
                                   </td>
+                                  <td class="fullwidth"><%= g.name %></td>
                                 </tr>
                               <% end %>
                             </tbody>
                           </table>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="students">
+                        <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
+                          <input type="text" class="filter" data-table="#user_student_list" placeholder="Filtre">
                           <table class="table">
-                            <thead>
-                              <tr>
-                                <th>Elèves</th>
-                                <th>Année - titulaire</th>
-                              </tr>
-                            </thead>
-                            <tbody>
+                            <tbody id="user_student_list">
                             <%= hidden_field_tag "user[student_ids][]", nil %>
                             <%
                                 students = Student.by_school(current_school)
                                 students.each do |s| %>
                                 <tr>
-                                  <td>
+                                  <td class="nowrap">
                                     <%= check_box_tag "user[student_ids][#{s.id}]",
                                      s.id,
                                      @user.students.include?(s),
                                      name: 'user[student_ids][]' %>
-                                    &nbsp;<%= s.fullname %>
                                   </td>
-                                  <td><%= [s.level,s.classroom].join(' - ') %></td>
+                                  <td class="nowrap"><%= s.fullname %></td>
+                                  <td class="fullwidth"><%= [s.level,s.classroom].join(' - ') %></td>
                                 </tr>
                               <% end %>
                             </tbody>
