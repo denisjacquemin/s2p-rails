@@ -105,6 +105,7 @@ $(document).on 'turbolinks:load', ->
       $('.alert_mtype').show()
       $('.message_mtype').hide()
   $('.submit_with_status').click (e) ->
+    e.preventDefault()
     console.log "$('.submit_with_status').click"
     if $(e.target).data('before-submit-confirm') # if data-confirm is present don't submit form
       bootbox.confirm
