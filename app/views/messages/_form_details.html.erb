@@ -2,7 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <% if message.new_record? %>
       <div class="form-group">
-        <%= f.label :mtype %> <%= link_to faq_path(:anchor => '7') do %><i class="fa fa-question-circle" aria-hidden="true"></i><% end %>
+        <%= f.label :mtype %>
         <%= f.select(:mtype, [['Message', 'message'], ['Message court', 'rappel']], {}, {id: 'mtype', class: "form-control"})  %>
       </div>
     <% end %>
