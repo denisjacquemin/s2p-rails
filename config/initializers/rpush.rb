@@ -87,17 +87,20 @@ Rpush.reflect do |on|
   # Called when a notification will be retried at a later date.
   # Call 'deliver_after' on the notification for the next delivery date
   # and 'retries' for the number of times this notification has been retried.
-  # on.notification_will_retry do |notification|
-  # end
+  on.notification_will_retry do |notification|
+    Rails.logger.info "[Rpush.reflect notification_will_retry] #{notification.inspect}"
+  end
 
   # Called when a notification will be retried and only the notification ID
   # is present in memory.
-  # on.notification_id_will_retry do |app, notification_id, retry_after|
-  # end
+  on.notification_id_will_retry do |app, notification_id, retry_after|
+    Rails.logger.info "[Rpush.reflect notification_id_will_retry] app: #{app.inspect}, notification_id: #{notification_id.inspect}, retry_after: #{retry_after}"
+  end
 
   # Called when a TCP connection is lost and will be reconnected.
-  # on.tcp_connection_lost do |app, error|
-  # end
+  on.tcp_connection_lost do |app, error|
+    Rails.logger.info "[Rpush.reflect tcp_connection_lost] app: #{app.inspect}, error: #{error.inspect}"
+  end
 
   # Called for each recipient which successfully receives a notification. This
   # can occur more than once for the same notification when there are multiple
@@ -113,8 +116,9 @@ Rpush.reflect do |on|
 
   # Called when the GCM returns a canonical registration ID.
   # You will need to replace old_id with canonical_id in your records.
-  # on.gcm_canonical_id do |old_id, canonical_id|
-  # end
+  on.gcm_canonical_id do |old_id, canonical_id|
+    Rails.logger.info "[Rpush.reflect gcm_canonical_id] old_id: #{old_id}, canonical_id: #{canonical_id}"
+  end
 
   # Called when the GCM returns a failure that indicates an invalid registration id.
   # You will need to delete the registration_id from your records.
