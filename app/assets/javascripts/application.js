@@ -32,7 +32,6 @@
 //= require global
 //= require groups
 //= require messages
-//= require mfiles
 //= require schools
 //= require students
 //= require users
@@ -50,4 +49,5 @@
 //= require jsgrid.min
 //= require instantsearch
 //= require table_filter
+//= require bootstrap_js_activation
 // require_tree .

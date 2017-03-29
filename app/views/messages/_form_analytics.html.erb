@@ -1,95 +1,97 @@
-<script>
-  var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
+<% content_for :analytics do %>
+  <script>
+    var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
-  var uniqueTr = {};
-  addLine = function(target, event, reason, source = '', created_at) {
+    var uniqueTr = {};
+    addLine = function(target, event, reason, source = '', created_at) {
 
-    var text = event + source
-    if (!uniqueTr[text]) {
-      uniqueTr[text] = true;
-      var line = '<tr class="' + target + '">';
-      line += "<td>" + geticon(event) + "</td>"
-      line += "<td>" + source + "</td>"
-      line += "<td>" + getcomment(reason, event) + "</td>"
-      line += "<td>" + created_at + "</td>"
-      line += "</tr>"
-      $('#' + target + '_rows').prepend($(line));
-    }
-  }
-
-  getcomment = function(reason, event) {
-    var comment = ''
-    switch(event) {
-      case 'open':
-          comment = 'Email ouvert'
-          break;
-      case 'open_by_mobile':
-          comment = 'Vu sur mobile'
-          break;
-      case 'bounce':
-          comment = 'Email non envoyé'
-          break;
-      case 'dropped':
-          comment = 'Email non envoyé'
-          break;
-      case 'delivered':
-          comment = 'Email envoyé'
-          break;
+      var text = event + source
+      if (!uniqueTr[text]) {
+        uniqueTr[text] = true;
+        var line = '<tr class="' + target + '">';
+        line += "<td>" + geticon(event) + "</td>"
+        line += "<td>" + source + "</td>"
+        line += "<td>" + getcomment(reason, event) + "</td>"
+        line += "<td>" + created_at + "</td>"
+        line += "</tr>"
+        $('#' + target + '_rows').prepend($(line));
       }
-
-    if (reason != undefined) {
-       comment = '<span data-toggle="tooltip" data-placement="top" title="' + reason + '">' + comment + '</span>'
     }
-    return comment;
-  }
 
-  geticon = function(id) {
-    switch(id) {
-      case 'open':
-          icon = '<i class="material-icons">drafts</i>'
-          break;
-      case 'open_by_mobile':
-          icon = '<i class="fa fa-mobile-phone fa-2x"></i>'
-          break;
-      case 'bounce':
-          icon = '<i class="fa fa-warning"></i>'
-          break;
-      case 'dropped':
-          icon = '<i class="fa fa-warning">'
-          break;
-      case 'delivered':
-          icon = '<i class="material-icons">mail</i>'
-          break;
-      default:
-          icon = ''
+    getcomment = function(reason, event) {
+      var comment = ''
+      switch(event) {
+        case 'open':
+            comment = 'Email ouvert'
+            break;
+        case 'open_by_mobile':
+            comment = 'Vu sur mobile'
+            break;
+        case 'bounce':
+            comment = 'Email non envoyé'
+            break;
+        case 'dropped':
+            comment = 'Email non envoyé'
+            break;
+        case 'delivered':
+            comment = 'Email envoyé'
+            break;
+        }
+
+      if (reason != undefined) {
+         comment = '<span data-toggle="tooltip" data-placement="top" title="' + reason + '">' + comment + '</span>'
       }
-      return icon;
-  }
+      return comment;
+    }
 
-  $('.open, .mobile, .delivered, .dropped').remove();
-  messagesRef.child('delivered').orderByChild('timestamp').on('child_added', function(data) {
-    addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
-    $('#counter_delivered').text($('.delivered').length);
-  });
+    geticon = function(id) {
+      switch(id) {
+        case 'open':
+            icon = '<i class="material-icons">drafts</i>'
+            break;
+        case 'open_by_mobile':
+            icon = '<i class="fa fa-mobile-phone fa-2x"></i>'
+            break;
+        case 'bounce':
+            icon = '<i class="fa fa-warning"></i>'
+            break;
+        case 'dropped':
+            icon = '<i class="fa fa-warning">'
+            break;
+        case 'delivered':
+            icon = '<i class="material-icons">mail</i>'
+            break;
+        default:
+            icon = ''
+        }
+        return icon;
+    }
 
-  messagesRef.child('open').orderByChild('timestamp').on('child_added', function(data) {
-    addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
-    $('#counter_open').text($('.open').length);
-    $('.total_counter').text($('.open, .mobile').length);
-  });
+    $('.open, .mobile, .delivered, .dropped').remove();
+    messagesRef.child('delivered').orderByChild('timestamp').on('child_added', function(data) {
+      addLine('delivered', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+      $('#counter_delivered').text($('.delivered').length);
+    });
 
-  messagesRef.child('view').on('child_added', function(data) {
-    addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
-    $('#counter_mobile').text($('.mobile').length);
-    $('.total_counter').text($('.open, .mobile').length);
-  });
+    messagesRef.child('open').orderByChild('timestamp').on('child_added', function(data) {
+      addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+      $('#counter_open').text($('.open').length);
+      $('.total_counter').text($('.open, .mobile').length);
+    });
 
-  messagesRef.child('dropped').orderByChild('timestamp').on('child_added', function(data) {
-    addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
-    $('#counter_dropped').text($('.dropped').length);
-  });
+    messagesRef.child('view').on('child_added', function(data) {
+      addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+      $('#counter_mobile').text($('.mobile').length);
+      $('.total_counter').text($('.open, .mobile').length);
+    });
 
-</script>
+    messagesRef.child('dropped').orderByChild('timestamp').on('child_added', function(data) {
+      addLine('dropped', data.val().event, data.val().reason, data.val().source, data.val().created_at);
+      $('#counter_dropped').text($('.dropped').length);
+    });
+
+  </script>
+<% end %>
 <div class="row">
   <div class="col-xs-12 col-sm-5 col-md-8 col-lg-8">
     <h2><%= message.title %></h2>

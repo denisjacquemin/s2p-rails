@@ -5,8 +5,8 @@ class Message < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch synchronous: true do
-    attribute :title, :content, :created_at_ISO8601, :author_id, :school_id, :status, :author_fullname, :last_update_meta
-    attributesToIndex [:title, :content, :created_at_ISO8601, :author_fullname, :school_id]
+    attribute :title, :content, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
+    attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
     attributesToSnippet ['content:35']
     customRanking ['desc(created_at_ISO8601)']
@@ -43,6 +43,10 @@ class Message < ApplicationRecord
 
   def created_at_ISO8601
     self.created_at.utc.iso8601
+  end
+
+  def has_form
+    not (self.formdata.blank? or self.formdata === "[]")
   end
 
   def last_update_meta

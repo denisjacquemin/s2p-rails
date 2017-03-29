@@ -5,8 +5,6 @@ ready = function() {
     $.snackbar({content: value, style: key, timeout: 10000});
   });
 
-  $('[data-toggle="tooltip"]').tooltip()
-
 };
 
 $(document).on('turbolinks:load', ready);

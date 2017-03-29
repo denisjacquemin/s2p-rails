@@ -49,6 +49,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
       <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <![endif]-->
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
 
   <body>
@@ -61,18 +62,23 @@
         </div>
       </div>
 
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= yield :cloudinary_init %>
+
+
     <% if user_signed_in? %>
       <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
       <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
       <script>
-      var config = {
-        apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
-        databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
-      };
-      firebase.initializeApp(config);
+      if (firebase.apps.length === 0) {
+        var config = {
+          apiKey: '<%= Rails.application.secrets.firebase_secret_key %>',
+          databaseURL: '<%= Rails.application.secrets.firebase_base_uri %>'
+        };
+        firebase.initializeApp(config);
+      }
       </script>
     <% end %>
+    <%= yield :analytics %>
     <%= javascript_tag do %>
       window.flashMessages = $.parseJSON('<%=j flash.to_hash.to_json.html_safe %>');
     <% end %>

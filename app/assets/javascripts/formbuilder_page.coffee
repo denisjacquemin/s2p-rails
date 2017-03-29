@@ -126,6 +126,7 @@ $(document).on 'turbolinks:load', ->
     warning: 'Warning!'
     viewXML: '</>'
     yes: 'Yes'
+  console.log 'init formbuilder'
   formBuilder = $('#formbuilder-wrap').formBuilder({
     messages: language['fr'],
     # editOnAdd: true,

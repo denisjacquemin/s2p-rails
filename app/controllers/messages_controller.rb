@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
   def algolia_index
     #@messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
-    @school_id = current_school
+
     @algolia_search_api_key = current_user.algolia_search_api_key
     @current_school_id = current_school.id
     @current_user = current_user
