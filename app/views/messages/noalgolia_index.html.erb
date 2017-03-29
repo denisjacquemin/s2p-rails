@@ -1,0 +1,63 @@
+      <%= hidden_field_tag 's', @school_id %>
+      <% if @messages.any? %>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+              <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+                <h1>Messages</h1>
+              </div>
+              <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary fab visible-xs' %>
+                <div class="pull-right hidden-xs">
+                  <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary' %>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <hr />
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr class="hidden-xs">
+                  <th></th>
+                  <th>Titre</th>
+                  <th class="hidden-xs">Contenu</th>
+                  <% if current_user.superadmin? %>
+                    <th>Ecole</th>
+                  <% end %>
+                  <th>Auteur</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @messages.each do |message| %>
+                  <tr>
+                    <td><%= render 'status', message: message %></td>
+                    <td class="visible-xs"><%= link_to truncate(message.title, :length => 25), edit_message_path(message) %></td>
+                    <td class="hidden-xs" <%= "colspan=2" if message.mtype == 'rappel' %>><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
+                    <% if message.mtype != 'rappel' %>
+                      <td class="hidden-xs"><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
+                    <% end %>
+                    <% if current_user.superadmin? %>
+                      <td><% if message.school.present? %><%= message.school.name %><% end %></td>
+                    <% end %>
+                    <td class="hidden-xs"><%= message.author_fullname %></td>
+                    <td class="text-right">
+                      <%= render 'change_status_dropdown', message: message, size: 'btn-xs' %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <% if current_user.user? %>
+          <%= render 'onboarding_user' %>
+        <% else %>
+          <%= render 'onboarding_admin' %>
+        <% end %>
+      <% end %>
+    </div>

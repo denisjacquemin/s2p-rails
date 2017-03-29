@@ -5,13 +5,13 @@ class MessagesController < ApplicationController
 
   # GET /messages
   # GET /messages.json
-  def index
+  def noalgolia_index
     @messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
     authorize @messages
     @school_id = current_school
   end
 
-  def algolia_index
+  def index
     #@messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
 
     @algolia_search_api_key = current_user.algolia_search_api_key

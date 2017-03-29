@@ -1,63 +1,91 @@
-      <%= hidden_field_tag 's', @school_id %>
-      <% if @messages.any? %>
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="row">
-              <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-                <h1>Messages</h1>
-              </div>
-              <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-                <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary fab visible-xs' %>
-                <div class="pull-right hidden-xs">
-                  <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary' %>
+<%= hidden_field_tag 'algolia_search_api_key', @algolia_search_api_key %>
+<%= hidden_field_tag 'current_school_id', @current_school_id %>
+<%= hidden_field_tag 'worflow_active', @workflow_active %>
+<%= hidden_field_tag 'role', @current_user_role %>
+
+<div class="row algolia_js algolia">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+        <h1>Messages</h1>
+      </div>
+      <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+        <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary fab visible-xs' %>
+        <div class="pull-right hidden-xs">
+          <%= link_to 'Nouveau message', new_message_path, class: 'btn btn-primary' %>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <hr />
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="search-input"></div>
+        <div id="search-input-icon"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <main>
+          <div id="hits"></div>
+          <div id="pagination"></div>
+        </main>
+        <script type="text/html" id="hit-template">
+          <div class="hit row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="hit-content" data-message-id="{{{objectID}}}">
+                <div class="row">
+                  <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="{{{objectID}}}">
+                      <div class="row">
+                        <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}} {{#has_form}}<i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i>{{/has_form}}</span></div></div>
+                        <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
+                        {{#content}}
+                        <div class="col-xs-12"><div class="content">{{{_snippetResult.content.value}}}...</div></div>
+                        {{/content}}
+                        <div class="col-xs-12">
+                          <div class="meta">
+                            <i class="fa fa-user-o"></i> <span class="author">{{{_highlightResult.author_fullname.value}}}</span>
+                            - <i class="fa fa-clock-o"></i> {{last_update_meta}}
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
+                        <span title="" class="label {{{status}}}">&nbsp;</span>
+                        <div class="btn-group" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+                          <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status={{status}} data-message-id="{{{objectID}}}">
+                            <i class="material-icons">more_vert</i>
+                          </a>
+                          <ul class="dropdown-menu pull-right">
+                          </ul>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-xs-12">
-                <hr />
               </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr class="hidden-xs">
-                  <th></th>
-                  <th>Titre</th>
-                  <th class="hidden-xs">Contenu</th>
-                  <% if current_user.superadmin? %>
-                    <th>Ecole</th>
-                  <% end %>
-                  <th>Auteur</th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% @messages.each do |message| %>
-                  <tr>
-                    <td><%= render 'status', message: message %></td>
-                    <td class="visible-xs"><%= link_to truncate(message.title, :length => 25), edit_message_path(message) %></td>
-                    <td class="hidden-xs" <%= "colspan=2" if message.mtype == 'rappel' %>><%= link_to truncate(message.title, :length => 200), edit_message_path(message) %></td>
-                    <% if message.mtype != 'rappel' %>
-                      <td class="hidden-xs"><%= link_to truncate(strip_tags(message.content), :length => 200), edit_message_path(message) %></td>
-                    <% end %>
-                    <% if current_user.superadmin? %>
-                      <td><% if message.school.present? %><%= message.school.name %><% end %></td>
-                    <% end %>
-                    <td class="hidden-xs"><%= message.author_fullname %></td>
-                    <td class="text-right">
-                      <%= render 'change_status_dropdown', message: message, size: 'btn-xs' %>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+        </script>
+        <script type="text/html" id="message_status-template">
+          if('published' =={{status}}) {
+            console.log 'published'
+          }
+        </script>
+        <script type="text/html" id="stats-template">
+            <div data-reactroot="" class="ais-root ais-stats">
+              <div class="ais-body ais-stats--body">
+                <div>
+                  {{nbHits}} messages trouvés
+                </div>
+              </div>
+            </div>
+        </script>
+        <script type="text/html" id="no-results-template">
+          <div id="no-results-message">
+            <p>Aucun message correspondant <em>"{{query}}"</em>.</p>
           </div>
-        </div>
-      <% else %>
-        <% if current_user.user? %>
-          <%= render 'onboarding_user' %>
-        <% else %>
-          <%= render 'onboarding_admin' %>
-        <% end %>
-      <% end %>
+        </script>
+      </div>
     </div>
+  </div>
+</div>
