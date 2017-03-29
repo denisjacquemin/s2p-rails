@@ -18,14 +18,15 @@ $(document).on 'turbolinks:load', ->
     while i < tr.length
       j = 0
       tds = $(tr[i]).find('td')
+      found = false
       while j < tds.length
-        if tds[j]
-          if $(tds[j]).text().toUpperCase().indexOf(filter) > -1
-            tr[i].style.display = ''
-            break
-          else
-            tr[i].style.display = 'none'
-          j++
+        if $(tds[j]).text().toUpperCase().indexOf(filter) > -1
+          tr[i].style.display = '' # found
+          found = true
+          break
+        j++
+      if !found
+        tr[i].style.display = 'none'
       i++
 
     return
