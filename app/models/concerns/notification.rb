@@ -31,13 +31,13 @@ module Notification extend ActiveSupport::Concern
         }
         send_android_notifications(message.title, devicesAndroid, dataAndroid)
       end
-      message = {
+      other_options = {
         content: message.title,
         send_date: "now",
         ios_badges: "+1"
       }
       other_options = {}
-      Pushwoosh.notify_devices(message, devicesAndroid + devicesIOS, other_options)
+      Pushwoosh.notify_devices("PW: #{message.title}", devicesAndroid + devicesIOS, other_options)
     end
 
     def getDevicesByGroupsAndStudents(groups_ids, students_ids)
