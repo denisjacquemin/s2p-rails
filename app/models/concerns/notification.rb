@@ -37,7 +37,9 @@ module Notification extend ActiveSupport::Concern
         ios_badges: "+1"
       }
       other_options = {}
-      resp = Pushwoosh.notify_devices("PW: #{message.title}", devicesAndroid + devicesIOS, other_options)
+      PWdevices = devicesAndroid + devicesIOS
+      logger.info "devicesAndroid + devicesIOS: #{PWdevices.inspect}"
+      resp = Pushwoosh.notify_devices("PW: #{message.title}", PWdevices, other_options)
       logger.info "after Pushwoosh.notify_devices: #{resp.inspect}"
     end
 
