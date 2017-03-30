@@ -15,7 +15,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(message.title, devicesIOS, dataIOS)
+        #send_ios_notifications(message.title, devicesIOS, dataIOS)
       end
 
       if devicesAndroid.any?
@@ -29,7 +29,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": "1",
           "visibility": 1 # public
         }
-        send_android_notifications(message.title, devicesAndroid, dataAndroid)
+        #send_android_notifications(message.title, devicesAndroid, dataAndroid)
       end
       other_options = {
         content: message.title,
