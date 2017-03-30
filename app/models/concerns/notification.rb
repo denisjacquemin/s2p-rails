@@ -8,7 +8,7 @@ module Notification extend ActiveSupport::Concern
       students_ids = message.students
 
       devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
-      logger.info "[PW] devices: #{devices.inspect}"
+      logger.debug "[PW] devices: #{devices.inspect}"
 
       devicesAndroid = devices.android.active
       devicesIOS = devices.ios.active
