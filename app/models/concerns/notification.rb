@@ -38,9 +38,9 @@ module Notification extend ActiveSupport::Concern
       }
       other_options = {}
       pwdevices = devicesAndroid + devicesIOS
-      logger.info "devicesAndroid + devicesIOS: #{pwdevices.inspect}"
-      resp = Pushwoosh.notify_devices("PW: #{message.title}", pwdevices, other_options)
-      logger.info "after Pushwoosh.notify_devices: #{resp.inspect}"
+      logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
+      resp = Pushwoosh.notify_devices("PW: #{message.title}", devicesIOS, other_options)
+      logger.info "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
     end
 
     def getDevicesByGroupsAndStudents(groups_ids, students_ids)
