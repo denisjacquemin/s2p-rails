@@ -6,6 +6,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def noalgolia_index
+    byebug
     @messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
     authorize @messages
     @school_id = current_school

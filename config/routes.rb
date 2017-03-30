@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   mount Attachinary::Engine => "/attachinary"
 
-  get 'messages/algolia_index', to: 'messages#algolia_index'
+  get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
 
   get '/amp', to: 'website#amp'
   post '/contactme', to: 'website#contactme'

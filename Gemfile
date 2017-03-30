@@ -38,7 +38,9 @@ gem 'attachinary'
 gem "wysiwyg-rails", '>= 2.3.4'
 gem 'kramdown'
 gem 'mail'
-gem 'rpush'#, '< 2.7.0' # https://github.com/rpush/rpush/wiki/Heroku
+gem 'rpush'#, '< 2.7.0' # https://github.com/rpush/rpush/wiki/Herokuquit
+gem 'pushwoosh'
+
 gem 'net-http-persistent', '2.9.4'
 gem "animate-rails"
 
