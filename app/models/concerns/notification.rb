@@ -1,10 +1,15 @@
 module Notification extend ActiveSupport::Concern
 
     def send_message_notifications(message)
+      logger.info "[PW] in send_message_notifications"
+
+
       groups_ids = message.groups
       students_ids = message.students
 
       devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
+      logger.info "[PW] devices: #{devices.inspect}"
+
       devicesAndroid = devices.android.active
       devicesIOS = devices.ios.active
 

@@ -104,7 +104,7 @@ class Message < ApplicationRecord
     self.publish_date = DateTime.now
     groups = self.groups
     if groups.present? or self.students.present?
-
+      logger.info "[PW] before send_message_notifications #{self.inspect}"
       send_message_notifications(self) if self.send_to_app
 
 
