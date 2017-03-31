@@ -103,8 +103,8 @@ class MessagesController < ApplicationController
     forms.each do |form| # for each form get the colum names
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
-        column_name_title = column['label'].strip
-        column_name_title = 'Pas de question' if column_name_title === ""
+        column_name_title = column['label'].strip unless column['label'].nil?
+        column_name_title = 'Pas de question' if column_name_title.blank?
         column_names.add(column_name_title) # if it does't exist yet add column name to columns_names Set
       end
     end
