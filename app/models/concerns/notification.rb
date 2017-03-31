@@ -20,7 +20,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        #send_ios_notifications(message.title, devicesIOS, dataIOS)
+        send_ios_notifications(message.title, devicesIOS, dataIOS)
       end
 
       if devicesAndroid.any?
@@ -34,18 +34,18 @@ module Notification extend ActiveSupport::Concern
           "content-available": "1",
           "visibility": 1 # public
         }
-        #send_android_notifications(message.title, devicesAndroid, dataAndroid)
+        send_android_notifications(message.title, devicesAndroid, dataAndroid)
       end
-      other_options = {
-        content: message.title,
-        send_date: "now",
-        ios_badges: "+1"
-      }
-      other_options = {}
-      pwdevices = devicesAndroid + devicesIOS
-      logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
-      resp = Pushwoosh.notify_devices("PW: #{message.title}", devicesIOS, other_options)
-      logger.error "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
+      # other_options = {
+      #   content: message.title,
+      #   send_date: "now",
+      #   ios_badges: "+1"
+      # }
+      # other_options = {}
+      # pwdevices = devicesAndroid + devicesIOS
+      # logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
+      # resp = Pushwoosh.notify_devices("PW: #{message.title}", ["cf1028c29b3d647e298f452ca7497fcc04025da8e44adba0c9975b7fde3895bb"], other_options)
+      # logger.error "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
     end
 
     def getDevicesByGroupsAndStudents(groups_ids, students_ids)
