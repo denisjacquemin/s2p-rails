@@ -1,5 +1,7 @@
 class Device < ApplicationRecord
 
+  include PushwooshSync
+
   scope :by_codes, ->(codes) { where("codes && ARRAY[?]::varchar[]", codes) }
   scope :active, -> { where(active: true) }
   scope :android, -> { where(platform: 'Android') }
