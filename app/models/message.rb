@@ -103,8 +103,10 @@ class Message < ApplicationRecord
   def handle_publish
     self.publish_date = DateTime.now
     groups = self.groups
+    logger.info "[PW] before send_message_notifications #{self.inspect}"
+    send_notification_with_pushwoosh(self)
     if groups.present? or self.students.present?
-      logger.info "[PW] before send_message_notifications #{self.inspect}"
+
       send_message_notifications(self) if self.send_to_app
 
 

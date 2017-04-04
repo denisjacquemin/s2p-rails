@@ -1,8 +1,6 @@
 module Notification extend ActiveSupport::Concern
 
     def send_message_notifications(message)
-      logger.info "[PW] in send_message_notifications"
-
 
       groups_ids = message.groups
       students_ids = message.students
@@ -14,13 +12,24 @@ module Notification extend ActiveSupport::Concern
       devicesIOS = devices.ios.active
 
       if devicesIOS.any?
-        dataIOS = {
-          "title": truncate(message.title, :length => 200),
-          "message_id": message.id,
-          "content-available": 1,
-          "notId": message.id
+        # dataIOS = {
+        #   "title": truncate(message.title, :length => 200),
+        #   "message_id": message.id,
+        #   "content-available": 1,
+        #   "notId": message.id
+        # }
+        # send_ios_notifications(message.title, devicesIOS, dataIOS)
+
+        options = {
+          "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
+          "auth": ENV["PUSHWOOSH_API_TOKEN"],
+          "notifications": [{
+              "send_date": "now", # YYYY-MM-DD HH:mm  OR 'now'
+              "ignore_user_timezone": true, # or false
+              "content": "Hello world!"
+          }]
         }
-        send_ios_notifications(message.title, devicesIOS, dataIOS)
+        Device.pushwoosh_create_message(options)
       end
 
       if devicesAndroid.any?
@@ -36,15 +45,22 @@ module Notification extend ActiveSupport::Concern
         }
         send_android_notifications(message.title, devicesAndroid, dataAndroid)
       end
+
+    end
+
+    def send_notification_with_pushwoosh(message)
+      byebug
+
       other_options = {
-        content: message.title,
-        send_date: "now",
-        ios_badges: "+1"
+        'content': message.title,
+        'send_date': "now",
+        'ios_badges': "+1",
+        'platforms': [1, 3]
       }
       other_options = {}
-      pwdevices = devicesAndroid + devicesIOS
-      logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
-      resp = Pushwoosh.notify_devices("PW: #{message.title}", ["cf1028c29b3d647e298f452ca7497fcc04025da8e44adba0c9975b7fde3895bb"], other_options)
+      # pwdevices = devicesAndroid + devicesIOS
+      # logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
+      resp = Pushwoosh.notify_devices("PW: #{message.title}", ["78100f94d0178e63a2619754ae288df737af38497285e929e82bdc1ba6bae101"], other_options)
       logger.error "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
     end
 
