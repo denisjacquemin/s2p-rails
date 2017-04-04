@@ -24,6 +24,7 @@ module PushwooshSync
     end
 
     def pushwoosh_create_message(options)
+      logger.info "pushwoosh_create_message #{options.inspect}"
       PushwooshSyncJob.perform_later(options, 'create_message')
     end
   end
