@@ -28,7 +28,7 @@ module Notification extend ActiveSupport::Concern
               "ignore_user_timezone": true, # or false
               "content": message.title,
               "platforms": [1],
-              "devices": devicesIOS
+              "devices": devicesIOS.pluck(:registration_id)
           }]
         }
         Device.pushwoosh_create_message(options)
