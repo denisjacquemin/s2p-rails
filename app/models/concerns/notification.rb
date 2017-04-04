@@ -48,21 +48,20 @@ module Notification extend ActiveSupport::Concern
 
     end
 
-    def send_notification_with_pushwoosh(message)
-      byebug
-
-      other_options = {
-        'content': message.title,
-        'send_date': "now",
-        'ios_badges': "+1",
-        'platforms': [1, 3]
-      }
-      other_options = {}
-      # pwdevices = devicesAndroid + devicesIOS
-      # logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
-      resp = Pushwoosh.notify_devices("PW: #{message.title}", ["78100f94d0178e63a2619754ae288df737af38497285e929e82bdc1ba6bae101"], other_options)
-      logger.error "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
-    end
+    # def send_notification_with_pushwoosh(message)
+    #
+    #   other_options = {
+    #     'content': message.title,
+    #     'send_date': "now",
+    #     'ios_badges': "+1",
+    #     'platforms': [1, 3]
+    #   }
+    #   other_options = {}
+    #   # pwdevices = devicesAndroid + devicesIOS
+    #   # logger.info "[PW] devicesIOS: #{devicesIOS.inspect}"
+    #   resp = Pushwoosh.notify_devices("PW: #{message.title}", ["78100f94d0178e63a2619754ae288df737af38497285e929e82bdc1ba6bae101"], other_options)
+    #   logger.error "[PW] after Pushwoosh.notify_devices: #{resp.inspect}"
+    # end
 
     def getDevicesByGroupsAndStudents(groups_ids, students_ids)
       # handle groups == nil

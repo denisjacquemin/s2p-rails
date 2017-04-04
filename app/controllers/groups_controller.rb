@@ -42,7 +42,6 @@ class GroupsController < ApplicationController
     rescue ActiveRecord::RecordNotUnique => e
       recordUniqueCount = recordUniqueCount + 1
       logger.debug "hash[1]: #{hash[1]} 4 + recordUniqueCount + @group.name.length % 3: #{4 + recordUniqueCount + @group.name.length % 3}"
-      byebug
       @group.code = 'g' + hash[0] + hash[1].last(4 + recordUniqueCount + @group.name.length % 3)
       retry
     end
