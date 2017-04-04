@@ -66,27 +66,29 @@ module PushwooshSync
 
 
     def create_or_update_device
-      hwid = self.uuid
-      push_token = self.registration_id
-      device_type = self.platform === 'Android'? 3 : 1
-      application = ENV["PUSHWOOSH_APPLICATION_CODE"]
+      if not self.uuid.blank? and not self.registration_id.blank?
+        hwid = self.uuid || 'no_uuid'
+        push_token = self.registration_id || 'no registration_id'
+        device_type = self.platform === 'Android'? 3 : 1
+        application = ENV["PUSHWOOSH_APPLICATION_CODE"]
 
-      response = Faraday.post do |req|
-        req.url "#{API_URL}/registerDevice"
-        req.headers['Content-Type'] = 'application/json'
-        req.body = '{
-          "request": {
-              "application": "' + application + '",
-              "push_token": "' + push_token + '",
-              "language": "' + 'fr' + '",
-              "hwid": "' + hwid + '",
-              "timezone": ' + 0.to_s + ',
-              "device_type": ' + device_type.to_s + '
-          }
-        }'
-      end
-      logger.debug "response: #{response.inspect}"
-      logger.debug "call PushWoosh Api async to Create or Update device (#{hwid}, #{push_token}, #{device_type})"
+        response = Faraday.post do |req|
+          req.url "#{API_URL}/registerDevice"
+          req.headers['Content-Type'] = 'application/json'
+          req.body = '{
+            "request": {
+                "application": "' + application + '",
+                "push_token": "' + push_token + '",
+                "language": "' + 'fr' + '",
+                "hwid": "' + hwid + '",
+                "timezone": ' + 0.to_s + ',
+                "device_type": ' + device_type.to_s + '
+            }
+          }'
+        end
+        logger.debug "response: #{response.inspect}"
+        logger.debug "call PushWoosh Api async to Create or Update device (#{hwid}, #{push_token}, #{device_type})"
+      }
     end
   end
 
