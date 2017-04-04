@@ -26,7 +26,9 @@ module Notification extend ActiveSupport::Concern
           "notifications": [{
               "send_date": "now", # YYYY-MM-DD HH:mm  OR 'now'
               "ignore_user_timezone": true, # or false
-              "content": "Hello world!"
+              "content": message.title,
+              "platforms": [1],
+              "devices": devicesIOS
           }]
         }
         Device.pushwoosh_create_message(options)
