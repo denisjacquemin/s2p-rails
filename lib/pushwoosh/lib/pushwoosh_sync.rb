@@ -39,7 +39,10 @@ module PushwooshSync
     end
 
     def create_message(options)
+      logger.info "create_message #{options.inspect}"
+
       requestBody = { "request": options }
+      logger.info "create_message #{requestBody.inspect}"
       response = Faraday.post do |req|
         req.url "#{API_URL}/createMessage"
         req.headers['Content-Type'] = 'application/json'
