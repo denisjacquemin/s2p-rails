@@ -44,6 +44,7 @@ module PushwooshSync
         req.headers['Content-Type'] = 'application/json'
         req.body = requestBody
       end
+      logger.debug "response: #{response.inspect}"
     end
 
     def remove_device
