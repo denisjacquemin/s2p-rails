@@ -66,7 +66,7 @@ module PushwooshSync
 
 
     def create_or_update_device
-      if not self.uuid.blank? and not self.registration_id.blank?
+      if (not self.uuid.blank?) and (not self.registration_id.blank?)
         hwid = self.uuid || 'no_uuid'
         push_token = self.registration_id || 'no registration_id'
         device_type = self.platform === 'Android'? 3 : 1
@@ -88,7 +88,7 @@ module PushwooshSync
         end
         logger.debug "response: #{response.inspect}"
         logger.debug "call PushWoosh Api async to Create or Update device (#{hwid}, #{push_token}, #{device_type})"
-      }
+      end
     end
   end
 
