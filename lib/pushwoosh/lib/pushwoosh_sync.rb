@@ -25,7 +25,20 @@ module PushwooshSync
 
     def pushwoosh_create_message(options)
       logger.info "pushwoosh_create_message #{options.inspect}"
-      PushwooshSyncJob.perform_later(options, 'create_message')
+      PushwooshSyncJob.perform_later('Device', 'create_message', options)
+    end
+
+    def create_message(options)
+      logger.info "create_message #{options.inspect}"
+
+      requestBody = { "request": options }
+      logger.info "create_message #{requestBody.inspect}"
+      response = Faraday.post do |req|
+        req.url "#{API_URL}/createMessage"
+        req.headers['Content-Type'] = 'application/json'
+        req.body = requestBody.to_json
+      end
+      logger.info "response: #{response.inspect}"
     end
   end
 
@@ -38,18 +51,7 @@ module PushwooshSync
       PushwooshSyncJob.perform_later(self, 'create_or_update_device')
     end
 
-    def create_message(options)
-      logger.info "create_message #{options.inspect}"
 
-      requestBody = { "request": options }
-      logger.info "create_message #{requestBody.inspect}"
-      response = Faraday.post do |req|
-        req.url "#{API_URL}/createMessage"
-        req.headers['Content-Type'] = 'application/json'
-        req.body = requestBody
-      end
-      logger.info "response: #{response.inspect}"
-    end
 
     def remove_device
       hwid = self.uuid
@@ -100,8 +102,12 @@ module PushwooshSync
   class PushwooshSyncJob < ::ActiveJob::Base
     queue_as :pushwoosh_sync
 
-    def perform(record, method)
-      record.send(method)
+    def perform(callee, method, options={})
+      record.send(method) if callee.instance_of?(Device)
+      if Object.const_defined?(callee)
+        d = callee.constantize
+        d.send(method, options)
+      end
     end
   end
 

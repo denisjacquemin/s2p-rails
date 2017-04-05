@@ -1,7 +1,6 @@
 module Notification extend ActiveSupport::Concern
 
     def send_message_notifications(message)
-
       groups_ids = message.groups
       students_ids = message.students
 
