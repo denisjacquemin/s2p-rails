@@ -11,26 +11,26 @@ module Notification extend ActiveSupport::Concern
       devicesIOS = devices.ios.active
 
       if devicesIOS.any?
-        # dataIOS = {
-        #   "title": truncate(message.title, :length => 200),
-        #   "message_id": message.id,
-        #   "content-available": 1,
-        #   "notId": message.id
-        # }
-        # send_ios_notifications(message.title, devicesIOS, dataIOS)
-
-        options = {
-          "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
-          "auth": ENV["PUSHWOOSH_API_TOKEN"],
-          "notifications": [{
-              "send_date": "now", # YYYY-MM-DD HH:mm  OR 'now'
-              "ignore_user_timezone": true, # or false
-              "content": message.title,
-              "platforms": [1],
-              "devices": devicesIOS.pluck(:registration_id)
-          }]
+        dataIOS = {
+          "title": truncate(message.title, :length => 200),
+          "message_id": message.id,
+          "content-available": 1,
+          "notId": message.id
         }
-        Device.pushwoosh_create_message(options)
+        send_ios_notifications(message.title, devicesIOS, dataIOS)
+
+        # options = {
+        #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
+        #   "auth": ENV["PUSHWOOSH_API_TOKEN"],
+        #   "notifications": [{
+        #       "send_date": "now", # YYYY-MM-DD HH:mm  OR 'now'
+        #       "ignore_user_timezone": true, # or false
+        #       "content": message.title,
+        #       "platforms": [1],
+        #       "devices": devicesIOS.pluck(:registration_id)
+        #   }]
+        # }
+        # Device.pushwoosh_create_message(options)
       end
 
       if devicesAndroid.any?
