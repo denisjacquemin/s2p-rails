@@ -3,7 +3,8 @@
     var messagesRef = firebase.database().ref('messages/' + <%= message.school_id %> + '/' +  <%= message.id %>);
 
     var uniqueTr = {};
-    addLine = function(target, event, reason, source = '', created_at) {
+    addLine = function(target, event, reason, source, created_at) {
+      if (typeof(source)==='undefined') source = '';
 
       var text = event + source
       if (!uniqueTr[text]) {
