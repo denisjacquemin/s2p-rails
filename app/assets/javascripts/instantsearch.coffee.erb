@@ -1,11 +1,14 @@
 # compatibility with browsers not supporting turbolinks:load
 if not Turbolinks.supported
   $(document).ready ->
+    console.log 'ready fired'
     ready()
 
 $(document).on 'turbolinks:load', ->
+  console.log 'turbolinks:load fired'
   ready()
 ready = () ->
+  console.log 'ready function called'
   if $('.algolia_js').length
 
     $('#hits').on 'click', '.title-and-content', (event) ->
