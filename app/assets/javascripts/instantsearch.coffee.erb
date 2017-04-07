@@ -1,9 +1,20 @@
+# compatibility with browsers not supporting turbolinks:load
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
 $(document).on 'turbolinks:load', ->
+  ready()
+ready = () ->
   if $('.algolia_js').length
 
     $('#hits').on 'click', '.title-and-content', (event) ->
       Turbolinks.visit('/messages/' + $(this).data('message-id') + '/edit')
       event.preventDefault()
+
+    $('#hits').on 'click', '.dropdown-menu a', (event) ->
+      console.log "start progress now"
+
 
     linkAction = (action, message_id) ->
       switch action
