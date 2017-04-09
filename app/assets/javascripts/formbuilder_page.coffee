@@ -154,9 +154,9 @@ ready = () ->
               counterInputClass = 'counter-input'
               counterClass = 'counter-' + fld.id.slice(-1)
               $(fldLabel).addClass('counter-input')
-              $(fldLabel).attr('maxlength','50')
+              $(fldLabel).attr('maxlength','35')
               $(fldLabel).attr('data-target', '.' + counterClass)
-              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              $( '<span class="help-block">Maximum 35 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
               InputFieldCounter.update_counter(fldLabel)
 
             true
@@ -173,9 +173,9 @@ ready = () ->
               counterInputClass = 'counter-input'
               counterClass = 'counter-' + fld.id.slice(-1)
               $(fldLabel).addClass('counter-input')
-              $(fldLabel).attr('maxlength','50')
+              $(fldLabel).attr('maxlength','35')
               $(fldLabel).attr('data-target', '.' + counterClass)
-              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              $( '<span class="help-block">Maximum 35 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
               InputFieldCounter.update_counter(fldLabel)
 
             true
