@@ -7,7 +7,7 @@ module Pushwoosh
     attr_writer :application, :auth
     attr_accessor :application, :auth
 
-    def_delegator :options, :hash
+    def_delegator :auth_options, :hash
 
     class << self
 
@@ -37,7 +37,7 @@ module Pushwoosh
     end
 
     # @return [Hash]
-    def options
+    def auth_options
       Hash[Pushwoosh::Configurable.keys.map{|key| [key, instance_variable_get(:"@#{key}")]}]
     end
 

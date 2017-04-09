@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require snackbar
+//= require input_textfield_counter
 //= require froala_editor.min.js
 //= require froala
 //= require plugins/lists.min.js

@@ -64,20 +64,6 @@ submit_with_status = (status) ->
   $('#message_status').val(status)
   $('.edit_message')[0].submit()
 
-
-remaining_count = ->
-  cs = $(this).val().length
-  maxlength = $(this).attr('maxLength')
-  $('#' + $(this).data('counter')).text parseInt(maxlength) - cs
-  return
-
-init_count = (el) ->
-  if el.length # test if el exist http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
-    cs = el.val().length
-    maxlength = el.attr('maxLength')
-    $('#' + el.data('counter')).text parseInt(maxlength) - cs
-  return
-
 sent_by_email_message = () ->
   if $('#message_send_by_email').checked
     return "<li>Sera envoyé par email aux parents</li>"
@@ -126,6 +112,3 @@ $(document).on 'turbolinks:load', ->
       submit_with_status($(e.target).data('status'))
 
   $('[data-toggle="popover"]').popover()
-
-  init_count $('#message_title')
-  $('#message_title').bind('propertychange change click keyup input paste', remaining_count)

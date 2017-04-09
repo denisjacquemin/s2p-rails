@@ -20,7 +20,7 @@
             role = "<span class=\"label label-warning\">Admin</span>" if current_user.admin?
             role = "<span class=\"label label-danger\">SuperAdmin</span>" if current_user.superadmin?
           %>
-          <p class="hidden-xs nav navbar-text">Bienvenue <%= current_user.firstname %> <%= role.html_safe %></p>
+          <li class="hidden-xs nav navbar-text">Bienvenue <%= current_user.firstname %> <%= role.html_safe %></li>
          <% unless current_school.nil? %>
              <% if current_user.schools.uniq.compact.size > 1 or current_user.superadmin? %>
                <li class="dropdown">

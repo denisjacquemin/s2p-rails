@@ -1,6 +1,7 @@
 # require "pushwoosh/lib/version"
 # require 'pushwoosh/lib/api'
-require 'pushwoosh/lib/configurable'
+require 'pushwoosh/configurable'
+require 'pushwoosh/api'
 # require 'httparty'
 #
 module Pushwoosh
@@ -9,7 +10,7 @@ module Pushwoosh
   class << self
 
     def registerDevice(options = {})
-      PushNotification.new(options).registerDevice(options)
+      API.new(auth_options).registerDevice(options)
     end
 
   end

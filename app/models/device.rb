@@ -1,6 +1,6 @@
 class Device < ApplicationRecord
 
-  include PushwooshSync
+  # include PushwooshSync
 
   scope :by_codes, ->(codes) { where("codes && ARRAY[?]::varchar[]", codes) }
   scope :active, -> { where(active: true) }

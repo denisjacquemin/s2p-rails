@@ -4,7 +4,6 @@ ready = function() {
     console.log('value: ' + value + ' key: ' + key)
     $.snackbar({content: value, style: key, timeout: 10000});
   });
-
 };
 
 $(document).on('turbolinks:load', ready);

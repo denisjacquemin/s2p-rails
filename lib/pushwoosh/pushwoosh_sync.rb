@@ -40,6 +40,34 @@ module PushwooshSync
       end
       logger.info "response: #{response.inspect}"
     end
+
+    def create_or_update_device(options)
+      Pushwoosh.registerDevice(options)
+
+      # if (not self.uuid.blank?) and (not self.registration_id.blank?)
+      #   hwid = self.uuid || 'no_uuid'
+      #   push_token = self.registration_id || 'no registration_id'
+      #   device_type = self.platform === 'Android'? 3 : 1
+      #   application = ENV["PUSHWOOSH_APPLICATION_CODE"]
+      #
+      #   response = Faraday.post do |req|
+      #     req.url "#{API_URL}/registerDevice"
+      #     req.headers['Content-Type'] = 'application/json'
+      #     req.body = '{
+      #       "request": {
+      #           "application": "' + application + '",
+      #           "push_token": "' + push_token + '",
+      #           "language": "' + 'fr' + '",
+      #           "hwid": "' + hwid + '",
+      #           "timezone": ' + 0.to_s + ',
+      #           "device_type": ' + device_type.to_s + '
+      #       }
+      #     }'
+      #   end
+      #   logger.debug "response: #{response.inspect}"
+      #   logger.debug "call PushWoosh Api async to Create or Update device (#{hwid}, #{push_token}, #{device_type})"
+      # end
+    end
   end
 
   module InstanceMethods
@@ -48,7 +76,15 @@ module PushwooshSync
     end
 
     def enqueue_create_or_update_device
-      PushwooshSyncJob.perform_later(self, 'create_or_update_device')
+      device_type = self.platform === 'Android'? 3 : 1
+      options = {
+        "push_token": self.registration_id,
+        "language": 'fr',
+        "hwid": self.uuid,
+        "timezone": 0,
+        "device_type": device_type
+      }
+      PushwooshSyncJob.perform_later('Device','create_or_update_device', options)
     end
 
 
@@ -72,31 +108,7 @@ module PushwooshSync
     end
 
 
-    def create_or_update_device
-      if (not self.uuid.blank?) and (not self.registration_id.blank?)
-        hwid = self.uuid || 'no_uuid'
-        push_token = self.registration_id || 'no registration_id'
-        device_type = self.platform === 'Android'? 3 : 1
-        application = ENV["PUSHWOOSH_APPLICATION_CODE"]
 
-        response = Faraday.post do |req|
-          req.url "#{API_URL}/registerDevice"
-          req.headers['Content-Type'] = 'application/json'
-          req.body = '{
-            "request": {
-                "application": "' + application + '",
-                "push_token": "' + push_token + '",
-                "language": "' + 'fr' + '",
-                "hwid": "' + hwid + '",
-                "timezone": ' + 0.to_s + ',
-                "device_type": ' + device_type.to_s + '
-            }
-          }'
-        end
-        logger.debug "response: #{response.inspect}"
-        logger.debug "call PushWoosh Api async to Create or Update device (#{hwid}, #{push_token}, #{device_type})"
-      end
-    end
   end
 
   class PushwooshSyncJob < ::ActiveJob::Base

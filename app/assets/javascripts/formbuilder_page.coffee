@@ -1,4 +1,12 @@
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
 $(document).on 'turbolinks:load', ->
+  ready()
+
+
+ready = () ->
   language =
     fr:
       text: 'Texte'
@@ -135,15 +143,42 @@ $(document).on 'turbolinks:load', ->
     showActionButtons: false,
     typeUserEvents: {
         'checkbox-group': {
-          onadd: (fld) ->
+          onadd: (fld, event) ->
             $('.option-selected, .checkbox-group', fld).prop('checked', false).attr("disabled", true)
             $(fld).on('keyup', '.option-label', (e) ->
               $(this).next().val(e.target.value)
             )
+            fldLabels = $('.fld-label', fld)
+            if (fldLabels.length > 0)
+              fldLabel = fldLabels[0]
+              counterInputClass = 'counter-input'
+              counterClass = 'counter-' + fld.id.slice(-1)
+              $(fldLabel).addClass('counter-input')
+              $(fldLabel).attr('maxlength','50')
+              $(fldLabel).attr('data-target', '.' + counterClass)
+              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              InputFieldCounter.update_counter(fldLabel)
+
+            true
         },
         'checkbox': {
           onadd: (fld) ->
             $('label.field-label').hide()
+        },
+        'text': {
+          onadd: (fld) ->
+            fldLabels = $('.fld-label', fld)
+            if (fldLabels.length > 0)
+              fldLabel = fldLabels[0]
+              counterInputClass = 'counter-input'
+              counterClass = 'counter-' + fld.id.slice(-1)
+              $(fldLabel).addClass('counter-input')
+              $(fldLabel).attr('maxlength','50')
+              $(fldLabel).attr('data-target', '.' + counterClass)
+              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              InputFieldCounter.update_counter(fldLabel)
+
+            true
         }
     },
     formData: $('#message_formdata').val()
