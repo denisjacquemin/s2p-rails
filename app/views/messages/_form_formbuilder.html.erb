@@ -38,7 +38,7 @@
                   var row = {};
                   $.each( value, function(value_key, data) { // for each value get headers and data
                     var label = "Pas de titre"
-                    if (data['label'] != undefined) {
+                    if (data['label'] != undefined && data['label'].trim() != "" ) {
                      label = data['label'].trim()
                     }
                     headers.push(label);
