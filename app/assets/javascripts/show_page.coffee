@@ -7,7 +7,7 @@ $(document).on 'turbolinks:load', ->
   })
 
   $('#message_form').submit (e) ->
-    serializedForm = $('input, textarea', this).not( "[name='utf8']").not("[name='formdata']").not( "[name='authenticity_token']").not( "#message_form_formdata").not( "[name='muuid']").not('.btn').serializeArray()
+    serializedForm = $('input, textarea, select', this).not( "[name='utf8']").not("[name='formdata']").not( "[name='authenticity_token']").not( "#message_form_formdata").not( "[name='muuid']").not('.btn').serializeArray()
 
 
     serializedWithLabel = []
