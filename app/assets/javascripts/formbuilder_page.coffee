@@ -177,8 +177,13 @@ ready = () ->
               $(fldLabel).attr('data-target', '.' + counterClass)
               $( '<span class="help-block">Maximum 35 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
               InputFieldCounter.update_counter(fldLabel)
-
             true
+        }
+        'select': {
+          onadd: (fld, event) ->
+            $(fld).on('keyup', '.option-label', (e) ->
+              $(this).next().val(e.target.value)
+            )
         }
     },
     formData: $('#message_formdata').val()
