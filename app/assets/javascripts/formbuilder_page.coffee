@@ -142,32 +142,32 @@ ready = () ->
     disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
     showActionButtons: false,
 
-    inputSets: [
-      {
-        label: 'Année'
-        name: 'level-select'
-        showHeader: true
-        fields: [
-          {
-            type: 'select'
-            label: 'Année'
-            className: 'form-control'
-            values: [
-              {
-                label: 'P1A'
-                value: 'p1a'
-                selected: false
-              }
-              {
-                label: 'P1B'
-                value: 'p1b'
-                selected: false
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    # inputSets: [
+    #   {
+    #     label: 'Année'
+    #     name: 'level-select'
+    #     showHeader: true
+    #     fields: [
+    #       {
+    #         type: 'select'
+    #         label: 'Année'
+    #         className: 'form-control'
+    #         values: [
+    #           {
+    #             label: 'P1A'
+    #             value: 'p1a'
+    #             selected: false
+    #           }
+    #           {
+    #             label: 'P1B'
+    #             value: 'p1b'
+    #             selected: false
+    #           }
+    #         ]
+    #       }
+    #     ]
+    #   }
+    # ]
     typeUserEvents: {
         'checkbox-group': {
           onadd: (fld, event) ->
