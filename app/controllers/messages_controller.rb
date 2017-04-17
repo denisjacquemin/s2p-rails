@@ -150,7 +150,7 @@ class MessagesController < ApplicationController
         end
 
         send_data csv_data.encode("iso-8859-1"),
-          filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv"
+          filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv",
           type: 'text/csv; charset=iso-8859-1; header=present'
       }
     end
