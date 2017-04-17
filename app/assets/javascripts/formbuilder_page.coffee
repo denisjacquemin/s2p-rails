@@ -139,8 +139,35 @@ ready = () ->
     messages: language['fr'],
     # editOnAdd: true,
     dataType: 'json',
-    disableFields: ['hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
+    disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
     showActionButtons: false,
+
+    inputSets: [
+      {
+        label: 'Année'
+        name: 'level-select'
+        showHeader: true
+        fields: [
+          {
+            type: 'select'
+            label: 'Année'
+            className: 'form-control'
+            values: [
+              {
+                label: 'P1A'
+                value: 'p1a'
+                selected: false
+              }
+              {
+                label: 'P1B'
+                value: 'p1b'
+                selected: false
+              }
+            ]
+          }
+        ]
+      }
+    ]
     typeUserEvents: {
         'checkbox-group': {
           onadd: (fld, event) ->
@@ -154,9 +181,9 @@ ready = () ->
               counterInputClass = 'counter-input'
               counterClass = 'counter-' + fld.id.slice(-1)
               $(fldLabel).addClass('counter-input')
-              $(fldLabel).attr('maxlength','35')
+              $(fldLabel).attr('maxlength','50')
               $(fldLabel).attr('data-target', '.' + counterClass)
-              $( '<span class="help-block">Maximum 35 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
               InputFieldCounter.update_counter(fldLabel)
 
             true
@@ -173,9 +200,9 @@ ready = () ->
               counterInputClass = 'counter-input'
               counterClass = 'counter-' + fld.id.slice(-1)
               $(fldLabel).addClass('counter-input')
-              $(fldLabel).attr('maxlength','35')
+              $(fldLabel).attr('maxlength','50')
               $(fldLabel).attr('data-target', '.' + counterClass)
-              $( '<span class="help-block">Maximum 35 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
               InputFieldCounter.update_counter(fldLabel)
             true
         }
@@ -184,6 +211,17 @@ ready = () ->
             $(fld).on('keyup', '.option-label', (e) ->
               $(this).next().val(e.target.value)
             )
+            fldLabels = $('.fld-label', fld)
+            if (fldLabels.length > 0)
+              fldLabel = fldLabels[0]
+              counterInputClass = 'counter-input'
+              counterClass = 'counter-' + fld.id.slice(-1)
+              $(fldLabel).addClass('counter-input')
+              $(fldLabel).attr('maxlength','50')
+              $(fldLabel).attr('data-target', '.' + counterClass)
+              $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+              InputFieldCounter.update_counter(fldLabel)
+            true
         }
     },
     formData: $('#message_formdata').val()
