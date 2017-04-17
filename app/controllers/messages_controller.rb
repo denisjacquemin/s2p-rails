@@ -85,13 +85,13 @@ class MessagesController < ApplicationController
 
   def add_photo
     if @message.update(add_photo_params)
-      redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
+      redirect_to edit_message_path(@message, anchor: 'cloudinary-tab'), notice: 'Le message a été mis à jour.'
     end
   end
 
   def update_formdata
     if @message.update(update_formdata_params)
-      redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
+      redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
     end
   end
 
@@ -149,7 +149,9 @@ class MessagesController < ApplicationController
           filename_title = @message.title.slice(0..20).parameterize
         end
 
-        send_data csv_data, filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv"
+        send_data csv_data.encode("iso-8859-1"),
+          filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv"
+          type: 'text/csv; charset=iso-8859-1; header=present'
       }
     end
   end
