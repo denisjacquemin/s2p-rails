@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get 'help/approbation_message', to: 'faq#approbation_message'
   get 'help/codes_dacces', to: 'faq#codes_dacces'
   get 'help/notifications', to: 'faq#notifications'
+  get 'help/formulaire', to: 'faq#formulaire'
 
 
 

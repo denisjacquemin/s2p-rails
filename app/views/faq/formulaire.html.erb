@@ -1,0 +1,71 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav', active: 'formulaire' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Les formulaires</h2>
+    <p>Un formulaire associé à un message vous aide à collecter de l'information auprès des parents. Les réponses sont consultables dans l'onglet <em>Réponses</em> et peuvent être exportées au format excel.</p>
+    <h3>Création d'un formulaire</h3>
+    <p>
+      Un formulaire est une suite de questions + champs réponses.
+      <br/>
+      Il existe plusieurs types de champs réponses, ceux-ci sont disponiblent dans la colonne de droite de l'interface. Choisissez le type de champ en fonction des informations que vous souhaitez récolter.
+      <br />
+      Le formulaire se construit dans la partie de gauche de l'interface, faites glisser les champs dans cette partie.
+      <%= image_tag asset_path("faq/interface_formulaire.png"), class: "img-responsive" %>
+      <br />
+      Chaque champ question/réponse est configurable. Passez la souris au dessus d'un champ fait apparaitre 3 boutons.
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <ol>
+            <li>Passer en mode édition du champ.</li>
+            <li>Dupliquer le champ, une copie du champ est créée.</li>
+            <li>Suppression, le champ est effacé.</li>
+          </ol>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <%= image_tag asset_path("faq/configuration_champ.png"), class: "img-responsive" %>
+        </div>
+      </div>
+    </p>
+    <h3>Champ Texte</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>Ce champ affiche une question suivie d'une ligne simple de texte a remplir par le parent.</p>
+        <h4>Dans la colonne de droite choisissez.</h4>
+        <%= image_tag asset_path("faq/champ_texte.png"), class: "img-responsive" %>
+        <h4>Edition, entrez la question.</h4>
+        <%= image_tag asset_path("faq/edition_champ_texte.png"), class: "img-responsive" %>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Résultat sur mobile</h4>
+        <%= image_tag asset_path("faq/mobile_champ_texte.jpg"), class: "img-responsive" %>
+      </div>
+    </div>
+    <h3>Champ paragraphe</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>Ajoutez du texte afin de, par exemple, expliquer une question plus en détail. Ce type de champ ne permet aucune action de la part d'un parent</p>
+        <%= image_tag asset_path("faq/champ_paragraphe.png"), class: "img-responsive" %>
+        <h4>Edition, entrez la texte.</h4>
+        <%= image_tag asset_path("faq/edition_champ_paragraphe.png"), class: "img-responsive" %>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Résultat sur mobile</h4>
+        <%= image_tag asset_path("faq/mobile_champ_paragraphe.jpg"), class: "img-responsive" %>
+      </div>
+    </div>
+    <h3>Champ case à cocher</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>Ce champ associe une question avec une case à cocher par le parent.</p>
+        <%= image_tag asset_path("faq/champ_checkbox.png"), class: "img-responsive" %>
+        <h4>Edition, entrez la question.</h4>
+        <%= image_tag asset_path("faq/edition_champ_checkbox.png"), class: "img-responsive" %>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Résultat sur mobile</h4>
+        <%= image_tag asset_path("faq/mobile_champ_checkbox.png"), class: "img-responsive" %>
+      </div>
+  </div>
+</div>

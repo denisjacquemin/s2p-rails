@@ -51,4 +51,5 @@
 //= require instantsearch
 //= require table_filter
 //= require bootstrap_js_activation
+//= require tab-focus
 // require_tree .
