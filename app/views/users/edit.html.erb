@@ -118,6 +118,12 @@
                       <% end %>
                     </div>
                   <% end %>
+                  <% if current_user.admin? and current_user.schools.size === 1 %>
+                    <div class="form-group">
+                    <%= f.label :school, 'Implantation(s)' %>
+                    Vous avez accès à une seule implantation.
+                    </div>
+                  <% end %>
 
                   <% roles = User.roles.keys %>
                   <% roles.delete "superadmin" if current_user.admin? %>

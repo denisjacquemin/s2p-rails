@@ -4,20 +4,49 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h2 id="creationdesredacteurs">Création des rédacteurs</h2>
-    <p>En tant qu'administrateur vous pouvez inviter une autre personne à se connecter à Konecto App.</p>
+    <p>Un administrateur peut inviter une autre personne à se connecter à Konecto App.</p>
+    <blockquote>
+      Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option <em>Validation par l'administrateur avant envoi</em> est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.
+      <br/><br/>
+      Qui peut être rédacteur? Un instituteur, un éducateur, le secrétariat de l'école, un responsable de l'association de parents, etc...
+    </blockquote>
+    <h3>Inviter une personne à se connecter en tant que rédacteur</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        Naviguez sur l'écran Rédacteurs, le bouton <i>Nouvelle invitation</i> permet d'envoyer un email d'invitation à rejoindre la plateforme.<br/>
-        Une fois l'invitation envoyée, attribuez au rédacteur les groupes de diffusion auxquels il aura le droit d'envoyer des messages. Pour ce faire cliquez sur le nom du rédacteur et cochez les groupes dans la rubrique <i>Droit d'accès</i>.
+        <p>
+          Naviguez sur l'écran Rédacteurs, le bouton <i>Nouvelle invitation</i> permet d'envoyer un email d'invitation à rejoindre la plateforme.
+          <br/>
+          Pour accepter l'invitation, le rédacteur doit cliquer sur le lien <em>Accepter l'invitation</em>, ce lien ouvre une page qui lui permet de choisir son mot de passe.
+        </p>
+        <h4>Contenu de l'email envoyé</h4>
+        <p>
+          <em>
+          Bonjour &lt;prénom du rédacteur&gt;,
+          <br/><br/>
+          Vous êtes invité par &lt;prénom + nom de l'administrateur&gt; à devenir rédacteur sur Konecto App, vous pouvez l'accepter via le lien ci-dessous.
+          <br/><br/>
+          Accepter l'invitation
+          <br/><br/>
+          Si vous ne voulez pas l'accepter, ignorez cet email.
+          Votre compte sera créé dès que vous aurez accepté l'invitation et enregistré votre mot de passe.
+        </em>
+        </p>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <blockquote>
-          Que peut faire un rédacteur? Il peut créer un nouveau message, et visualiser ses propres messages. Si l'option <em>Validation par l'administrateur avant envoi</em> est activée, la publication d'un message devra être validée par un administrateur. Il ne peut pas créer un nouvel élève, ni créer un nouveau groupe, ni inviter de rédacteur.
-          <br/>
-          Qui peut être rédacteur? Un instituteur, un éducateur, le secrétariat de l'école, un responsable de l'association de parents, etc...
-        </blockquote>
+        <%= image_tag asset_path("faq/inviter_redacteur.png"), class: "img-responsive img-thumbnail" %>
       </div>
     </div>
-    <%= image_tag asset_path("faq/inviter_redacteur.png"), class: "img-responsive img-thumbnail" %>
+    <h3>Attribuer la bonne implantation</h3>
+    <p>
+      <strong>Si vous avez accès à plusieurs implantations</strong>, assurez vous que chaque rédacteur à bien accès à la bonne implantation.
+      <br/>
+      Pour ce faire naviguez sur le menu <em>Rédacteurs</em>, cliquez sur le nom d'un rédacteur, ensuite choisissez les implantations qui lui correspondent dans le champ <em>Implantation(s)</em> (plusieurs si nécessaire).
+     </p>
+    <h3>Donner les droits d'accès aux groupes d'élèves</h3>
+    <p>
+      De base un rédacteur ne peut envoyer de message à personne, l'administrateur doit explicitement sélectionner les groupes auquels le rédacteur a le droit d'envoyer des messages.
+      <br/>
+      Pour ce faire naviguez sur le menu <em>Rédacteurs</em>, cliquez sur le nom d'un rédacteur, ensuite choisissez les groupes dans <em>Droit d'accès aux groupes d'élèves</em>.
+    </p>
   </div>
 </div>
