@@ -15,7 +15,7 @@ $(document).on 'turbolinks:load', ->
     disableWith: 'Téléchargement...'
     indicateProgress: false
     dropZone: $('.dropzone')
-    invalidFormatMessage: 'Format d\'image invalide'
+    invalidFormatMessage: 'Format de fichier invalide (uniquement jpg, png, gif et pdf)'
     template: """
         <div id="thumbnails">
           <% for(var i=0; i<files.length; i++){ %>
