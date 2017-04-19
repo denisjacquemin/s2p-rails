@@ -161,7 +161,7 @@ class StudentsController < ApplicationController
       col_sep = sniff(params[:csv].tempfile.path, delimiters, encoding)
       options = {
         :unwanted_row => nil,
-        :force_simple_split => true,
+        :force_simple_split => false,
         :col_sep => col_sep,
         :strip_chars_from_headers => /[\-"]/,
         :quote_char => '"',
