@@ -150,7 +150,7 @@ class StudentsController < ApplicationController
     encoding = 'utf-8'
     begin
       begin
-        lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding, :quote_char => '"')
+        lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)
       rescue ArgumentError
         encoding = 'ISO-8859-1'
       end
@@ -164,6 +164,7 @@ class StudentsController < ApplicationController
         :force_simple_split => true,
         :col_sep => col_sep,
         :strip_chars_from_headers => /[\-"]/,
+        :quote_char => '"',
         :chunk_size => 1000,
         :key_mapping => {
           :prenom => :firstname,
