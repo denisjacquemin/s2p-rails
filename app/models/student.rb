@@ -68,7 +68,7 @@ class Student < ApplicationRecord
 
   def self.to_csv_file
     attributes = ['Prenom', 'Nom', 'Emails', 'Envoi des messages via email', 'Annee', 'Titulaire', 'Code']
-    CSV.generate(headers: true, :col_sep => ",") do |csv|
+    CSV.generate(headers: true, :col_sep => ";") do |csv|
       csv << attributes
 
       all.each do |student|
