@@ -231,7 +231,7 @@ class StudentsController < ApplicationController
 
   def export_csv
     students = Student.where(:id => params[:s])
-    send_data(students.to_csv_file,
+    send_data(students.to_csv_file.encode("iso-8859-1"),
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',
       filename: "eleves-#{current_school.name.parameterize}-#{Date.today}.csv")
