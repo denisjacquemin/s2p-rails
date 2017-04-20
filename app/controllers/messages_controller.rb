@@ -100,7 +100,7 @@ class MessagesController < ApplicationController
     rows = []
     column_names = Set.new
     forms.each do |form| # for each form get the colum names
-      formjson = JSON.parse(form.formdata)
+      formjson = JSON.parse(form.formdata.encode('iso-8859-1'))
       formjson.each do |column|
         column_name_title = column['label'].strip unless column['label'].nil?
         column_name_title = 'Pas de question' if column_name_title.blank?
