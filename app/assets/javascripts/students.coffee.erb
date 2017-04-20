@@ -48,8 +48,16 @@ setErrorCounterValue = () ->
 removeLine = (key) ->
   console.log 'removing line ' + key
   $('#' + key).remove()
+  
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
 
 $(document).on 'turbolinks:load', ->
+  ready()
+
+
+ready = () ->
   $('#student_manage_group #add').click ->
     add group for group in $("#group_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked").attr('checked', false)
