@@ -1,4 +1,12 @@
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
 $(document).on 'turbolinks:load', ->
+  ready()
+
+
+ready = () ->
   $('#wysiwyg, #school_send_code_template').froalaEditor(
     key: 'gknlfgqifxyG5hcj1=='
     language: 'fr'
