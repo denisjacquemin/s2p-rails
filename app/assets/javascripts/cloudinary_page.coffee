@@ -51,6 +51,7 @@ ready = () ->
     #save_photos $('#message_add_photo')
   $('.attachinary-input').bind 'fileuploadfail', (event, data) ->
     console.log data
+    $.snackbar({content: data.errorTrown, style: 'error', timeout: 10000});
   $('.attachinary-input').bind 'fileuploadprogressall', (event, data) ->
     console.log 'in fileuploadprogressall'
     progress = parseInt(data.loaded / data.total * 100, 10)
