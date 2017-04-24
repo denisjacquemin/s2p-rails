@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     @user_params['schools'] = user_params[:schools].reject { |c| c.empty? } unless user_params[:schools].nil?
 
     # for each group_id, get all students_ids and assign them to @user.students_ids
-    @user_params[:student_ids] = Group.where(id: @user_params[:group_ids]).collect {|g| g.students.pluck(:id)}.flatten.compact
+    @user_params[:student_ids] = Group.where(id: @user_params[:group_ids]).collect {|g| g.students.pluck(:id)}.flatten.compact.uniq
 
     if @user.update(@user_params)
       redirect_to edit_user_path, :notice => t('controller.user.update.success.notice')
