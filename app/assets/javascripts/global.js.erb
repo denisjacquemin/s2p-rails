@@ -2,11 +2,22 @@ var ready;
 ready = function() {
   $.each( flashMessages, function(key, value){
     console.log('value: ' + value + ' key: ' + key)
-    $.snackbar({content: value, style: key, timeout: 10000});
+    res = $.snackbar({content: value, style: key, timeout: 10000});
+    console.log(res);
   });
 };
 
-$(document).on('turbolinks:load', ready);
+if (!Turbolinks.supported) {
+  $(document).ready(function() {
+    return ready();
+  });
+}
+
+$(document).on('turbolinks:load', function() {
+  return ready();
+});
+
+
 
 
 function getParameterByName(name, url) {
