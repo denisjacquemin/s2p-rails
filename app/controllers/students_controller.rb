@@ -147,14 +147,13 @@ class StudentsController < ApplicationController
     end
 
     # test encoding
-    encoding = 'utf-8'
+    encoding = 'utf-8' # MacRoman cp1252 utf-8 ISO-8859-1
     begin
       begin
         lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)
       rescue ArgumentError
-        encoding = 'ISO-8859-1'
+        encoding = 'cp1252'
       end
-
       # content = File.read(params[:csv].tempfile.path)
       # detection = CharlockHolmes::EncodingDetector.detect(content)
       delimiters = [',',";"]
@@ -187,6 +186,7 @@ class StudentsController < ApplicationController
 
       current_school_id = current_school.id
       SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+
         CreateStudentFromCsvJob.perform_later(r, current_school.id, current_user)
         # r.each do |data|
         #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
