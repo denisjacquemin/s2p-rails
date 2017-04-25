@@ -86,6 +86,7 @@ class Message < ApplicationRecord
   end
 
   def handle_status_changed
+    self.status = validate_status_changes(self.status_was, self.status)
     case self.status
       when 'published'
         handle_publish
@@ -255,5 +256,12 @@ class Message < ApplicationRecord
 
   def generate_uuid
     self.muuid = SecureRandom.uuid
+  end
+
+  def validate_status_changes(old_value, new_value)
+    if new_value.nil?
+      return old_value # keep current value if new value is nil
+    end
+    return new_value
   end
 end
