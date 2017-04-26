@@ -87,17 +87,19 @@ class Message < ApplicationRecord
 
   def handle_status_changed
     self.status = validate_status_changes(self.status_was, self.status)
-    case self.status
-      when 'published'
-        handle_publish
-      when 'draft'
-        handle_draft
-      when 'waiting_for_approval'
-        handle_waiting_for_approval
-      when 'approval_refused'
-        handle_approval_refused
-      when 'approval_accepted'
-        handle_approval_accepted
+    if (self.status != self.status_was)
+      case self.status
+        when 'published'
+          handle_publish
+        when 'draft'
+          handle_draft
+        when 'waiting_for_approval'
+          handle_waiting_for_approval
+        when 'approval_refused'
+          handle_approval_refused
+        when 'approval_accepted'
+          handle_approval_accepted
+      end
     end
   end
 

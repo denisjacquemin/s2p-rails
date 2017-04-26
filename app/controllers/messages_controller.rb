@@ -160,10 +160,12 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     authorize @message
-    case params[:status]
-      when 'publish'
-        @message.published!
-    end
+    # case params[:status]
+    #   when 'publish'
+    #     @message.published!
+    # end
+
+    @message_params = message_params
 
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     if submitted_groups_ids.present?
@@ -175,8 +177,12 @@ class MessagesController < ApplicationController
     submitted_students_ids = params[:student][:id] unless params[:student].nil?
     @message.students = submitted_students_ids
 
+    if not params[:message_status].blank?
+      @message_params[:status] = params[:message_status]
+    end
+
     respond_to do |format|
-      if @message.update(message_params)
+      if @message.update(@message_params)
         format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
         format.json { render :show, status: :ok, location: @message }
       else
@@ -336,7 +342,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :status)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email)
     end
 
     def set_s3_direct_post
