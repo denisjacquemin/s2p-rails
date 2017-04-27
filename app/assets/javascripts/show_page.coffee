@@ -5,8 +5,8 @@ $(document).on 'turbolinks:load', ->
     showActionButtons: false,
     formData: $('#formdata').val(),
     notify:
-    success: (message) ->
-      $('select').prepend("<option value='' selected='selected'></option>")
+      success: (message) ->
+        $('select').prepend("<option value='' selected='selected'></option>")
   })
 
   $('#message_form').submit (e) ->
