@@ -23,7 +23,7 @@
   .option-value,
   .option-selected,
   .multiple-wrap {
-    display: none;
+    display: none !important;
   }
   .option-label{
     width: calc(90% - 17px) !important;
