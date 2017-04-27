@@ -49,7 +49,7 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
-    @mfile = Mfile.new
+    @levels = current_school.levels
   end
 
   # POST /messages

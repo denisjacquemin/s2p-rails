@@ -22,6 +22,10 @@ class School < ApplicationRecord
     self.users.active_and_invitation_accepted.admin
   end
 
+  def levels
+    self.students.pluck(:level).uniq.compact
+  end
+
   before_destroy do
     users = User.by_school(self.id)
     users.each do |u|
