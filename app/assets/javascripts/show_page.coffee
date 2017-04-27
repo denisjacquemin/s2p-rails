@@ -3,7 +3,11 @@ $(document).on 'turbolinks:load', ->
     #messages: language['fr'],
     dataType: 'json',
     showActionButtons: false,
-    formData: $('#formdata').val()
+    formData: $('#formdata').val(),
+    notify: {
+    success: function(message) {
+      $('select').prepend("<option value='' selected='selected'></option>");
+    }
   })
 
   $('#message_form').submit (e) ->
