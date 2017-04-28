@@ -142,22 +142,21 @@ ready = () ->
       dataType: 'json',
       disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
       showActionButtons: false,
-
-      inputSets: [
-        {
-          label: 'Année'
-          name: 'level-select'
-          showHeader: true
-          fields: [
-            {
-              type: 'select'
-              label: 'Année'
-              className: 'form-control'
-              values: levels
-            }
-          ]
-        }
-      ]
+      # inputSets: [
+      #   {
+      #     label: 'Année'
+      #     name: 'level-select'
+      #     showHeader: true
+      #     fields: [
+      #       {
+      #         type: 'select'
+      #         label: 'Année'
+      #         className: 'form-control'
+      #         values: levels
+      #       }
+      #     ]
+      #   }
+      # ]
       typeUserEvents: {
           'checkbox-group': {
             onadd: (fld, event) ->

@@ -1,5 +1,8 @@
 fr:
   devise:
+    passwords:
+      user:
+        send_instructions: "Les instructions ont été envoyées."
     failure:
       invited: "Vous n'avez pas encore accepté votre invitation."
     invitations:
