@@ -18,16 +18,16 @@
   .rows-wrap,
   .name-wrap,
   .other-wrap,
-  .required-wrap,
+  // .required-wrap,
   .required-asterisk,
   .option-value,
   .option-selected,
   .multiple-wrap {
     display: none !important;
   }
-  // .checkbox-field .required-wrap {
-  //   display: none !important;
-  // }
+  .checkbox-field .required-wrap {
+    display: none !important;
+  }
 
   .option-label{
     width: calc(90% - 17px) !important;
