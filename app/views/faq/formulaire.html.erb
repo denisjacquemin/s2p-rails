@@ -10,7 +10,13 @@
       Un formulaire est une suite de questions + champs réponses.
       <br/>
       Il existe plusieurs types de champs réponses, ceux-ci sont disponiblent dans la colonne de droite de l'interface. Choisissez le type de champ en fonction des informations que vous souhaitez récolter.
-      <br />
+      <ol>
+        <li>Texte</li>
+        <li>Paragraphe</li>
+        <li>Case à cocher</li>
+        <li>Groupe de case à cocher</li>
+        <li>Texte long</li>
+      </ol>
       Le formulaire se construit dans la partie de gauche de l'interface, faites glisser les champs dans cette partie.
       <%= image_tag asset_path("faq/interface_formulaire.png"), class: "img-responsive" %>
       <br />
@@ -28,7 +34,7 @@
         </div>
       </div>
     </p>
-    <h3>Champ Texte</h3>
+    <h3>1. Champ Texte</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <p>Ce champ affiche une question suivie d'une ligne simple de texte a remplir par le parent.</p>
@@ -42,7 +48,7 @@
         <%= image_tag asset_path("faq/mobile_champ_texte.jpg"), class: "img-responsive" %>
       </div>
     </div>
-    <h3>Champ paragraphe</h3>
+    <h3>2. Champ paragraphe</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <p>Ajoutez du texte afin de, par exemple, expliquer une question plus en détail. Ce type de champ ne permet aucune action de la part d'un parent</p>
@@ -55,7 +61,7 @@
         <%= image_tag asset_path("faq/mobile_champ_paragraphe.jpg"), class: "img-responsive" %>
       </div>
     </div>
-    <h3>Champ case à cocher</h3>
+    <h3>3. Champ case à cocher</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <p>Ce champ associe une question avec une case à cocher par le parent.</p>
@@ -67,5 +73,40 @@
         <h4>Résultat sur mobile</h4>
         <%= image_tag asset_path("faq/mobile_champ_checkbox.png"), class: "img-responsive" %>
       </div>
+    </div>
+    <h3>3. Groupe de case à cocher</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>
+          Ce champ associe une question avec une liste de case à cocher par le parent.
+          <br/>
+          Plusieurs cases peuvent être cochée en même temps par un parent.
+          <br/>
+          Ajoutez autant de case à cocher grâce au bouton <em>Ajouter Option</em> en bas à droite de l'écran d'édition.
+        </p>
+        <%= image_tag asset_path("faq/champ_group_checkbox.png"), class: "img-responsive" %>
+        <h4>Edition, entrez la question.</h4>
+        <%= image_tag asset_path("faq/edition_champ_group_checkbox.png"), class: "img-responsive" %>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Résultat sur mobile</h4>
+        <%= image_tag asset_path("faq/mobile_champ_group_checkbox.png"), class: "img-responsive" %>
+      </div>
+    </div>
+    <h3>3. Texte long</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <p>
+          Ce champ associe une question avec une champ texte pouvant contenir plusieurs lignes de réponses.
+        </p>
+        <%= image_tag asset_path("faq/champ_texte_long.png"), class: "img-responsive" %>
+        <h4>Edition, entrez la question.</h4>
+        <%= image_tag asset_path("faq/edition_champ_texte_long.png"), class: "img-responsive" %>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Résultat sur mobile</h4>
+        <%= image_tag asset_path("faq/mobile_champ_group_checkbox.png"), class: "img-responsive" %>
+      </div>
+    </div>
   </div>
 </div>
