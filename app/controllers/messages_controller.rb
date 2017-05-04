@@ -49,7 +49,7 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
-    @levels = current_school.levels
+    # @levels = current_school.levels
   end
 
   # POST /messages
@@ -103,7 +103,7 @@ class MessagesController < ApplicationController
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
         column_name_title = column['label'].strip unless column['label'].nil?
-        column_name_title = 'Pas de question' if column_name_title.blank?
+        column_name_title = 'Pas de titre' if column_name_title.blank?
         column_names.add(column_name_title) # if it does't exist yet add column name to columns_names Set
       end
     end
@@ -116,10 +116,10 @@ class MessagesController < ApplicationController
       column_names.each_with_index do |column_name, index|
         row[index] = ""
         formjson.each do |column|
-          logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
-          logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
+          # logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
+          # logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
           column_name_title = column['label'].strip unless column['label'].nil?
-          column_name_title = 'Pas de question' if column_name_title.blank?
+          column_name_title = 'Pas de titre' if column_name_title.blank?
           if column_name_title == column_name
             if row[index] === ""
               row[index] = column['value']

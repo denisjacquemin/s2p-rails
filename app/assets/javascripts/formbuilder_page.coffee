@@ -84,7 +84,7 @@ ready = () ->
         roles: 'Access'
         save: 'Save'
         selectOptions: 'Options'
-        select: 'Select'
+        select: 'Selection'
         selectColor: 'Select Color'
         selectionsMessage: 'Allow Multiple Selections'
         size: 'Size'
@@ -135,12 +135,12 @@ ready = () ->
       viewXML: '</>'
       yes: 'Yes'
     console.log 'init formbuilder'
-    levels = ({ label: level, value: level, selected: false} for level in JSON.parse($('#levels').val()))
+    # levels = ({ label: level, value: level, selected: false} for level in JSON.parse($('#levels').val()))
     formBuilder = $('#formbuilder-wrap').formBuilder({
       messages: language['fr'],
       # editOnAdd: true,
       dataType: 'json',
-      disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
+      disableFields: ['hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
       showActionButtons: false,
       # inputSets: [
       #   {
