@@ -224,7 +224,7 @@ class Student < ApplicationRecord
 
     def find_or_create_group(name, school_id)
       # find it
-      group = Group.where(name: name, school_id: school_id).first
+      group = Group.where('lower(name) = ? and school_id = ?', name.downcase, school_id).first
       if group.nil?
         hash = compute_code(school_id, name)
         recordUniqueCount = 0
