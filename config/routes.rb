@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get '/amp', to: 'website#amp'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
+  get 'contact_support', to: 'faq#contact_support'
+  post '/submit_support', to: 'faq#submit_support'
+
   get '/help', to: 'faq#outil_pour_lecole'
   get '/guide-d-installation', to: 'website#install_app'
 
@@ -24,6 +27,7 @@ Rails.application.routes.draw do
   get 'help/codes_dacces', to: 'faq#codes_dacces'
   get 'help/notifications', to: 'faq#notifications'
   get 'help/formulaire', to: 'faq#formulaire'
+  get 'help/excelunecolonne', to: 'faq#excelunecolonne'
 
 
 
