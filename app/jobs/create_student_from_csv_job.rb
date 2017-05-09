@@ -8,28 +8,32 @@ class CreateStudentFromCsvJob < ApplicationJob
     rows.each do |data|
       if data[:code].nil?
         data['school_id'] = school_id
-        student = Student.new data
-        student_key = shake_name(student.firstname,student.lastname).join
-        hash = compute_code(school_id, student_key)
-        student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
-        recordUniqueCount = 0
-        begin
-          unless student.save
-            write_error_to_firebase(data, student.errors, school_id, user.id)
-            #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
-          end
-        rescue ActiveRecord::RecordNotUnique => e
+        unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']])
+          student = Student.new data
+          student_key = shake_name(student.firstname,student.lastname).join
+          hash = compute_code(school_id, student_key)
+          student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+          recordUniqueCount = 0
+          begin
+            unless student.save
+              write_error_to_firebase(data, student.errors, school_id, user.id)
+              #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+            end
+          rescue ActiveRecord::RecordNotUnique => e
 
-          #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
-          number_of_collision = number_of_collision + 1
-          recordUniqueCount = recordUniqueCount + 1
-          logger.debug "[collision]: #{student.code} for [#{student_key}] #{hash[1]}"
-          #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-          student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
-          retry
-        rescue Exception => e
-          logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
-          retry
+            #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+            number_of_collision = number_of_collision + 1
+            recordUniqueCount = recordUniqueCount + 1
+            logger.debug "[collision]: #{student.code} for [#{student_key}] #{hash[1]}"
+            #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+            student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
+            retry
+          rescue Exception => e
+            logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
+            retry
+          end
+        else
+          write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonymecon via le bouton 'Nouvel élève'", school_id, user.id)
         end
       else
         # code given for the student

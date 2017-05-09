@@ -23,7 +23,7 @@ class School < ApplicationRecord
   end
 
   def levels
-    self.students.pluck(:level).uniq.compact
+    self.students.order(:level).pluck(:level).uniq.compact
   end
 
   before_destroy do
