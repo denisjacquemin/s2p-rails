@@ -18,7 +18,7 @@ ready = () ->
         autocomplete: 'Autocomplete'
         button: 'Bouton'
         cannotBeEmpty: 'Ce champ ne peut être vide'
-        checkboxGroup: 'Groupe de case à cocher'
+        checkboxGroup: 'Groupe de cases à cocher'
         checkbox: 'Case à cocher'
         checkboxes: 'Cases à cocher'
         className: 'Classe'
