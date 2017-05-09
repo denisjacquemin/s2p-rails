@@ -62,7 +62,7 @@ ready = () ->
         optionValuePlaceholder: 'Value'
         optionEmpty: 'Option value required'
         other: 'Autre'
-        paragraph: 'Paragraphe'
+        paragraph: 'Texte sans question'
         placeholder: 'Placeholder'
         placeholders: {
           value: 'Value'
@@ -140,7 +140,7 @@ ready = () ->
       messages: language['fr'],
       # editOnAdd: true,
       dataType: 'json',
-      disableFields: ['hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
+      disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
       showActionButtons: false,
       # inputSets: [
       #   {
