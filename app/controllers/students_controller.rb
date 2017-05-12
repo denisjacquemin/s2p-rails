@@ -147,7 +147,7 @@ class StudentsController < ApplicationController
     end
 
     # test encoding
-    encoding = 'utf-8' # MacRoman cp1252 utf-8 ISO-8859-1
+    encoding = 'utf-8' # MacRoman (excel mac) cp1252 (superset de ISO-8859-1 compatible avec le sigle euro) utf-8
     begin
       begin
         lines = CSV.read(params[:csv].tempfile.path, :encoding => encoding)

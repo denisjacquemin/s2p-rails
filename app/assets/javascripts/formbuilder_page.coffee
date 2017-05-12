@@ -79,7 +79,7 @@ ready = () ->
         radio: 'Radio'
         removeMessage: "Effacer l'élément"
         remove: '×'
-        required: 'Champ obligatoire'
+        required: 'Champ requis'
         richText: 'Rich Text Editor'
         roles: 'Access'
         save: 'Save'
