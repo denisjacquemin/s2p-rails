@@ -179,7 +179,7 @@ ready = () ->
           },
           'checkbox': {
             onadd: (fld) ->
-              $('label.field-label').hide()
+              $('.checkbox-field label.field-label').hide()
           },
           'text': {
             onadd: (fld) ->
