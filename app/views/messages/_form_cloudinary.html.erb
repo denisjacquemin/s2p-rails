@@ -17,7 +17,7 @@
         <div class="middle">
           <div class="inner">
             <br/>
-            <p><%= f.attachinary_file_field :photos %></p>
+            <p><%= f.attachinary_file_field :photos, cloudinary: { use_filename: true } %></p>
             <p>ou</p>
             <p>Glisser déposer images ici</p>
           </div>
