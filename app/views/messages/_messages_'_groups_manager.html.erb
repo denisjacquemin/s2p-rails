@@ -1,18 +1,19 @@
 <div class="row groups" id="messages-groups-manager">
-    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <div class="panel panel-default">
         <div class="panel-heading">
           <ul class="nav nav-pills">
-            <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes</a></li>
+            <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes d'élèves</a></li>
             <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Elèves</a></li>
           </ul>
         </div>
         <div class="panel-body ">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
+
               <% groups = current_user.groups_by_school(current_school.id) %>
               <% if groups.present? %>
-                <input type="text" class="filter" data-table="#group_list" placeholder="Filtre">
+                <input type="text" class="filter" data-table="#group_list" placeholder="Rechercher">
                 <table class="table table-hover table-condensed" >
                   <tbody id="group_list" class="list">
                     <% groups.each do |group| %>
@@ -31,7 +32,7 @@
             <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
               <% students = current_user.students_by_school(current_school.id) %>
               <% if students.present? %>
-                <input type="text" class="filter" data-table="#student_list" placeholder="Filtre">
+                <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
                 <table class="table table-hover table-condensed" >
                   <tbody id="student_list" class="list">
                     <% students.each do |student| %>
@@ -69,11 +70,13 @@
           </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="panel panel-default">
-          <div class="panel-heading">Destinataires</div>
+          <div class="panel-heading">
+            <h4>Destinataires sélectionnés</h4>
+          </div>
           <div class="panel-body table-filter" id="in_groups_list">
-            <input type="text" class="filter" data-table="#destinataires" placeholder="Filtre">
+            <input type="text" class="filter" data-table="#destinataires" placeholder="Rechercher">
             <table class="table table-hover table-condensed" id="in_groups">
               <tbody class="list" id="destinataires">
                 <% message.groups_obj.each do |g| %>
@@ -98,5 +101,9 @@
             </table>
           </div>
         </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+      <p>Les emails et notifications aux apps mobiles sont envoyés à la liste des groupes d'élèves ou élèves repris ci-contre lorsque le message passe au statut <em>Publié</em>.</p>
+      <p><i class="fa fa-warning"></i> Modifier cette liste lorsqu'un message est en statut <em>publié</em> a un impact sur la visibilité du message dans les apps mobiles.</p>
     </div>
 </div>

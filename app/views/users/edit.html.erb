@@ -58,7 +58,7 @@
                     <div class="panel-body">
                       <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
-                          <input type="text" class="filter" data-table="#user_group_list" placeholder="Filtre">
+                          <input type="text" class="filter" data-table="#user_group_list" placeholder="Rechercher">
                           <table class="table table-hover table-condensed">
                             <tbody id="user_group_list" class="list">
                             <%= hidden_field_tag "user[group_ids][]", nil %>
@@ -81,7 +81,7 @@
 <% if false %>
 
                         <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
-                          <input type="text" class="filter" data-table="#user_student_list" placeholder="Filtre">
+                          <input type="text" class="filter" data-table="#user_student_list" placeholder="Rechercher">
                           <table class="table">
                             <tbody id="user_student_list">
                             <%= hidden_field_tag "user[student_ids][]", nil %>
