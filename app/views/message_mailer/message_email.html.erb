@@ -97,7 +97,7 @@ fieldset[disabled] .btn.active {
         overlay_file_format = 'image'
         overlay_file_format = 'pdf' if photo.format == 'pdf'
       %>
-      <span style="padding: 10px">
+      <span style="margin: 10px">
         <a href="<%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>" target="_blank">
           <%= cl_image_tag(photo.path.gsub(/pdf$/, 'png'), :transformation=>[
               {:width => 150, :height => 150, :crop => :fill},
