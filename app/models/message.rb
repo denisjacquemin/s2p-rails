@@ -87,7 +87,6 @@ class Message < ApplicationRecord
 
   def handle_status_changed
     self.status = validate_status_changes(self.status_was, self.status)
-    byebug
     if (self.status != self.status_was)
       case self.status
         when 'published'
