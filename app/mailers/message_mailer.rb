@@ -1,8 +1,11 @@
 class MessageMailer < ApplicationMailer
   include Roadie::Rails::Automatic
 
-  def message_email(to, message)
+  def message_email(to, message, title, content)
     @message = message
+    @message.title = title
+    @message.content = content
+    
     #attachments['konecto_logo.png'] = File.read(Rails.root.join("app","assets", "images","konecto_logo.png"))
     #attachments.inline[@message.mfiles[0].filename] = open('https:' + @message.mfiles[0].file_url) {|f| f.read }
     # if @message.mfiles.any?
@@ -24,7 +27,7 @@ class MessageMailer < ApplicationMailer
     x_smptapi_hash['to'] = [to] if to.kind_of?(String)
 
     codes = []
-    if message.content.include?('[code]')
+    if content.include?('[code]')
       # "sub": {
       #   "[code]": [
       #     "John",
@@ -54,7 +57,7 @@ class MessageMailer < ApplicationMailer
 
     from = "#{@message.school_name} - #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
     reply_to = @message.author.fullname + '<' + @message.author.email + '>' || 'konecto@konectoapp.com'
-    resp = mail(from: from, to: 'konecto@konectoapp.com', subject: @message.title, reply_to: reply_to )
+    resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
   end
 end

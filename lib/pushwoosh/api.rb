@@ -17,9 +17,8 @@ module Pushwoosh
           application: @auth_hash[:application]
         }.merge(@options)
       }
-      byebug
+
       response = Request.make_post!('registerDevice', @register_device_request)
-      byebug
       logger.info "response: #{response.inspect}"
     end
 

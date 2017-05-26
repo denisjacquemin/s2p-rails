@@ -31,7 +31,13 @@ class Message < ApplicationRecord
   validates :mtype, presence: true
   validates :title, presence: true
 
-  after_update :handle_status_changed, if: "status_changed?"
+  before_update :handle_status_changed, if: "status_changed?"
+
+  def publish_date
+    publish_date = nil
+    publish_date = self.updated_at if self.published?
+    return publish_date
+  end
 
   def set_default_status
    self.status ||= :draft
@@ -104,7 +110,6 @@ class Message < ApplicationRecord
   end
 
   def handle_publish
-    self.publish_date = DateTime.now
     groups = self.groups
     if groups.present? or self.students.present?
 
@@ -124,12 +129,12 @@ class Message < ApplicationRecord
 
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
-      build_emails(students, self) if self.send_by_email and students.present?
+      build_emails(students, self, self.title, self.content) if self.send_by_email and students.present?
     end
   end
 
   def handle_draft
-    self.publish_date = nil
+    # self.publish_date = nil
   end
 
   def handle_waiting_for_approval
@@ -179,7 +184,7 @@ class Message < ApplicationRecord
     send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
-  def build_emails(students, message)
+  def build_emails(students, message, title, content)
     emails = students.collect { |s|
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
     }      # build an array of emails
@@ -196,7 +201,7 @@ class Message < ApplicationRecord
     #     end
     #
     #   end
-    MessageMailer.message_email(emails, message).deliver_later
+    MessageMailer.message_email(emails, message, title, content).deliver_later
 
     # emails.each do |e|
     #   message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
