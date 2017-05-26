@@ -31,7 +31,7 @@ class Message < ApplicationRecord
   validates :mtype, presence: true
   validates :title, presence: true
 
-  before_update :handle_status_changed, if: "status_changed?"
+  after_update :handle_status_changed, if: "status_changed?"
 
   def set_default_status
    self.status ||= :draft
@@ -87,6 +87,7 @@ class Message < ApplicationRecord
 
   def handle_status_changed
     self.status = validate_status_changes(self.status_was, self.status)
+    byebug
     if (self.status != self.status_was)
       case self.status
         when 'published'
