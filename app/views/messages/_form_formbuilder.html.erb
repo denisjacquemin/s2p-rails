@@ -42,7 +42,9 @@
                     if (data['label'] != undefined && data['label'].trim() != "" ) {
                      label = data['label'].trim()
                      var indexOfAsterix = label.indexOf(" *")
-                     label = label.substring(0, indexOfAsterix)
+                     if (indexOfAsterix !== -1) {
+                       label = label.substring(0, indexOfAsterix)
+                     }
                     }
                     headers.push(label);
                     if (row[label] == undefined) {
