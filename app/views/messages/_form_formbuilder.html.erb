@@ -41,6 +41,8 @@
                     var label = "Pas de titre"
                     if (data['label'] != undefined && data['label'].trim() != "" ) {
                      label = data['label'].trim()
+                     var indexOfAsterix = label.indexOf(" *")
+                     label = label.substring(indexOfAsterix, label.length)
                     }
                     headers.push(label);
                     if (row[label] == undefined) {
