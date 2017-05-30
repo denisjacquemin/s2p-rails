@@ -1,3 +1,15 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
+$(document).on 'turbolinks:load', ->
+  ready()
+
+ready = () ->
+  $('#whatsnew').click (e) ->
+    e.preventDefault
+    $('#modal').modal('show')
+    $('.modal-title').text('Quoi de neuf?')
+    $('.modal-body').load('/help/whatsnew')
+    false
+  false

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'help/notifications', to: 'faq#notifications'
   get 'help/formulaire', to: 'faq#formulaire'
   get 'help/excelunecolonne', to: 'faq#excelunecolonne'
+  get 'help/whatsnew', to: 'faq#whatsnew'
 
 
 

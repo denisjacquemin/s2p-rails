@@ -8,7 +8,7 @@
   </div>
   <div class="row pull-right">
     <div class="col-lg-12 col-md-12 col-xs-12">
-      <%= f.submit "Enregistrer les images", class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+      <%= f.submit "Enregistrer les images / PDFs", class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
     </div>
   </div>
   <div class="row">
@@ -19,7 +19,7 @@
             <br/>
             <p><%= f.attachinary_file_field :photos, cloudinary: { use_filename: true } %></p>
             <p>ou</p>
-            <p>Glisser déposer images ici</p>
+            <p>Glisser déposer des images ou PDF ici</p>
           </div>
         </div>
       </div>

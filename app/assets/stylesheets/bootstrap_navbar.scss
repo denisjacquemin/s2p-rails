@@ -1,3 +1,30 @@
+.dropdown-menu>li i {
+    font-size: 14px;
+    color: #9ea9ad;
+    margin-right: 5px;
+}
+
+.dropdown-menu>li a:hover i  {
+  color: #fff;
+}
+
+.navbar-top .navbar-nav .dropdown-toggle i.new-announcements:before {
+    top: 0;
+}
+
+.dropdown-toggle i.new-announcements:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    top: .2em;
+    right: 0;
+    background-color: #ffa000;
+    z-index: 10;
+}
+
 @media (max-width: 1000px) {
     .navbar-header {
         float: none;

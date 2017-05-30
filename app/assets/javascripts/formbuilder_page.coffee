@@ -84,7 +84,7 @@ ready = () ->
         roles: 'Access'
         save: 'Save'
         selectOptions: 'Options'
-        select: 'Selection'
+        select: 'Sélection'
         selectColor: 'Select Color'
         selectionsMessage: 'Allow Multiple Selections'
         size: 'Size'
@@ -140,7 +140,7 @@ ready = () ->
       messages: language['fr'],
       # editOnAdd: true,
       dataType: 'json',
-      disableFields: ['select','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
+      disableFields: ['hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
       showActionButtons: false,
       # inputSets: [
       #   {

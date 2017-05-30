@@ -6,6 +6,10 @@ class FaqController < ApplicationController
   def help
   end
 
+  def whatsnew
+    render :layout => false
+  end
+
   def contact_support
 
   end

@@ -28,12 +28,12 @@ ready = () ->
         <div id="thumbnails">
           <% for(var i=0; i<files.length; i++){ %>
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a class="thumbnail" target="_blank" href="<%= $.cloudinary.url(files[i].public_id) %>">
+              <a class="thumbnail" target="_blank" href="<%= $.cloudinary.url(files[i].public_id) %>">
                 <img
                   src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "format": 'jpg', "crop": 'fill', "width": 200, "height": 200 }) %>"
                   alt="" width="200" height="200"
                   class="img-responsive" />
-                </a>
+              </a>
                 <a href="#" class="remove-photo" data-remove="<%= files[i].public_id %>">Effacer</a>
             </div>
           <% } %>

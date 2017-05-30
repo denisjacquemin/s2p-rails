@@ -1,7 +1,14 @@
 // Place all the styles related to the faq controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
+.whatsnew {
+  .date {
+    color: #78858a;
+    font-size: 85%;
+    letter-spacing: .02em;
+    margin-bottom: 10px;
+  }
+}
 
 .help {
   font-size: 15px;
