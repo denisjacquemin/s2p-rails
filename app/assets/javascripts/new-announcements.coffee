@@ -1,0 +1,27 @@
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
+$(document).on 'turbolinks:load', ->
+  ready()
+
+
+ready = () ->
+  current_user_count = parseInt($('#current_user_new_announcement_counter').val())
+  current_value = 4
+  if current_user_count < current_value
+    $('#new_announcement_menu_icon, #new_announcements_menu_item').addClass('new-announcements')
+
+  $('#whatsnew').click (e) ->
+    e.preventDefault
+    $('#modal').modal('show')
+    $('.modal-title').text('Quoi de neuf?')
+    $('.modal-body').load('/help/whatsnew')
+    if $('#new_announcements_menu_item').hasClass('new-announcements')
+      $.ajax {
+        type: "POST",
+        url: '/users/newannouncementsviewed/' + current_value,
+      }
+    $('#new_announcement_menu_icon, #new_announcements_menu_item').removeClass('new-announcements')
+    false
+  false

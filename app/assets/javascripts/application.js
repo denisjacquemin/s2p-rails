@@ -36,7 +36,7 @@
 //= require schools
 //= require students
 //= require mfiles
-//= require faq
+//= require new-announcements
 //= require users
 //= require list1.4.0
 //= require algolia/v3/algoliasearch.min

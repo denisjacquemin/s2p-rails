@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   delete '/students/destroy_all', to: 'students#destroy_all'
   resources :students
   patch '/students/update_groups/:id', to: 'students#update_groups'
+  post '/users/newannouncementsviewed/:count', to: 'users#new_announcements_viewed'
   devise_for :users, :controllers => { :invitations => 'invitations' }
   get 'schools/edit_current', to: 'schools#edit', as: 'edit_current_school'
   resources :schools

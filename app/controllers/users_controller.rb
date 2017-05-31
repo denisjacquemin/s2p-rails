@@ -2,6 +2,13 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools]
 
+  def new_announcements_viewed
+    @user = current_user
+    @new_announcements_viewed_params = new_announcements_viewed_params
+
+    @user.update(new_announcement_counter: @new_announcements_viewed_params[:count])
+    render nothing: true, status: 200
+  end
 
   def index
     @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
@@ -73,6 +80,10 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:firstname, :lastname, :email, :role, :function, :schools => [], :group_ids => [], :student_ids => [])
+    end
+
+    def new_announcements_viewed_params
+      params.permit(:count)
     end
 
 end
