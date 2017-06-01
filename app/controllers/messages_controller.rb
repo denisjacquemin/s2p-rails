@@ -103,6 +103,7 @@ class MessagesController < ApplicationController
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
         column_name_title = column['label'].strip unless column['label'].nil?
+        column_name_title = column_name_title.gsub(' *', '')
         column_name_title = 'Pas de titre' if column_name_title.blank?
         column_names.add(column_name_title) # if it does't exist yet add column name to columns_names Set
       end
@@ -119,6 +120,7 @@ class MessagesController < ApplicationController
           # logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
           # logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
           column_name_title = column['label'].strip unless column['label'].nil?
+          column_name_title = column_name_title.gsub(' *', '')
           column_name_title = 'Pas de titre' if column_name_title.blank?
           if column_name_title == column_name
             if row[index] === ""
