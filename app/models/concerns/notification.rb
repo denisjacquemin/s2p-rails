@@ -102,8 +102,8 @@ module Notification extend ActiveSupport::Concern
             body: truncate(content, :length => 256)
           }
           n.content_available = true
+          n.expiry = 1496487117
           n.badge = 1
-          n.retries = 10
           n.sound = true
           n.data = data
 
