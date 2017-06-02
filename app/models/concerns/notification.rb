@@ -17,7 +17,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(message.title, devicesIOS, dataIOS)
+        send_ios_notifications(message.title, truncate(message.content, :length => 150), devicesIOS, dataIOS)
 
         # options = {
         #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
@@ -90,16 +90,20 @@ module Notification extend ActiveSupport::Concern
     end
 
 
-    def send_ios_notifications(alert, devices, data = {})
+    def send_ios_notifications(alert, content, devices, data = {})
       logger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
       begin
         devices.each { |device|
           n = Rpush::Apns::Notification.new
           n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
-          n.alert = truncate(alert, :length => 256)
+          n.alert = {
+            title: truncate(alert, :length => 256)
+            body: truncate(content, :length => 256)
+          }
           n.content_available = true
           n.badge = 1
+          n.retries = 10
           n.sound = true
           n.data = data
 
