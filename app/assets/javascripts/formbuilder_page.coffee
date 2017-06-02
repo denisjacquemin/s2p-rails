@@ -140,7 +140,7 @@ ready = () ->
       messages: language['fr'],
       # editOnAdd: true,
       dataType: 'json',
-      disableFields: ['hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
+      disableFields: ['checkbox','hidden','file','date','button','autocomplete', 'header', 'number', 'radio-group'],
       showActionButtons: false,
       # inputSets: [
       #   {
