@@ -17,7 +17,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(ActionController::Base.helpers.strip_tags(message.title), truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
+        send_ios_notifications(message.title, truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
 
         # options = {
         #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
@@ -140,8 +140,6 @@ module Notification extend ActiveSupport::Concern
           n.registration_ids = registration_ids
           n.delay_while_idle = true
           n.data = data
-          expiry_value = Time.now + 2.day
-          n.expiry = expiry_value.to_i
           n.save!
           logger.info "payload: #{n.payload}"
         end
