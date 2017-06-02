@@ -61,7 +61,7 @@ Rpush.reflect do |on|
 
   # Called when a notification is successfully delivered.
   on.notification_delivered do |notification|
-    Rails.logger.info "[Rpush.reflect notification_delivered] #{notification.inspect}"
+    Rails.logger.info "[Rpush.reflect notification_delivered] #{notification.payload}"
   end
 
   # Called when notification delivery failed.
