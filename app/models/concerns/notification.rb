@@ -102,7 +102,8 @@ module Notification extend ActiveSupport::Concern
             body: truncate(content, :length => 256)
           }
           n.content_available = true
-          n.expiry = 1496487117
+          expiry_value = Time.now + 2.day
+          n.expiry = expiry_value.to_i
           n.badge = 1
           n.sound = true
           n.data = data
@@ -139,6 +140,8 @@ module Notification extend ActiveSupport::Concern
           n.registration_ids = registration_ids
           n.delay_while_idle = true
           n.data = data
+          expiry_value = Time.now + 2.day
+          n.expiry = expiry_value.to_i
           n.save!
           logger.info "payload: #{n.payload}"
         end
