@@ -31,6 +31,8 @@ module Notification extend ActiveSupport::Concern
         #   }]
         # }
         # Device.pushwoosh_create_message(options)
+      else
+        logger.info "No IOS notification to send #{devices.inspect} "
       end
 
       if devicesAndroid.any?
