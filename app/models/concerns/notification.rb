@@ -98,6 +98,7 @@ module Notification extend ActiveSupport::Concern
           n.alert = truncate(alert, :length => 256)
           n.content_available = true
           n.badge = 1
+          n.expiry = 86400
           n.sound = true
           n.data = data
 
