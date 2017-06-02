@@ -143,7 +143,7 @@ class Message < ApplicationRecord
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "#{self.author.firstname} demande une approbation: #{self.title}"
     data = { "message_id": self.id }
-    send_ios_notifications(alert, devicesIOS, data) unless devicesIOS.nil?
+    send_ios_notifications(alert, "", devicesIOS, data) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
 
     dataAndroid = {
@@ -159,7 +159,7 @@ class Message < ApplicationRecord
 
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "Message refusé: #{self.title}"
-    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
     dataAndroid = {
       "priority": 2,
@@ -174,7 +174,7 @@ class Message < ApplicationRecord
 
     devicesIOS = Device.active.ios.by_codes(codes)
     alert = "Message approuvé: #{self.title}"
-    send_ios_notifications(alert, devicesIOS) unless devicesIOS.nil?
+    send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
     devicesAndroid = Device.active.android.by_codes(codes)
     dataAndroid = {
       "priority": 2,
