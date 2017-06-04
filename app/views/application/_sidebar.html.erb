@@ -76,9 +76,6 @@
                <input type="hidden" id="current_user_new_announcement_counter" value="<%= current_user.new_announcement_counter %>"/>
                <li id="new_announcements_menu_item"><a href="#" id="whatsnew"><i class="fa fa-bell" aria_hidden="true"></i> Quoi de neuf ?</a></li>
                <li><a href="/contact_support"><i class="fa fa-envelope" aria_hidden="true"></i> Contacter le support</a></li>
-               <% if current_user.admin? %>
-                <li><%= link_to current_school.name, edit_current_school_path %></li>
-               <% end %>
              </ul>
          </li>
          <li><%= link_to content_tag(:i, nil, class: "fa fa-power-off", aria_hidden: true), destroy_user_session_path, :method=>'delete' %></li>
