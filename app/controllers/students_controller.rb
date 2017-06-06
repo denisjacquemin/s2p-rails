@@ -142,6 +142,12 @@ class StudentsController < ApplicationController
     # test file mime type
     mimemagic = MimeMagic.by_path(params[:csv].tempfile.path)
 
+    # .xls "application/vnd.ms-excel"
+    # .xlsx "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    if (mimemagic.type == "application/vnd.ms-excel" or mimemagic.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      render :csv, :locals => { :error_message => 'Format de fichier invalide, enregistrez le fichier au format CSV (menu "Enregistrer sous" choisir le type de fichier CSV)', message: '' } and return
+    end
+
     if (mimemagic.type != "text/csv")
       render :csv, :locals => { :error_message => 'Format de fichier invalide', message: '' } and return
     end
