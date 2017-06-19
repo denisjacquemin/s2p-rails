@@ -1,6 +1,6 @@
 module Sheet
   def self.test
-
+    "ok"
   end
 
   def self.validate_file(file)

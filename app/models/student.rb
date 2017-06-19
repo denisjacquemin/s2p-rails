@@ -1,6 +1,15 @@
 require 'csv'
 class Student < ApplicationRecord
   include Code
+  include AlgoliaSearch
+
+  algoliasearch synchronous: false do
+    attribute :firstname, :lastname, :school_id, :classroom, :level, :code
+    attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code]
+    attributesForFaceting ['searchable(classroom)', 'searchable(level)']
+    customRanking ['desc(classroom)']
+    typoTolerance :false
+  end
 
   # after_save :set_code, if: "code.blank?"
   # after_update :set_code, if: "code.blank?"
@@ -8,7 +17,7 @@ class Student < ApplicationRecord
   before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
   after_update :clean_old_level, if: "level_changed?"
   after_update :clean_old_classroom, if: "classroom_changed?"
-  after_destroy :clean_groups
+  #after_destroy :clean_groups
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
