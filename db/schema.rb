@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530164111) do
+ActiveRecord::Schema.define(version: 20170614120412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,17 +192,18 @@ ActiveRecord::Schema.define(version: 20170530164111) do
   create_table "students", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
-    t.integer  "groups",                default: [],              array: true
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "groups",                default: [],                array: true
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.integer  "school_id"
     t.string   "code"
     t.string   "classroom"
     t.string   "level"
     t.integer  "followers",             default: 0
     t.string   "emails"
-    t.boolean  "sent_message_by_email"
+    t.boolean  "sent_message_by_email", default: true
     t.uuid     "uuid"
+    t.string   "winpage_matricule"
     t.index ["code"], name: "index_students_on_code", unique: true, using: :btree
   end
 

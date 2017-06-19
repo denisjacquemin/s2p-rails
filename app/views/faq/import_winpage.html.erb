@@ -1,0 +1,74 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav', active: 'winpage' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="winpage">Importer les élèves depuis WinPage</h2>
+    <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.1 Dans WinPage, naviguez dans le menu <em>Listes et Comptages</em> ensuite <em>Listes personnalisées</em>.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_menu.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.2 Cliquez sur le bouton <em>Créer</em> dans le bas à gauche de l'écran.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_creer.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.3 La fenêtre <em>Création d'une nouvelle liste</em> s'ouvre, faites passer les informations suivantes de la liste <em>Informations à afficher</em> vers <em>Informations affichées</em>.
+        <ul>
+          <li>Classe (libellé)</li>
+          <li>Nom</li>
+          <li>Prénom</li>
+          <li>Nom du titulaire</li>
+          <li>Courriel de l'élève</li>
+          <li>Courriel signataire</li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_informationsaafficher.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.4 Cliquez sur <em>Enregistrer</em> et choisissez un nom pour la liste.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_initialisationkonecto.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.5 Sélectionnez la nouvelle liste que vous venez de créer et ensuite cliquez sur le bouton<em>Exporter</em>.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_selectionner.JPG"), class: "img-responsive img-thumbnail" %>
+        <br/>
+        <br/>
+        <%= image_tag asset_path("faq/winpage_exporter.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.6 Choisissez le format <em>Excel (.xls)</em> et enregistrez le fichier sur votre disque dur.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/winpage_choisirexcel.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <h3>2. Convertir le fichier .XLS WinPage en .CSV</h3>
+    <p>2.1 Connectez vous à l'adresse <a href="https://convertio.co/fr/xls-csv/" target="_blank">convertio.co/fr/xls-csv/</a>.</p>
+    <%= image_tag asset_path("faq/convertio.png"), class: "img-responsive img-thumbnail" %>
+    <p>2.2 Sélectionnez le fichier sur votre disque dure et cliquez sur le bouton <em>Convertir</em>.</p>
+    <p>2.3 Téléchargez le fichier converti en .CSV sur votre disque dur. Ce fichier peut être importé via l'écran d'importation des élèves.</p>
+
+  </div>
+</div>

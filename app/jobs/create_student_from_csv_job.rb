@@ -4,53 +4,72 @@ class CreateStudentFromCsvJob < ApplicationJob
 
   def perform(rows, school_id, user)
     logger.info "perform CreateStudentsFromCsvJob"
-    number_of_collision = 0
     rows.each do |data|
-      if data[:code].nil?
-        data['school_id'] = school_id
-        unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', data[:firstname], data[:lastname], data['school_id']])
-          student = Student.new data
-          student_key = shake_name(student.firstname,student.lastname).join
-          hash = compute_code(school_id, student_key)
-          student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
-          recordUniqueCount = 0
-          begin
-            unless student.save
-              write_error_to_firebase(data, student.errors, school_id, user.id)
-              #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
-            end
-          rescue ActiveRecord::RecordNotUnique => e
-
-            #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
-            number_of_collision = number_of_collision + 1
-            recordUniqueCount = recordUniqueCount + 1
-            logger.debug "[collision]: #{student.code} for [#{student_key}] #{hash[1]}"
-            #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-            student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
-            retry
-          rescue Exception => e
-            logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
-            retry
-          end
-        else
-          write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonymecon via le bouton 'Nouvel élève'", school_id, user.id)
-        end
+      if data[:winpage_matricule].nil?
+        handle_simple_csv_student(data, school_id, user.id)
       else
-        # code given for the student
-        # get student by code and current school
-        student = Student.where(code: data[:code], school_id: school_id).first
-        if student.nil?
-          write_error_to_firebase(data, "Pas d'élève trouvé pour le code #{data[:code]}", school_id, user.id)
-        elsif student.update_attributes(data)
-          logger.info "student #{student.firstname} #{student.lastname} updated"
-        else
-          write_error_to_firebase(data, student.errors, school_id, user.id)
-          logger.info "student update fail for #{student.firstname} #{student.lastname}"
-        end
+        handle_winpage_student(data, school_id, user.id)
       end
-
     end
-    logger.info "Number Of collision: #{number_of_collision}"
+
+
+    #
+    #   student_data = {}
+    #   student_data[:firstname] =  data[:firstname]
+    #   student_data[:lastname] = data[:lastname]
+    #   student_data[:level] = data[:level]
+    #   student_data[:classroom] = data[:classroom]
+    #   student_data[:emails] = [data[:emails], data[:emails2]].join(' ').strip
+    #   student_data[:code] = data[:code]
+    #   student_data[:winpage_matricule] = data[:winpage_matricule]
+    #
+    #
+    #   if student_data[:code].nil?
+    #     student_data['school_id'] = school_id
+    #     unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
+    #       student = Student.new student_data
+    #       student
+    #       student_key = shake_name(student.firstname,student.lastname).join
+    #       hash = compute_code(school_id, student_key)
+    #       student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+    #       recordUniqueCount = 0
+    #       begin
+    #         unless student.save
+    #           write_error_to_firebase(data, student.errors, school_id, user.id)
+    #           #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+    #         end
+    #       rescue ActiveRecord::RecordNotUnique => e
+    #
+    #         #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+    #         number_of_collision = number_of_collision + 1
+    #         recordUniqueCount = recordUniqueCount + 1
+    #         logger.debug "[collision]: #{student.code} for [#{student_key}] #{hash[1]}"
+    #         #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+    #         student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
+    #         retry
+    #       rescue Exception => e
+    #         logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
+    #         retry
+    #       end
+    #     else
+    #       write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonyme via le bouton 'Nouvel élève'", school_id, user.id)
+    #     end
+    #   else
+    #     # code or winpage_matricule given for the student
+    #     # get student by code and current school
+    #     student = Student.where('(code = ? or winpage_matricule = ?) and school_id = ?', student_data[:code], student_data[:winpage_matricule], school_id: school_id).first
+    #     if student.nil?
+    #       write_error_to_firebase(student_data, "Pas d'élève trouvé pour le code #{student_data[:code]}", school_id, user.id)
+    #     elsif student.update_attributes(student_data)
+    #       logger.info "student #{student.firstname} #{student.lastname} updated"
+    #     else
+    #       write_error_to_firebase(data, student.errors, school_id, user.id)
+    #       logger.info "student update fail for #{student.firstname} #{student.lastname}"
+    #     end
+    #   end
+    #
+    # end
+    # logger.info "Number Of collision: #{number_of_collision}"
 
   end
 
@@ -71,6 +90,117 @@ private
       logger.debug "Firebase response: #{response.inspect}"
     rescue Exception => e
       logger.debug e
+    end
+  end
+
+  def handle_simple_csv_student(data, school_id, user_id)
+    number_of_collision = 0
+    student_data = data
+    student_data['school_id'] = school_id
+    if student_data[:code].nil?
+      unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
+        student = Student.new student_data
+        student
+        student_key = shake_name(student.firstname,student.lastname).join
+        hash = compute_code(school_id, student_key)
+        student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+        recordUniqueCount = 0
+        begin
+          unless student.save
+            write_error_to_firebase(data, student.errors, school_id, user_id)
+            #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
+          end
+        rescue ActiveRecord::RecordNotUnique => e
+
+          #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
+          number_of_collision = number_of_collision + 1
+          recordUniqueCount = recordUniqueCount + 1
+          logger.debug "[collision]: #{student.code} for [#{student_key}] #{hash[1]}"
+          #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+          student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
+          retry
+        rescue Exception => e
+          logger.info "CreateStudentFromCsvJob::Error #{e.inspect}"
+          retry
+        end
+      else
+        write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonyme via le bouton 'Nouvel élève'", school_id, user.id)
+      end
+    else
+      # get student by code and current school
+      student = Student.where('code = ? and school_id = ?', student_data[:code], school_id: school_id).first
+      if student.nil?
+        write_error_to_firebase(student_data, "Pas d'élève trouvé pour le code #{student_data[:code]}", school_id, user_id)
+      elsif student.update_attributes(student_data)
+        logger.info "student #{student.firstname} #{student.lastname} updated"
+      else
+        write_error_to_firebase(data, student.errors, school_id, user_id)
+        logger.info "student update fail for #{student.firstname} #{student.lastname}"
+      end
+    end
+  end
+
+  def handle_winpage_student(data, school_id, user_id)
+    number_of_collision = 0
+
+    student_data = {}
+    student_data[:school_id] = school_id
+    student_data[:firstname] =  data[:firstname]
+    student_data[:lastname] = data[:lastname]
+    student_data[:level] = data[:level]
+    student_data[:classroom] = data[:classroom]
+    student_data[:emails] = [data[:emails], data[:emails2]].join(' ').strip
+    student_data[:winpage_matricule] = data[:winpage_matricule].to_s
+
+    # get already existing student for update
+    student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
+    if student.nil?
+      # student not found based on winpage_matricule, try to find it by firstname and lastname
+      student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+      if student.size == 1
+        update_student(student.first, student_data, user_id)
+      elsif student.size > 1
+        write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+      end
+    else
+      update_student(student, student_data, user_id)
+    end
+
+    if student.blank?
+      # student don't exists yet, create a brand new one
+      new_student = Student.new student_data
+      student_key = shake_name(new_student.firstname,new_student.lastname).join
+      hash = compute_code(school_id, student_key)
+      new_student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+      recordUniqueCount = 0
+      begin
+        unless new_student.save
+          write_error_to_firebase(data, new_student.errors, school_id, user_id)
+        end
+      rescue ActiveRecord::RecordNotUnique => e
+        number_of_collision = number_of_collision + 1
+        recordUniqueCount = recordUniqueCount + 1
+        logger.debug "[collision]: #{new_student.code} for [#{student_key}] #{hash[1]}"
+        #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+        new_student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
+        retry
+      rescue Exception => e
+        logger.info "CreateStudentFromCsvWinpageJob::Error #{e.inspect}"
+        retry
+      end
+    end
+  end
+
+  def update_student(student, attributes, user_id)
+    begin
+      if student.update_attributes(attributes)
+        logger.info "student #{student.firstname} #{student.lastname} updated"
+      else
+        write_error_to_firebase(data, student.errors, student.school_id, user_id)
+        logger.info "student update fail for #{student.firstname} #{student.lastname}"
+      end
+    rescue e
+      logger.info e.inspect
     end
   end
 end

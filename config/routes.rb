@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'help/formulaire', to: 'faq#formulaire'
   get 'help/excelunecolonne', to: 'faq#excelunecolonne'
   get 'help/whatsnew', to: 'faq#whatsnew'
+  get 'help/import_winpage', to: 'faq#import_winpage'
 
 
 
@@ -52,6 +53,9 @@ Rails.application.routes.draw do
   post '/students/export_csv', to: 'students#export_csv'
   post '/students/csv_upload', to: 'students#csv_upload'
   delete '/students/destroy_all', to: 'students#destroy_all'
+
+  get '/students/new_index', to: 'students#new_index'
+
   resources :students
   patch '/students/update_groups/:id', to: 'students#update_groups'
   post '/users/newannouncementsviewed/:count', to: 'users#new_announcements_viewed'
