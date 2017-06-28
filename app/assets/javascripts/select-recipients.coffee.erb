@@ -1,0 +1,33 @@
+# compatibility with browsers not supporting turbolinks:load
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
+$(document).on 'turbolinks:load', ->
+  ready()
+ready = () ->
+  if $('.algolia_select_groups').length
+
+      search = instantsearch(
+        appId: '<%= Rails.application.secrets.algolia_app_id %>'
+        apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
+        indexName: 'Group'
+        searchParameters:
+          numericRefinements :
+            school_id:
+              '=': [$('#current_school_id').val()]
+        urlSync: {
+          getHistoryState: ->
+            { turbolinks: true }
+        }
+        poweredBy: true)
+      search.addWidget instantsearch.widgets.hits(
+        container: '#hits-group'
+        hitsPerPage: 1000
+        templates:
+          item: getTemplate('hit-group')
+          empty: getTemplate('no-results'))
+      search.start()
+
+getTemplate = (templateName) ->
+  document.getElementById(templateName + '-template').innerHTML
