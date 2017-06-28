@@ -28,7 +28,7 @@
             <% @students.each do |student| %>
               <tr>
                 <% if current_user.admin? %>
-                  <td><%= check_box_tag 's[]', student.id, false, class: 'scb' %> </td>
+                  <td><%= check_box_tag 'student[id][]', student.id, false, class: 'scb' %> </td>
                 <% end %>
                 <% if policy(student).edit? %>
                   <td><%= link_to student.lastname, edit_student_path(student), class: "lastname" %></td>
