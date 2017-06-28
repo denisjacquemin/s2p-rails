@@ -3,7 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-
+.algolia_messages .hit-content {
+  padding: 12px 5px;
+}
 
 .nav-tabs {
     margin-bottom: 20px;
@@ -16,4 +18,19 @@
 .total_counter_container {
   padding: 10px 30px;
   background: #ddd;
+}
+
+.recipient-item {
+  min-height: 40px;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+  div.content-checkbox {
+    text-align: center;
+    width: 50px;
+    float:left;
+  }
+  div.content {
+    width: auto;
+    float:left;
+  }
 }

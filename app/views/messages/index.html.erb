@@ -3,7 +3,7 @@
 <%= hidden_field_tag 'worflow_active', @workflow_active %>
 <%= hidden_field_tag 'role', @current_user_role %>
 
-<div class="row algolia_js algolia">
+<div class="row algolia_js algolia algolia_messages">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
       <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
@@ -58,13 +58,13 @@
                       </div>
                   </div>
                   <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
-                        <span title="" class="label {{{status}}}">&nbsp;</span>
-                        <div class="btn-group" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
-                          <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status={{status}} data-message-id="{{{objectID}}}">
-                            <i class="material-icons">more_vert</i>
-                          </a>
-                          <ul class="dropdown-menu pull-right">
-                          </ul>
+                    <span title="" class="label {{{status}}}">&nbsp;</span>
+                    <div class="btn-group" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+                      <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status={{status}} data-message-id="{{{objectID}}}">
+                        <i class="material-icons">more_vert</i>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                      </ul>
                     </div>
                   </div>
                 </div>

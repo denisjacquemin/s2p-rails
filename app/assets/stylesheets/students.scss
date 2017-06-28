@@ -14,6 +14,105 @@
   }
 }
 
+.action-menu {
+  float:right;
+  margin-top: 8px;
+  margin-right: 5px;
+}
+
+.div-row {
+  width: 100%;
+}
+
+.div-row-header {
+  font-weight: bold;
+}
+
+
+.div-column, .div-column-action, .checkbox-column, .selectall-checkbox-column {
+  float: left;
+  height: 42px;
+  line-height: 42px;
+  text-decoration: inherit;
+  // overflow:hidden;
+}
+
+
+.algolia_students #hits .div-row:hover {
+  cursor:pointer;
+  color: #2780E3;
+  text-decoration: underline;
+  .div-column-action {
+    color: #000;
+    cursor: auto;
+  }
+}
+
+.checkbox-column, .selectall-checkbox-column {
+  text-align:center;
+}
+
+@media(max-width:767px){
+  .div-column {
+    width: 23%;
+  }
+  .checkbox-column, .selectall-checkbox-column {
+    width:8%;
+  }
+}
+
+
+@media(min-width:768px){
+  .div-column {
+    width: 18%;
+  }
+  .checkbox-column, .selectall-checkbox-column {
+    width:5%;
+  }
+  .div-column-action {
+    width: 10%;
+    text-align: center;
+  }
+}
+
+@media(min-width:992px){
+  .div-column {
+    width: 17%;
+  }
+}
+
+#hitperpage {
+  display: inline-block;
+}
+
+.algolia_students #hits .hit-content.active {
+  background-color: #eff9fd;
+}
+
+.algolia_students #hits .hit-content.active:hover {
+  background-color: #d8f1fa;
+}
+
+#stats {
+  margin-bottom: 15px;
+}
+
+#level {
+  margin-bottom: 40px;
+}
+
+.ais-refinement-list--label {
+  display: block;
+  font-weight: normal;
+  input {
+    margin-right: 10px;
+  }
+  .ais-refinement-list--count {
+    float:right;
+  }
+}
+
+
 .sort {
   text-decoration: underline;
   color: #2780E3;

@@ -12,8 +12,6 @@ class MessagesController < ApplicationController
   end
 
   def index
-    #@messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
-
     @algolia_search_api_key = current_user.algolia_search_api_key
     @current_school_id = current_school.id
     @current_user = current_user
@@ -50,6 +48,27 @@ class MessagesController < ApplicationController
   def edit
     authorize @message
     # @levels = current_school.levels
+  end
+
+  def create_sendcode_message
+    submitted_students_ids = params[:student][:id] unless params[:student].nil?
+
+    @message = Message.new({
+      title: current_school.send_code_title_template,
+      content: current_school.send_code_template,
+      send_by_email: true,
+      send_to_app: false,
+      skip_send_by_email: true,
+      author: current_user,
+      school_id: current_school.id
+    })
+    @message.students = submitted_students_ids.map(&:to_i)
+
+    if @message.save
+      redirect_to edit_message_path(@message), notice: 'Le message a été créé avec succès.'
+    else
+      render :students
+    end
   end
 
   # POST /messages

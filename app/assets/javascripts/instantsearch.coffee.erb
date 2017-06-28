@@ -6,7 +6,7 @@ if not Turbolinks.supported
 $(document).on 'turbolinks:load', ->
   ready()
 ready = () ->
-  if $('.algolia_js').length
+  if $('.algolia_messages').length
 
     $('#hits').on 'click', '.title-and-content', (event) ->
       Turbolinks.visit('/messages/' + $(this).data('message-id') + '/edit')
@@ -31,7 +31,7 @@ ready = () ->
         when 'reject'
           return '<a data-disable-with="Rejet..." href="/messages/reject/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-thumbs-down"></i>Rejeter</a>'
         when 'delete'
-          return '<a data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
+          return '<a data-confirmbootbox="Etes vous sûr?" data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
 
 
     $('#hits').on 'click', '.dropdown-toggle', (event) ->

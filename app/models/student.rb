@@ -4,11 +4,15 @@ class Student < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch synchronous: false do
-    attribute :firstname, :lastname, :school_id, :classroom, :level, :code
+    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email
     attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code]
     attributesForFaceting ['searchable(classroom)', 'searchable(level)']
     customRanking ['desc(classroom)']
     typoTolerance :false
+  end
+
+  def message_sent_by_email
+    self.sent_message_by_email and self.emails.present?
   end
 
   # after_save :set_code, if: "code.blank?"

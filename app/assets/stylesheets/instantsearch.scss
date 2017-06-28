@@ -99,7 +99,7 @@
         background: #fff;
         border: 1px solid #9ea9ad;
       }
-      .dropdown-menu li a .glyphicon {
+      .dropdown-menu li a .glyphicon, .dropdown-menu li a .fa {
         margin-right: 12px;
       }
 
@@ -132,7 +132,6 @@
     }
     .hit-content {
       width: 100%;
-      padding: 12px 5px;
       em {
         background-color: #FFFF00;
         font-style: normal;

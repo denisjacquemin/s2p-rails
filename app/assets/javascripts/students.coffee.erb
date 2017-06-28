@@ -48,7 +48,7 @@ setErrorCounterValue = () ->
 removeLine = (key) ->
   console.log 'removing line ' + key
   $('#' + key).remove()
-  
+
 if not Turbolinks.supported
   $(document).ready ->
     ready()
@@ -64,11 +64,6 @@ ready = () ->
   $('#student_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
-
-  $('#toggle_all').click ->
-    newVal = $('#toggle_all').prop('checked')
-    checkboxes = $('input.scb')
-    checkboxes.prop("checked", newVal)
 
   client = algoliasearch('<%= Rails.application.secrets.algolia_app_id %>', '<%= Rails.application.secrets.algolia_search_api_key %>');
   index = client.initIndex('Group');
@@ -124,6 +119,7 @@ ready = () ->
       alert 'Selectionnez au moins un élève'
       e.preventDefault()
     else
+      $(this).find('.scb').remove()
       $(this).append($('input.scb:checked').clone().attr("type", "hidden"))
       return
       # #e.target.href = e.target.href + '?' + $('input.scb:checked').serialize()

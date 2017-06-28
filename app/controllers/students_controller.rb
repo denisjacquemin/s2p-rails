@@ -12,6 +12,10 @@ class StudentsController < ApplicationController
     @message = Message.new
   end
 
+  def new_index
+    @message = Message.new
+  end
+
   # GET /students/1
   # GET /students/1.json
   def show
@@ -107,7 +111,7 @@ class StudentsController < ApplicationController
 
   def destroy_all
     ActiveRecord::Base.transaction do
-      Student.where(id: params[:s]).destroy_all
+      Student.where(id: params[:student][:id]).destroy_all
     end
     render js: %(window.location.href='#{students_url}') and return
   end
@@ -242,7 +246,7 @@ class StudentsController < ApplicationController
   end
 
   def export_csv
-    students = Student.where(:id => params[:s])
+    students = Student.where(:id => params[:student][:id])
     send_data(students.to_csv_file.encode("cp1252"),
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',

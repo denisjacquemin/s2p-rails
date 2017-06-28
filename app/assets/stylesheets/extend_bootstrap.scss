@@ -1,0 +1,8 @@
+.btn-group > form {
+  display: inline;
+  > form:last-child {
+    > button:last-of-type {
+
+    }
+  }
+}

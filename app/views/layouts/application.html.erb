@@ -50,15 +50,16 @@
     <![endif]-->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <% if not current_user.blank? and (current_user.superadmin? or current_user.admin?) %>
+      <%= javascript_include_tag 'application_admin', 'data-turbolinks-track' => true %>
+    <% end %>
   </head>
 
   <body>
       <%= render 'sidebar' %>
       <div class="container">
         <div id="page-content-wrapper">
-            <div class="container-fluid">
               <%= yield %>
-            </div>
         </div>
       </div>
 
