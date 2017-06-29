@@ -1,0 +1,13 @@
+
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav', active: 'excelunecolonne' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Pourquoi Excel affiche mes données CSV dans une seule colonne?</h2>
+    <p>Parfois, lors de l’ouverture d’un fichier CSV en utilisant Microsoft Excel, toutes les données apparaissent dans la première cellule ou colonne</p>
+    <p>Cela peut être très frustrant et ennuyeux. Cependant, il existe une solution pour facilement lire le fichier dans Excel. Il faut tout simplement utiliser la fonction importation des données.</p>
+    <h3>Options régionales et linguistiques</h3>
+    <p>Ce problème est dû aux options régionales et linguistiques de votre système d’exploitation. Par exemple, lorsque vous utilisez la version anglaise du système d’exploitation Microsoft Windows 7, la langue par défaut sélectionnée est l’anglais (États-Unis). À cause de cela, le séparateur par défaut est une virgule (,). En autres mots, lorsque vous essayez d’ouvrir un fichier CSV avec Excel, Microsoft Excel suppose que les données qui devraient apparaître dans chaque colonne sont séparées par des virgules. Cependant, si votre fichier a été créé dans une autre langue, par exemple le français, les données sont séparées par des point-virgules (;). Voilà donc le problème!</p>
+  </div>
+</div>
