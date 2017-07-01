@@ -124,7 +124,7 @@ private
           retry
         end
       else
-        write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonyme via le bouton 'Nouvel élève'", school_id, user.id)
+        write_error_to_firebase(data, "La paire nom/prénom existe déjà, créez un homonyme via le bouton 'Nouvel élève'", school_id, user_id)
       end
     else
       # get student by code and current school
