@@ -128,7 +128,7 @@ private
       end
     else
       # get student by code and current school
-      student = Student.where('code = ? and school_id = ?', student_data[:code], school_id: school_id).first
+      student = Student.where('code = ? and school_id = ?', student_data[:code], school_id).first
       if student.nil?
         write_error_to_firebase(student_data, "Pas d'élève trouvé pour le code #{student_data[:code]}", school_id, user_id)
       elsif student.update_attributes(student_data)
