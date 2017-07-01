@@ -1,128 +1,117 @@
-<h1>Elèves
-  <% if policy(:student).new? %>
-    <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary fab visible-xs' %>
-    <div class="pull-right hidden-xs">
-      <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
-    </div>
-  <% end %>
-</h1>
-<hr />
-<div class="row students-index" id="students">
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 table-responsive">
-      <% if @students.any? %>
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <% if current_user.admin? %>
-                <th><input type="checkbox" id="toggle_all"/></th>
-              <% end %>
-              <th class="sort" data-sort="lastname"><%= t('activerecord.attributes.student.lastname') %></th>
-              <th class="sort" data-sort="firstname"><%= t('activerecord.attributes.student.firstname') %></th>
-              <th class="sort" data-sort="level"><%= t('activerecord.attributes.student.level') %></th>
-              <th class="sort" data-sort="classroom"><%= t('activerecord.attributes.student.classroom') %></th>
-              <th class="sort" data-sort="code"><%= t('activerecord.attributes.student.code') %></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody class="list">
-            <% @students.each do |student| %>
-              <tr>
-                <% if current_user.admin? %>
-                  <td><%= check_box_tag 'student[id][]', student.id, false, class: 'scb' %> </td>
-                <% end %>
-                <% if policy(student).edit? %>
-                  <td><%= link_to student.lastname, edit_student_path(student), class: "lastname" %></td>
-                <% else %>
-                  <td class="lastname"><%= student.lastname %></td>
-                <% end %>
-                <% if policy(student).edit? %>
-                  <td><%= link_to student.firstname, edit_student_path(student), class: "firstname" %></td>
-                <% else %>
-                  <td class="firstname"><%= student.firstname %></td>
-                <% end %>
-                <td class="level"><%= student.level %></td>
-                <td class="classroom"><%= student.classroom %></td>
-                <td class="code"><%= student.code %></td>
-                <td>
-                  <% if student.followers > 0 %><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><% if student.followers > 1 %><sup><%= student.followers %></sup><% end %><% end %>
-                  <% if student.sent_message_by_email and student.emails.present? %><i class="fa fa-envelope"></i><% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <% if current_user.admin? %>
-        <p>Aucun élève
-          <% if policy(:student).new? %>
-            , <%= link_to 'créer un élève maintenant', new_student_path %> ou <%= link_to 'importer un fichier CSV', new_import_csv_path %></p>
-          <% end %>
-        </p>
-        <% else %>
-          <%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %>
-        <% end %>
+<%= hidden_field_tag 'algolia_search_api_key', current_user.algolia_search_api_key %>
+<%= hidden_field_tag 'current_school_id', current_school.id %>
+
+<div class="row">
+  <div class="col-xs-5">
+    <h1 style="margin:0;">Elèves
+      <% if policy(:student).new? %>
+        <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary fab visible-xs' %>
       <% end %>
-    </div>
-    <% if @students.any? %>
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="form-group">
-              <label for="search">Rechercher</label>
-                <input id="search" class="form-control search" autofocus="" >
-            </div>
-          </div>
-        </div>
-        <% if policy(:student).new? %>
-          <div class="row">
-            <hr />
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <%= link_to 'Import CSV', new_import_csv_path, class: 'btn btn-primary btn-block' %>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 30px">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <%= form_for @message, as: :post, url: students_export_csv_path, method: :post, html: { id: "export_csv" } do |f| %>
-                <%= f.submit 'Export CSV', class: 'btn btn-primary btn-block', id: 'export_csv_submit', :data => { disable_with: false } %>
-              <% end %>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 30px">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <%= link_to 'Effacer', '#' , class: 'btn btn-primary btn-block', id: 'destroy_all' %>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 30px">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <%= form_for(@message) do |f| %>
-                <%= f.hidden_field :title, value: current_school.send_code_title_template  %>
-                <%= f.hidden_field :content, value:  current_school.send_code_template %>
-                <%= f.hidden_field :send_by_email, value: true %>
-                <%= f.hidden_field :send_to_app, value: false %>
-                <%= f.hidden_field :skip_send_by_email, value: true %>
-              <% end %>
-              <%= link_to 'Envoyer code', '#' , class: 'btn btn-primary btn-block', id: 'send_code'%>
-            </div>
-          </div>
+    </h1>
+  </div>
+  <div class="col-xs-7">
+    <div class="hidden-xs btn-toolbar pull-right students_toolbar" role="toolbar" aria-label="...">
+      <div class="btn-group" role="group" aria-label="...">
+        <%= link_to new_import_csv_path, class: 'btn btn-default', rel: "tooltip", 'data-toggle': "tooltip", 'data-placement':"bottom", title: "Import Excel" do %>
+          <i class="fa fa-upload" aria-hidden="true"></i>
         <% end %>
-        <div class="row" style="margin-top: 30px">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <%= "Nombre d'élèves: #{@students.size}" %>
-          </div>
-        </div>
-        <% if current_user.admin? %>
-          <div class="row" style="margin-top: 30px">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <h3>FAQ</h3>
-              <p><%= link_to 'Comment envoyer les codes élèves aux parents ?', faq_path(:anchor => '2') %></p>
-  <!--
-              <p><a href="#">Comment créer un ou plusieurs élèves?</a></p>
-              <p><a href="#">Comment mettre à jour un ou plusieurs élèves?</a></p>
-              <p><a href="#">Comment gérer le passage des élèves d'une année à une autre?</a></p>
-  -->
-            </div>
-          </div>
+        <%= form_for @message, as: :post, url: students_export_csv_path, method: :post, html: { id: "export_csv" } do |f| %>
+          <button type="submit" class='btn btn-default' id='export_csv_submit' rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Export Excel">
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </button>
         <% end %>
+        <span>
+        <button type="button" id="delete_all" class="btn btn-default" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+        </span>
+        <button type="button" class="btn btn-default sendcodetoall" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Envoyer code">
+          <i class="fa fa-id-badge" aria-hidden="true"></i>
+        </button>
       </div>
-    <% end %>
+      <div class="btn-group" role="group" aria-label="...">
+        <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <hr />
+  </div>
 </div>
+
+
+<div class="row algolia algolia_students">
+
+  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+    <div class="clearfix div-row div-row-header">
+      <div class="selectall-checkbox-column"><input type="checkbox" id="toggle_all"/></div>
+      <div class="div-column">Nom</div>
+      <div class="div-column">Prénom</div>
+      <div class="div-column">Classe</div>
+      <div class="div-column">Titulaire</div>
+      <div class="div-column hidden-xs">Code</div>
+      <div class="div-column-action hidden-xs hidden-sm"></div>
+    </div>
+    <div id="hits" class="div-table">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+    <div id="pagination"></div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <div>
+      <div class="pull-left"><span id="selected">0</span> élève(s) sélectionné(s)</div>
+      <div id="stats" class="pull-right"></div>
+    </div>
+    <div id="search-input"></div>
+    <div id="level"></div>
+    <div id="classroom"></div>
+    <div><br/>Afficher un maximum de <div id="hitperpage"></div> élèves par page.</div>
+  </div>
+</div>
+
+<script type="text/html" id="hit-template">
+  <div class="clearfix div-row hit-content" data-student-id="{{{objectID}}}">
+    <div class="checkbox-column row-checkbox toggle-row"><input type="checkbox" name="student[id][]" id="s_" value="{{{objectID}}}" class="scb toggle-row"></div>
+    <div class="div-column">{{{_highlightResult.lastname.value}}}</div>
+    <div class="div-column">{{{_highlightResult.firstname.value}}}</div>
+    <div class="div-column">{{{_highlightResult.level.value}}}</div>
+    <div class="div-column">{{{_highlightResult.classroom.value}}}</div>
+    <div class="div-column hidden-xs">{{{_highlightResult.code.value}}}</div>
+    <div class="div-column-action hidden-xs hidden-sm">
+      {{#followers}}
+        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup>
+      {{/followers}}
+      {{#message_sent_by_email}}
+        <i class="fa fa-envelope"></i>
+      {{/message_sent_by_email}}
+      <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+        <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="{{{objectID}}}">
+          <i class="dd-toggle material-icons">more_vert</i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+        </ul>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="no-results-template">
+  <div id="no-results-message">
+    <p>Aucun élève correspondant <em>"{{query}}"</em>.</p>
+  </div>
+</script>
+
+<script type="text/template" id="facet-item-template">
+
+      <div>
+        <input type="checkbox" class="ais-refinement-list--checkbox" value="{{ name }}">
+        <a href="" class="facet-link toggle-refine {{#disjunctive}}facet-disjunctive{{/disjunctive}} {{#isRefined}}facet-refined{{/isRefined}}" data-facet="{{ facet }}" data-value="{{ name }}">
+          {{ name }}<span class="facet-count">#{{ count }}</span>
+        </a>
+      </div>
+</script>

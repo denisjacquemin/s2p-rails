@@ -1,0 +1,128 @@
+<h1>Elèves
+  <% if policy(:student).new? %>
+    <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary fab visible-xs' %>
+    <div class="pull-right hidden-xs">
+      <%= link_to 'Nouvel élève', new_student_path, class: 'btn btn-primary btn-block' %>
+    </div>
+  <% end %>
+</h1>
+<hr />
+<div class="row students-index" id="students">
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 table-responsive">
+      <% if @students.any? %>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <% if current_user.admin? %>
+                <th><input type="checkbox" id="toggle_all"/></th>
+              <% end %>
+              <th class="sort" data-sort="lastname"><%= t('activerecord.attributes.student.lastname') %></th>
+              <th class="sort" data-sort="firstname"><%= t('activerecord.attributes.student.firstname') %></th>
+              <th class="sort" data-sort="level"><%= t('activerecord.attributes.student.level') %></th>
+              <th class="sort" data-sort="classroom"><%= t('activerecord.attributes.student.classroom') %></th>
+              <th class="sort" data-sort="code"><%= t('activerecord.attributes.student.code') %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="list">
+            <% @students.each do |student| %>
+              <tr>
+                <% if current_user.admin? %>
+                  <td><%= check_box_tag 'student[id][]', student.id, false, class: 'scb' %> </td>
+                <% end %>
+                <% if policy(student).edit? %>
+                  <td><%= link_to student.lastname, edit_student_path(student), class: "lastname" %></td>
+                <% else %>
+                  <td class="lastname"><%= student.lastname %></td>
+                <% end %>
+                <% if policy(student).edit? %>
+                  <td><%= link_to student.firstname, edit_student_path(student), class: "firstname" %></td>
+                <% else %>
+                  <td class="firstname"><%= student.firstname %></td>
+                <% end %>
+                <td class="level"><%= student.level %></td>
+                <td class="classroom"><%= student.classroom %></td>
+                <td class="code"><%= student.code %></td>
+                <td>
+                  <% if student.followers > 0 %><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><% if student.followers > 1 %><sup><%= student.followers %></sup><% end %><% end %>
+                  <% if student.sent_message_by_email and student.emails.present? %><i class="fa fa-envelope"></i><% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <% if current_user.admin? %>
+        <p>Aucun élève
+          <% if policy(:student).new? %>
+            , <%= link_to 'créer un élève maintenant', new_student_path %> ou <%= link_to 'importer un fichier CSV', new_import_csv_path %></p>
+          <% end %>
+        </p>
+        <% else %>
+          <%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %>
+        <% end %>
+      <% end %>
+    </div>
+    <% if @students.any? %>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+              <label for="search">Rechercher</label>
+                <input id="search" class="form-control search" autofocus="" >
+            </div>
+          </div>
+        </div>
+        <% if policy(:student).new? %>
+          <div class="row">
+            <hr />
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= link_to 'Import CSV', new_import_csv_path, class: 'btn btn-primary btn-block' %>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= form_for @message, as: :post, url: students_export_csv_path, method: :post, html: { id: "export_csv" } do |f| %>
+                <%= f.submit 'Export CSV', class: 'btn btn-primary btn-block', id: 'export_csv_submit', :data => { disable_with: false } %>
+              <% end %>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= link_to 'Effacer', '#' , class: 'btn btn-primary btn-block', id: 'destroy_all' %>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= form_for(@message) do |f| %>
+                <%= f.hidden_field :title, value: current_school.send_code_title_template  %>
+                <%= f.hidden_field :content, value:  current_school.send_code_template %>
+                <%= f.hidden_field :send_by_email, value: true %>
+                <%= f.hidden_field :send_to_app, value: false %>
+                <%= f.hidden_field :skip_send_by_email, value: true %>
+              <% end %>
+              <%= link_to 'Envoyer code', '#' , class: 'btn btn-primary btn-block', id: 'send_code'%>
+            </div>
+          </div>
+        <% end %>
+        <div class="row" style="margin-top: 30px">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <%= "Nombre d'élèves: #{@students.size}" %>
+          </div>
+        </div>
+        <% if current_user.admin? %>
+          <div class="row" style="margin-top: 30px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <h3>FAQ</h3>
+              <p><%= link_to 'Comment envoyer les codes élèves aux parents ?', faq_path(:anchor => '2') %></p>
+  <!--
+              <p><a href="#">Comment créer un ou plusieurs élèves?</a></p>
+              <p><a href="#">Comment mettre à jour un ou plusieurs élèves?</a></p>
+              <p><a href="#">Comment gérer le passage des élèves d'une année à une autre?</a></p>
+  -->
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+</div>
