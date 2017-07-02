@@ -1,3 +1,4 @@
+<% @current_school = current_school %>
 <div class="row groups" id="messages-groups-manager">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <div class="panel panel-default">
@@ -11,7 +12,7 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
 
-              <% groups = current_user.groups_by_school(current_school.id) %>
+              <% groups = current_user.groups_by_school(@current_school.id) %>
               <% if groups.present? %>
                 <input type="text" class="filter" data-table="#group_list" placeholder="Rechercher">
                 <table class="table table-hover table-condensed" >
@@ -26,11 +27,11 @@
                 </table>
               <% end %>
               <% if groups.empty? %>
-                <p><%= I18n.t('views.messages.groups_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+                <p><%= I18n.t('views.messages.groups_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
               <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
-              <% students = current_user.students_by_school(current_school.id) %>
+              <% students = current_user.students_by_school(@current_school.id) %>
               <% if students.present? %>
                 <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
                 <table class="table table-hover table-condensed" >
@@ -47,7 +48,7 @@
                 </table>
               <% end %>
               <% if students.empty? %>
-                <p><%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+                <p><%= I18n.t('views.messages.students_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
               <% end %>
             </div>
           </div>

@@ -28,7 +28,7 @@
       <%= f.label :content %>
       <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
     </div>
-    <% if current_user.admin? %>
+    <% unless current_user.user? %>
       <div class="form-group">
         <%= f.check_box :send_by_email %>
         <%= f.label :send_by_email%>
@@ -43,11 +43,5 @@
       </div>
     <% end %>
 
-    <% if current_user.superadmin? %>
-      <div class="form-group">
-        <%= f.label :school %>
-        <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
-      </div>
-    <% end %>
   </div>
 </div>

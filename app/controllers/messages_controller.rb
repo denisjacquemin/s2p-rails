@@ -13,10 +13,11 @@ class MessagesController < ApplicationController
 
   def index
     @algolia_search_api_key = current_user.algolia_search_api_key
-    @current_school_id = current_school.id
-    @current_user = current_user
-    @workflow_active = current_school.validation_workflow_active
     @current_user_role = current_user.role
+    @current_school = current_school
+    @current_school_id = @current_school.id
+    # @current_user = current_user
+    @workflow_active = @current_school.validation_workflow_active
   end
 
   # GET /messages/1
@@ -47,7 +48,6 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
-    # @levels = current_school.levels
   end
 
   def create_sendcode_message

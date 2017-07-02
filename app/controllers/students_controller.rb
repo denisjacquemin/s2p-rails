@@ -8,7 +8,8 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = current_user.students_by_school(current_school.id)
+    @current_school = current_school
+    #@students = current_user.students_by_school(@current_school.id)
     @message = Message.new
   end
 
