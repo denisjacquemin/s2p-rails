@@ -28,6 +28,9 @@
   font-weight: bold;
 }
 
+.div-column {
+  overflow: hidden;
+}
 
 .div-column, .div-column-action, .checkbox-column, .selectall-checkbox-column {
   float: left;
