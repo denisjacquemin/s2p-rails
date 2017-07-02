@@ -44,7 +44,7 @@
 
   <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
     <div class="clearfix div-row div-row-header">
-      <div class="selectall-checkbox-column"><input type="checkbox" id="toggle_all"/></div>
+      <div class="selectall-checkbox-column hidden-xs"><input type="checkbox" id="toggle_all"/></div>
       <div class="div-column">Nom</div>
       <div class="div-column">Prénom</div>
       <div class="div-column">Classe</div>
@@ -76,7 +76,7 @@
 
 <script type="text/html" id="hit-template">
   <div class="clearfix div-row hit-content" data-student-id="{{{objectID}}}">
-    <div class="checkbox-column row-checkbox toggle-row"><input type="checkbox" name="student[id][]" id="s_" value="{{{objectID}}}" class="scb toggle-row"></div>
+    <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="{{{objectID}}}" class="scb toggle-row"></div>
     <div class="div-column">{{{_highlightResult.lastname.value}}}</div>
     <div class="div-column">{{{_highlightResult.firstname.value}}}</div>
     <div class="div-column">{{{_highlightResult.level.value}}}</div>
