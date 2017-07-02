@@ -57,9 +57,10 @@
 
 @media(max-width:767px){
   .div-column {
-    width: 23%;
+    width: 20%;
   }
   .checkbox-column, .selectall-checkbox-column {
+    display: none;
     width:8%;
   }
 }
