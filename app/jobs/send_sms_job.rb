@@ -3,6 +3,6 @@ class SendSmsJob < ApplicationJob
 
   def perform(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
     logger.info "In SendSmsJob #{message} #{to.inspect}"
-    NexmoSMS::sendMessages(message, to, from, type, delivery_receipt)
+    #NexmoSMS::sendMessages(message, to, from, type, delivery_receipt)
   end
 end
