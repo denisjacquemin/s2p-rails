@@ -10,7 +10,7 @@ task :send_sms_notifications => :environment do
     sms_message = "#{message.author.firstname} demande une approbation: #{message.title}"
     phone_numbers = message.school.admins.map{|u| u.phone}
     SendSmsJob.perform_later(sms_message, phone_numbers)
-    message.update_column(wfa_sms_sent: true) # skip updated_at automatic update
+    message.update_column('wfa_sms_sent', true) # skip updated_at automatic update
   end
 
   # find message with status approval_accepted and not older than 1 day and aa_sms_sent to false
@@ -19,7 +19,7 @@ task :send_sms_notifications => :environment do
     sms_message = "Message approuvé: #{message.title}"
     phone_numbers = [message.author.phone]
     SendSmsJob.perform_later(sms_message, phone_numbers)
-    message.update_column(aa_sms_sent: true) # skip updated_at automatic update
+    message.update_column('aa_sms_sent', true) # skip updated_at automatic update
   end
 
   # find message with status approval_refused and not older than 1 day and ar_sms_sent to false
@@ -28,7 +28,7 @@ task :send_sms_notifications => :environment do
     sms_message = "Message refusé: #{message.title}"
     phone_numbers = [message.author.phone]
     SendSmsJob.perform_later(sms_message, phone_numbers)
-    message.update_column(ar_sms_sent: true) # skip updated_at automatic update
+    message.update_column('ar_sms_sent', true) # skip updated_at automatic update
   end
 
 end
