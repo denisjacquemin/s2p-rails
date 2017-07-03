@@ -1,5 +1,3 @@
-require 'nexmo'
-
 class SendSmsJob < ApplicationJob
   queue_as :default
 

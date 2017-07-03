@@ -1,3 +1,5 @@
+require 'nexmo'
+
 module NexmoSMS
   def self.test
     "ok"
