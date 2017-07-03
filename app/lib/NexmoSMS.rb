@@ -6,8 +6,8 @@ module NexmoSMS
   end
 
   def self.sendMessages(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
-    Rails.logger.info "(sendMessages #{Rails.application.secrets.nexmo_key} Rails.application.secrets.nexmo_secret) Sending SMS to (#{to.inspect}), message is #{message}"
-    client = Nexmo::Client.new(key: Rails.application.secrets.nexmo_key, secret: Rails.application.secrets.nexmo_secret)
+    Rails.logger.info "(sendMessages [#{ENV["NEXMO_KEY"]]}) Sending SMS to (#{to.inspect}), message is #{message}"
+    client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
     @message = '[KonectoApp] ' + message
 
