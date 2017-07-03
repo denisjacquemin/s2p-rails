@@ -138,6 +138,9 @@ class Message < ApplicationRecord
   end
 
   def handle_waiting_for_approval
+    self.wfa_sms_sent = false
+    self.aa_sms_sent = false
+    self.ar_sms_sent = false
     # codes = self.school.admins.map{|u| u.code}
     # phone_numbers = self.school.admins.map{|u| u.phone}
     # alert = "#{self.author.firstname} demande une approbation: #{self.title}"

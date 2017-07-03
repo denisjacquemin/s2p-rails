@@ -13,9 +13,9 @@ module NexmoSMS
     to.compact.uniq.each do |number|
       response = client.send_message(from: from, to: number, text: @message[0...160])
       if response['messages'][0]['status'] == '0'
-        logger.debug "Sent message #{response['messages'][0]['message-id']}"
+        logger.info "Sent message #{response['messages'][0]['message-id']}"
       else
-        logger.error "Error: #{response['messages'][0]['error-text']}"
+        logger.info "Error: #{response['messages'][0]['error-text']}"
       end
     end
   end

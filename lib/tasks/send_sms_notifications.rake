@@ -14,7 +14,7 @@ task :send_sms_notifications => :environment do
   end
 
   # find message with status approval_accepted and not older than 1 day and aa_sms_sent to false
-  aa_messages = Message.where('status = ? and updated_at > ? and aa_sms_sent', 4, 1.day.ago, false)
+  aa_messages = Message.where('status = ? and updated_at > ? and aa_sms_sent= ?', 4, 1.day.ago, false)
   aa_messages.each do |message|
     sms_message = "Message approuvé: #{message.title}"
     phone_numbers = [message.author.phone]
@@ -23,7 +23,7 @@ task :send_sms_notifications => :environment do
   end
 
   # find message with status approval_refused and not older than 1 day and ar_sms_sent to false
-  ar_messages = Message.where('status = ? and updated_at > ? and ar_sms_sent', 3, 1.day.ago, false)
+  ar_messages = Message.where('status = ? and updated_at > ? and ar_sms_sent = ?', 3, 1.day.ago, false)
   ar_messages.each do |message|
     sms_message = "Message refusé: #{message.title}"
     phone_numbers = [message.author.phone]
