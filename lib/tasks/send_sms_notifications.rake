@@ -2,6 +2,8 @@ desc "Send SMS Notifications"
 task :send_sms_notifications => :environment do
   ActiveRecord::Base.logger = Logger.new(STDOUT)
 
+  puts "running: send_sms_notifications task"
+
   # find message with status waiting_for_approval and not older than 1 day and wfa_sms_sent to false
   wfa_messages = Message.where('status = ? and updated_at > ? and wfa_sms_sent = ?', 2, 1.day.ago, false)
   wfa_messages.each do |message|

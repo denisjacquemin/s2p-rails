@@ -10,7 +10,7 @@ module NexmoSMS
 
     @message = '[KonectoApp] ' + message
 
-    to.each do |number|
+    to.compact.uniq.each do |number|
       response = client.send_message(from: from, to: number, text: @message[0...160])
       if response['messages'][0]['status'] == '0'
         logger.debug "Sent message #{response['messages'][0]['message-id']}"
