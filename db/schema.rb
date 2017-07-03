@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614120412) do
+ActiveRecord::Schema.define(version: 20170703070116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,9 @@ ActiveRecord::Schema.define(version: 20170614120412) do
     t.json     "attachments"
     t.json     "formdata"
     t.uuid     "muuid"
+    t.boolean  "wfa_sms_sent",       default: false
+    t.boolean  "aa_sms_sent",        default: false
+    t.boolean  "ar_sms_sent",        default: false
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -248,6 +251,7 @@ ActiveRecord::Schema.define(version: 20170614120412) do
     t.integer  "groups",                   default: [],              array: true
     t.string   "algolia_search_api_key"
     t.integer  "new_announcement_counter", default: 0
+    t.string   "phone"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
     t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree

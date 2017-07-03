@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:firstname, :lastname, :email, :role, :function, :schools => [], :group_ids => [], :student_ids => [])
+      params.require(:user).permit(:firstname, :lastname, :email, :role, :phone, :function, :schools => [], :group_ids => [], :student_ids => [])
     end
 
     def new_announcements_viewed_params

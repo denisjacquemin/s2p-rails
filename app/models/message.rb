@@ -138,50 +138,53 @@ class Message < ApplicationRecord
   end
 
   def handle_waiting_for_approval
-    codes = self.school.admins.map{|u| u.code}
+    # codes = self.school.admins.map{|u| u.code}
+    # phone_numbers = self.school.admins.map{|u| u.phone}
+    # alert = "#{self.author.firstname} demande une approbation: #{self.title}"
+    # SendSmsJob.perform_later(alert, phone_numbers,)
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
 
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "#{self.author.firstname} demande une approbation: #{self.title}"
-    data = { "message_id": self.id }
-    send_ios_notifications(alert, "", devicesIOS, data) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-
-    dataAndroid = {
-      "priority": 2,
-      "title": alert,
-      "visibility": 1 # public
-    }
-    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
+    # data = { "message_id": self.id }
+    # send_ios_notifications(alert, "", devicesIOS, data) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    #
+    # dataAndroid = {
+    #   "priority": 2,
+    #   "title": alert,
+    #   "visibility": 1 # public
+    # }
+    # send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def handle_approval_refused
-    codes = [] <<  self.author.code
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "Message refusé: #{self.title}"
-    send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-    dataAndroid = {
-      "priority": 2,
-      "title": alert,
-      "visibility": 1 # public
-    }
-    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
+    # codes = [] <<  self.author.code
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # alert = "Message refusé: #{self.title}"
+    # send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    # dataAndroid = {
+    #   "priority": 2,
+    #   "title": alert,
+    #   "visibility": 1 # public
+    # }
+    # send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def handle_approval_accepted
-    codes = [] <<  self.author.code
-
-    devicesIOS = Device.active.ios.by_codes(codes)
-    alert = "Message approuvé: #{self.title}"
-    send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
-    devicesAndroid = Device.active.android.by_codes(codes)
-    dataAndroid = {
-      "priority": 2,
-      "title": alert,
-      "visibility": 1 # public
-    }
-    send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
+    # codes = [] <<  self.author.code
+    #
+    # devicesIOS = Device.active.ios.by_codes(codes)
+    # alert = "Message approuvé: #{self.title}"
+    # send_ios_notifications(alert, "", devicesIOS) unless devicesIOS.nil?
+    # devicesAndroid = Device.active.android.by_codes(codes)
+    # dataAndroid = {
+    #   "priority": 2,
+    #   "title": alert,
+    #   "visibility": 1 # public
+    # }
+    # send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
   def build_emails(students, message, title, content)
