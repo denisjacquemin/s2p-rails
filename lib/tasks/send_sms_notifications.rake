@@ -9,7 +9,9 @@ task :send_sms_notifications => :environment do
   wfa_messages.each do |message|
     sms_message = "#{message.author.firstname} demande une approbation: #{message.title}"
     phone_numbers = message.school.admins.map{|u| u.phone}
-    SendSmsJob.perform_later(sms_message, phone_numbers)
+    phone_numbers.each do |number|
+      sendMessagesNexmo(sms_message, number)
+    end
     message.update_column('wfa_sms_sent', true) # skip updated_at automatic update
   end
 
@@ -18,7 +20,9 @@ task :send_sms_notifications => :environment do
   aa_messages.each do |message|
     sms_message = "Message approuvé: #{message.title}"
     phone_numbers = [message.author.phone]
-    SendSmsJob.perform_later(sms_message, phone_numbers)
+    phone_numbers.each do |number|
+      sendMessagesNexmo(sms_message, number)
+    end
     message.update_column('aa_sms_sent', true) # skip updated_at automatic update
   end
 
@@ -27,8 +31,27 @@ task :send_sms_notifications => :environment do
   ar_messages.each do |message|
     sms_message = "Message refusé: #{message.title}"
     phone_numbers = [message.author.phone]
-    SendSmsJob.perform_later(sms_message, phone_numbers)
+    phone_numbers.each do |number|
+      sendMessagesNexmo(sms_message, number)
+    end
     message.update_column('ar_sms_sent', true) # skip updated_at automatic update
   end
 
+
+end
+
+def sendMessagesNexmo(message, number)#, from="KonectoApp", type="text", delivery_receipt=true)
+    puts "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{number}), message is #{message}"
+    client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
+
+    @message = '[KonectoApp] ' + message
+
+    puts "[SMS] sending to #{number} with client: #{client.inspect()}"
+    response = client.send_message(from: "KonectoApp", to: number, text: @message[0...160])
+    puts "[SMS] response: #{response.inspect()}"
+    if response['messages'][0]['status'] == '0'
+      puts "[SMS] Sent message #{response['messages'][0]['message-id']}"
+    else
+      puts "[SMS] Error: #{response['messages'][0]['error-text']}"
+    end
 end
