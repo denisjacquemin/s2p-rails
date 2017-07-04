@@ -8,7 +8,7 @@ class SendSmsJob < ApplicationJob
     end
   end
 
-  rescue_from(StandardError) do |exception|
+  rescue_from(Exception) do |exception|
    logger "Exception in SendSmsJob: #{exception.inspect}"
   end
 
