@@ -7,6 +7,13 @@ module NexmoSMS
 
   def self.sendMessages(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
     begin
+      Rails.logger.info "####### In NexmoSMS::sendMessages"
+      Rails.logger.info "ENV['NEXMO_KEY']: #{ENV['NEXMO_KEY']}"
+      Rails.logger.info "ENV['NEXMO_SECRET']: #{ENV['NEXMO_SECRET']}"
+      Rails.logger.info "Rails.application.secrets.nexmo_key: #{Rails.application.secrets.nexmo_key}"
+      Rails.logger.info "Rails.application.secrets.nexmo_secret: #{Rails.application.secrets.nexmo_secret}"
+
+
       Rails.logger.info "(sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{to.inspect}), message is #{message}"
       client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
@@ -21,7 +28,7 @@ module NexmoSMS
         end
       end
     rescue Exception => e
-      Rails.logger.info "Error in NexmoSMS::sendMessages: #{e.inspect}" 
+      Rails.logger.info "Error in NexmoSMS::sendMessages: #{e.inspect}"
     end
   end
 end
