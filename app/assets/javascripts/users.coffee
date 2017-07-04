@@ -36,7 +36,9 @@ $(document).on 'turbolinks:load', ->
     remove school for school in $("#in_schools input:checkbox:checked").closest('tr')
     $("#in_schools input:checkbox:checked").attr('checked', false)
 
-  $('#user_phone').intlTelInput(
+  $('#intlphonenumber').intlTelInput(
       separateDialCode: true
       preferredCountries: ["be", "fr", "lu", "nl"]
   )
+  $('#intlphonenumber').change, () ->
+    $("#user_phone").val($(this).intlTelInput("getNumber"))
