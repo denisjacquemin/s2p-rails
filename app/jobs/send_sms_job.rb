@@ -16,9 +16,9 @@ private
       #client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
       @message = '[KonectoApp] ' + message
-
+      toArray = to.compact.uniq
       logger.info "[SMS] to: #{to.compact.uniq.inspect}"
-      to.compact.uniq.each do |number|
+      toArray.each do |number|
         logger.info "[SMS] sending to #{number} with client: #{client.inspect}"
         #response = client.send_message(from: from, to: number, text: @message[0...160])
         # logger.info "[SMS] response: #{response.inspect}"
