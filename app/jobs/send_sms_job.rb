@@ -1,13 +1,13 @@
 class SendSmsJob < ApplicationJob
   queue_as :default
 
-  def perform(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
+  def perform(message, to)
     logger.info "[SMS] In SendSmsJob #{message} #{to.inspect}"
-    sendMessagesNexmo(message, to, from, type, delivery_receipt)
+    sendMessagesNexmo(message, to)
   end
 
 private
-  def sendMessagesNexmo(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
+  def sendMessagesNexmo(message, to)#, from="KonectoApp", type="text", delivery_receipt=true)
       logger.info "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{to.inspect}), message is #{message}"
       #client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
