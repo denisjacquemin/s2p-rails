@@ -21,10 +21,11 @@ private
 
       to.compact.uniq.each do |number|
         response = client.send_message(from: from, to: number, text: @message[0...160])
+        logger.info "[SMS] response: #{response.inspect}"
         if response['messages'][0]['status'] == '0'
-          logger.info "Sent message #{response['messages'][0]['message-id']}"
+          logger.info "[SMS] Sent message #{response['messages'][0]['message-id']}"
         else
-          logger.info "Error: #{response['messages'][0]['error-text']}"
+          logger.info "[SMS] Error: #{response['messages'][0]['error-text']}"
         end
       end
   end
