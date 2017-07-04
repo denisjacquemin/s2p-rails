@@ -3,10 +3,29 @@ class SendSmsJob < ApplicationJob
 
   def perform(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
     logger.info "[SMS] In SendSmsJob #{message} #{to.inspect}"
-    begin
-      NexmoSMS::sendMessages(message, to, from, type, delivery_receipt)
-    rescue Exception => e
-      logger.info "[SMS] Error: #{e.inspect}"
-    end
+    sendMessagesNexmo(message, to, from, type, delivery_receipt)
+  end
+
+private
+  def sendMessagesNexmo(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
+      logger.info "[SMS] ####### In NexmoSMS::sendMessages"
+      logger.info "[SMS] ENV['NEXMO_KEY']: #{ENV['NEXMO_KEY']}"
+      logger.info "[SMS] ENV['NEXMO_SECRET']: #{ENV['NEXMO_SECRET']}"
+      logger.info "[SMS] Rails.application.secrets.nexmo_key: #{Rails.application.secrets.nexmo_key}"
+      logger.info "[SMS] Rails.application.secrets.nexmo_secret: #{Rails.application.secrets.nexmo_secret}"
+
+      logger.info "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{to.inspect}), message is #{message}"
+      client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
+
+      @message = '[KonectoApp] ' + message
+
+      to.compact.uniq.each do |number|
+        response = client.send_message(from: from, to: number, text: @message[0...160])
+        if response['messages'][0]['status'] == '0'
+          logger.info "Sent message #{response['messages'][0]['message-id']}"
+        else
+          logger.info "Error: #{response['messages'][0]['error-text']}"
+        end
+      end
   end
 end
