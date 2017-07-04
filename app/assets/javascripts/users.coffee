@@ -39,7 +39,7 @@ $(document).on 'turbolinks:load', ->
   $('#intlphonenumber').intlTelInput(
       separateDialCode: true
       preferredCountries: ["be", "fr", "lu", "nl"]
-      setNumber: $("#user_phone").val()
+      autoPlaceholder: 'off'
   )
   $('#intlphonenumber').intlTelInput('setNumber', $("#user_phone").val())
 
