@@ -20,7 +20,7 @@ private
       @message = '[KonectoApp] ' + message
 
       logger.info "[SMS] sending to #{number} with client: #{client.inspect}"
-      response = client.send_message(from: from, to: number, text: @message[0...160])
+      response = client.send_message(from: "KonectoApp", to: number, text: @message[0...160])
       logger.info "[SMS] response: #{response.inspect}"
       if response['messages'][0]['status'] == '0'
         logger.info "[SMS] Sent message #{response['messages'][0]['message-id']}"
