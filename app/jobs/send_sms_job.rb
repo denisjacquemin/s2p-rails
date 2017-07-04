@@ -13,7 +13,7 @@ private
 
       @message = '[KonectoApp] ' + message
 
-      logger.info "to: #{to.compact.uniq.inspect}"
+      logger.info "[SMS] to: #{to.compact.uniq.inspect}"
       to.compact.uniq.each do |number|
         logger.info "[SMS] sending to #{number} with client: #{client.inspect}"
         #response = client.send_message(from: from, to: number, text: @message[0...160])
