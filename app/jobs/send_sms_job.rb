@@ -15,7 +15,7 @@ class SendSmsJob < ApplicationJob
 private
   def sendMessagesNexmo(message, number)#, from="KonectoApp", type="text", delivery_receipt=true)
       logger.info "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{number}), message is #{message}"
-      #client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
+      client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
       @message = '[KonectoApp] ' + message
 
