@@ -6,6 +6,10 @@ class SendSmsJob < ApplicationJob
     sendMessagesNexmo(message, to)
   end
 
+  rescue_from(StandardError) do |exception|
+   logger "Exception in SendSmsJob: #{exception.inspect}"
+  end
+
 private
   def sendMessagesNexmo(message, to)#, from="KonectoApp", type="text", delivery_receipt=true)
       logger.info "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{to.inspect}), message is #{message}"
