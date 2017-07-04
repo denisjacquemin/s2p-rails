@@ -8,12 +8,6 @@ class SendSmsJob < ApplicationJob
 
 private
   def sendMessagesNexmo(message, to=[], from="KonectoApp", type="text", delivery_receipt=true)
-      logger.info "[SMS] ####### In NexmoSMS::sendMessages"
-      logger.info "[SMS] ENV['NEXMO_KEY']: #{ENV['NEXMO_KEY']}"
-      logger.info "[SMS] ENV['NEXMO_SECRET']: #{ENV['NEXMO_SECRET']}"
-      logger.info "[SMS] Rails.application.secrets.nexmo_key: #{Rails.application.secrets.nexmo_key}"
-      logger.info "[SMS] Rails.application.secrets.nexmo_secret: #{Rails.application.secrets.nexmo_secret}"
-
       logger.info "([SMS] sendMessages [#{ENV["NEXMO_KEY"]}]) Sending SMS to (#{to.inspect}), message is #{message}"
       client = Nexmo::Client.new(key: ENV["NEXMO_KEY"], secret: ENV["NEXMO_SECRET"])
 
