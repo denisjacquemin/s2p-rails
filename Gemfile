@@ -34,6 +34,7 @@ gem 'firebase', '~> 0.2.6'
 gem 'cloudinary'
 gem 'attachinary'
 gem 'nexmo'
+gem 'callr'
 
 
 gem "wysiwyg-rails", '>= 2.3.4'
