@@ -33,15 +33,15 @@ task :send_sms_notifications => :environment do
 end
 
 def sendMessageSMS(message, numbers)
-  @message = '[KonectoApp] ' + message
+  @message = '[Konecto] ' + message
 
   if ENV["SMS_PROVIDER"] === 'CALLR'
     numbers.each do |number|
-      sendMessageCallr(@message[0...160], number)
+      sendMessageCallr(@message[0...70], number)
     end
   elsif ENV["SMS_PROVIDER"] === 'NEXMO'
     numbers.each do |number|
-      sendMessageNexmo(@message[0...160], number)
+      sendMessageNexmo(@message[0...70], number)
     end
   end
 end
@@ -62,6 +62,7 @@ end
 
 def sendMessageCallr(message, number)
   begin
+    puts "[SMS] CALLR sending #{message} to #{number}"
     api = CALLR::Api.new(ENV["CALLR_LOGIN"], ENV["CALLR_PASSWORD"])
     api.call('sms.send', 'SMS', number, message, nil)
   rescue CALLR::CallrException, CALLR::CallrLocalException => e
@@ -69,4 +70,18 @@ def sendMessageCallr(message, number)
     puts "[SMS] CALLR ERROR SMS MESSAGE: #{e.msg}"
     puts "[SMS] CALLR ERROR SMS DATA: ", e.data
   end
+end
+
+def sendMessagePlivo(message, number)
+
+  api = RestAPI.new(AUTH_ID, AUTH_TOKEN)
+  params = {
+    #'src' => '1111111111', # Sender's phone number with country code
+    'dst' => number, # Receiver's phone Number with country code
+    'text' => message
+    #'url' => 'http://example.com/report/', # The URL to which with the status of the message is sent
+    'method' => 'POST' # The method used to call the url
+
+    response = api.send_message(params)
+    puts "[SMS] PLIVO response: #{response.inspect}"
 end

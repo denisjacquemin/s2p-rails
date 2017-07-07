@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   get 'help/excelunecolonne', to: 'faq#excelunecolonne'
   get 'help/whatsnew', to: 'faq#whatsnew'
   get 'help/import_winpage', to: 'faq#import_winpage'
+  get 'help/notifications_sms', to: 'faq#notifications_sms'
 
 
 
