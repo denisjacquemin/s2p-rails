@@ -72,16 +72,16 @@ def sendMessageCallr(message, number)
   end
 end
 
-def sendMessagePlivo(message, number)
-
-  api = RestAPI.new(AUTH_ID, AUTH_TOKEN)
-  params = {
-    #'src' => '1111111111', # Sender's phone number with country code
-    'dst' => number, # Receiver's phone Number with country code
-    'text' => message
-    #'url' => 'http://example.com/report/', # The URL to which with the status of the message is sent
-    'method' => 'POST' # The method used to call the url
-
-    response = api.send_message(params)
-    puts "[SMS] PLIVO response: #{response.inspect}"
-end
+# def sendMessagePlivo(message, number)
+#
+#   api = RestAPI.new(AUTH_ID, AUTH_TOKEN)
+#   params = {
+#     #'src' => '1111111111', # Sender's phone number with country code
+#     'dst' => number, # Receiver's phone Number with country code
+#     'text' => message
+#     #'url' => 'http://example.com/report/', # The URL to which with the status of the message is sent
+#     'method' => 'POST' # The method used to call the url
+#
+#     response = api.send_message(params)
+#     puts "[SMS] PLIVO response: #{response.inspect}"
+# end
