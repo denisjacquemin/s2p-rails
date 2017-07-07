@@ -62,9 +62,10 @@ end
 
 def sendMessageCallr(message, number)
   begin
+    optionSMS = { :nature => 'ALERTING' }
     puts "[SMS] CALLR sending #{message} to #{number}"
     api = CALLR::Api.new(ENV["CALLR_LOGIN"], ENV["CALLR_PASSWORD"])
-    api.call('sms.send', 'SMS', number, message, nil)
+    api.call('sms.send', 'SMS', number, message, optionSMS)
   rescue CALLR::CallrException, CALLR::CallrLocalException => e
     puts "[SMS] CALLR ERROR SMS: #{e.code}"
     puts "[SMS] CALLR ERROR SMS MESSAGE: #{e.msg}"
