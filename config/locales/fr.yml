@@ -42,6 +42,7 @@ fr:
         title: Titre
         content: Contenu
         when: Quand
+        send_by_sms: Envoyer par SMS
         send_by_email: 'Envoyer par email'
         send_to_app: 'Envoyer via Smartphone/Tablette'
         skip_send_by_email: 'Ne pas de tenir compte de "Envoi des messages via email"'

@@ -4,13 +4,16 @@ task :send_sms_notifications => :environment do
 
   puts "[SMS] running: send_sms_notifications task"
 
+  nbr_sms_sent = 0
+
   # find message with status waiting_for_approval and not older than 1 day and wfa_sms_sent to false
   wfa_messages = Message.where('status = ? and updated_at > ? and wfa_sms_sent = ?', 2, 1.day.ago, false)
   wfa_messages.each do |message|
     sms_message = "#{message.author.firstname} demande une approbation: #{message.title}"
     phone_numbers = message.school.admins.map{|u| u.phone}
-    sendMessageSMS(sms_message, phone_numbers)
+    wfa_nbr_sms_sent = sendMessageSMS(sms_message, phone_numbers)
     message.update_column('wfa_sms_sent', true) # skip updated_at automatic update
+    nbr_sms_sent = nbr_sms_sent + wfa_nbr_sms_sent
   end
 
   # find message with status approval_accepted and not older than 1 day and aa_sms_sent to false
@@ -18,8 +21,9 @@ task :send_sms_notifications => :environment do
   aa_messages.each do |message|
     sms_message = "Message approuvé: #{message.title}"
     phone_numbers = [message.author.phone]
-    sendMessageSMS(sms_message, phone_numbers)
+    aa_nbr_sms_sent = sendMessageSMS(sms_message, phone_numbers)
     message.update_column('aa_sms_sent', true) # skip updated_at automatic update
+    nbr_sms_sent = nbr_sms_sent + aa_nbr_sms_sent
   end
 
   # find message with status approval_refused and not older than 1 day and ar_sms_sent to false
@@ -27,23 +31,28 @@ task :send_sms_notifications => :environment do
   ar_messages.each do |message|
     sms_message = "Message refusé: #{message.title}"
     phone_numbers = [message.author.phone]
-    sendMessageSMS(sms_message, phone_numbers)
+    ar_nbr_sms_sent = sendMessageSMS(sms_message, phone_numbers)
     message.update_column('ar_sms_sent', true) # skip updated_at automatic update
+    nbr_sms_sent = nbr_sms_sent + ar_nbr_sms_sent
   end
+  puts "[SMS] Number sms sent: #{nbr_sms_sent}"
 end
 
 def sendMessageSMS(message, numbers)
   @message = '[Konecto] ' + message
-
+  nbr_sms_sent = 0
   if ENV["SMS_PROVIDER"] === 'CALLR'
     numbers.each do |number|
-      sendMessageCallr(@message[0...70], number)
+      if sendMessageCallr(@message[0...70], number)
+        nbr_sms_sent = nbr_sms_sent + 1
+      end
     end
   elsif ENV["SMS_PROVIDER"] === 'NEXMO'
     numbers.each do |number|
       sendMessageNexmo(@message[0...70], number)
     end
   end
+  return nbr_sms_sent
 end
 
 def sendMessageNexmo(message, number)#, from="KonectoApp", type="text", delivery_receipt=true)
@@ -65,7 +74,7 @@ def sendMessageCallr(message, number)
     optionSMS = { :nature => 'ALERTING' }
     puts "[SMS] CALLR sending #{message} to #{number}"
     api = CALLR::Api.new(ENV["CALLR_LOGIN"], ENV["CALLR_PASSWORD"])
-    api.call('sms.send', 'SMS', number, message, optionSMS)
+    return api.call('sms.send', 'SMS', number, message, optionSMS)
   rescue CALLR::CallrException, CALLR::CallrLocalException => e
     puts "[SMS] CALLR ERROR SMS: #{e.code}"
     puts "[SMS] CALLR ERROR SMS MESSAGE: #{e.msg}"

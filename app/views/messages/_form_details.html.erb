@@ -13,8 +13,8 @@
 
     <div class="form-group">
       <%= f.label :title %>
-      <%= f.text_field :title, id: "message_title", class: 'form-control counter-input', maxlength: 80, "data-target" => ".message-title-counter" %>
-      <span class="help-block">Maximum 80 caractères, reste <span class="message-title-counter"></span>.</span>
+      <%= f.text_field :title, id: "message_title", class: 'form-control counter-input', maxlength: 160, "data-target" => ".message-title-counter" %>
+      <span class="help-block">Maximum 160 caractères, reste <span class="message-title-counter"></span>.</span>
     </div>
 
   <!--
@@ -36,6 +36,10 @@
       <div class="form-group">
         <%= f.check_box :send_to_app %>
         <%= f.label :send_to_app %>
+      </div>
+      <div class="form-group send_by_sms_container" style=<%= "#{'display:none' if message.mtype != 'rappel'}" %>>
+        <%= f.check_box :send_by_sms %>
+        <%= f.label :send_by_sms %>
       </div>
       <div class="form-group">
         <%= f.check_box :skip_send_by_email %>

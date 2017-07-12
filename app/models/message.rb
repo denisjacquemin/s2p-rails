@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   include Notification
+  include Bulksms
   include Status
   include ActionView::Helpers::TextHelper # for truncate
   include AlgoliaSearch
@@ -115,9 +116,8 @@ class Message < ApplicationRecord
 
       send_message_notifications(self) if self.send_to_app
 
-
-      students = Student.by_groups(groups) unless groups.nil?
-      students = students + Student.find(self.students) unless self.students.nil?
+      students = Student.includes(:phones).by_groups(groups) unless groups.nil?
+      students = students + Student.includes(:phones).find(self.students) unless self.students.nil?
       students = students.uniq
       # student_codes = students.map {|s| s.code }
       # codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
@@ -129,6 +129,13 @@ class Message < ApplicationRecord
 
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
+      if self.send_by_sms
+        phones = students.select {|s|  s.phones.present?}.map {|s| s.phones.select(:id, :number)}.flatten.compact.uniq
+
+        phones.each_slice(20) {|a|
+          SendSmsJob.perform_later(self, a)}
+      end
+
       build_emails(students, self, self.title, self.content) if self.send_by_email and students.present?
     end
   end

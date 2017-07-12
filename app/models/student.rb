@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch synchronous: false do
-    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email
+    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count
     attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code]
     attributesForFaceting ['searchable(classroom)', 'searchable(level)']
     customRanking ['asc(classroom)']
@@ -13,6 +13,10 @@ class Student < ApplicationRecord
 
   def message_sent_by_email
     self.sent_message_by_email and self.emails.present?
+  end
+
+  def phones_count
+    self.phones.count
   end
 
   # after_save :set_code, if: "code.blank?"
@@ -25,6 +29,10 @@ class Student < ApplicationRecord
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
+  has_many :phones, inverse_of: :student
+  accepts_nested_attributes_for :phones,
+    :allow_destroy => true,
+    :reject_if => proc { |att| att[:number].blank? }
 
 
   default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }

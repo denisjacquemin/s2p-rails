@@ -32,6 +32,7 @@ class StudentsController < ApplicationController
   # GET /students/1/edit
   def edit
     authorize @student
+    @student.phones.new if @student.phones.count == 0
   end
 
   # POST /students
@@ -262,6 +263,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, :emails)
+      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, :emails, phones_attributes: [:id, :number, :owner_name, :_destroy])
     end
 end

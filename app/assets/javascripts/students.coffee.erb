@@ -58,6 +58,43 @@ $(document).on 'turbolinks:load', ->
 
 
 ready = () ->
+  $('.add_fields').addClass('btn btn-primary')
+
+  if $('#edit_student').length
+
+    $('.intlphonenumber').intlTelInput(
+        separateDialCode: true
+        preferredCountries: ["be", "fr", "lu", "nl"]
+        autoPlaceholder: 'off'
+    )
+    for intlphonenumber in $('.intlphonenumber')
+      do (intlphonenumber) ->
+        hiddenNumber = $(intlphonenumber).closest('.row').find('input[type=hidden].form-control')
+        $(intlphonenumber).intlTelInput('setNumber', hiddenNumber.val())
+
+    $('#intlphonenumber').change () ->
+      $("#user_phone").val($(this).intlTelInput("getNumber"))
+
+  $('form').on 'click', '.remove_fields', (event) ->
+    $(this).next('input[type=hidden]').val('1')
+    $(this).closest('.row').hide()
+    event.preventDefault()
+
+  $('form').on 'click', '.add_fields', (event) ->
+    time = new Date().getTime()
+    regexp = new RegExp($(this).data('id'), 'g')
+    elem = $($(this).data('fields').replace(regexp, time))
+    $(this).before(elem)
+    elem.find('.intlphonenumber').intlTelInput(
+        separateDialCode: true
+        preferredCountries: ["be", "fr", "lu", "nl"]
+        autoPlaceholder: 'off'
+    )
+    event.preventDefault()
+
+  $('form').on 'change', '.intlphonenumber', (event) ->
+    $(this).closest('.row').find('input[type=hidden].form-control').val($(this).intlTelInput("getNumber"))
+
   $('#student_manage_group #add').click ->
     add group for group in $("#group_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked").attr('checked', false)

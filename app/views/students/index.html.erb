@@ -89,6 +89,9 @@
       {{#message_sent_by_email}}
         <i class="fa fa-envelope"></i>
       {{/message_sent_by_email}}
+      {{#phones_count}}
+        <span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup>
+      {{/phones_count}}
       <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
         <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="{{{objectID}}}">
           <i class="dd-toggle material-icons">more_vert</i>

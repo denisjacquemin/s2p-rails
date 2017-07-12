@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170703070116) do
+ActiveRecord::Schema.define(version: 20170707122333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 20170703070116) do
     t.boolean  "wfa_sms_sent",       default: false
     t.boolean  "aa_sms_sent",        default: false
     t.boolean  "ar_sms_sent",        default: false
+    t.boolean  "send_by_sms",        default: false
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -114,6 +115,14 @@ ActiveRecord::Schema.define(version: 20170703070116) do
     t.string   "file_url"
     t.integer  "school_id"
     t.integer  "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "phones", force: :cascade do |t|
+    t.string   "owner_name"
+    t.string   "number"
+    t.integer  "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

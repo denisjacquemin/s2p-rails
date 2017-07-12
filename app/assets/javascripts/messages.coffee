@@ -87,9 +87,11 @@ $(document).on 'turbolinks:load', ->
     if $('#mtype').val() == 'message'
       $('.alert_mtype').hide()
       $('.message_mtype').show()
+      $('.send_by_sms_container').hide()
     else
       $('.alert_mtype').show()
       $('.message_mtype').hide()
+      $('.send_by_sms_container').show()
   $('.submit_with_status').click (e) ->
     e.preventDefault()
     console.log "$('.submit_with_status').click"
