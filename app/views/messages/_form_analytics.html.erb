@@ -19,6 +19,21 @@
       }
     }
 
+    addSmsLine = function(target, name, number, status, created_at) {
+
+      var line = '<tr class="" id="number">';
+      line += "<td>" + name + "</td>";
+      line += "<td>" + number + "</td>";
+      line += "<td>" + status + "</td>";
+      line += "<td>" + created_at + "</td>"
+      line += "</tr>"
+      if ($('#' + number).length) {
+        $('#' + number).replaceWith($(line))
+      } else {
+        $('#' + target + '_rows').prepend($(line));
+      }
+    }
+
     getcomment = function(reason, event) {
       var comment = ''
       switch(event) {
@@ -77,13 +92,13 @@
     messagesRef.child('open').orderByChild('timestamp').on('child_added', function(data) {
       addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
       $('#counter_open').text($('.open').length);
-      $('.total_counter').text($('.open, .mobile').length);
+      $('.total_counter').text($('.open, .mobile, .sms').length);
     });
 
     messagesRef.child('view').on('child_added', function(data) {
       addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
       $('#counter_mobile').text($('.mobile').length);
-      $('.total_counter').text($('.open, .mobile').length);
+      $('.total_counter').text($('.open, .mobile, .sms').length);
     });
 
     messagesRef.child('dropped').orderByChild('timestamp').on('child_added', function(data) {
@@ -96,6 +111,13 @@
       $('#counter_dropped').text($('.dropped').length);
     });
 
+    messagesRef.child('sms'.orderByChild('timestamp').on('child_added', function(data) {
+      addSmsLine('sms', data.val().name, data.val().number, data.val().status, data.val().created_at);
+      $('.counter_sms').text('bim length here')
+      $('.total_counter').text($('.open, .mobile, .sms').length)
+    });
+
+
   </script>
 <% end %>
 <div class="row">
@@ -103,18 +125,110 @@
     <h2><%= message.title %></h2>
     <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
   </div>
-  <div class="col-xs-12 col-sm-7 col-md-4  col-lg-4 ">
-    <div class="total_counter_container" style="text-align:right">
-      <h1 class="total_counter">0</h1>
-      <p>Vues total</p>
-      <% unless message.publish_date.nil? %>
-      <% end %>
-      <br/>
+  <div class="col-xs-12 col-sm-7 col-md-4  col-lg-4 total_counter_container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-5 col-md-8 col-lg-8">
+        <div><span id="counter_delivered">0</span> emails envoyés</div>
+        <div><span id="counter_open">0</span> emails ouverts</div>
+        <div><span id="counter_mobile">0</span> vues App mobile</div>
+        <div><span id="counter_sms">0</span> SMS envoyés/vus</div>
+        <div><span id="counter_dropped">0</span> emails en erreur</div>
+      </div>
+      <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4" style="text-align:right">
+        <h1 class="total_counter">0</h1>
+        <p>Vues total</p>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés</a></li>
+      <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts</a></li>
+      <li role="presentation"><a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile</a></li>
+      <li role="presentation"><a href="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus</a></li>
+      <li role="presentation"><a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="delivered_rows"></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane table-responsive" id="open_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="open_rows"></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
+        <% if @message.mtype == "rappel" %>
+          <p>Pas de statistique App mobile pour un message court.</p>
+        <% else %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Source</th>
+                <th>Commentaire</th>
+                <th>Date/heure</th>
+              </tr>
+            </thead>
+            <tbody id="mobile_rows"></tbody>
+          </table>
+        <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane table-responsive" id="sms_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nom</th>
+              <th>Numéro</th>
+              <th>Statut</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="sms_rows"></tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="dropped_rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="row">
   <div class="row nav nav-tabs" role="tablist">
     <a href="#delivered_list" class="active" aria-controls="delivered_list" role="tab" data-toggle="tab">
       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -184,10 +298,27 @@
         </div>
       </div>
     </a>
+    <a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">
+      <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+        <div class="panel panel-red">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-warning fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge" id="counter_dropped">0</div>
+                <div>Emails en erreur</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
   </div>
-</div>
+</div> -->
 
-<div class="row" id="analyticstabs">
+<!-- <div class="row" id="analyticstabs">
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
@@ -264,3 +395,4 @@
     </dl>
   </div>
 </div>
+-->
