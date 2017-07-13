@@ -49,7 +49,7 @@ private
             nbr_sms_sent = nbr_sms_sent + 1
           end
         rescue CALLR::CallrException, CALLR::CallrLocalException => e
-          puts "[SMS] CALLR ERROR SMS: #{e.inspect()}"
+          puts "[SMS] CALLR ERROR SMS: #{e.inspect()} #{e.code} #{e.to_s}"
           puts "[SMS] CALLR ERROR SMS MESSAGE: #{e.msg}"
           puts "[SMS] CALLR ERROR SMS DATA: ", e.data
         end

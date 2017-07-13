@@ -130,10 +130,10 @@ class Message < ApplicationRecord
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
       if self.send_by_sms
+        logger.info "send_by_sms: #{students.inspect}"
         phones = students.select {|s|  s.phones.present?}.map {|s| s.phones.select(:id, :number)}.flatten.compact.uniq
 
-        phones.each_slice(20) {|a|
-          SendSmsJob.perform_later(self, a)}
+        phones.each_slice(20) {|a| SendSmsJob.perform_later(self, a)}
       end
 
       build_emails(students, self, self.title, self.content) if self.send_by_email and students.present?
