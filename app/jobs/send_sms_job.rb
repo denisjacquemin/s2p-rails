@@ -45,7 +45,7 @@ private
       phones.each do |phone|
         optionSMS = { :nature => 'ALERTING', :force_encoding => 'GSM', :user_data => "mid#{message.id};sid#{message.school_id};pid#{phone.id}" }
         begin
-          if api.call('sms.send', 'SMS', phone.number, message, optionSMS)
+          if api.call('sms.send', 'SMS', phone.number, message.title, optionSMS)
             nbr_sms_sent = nbr_sms_sent + 1
           end
         rescue CALLR::CallrException, CALLR::CallrLocalException => e
