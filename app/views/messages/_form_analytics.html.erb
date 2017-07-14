@@ -24,9 +24,10 @@
       var numberSanitized = number.replace('+', '');
 
       var line = '<tr class="" id="' + numberSanitized + '">';
+      line += "<td></td>";
       line += "<td>" + name + "</td>";
       line += "<td>" + number + "</td>";
-      line += "<td>" + status + "</td>";
+      line += "<td>" + getSMSStatus(status) + "</td>";
       line += "<td>" + created_at + "</td>"
       line += "</tr>"
       if ($('#' + numberSanitized).length) {
@@ -34,6 +35,16 @@
       } else {
         $('#' + target + '_rows').prepend($(line));
       }
+    }
+
+    getSMSStatus = function(status) {
+      var statusToReturn = ""
+      switch(status) {
+        case 'SENT':
+          statusToReturn = "Envoyé"
+          break;
+      }
+      return statusToReturn;
     }
 
     getcomment = function(reason, event) {
