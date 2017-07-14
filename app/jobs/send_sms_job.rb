@@ -44,6 +44,7 @@ private
       nbr_sms_sent = 0
       phones.each do |phone|
         optionSMS = { :nature => 'ALERTING', :force_encoding => 'GSM', :user_data => "mid#{message.id};sid#{message.school_id};pid#{phone.id}" }
+        puts "[SMS] CALLR optionSMS: #{optionSMS.inspect}"
         begin
           if api.call('sms.send', 'SMS', phone.number, message.title, optionSMS)
             nbr_sms_sent = nbr_sms_sent + 1
