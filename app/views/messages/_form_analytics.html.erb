@@ -111,7 +111,7 @@
       $('#counter_dropped').text($('.dropped').length);
     });
 
-    messagesRef.child('sms'.orderByChild('timestamp').on('child_added', function(data) {
+    messagesRef.child('sms').orderByChild('timestamp').on('child_added', function(data) {
       addSmsLine('sms', data.val().name, data.val().number, data.val().status, data.val().created_at);
       $('.counter_sms').text('bim length here')
       $('.total_counter').text($('.open, .mobile, .sms').length)
