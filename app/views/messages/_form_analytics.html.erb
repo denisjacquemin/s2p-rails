@@ -21,14 +21,16 @@
 
     addSmsLine = function(target, name, number, status, created_at) {
 
-      var line = '<tr class="" id="number">';
+      var numberSanitized = number.replace('+', '');
+
+      var line = '<tr class="" id="' + numberSanitized + '">';
       line += "<td>" + name + "</td>";
       line += "<td>" + number + "</td>";
       line += "<td>" + status + "</td>";
       line += "<td>" + created_at + "</td>"
       line += "</tr>"
-      if ($('#' + number).length) {
-        $('#' + number).replaceWith($(line))
+      if ($('#' + numberSanitized).length) {
+        $('#' + numberSanitized).replaceWith($(line))
       } else {
         $('#' + target + '_rows').prepend($(line));
       }
