@@ -24,8 +24,8 @@
       var numberSanitized = number.replace('+', '');
 
       statusClass = 'sent'
-      if status = 'RECEIVED' {
-        statusClass='received'
+      if status == 'RECEIVED' {
+        statusClass = 'received'
       }
 
       var line = '<tr class="' + statusClass + '" id="' + numberSanitized + '">';
