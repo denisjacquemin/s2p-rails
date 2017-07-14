@@ -23,7 +23,12 @@
 
       var numberSanitized = number.replace('+', '');
 
-      var line = '<tr class="" id="' + numberSanitized + '">';
+      statusClass = 'sent'
+      if status = 'RECEIVED' {
+        statusClass='received'
+      }
+
+      var line = '<tr class="' + statusClass + '" id="' + numberSanitized + '">';
       line += "<td></td>";
       line += "<td>" + name + "</td>";
       line += "<td>" + number + "</td>";
@@ -108,13 +113,13 @@
     messagesRef.child('open').orderByChild('timestamp').on('child_added', function(data) {
       addLine('open', data.val().event, data.val().reason, data.val().source, data.val().created_at);
       $('#counter_open').text($('.open').length);
-      $('.total_counter').text($('.open, .mobile, .sms').length);
+      $('.total_counter').text($('.open, .mobile, .received').length);
     });
 
     messagesRef.child('view').on('child_added', function(data) {
       addLine('mobile', data.val().event, data.val().reason, data.val().source, data.val().created_at);
       $('#counter_mobile').text($('.mobile').length);
-      $('.total_counter').text($('.open, .mobile, .sms').length);
+      $('.total_counter').text($('.open, .mobile, .received').length);
     });
 
     messagesRef.child('dropped').orderByChild('timestamp').on('child_added', function(data) {
@@ -129,8 +134,8 @@
 
     messagesRef.child('sms').orderByChild('timestamp').on('child_added', function(data) {
       addSmsLine('sms', data.val().name, data.val().number, data.val().status, data.val().created_at);
-      $('.counter_sms').text('bim length here')
-      $('.total_counter').text($('.open, .mobile, .sms').length)
+      $('.counter_sms').text($('.received, .sent').length)
+      $('.total_counter').text($('.open, .mobile, .received').length)
     });
 
 
@@ -147,7 +152,7 @@
         <div><span id="counter_delivered">0</span> emails envoyés</div>
         <div><span id="counter_open">0</span> emails ouverts</div>
         <div><span id="counter_mobile">0</span> vues App mobile</div>
-        <div><span id="counter_sms">0</span> SMS envoyés/vus</div>
+        <div><span id="counter_sms">0</span> SMS envoyés/reçus</div>
         <div><span id="counter_dropped">0</span> emails en erreur</div>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4" style="text-align:right">
@@ -242,173 +247,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- <div class="row">
-  <div class="row nav nav-tabs" role="tablist">
-    <a href="#delivered_list" class="active" aria-controls="delivered_list" role="tab" data-toggle="tab">
-      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <div class="panel">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-envelope fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="counter_delivered">0</div>
-                <div>Emails envoyés</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-    <a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">
-      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <div class="panel panel-green">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="material-icons" style="font-size:5.2em">drafts</i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="counter_open">0</div>
-                <div>Emails ouverts</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-    <a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">
-      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <div class="panel panel-yellow">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-mobile-phone fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="counter_mobile">0</div>
-                <div>Vues App mobile</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-    <a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">
-      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-        <div class="panel panel-red">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-warning fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="counter_dropped">0</div>
-                <div>Emails en erreur</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-    <a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">
-      <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
-        <div class="panel panel-red">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-warning fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="counter_dropped">0</div>
-                <div>Emails en erreur</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-</div> -->
-
-<!-- <div class="row" id="analyticstabs">
-  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody id="delivered_rows"></tbody>
-        </table>
-      </div>
-      <div role="tabpanel" class="tab-pane table-responsive" id="open_list">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody id="open_rows"></tbody>
-        </table>
-      </div>
-      <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
-        <% if @message.mtype == "rappel" %>
-          <p>Pas de statistique App mobile pour un message court.</p>
-        <% else %>
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Source</th>
-                <th>Commentaire</th>
-                <th>Date/heure</th>
-              </tr>
-            </thead>
-            <tbody id="mobile_rows"></tbody>
-          </table>
-        <% end %>
-      </div>
-      <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody id="dropped_rows"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-    <h3>Statistiques</h3>
-    <p>La page <em>Statistiques</em> vous permet d'afficher un aperçu de l'activité liée à un message <em>publié</em>.</p>
-    <p>Vous êtes en mesure de voir les données sur les types d'événements suivants:</p>
-    <dl>
-      <dt><i class="fa fa-envelope"></i> Email envoyé</dt>
-      <dd>Un email a été envoyé à un destinataire.</dd>
-      <dt><i class="material-icons">drafts</i> Email ouvert</dt>
-      <dd>Un email a été ouvert par un destinataire. Le système ne peut pas détecter l'ouverture d'un email si celui-ci est ouvert par le destinataire en mode non connecté.</dd>
-      <dt><i class="fa fa-mobile-phone fa-2x"></i> Ouvert par une app mobile</dt>
-      <dd>Le message a été vu sur smartphone ou tablette. Le système ne peut pas détecter la vue d'un message si celui-ci est ouvert en mode non connecté.</dd>
-      <dt><i class="fa fa-warning"></i> Email non envoyé</dt>
-      <dd>L'email n'a pu être envoyé, la colonne <em>commentaire</em> contient la raison de l'échec de l'envoi.</dd>
-    </dl>
-  </div>
-</div>
--->
