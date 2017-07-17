@@ -8,7 +8,7 @@ $(document).on 'turbolinks:load', ->
 
 ready = () ->
   current_user_count = parseInt($('#current_user_new_announcement_counter').val())
-  current_value = 6
+  current_value = 7
   if current_user_count < current_value
     $('#new_announcement_menu_icon, #new_announcements_menu_item').addClass('new-announcements')
 
