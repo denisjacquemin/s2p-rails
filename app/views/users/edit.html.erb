@@ -26,20 +26,11 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="form-group">
-                <%= f.label :email %>
-                <%= f.text_field :email, class: "form-control" %>
-                <p class="help-block">Apparaît dans la signature des messages et est l'adresse "répondre à" des emails.</p>
+                <%= f.label :email_reply_to, 'Email répondre à' %>
+                <%= f.text_field :email_reply_to, class: "form-control", value: @user.reply_to %>
+                <p class="help-block">Apparaît dans la signature des messages et comme adresse "répondre à" des emails.</p>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-              <div class="form-group">
-                <%= f.label :function, 'Fonction' %>
-                <%= f.text_field :function, class: "form-control" %>
-                <p class="help-block">Apparaît dans la signature des messages.</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="form-group">
                 <%= f.label :phone, 'Téléphone (SMS)' %><br/>
@@ -49,7 +40,19 @@
               </div>
             </div>
           </div>
-          <% unless @user.admin? %>
+          <% unless current_user.user? %>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="form-group">
+                <%= f.label :function, 'Fonction' %>
+                <%= f.text_field :function, class: "form-control" %>
+                <p class="help-block">Apparaît dans la signature des messages.</p>
+              </div>
+            </div>
+          </div>
+          <% end %>
+
+          <% unless @user.admin? or current_user.user? %>
             <div class="row groups">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
                   <div class="panel panel-default">

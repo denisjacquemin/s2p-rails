@@ -61,6 +61,14 @@ class User < ApplicationRecord
     end
   end
 
+  def reply_to
+    if self.email_reply_to.blank?
+      return self.email
+    else
+      return self.email_reply_to
+    end
+  end
+
   def active?
     self.deleted_at === nil
   end

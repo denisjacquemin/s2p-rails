@@ -23,8 +23,22 @@ class UserPolicy < ApplicationPolicy
     # if user is admin then can edit only user with the same school
     return false if @user.admin? and not (@user.schools & @record.schools).any?
 
-    # only admin and superadmin can edit a user
-    @user.admin? || @user.superadmin?
+    # if user is a user then can edit only his own accout
+    return false if @user.user? and not (@user.id == @record.id)
+
+    return true
+
+  end
+
+  def update?
+    # if user is admin then can edit only user with the same school
+    return false if @user.admin? and not (@user.schools & @record.schools).any?
+
+    # if user is a user then can edit only his own accout
+    return false if @user.user? and not (@user.id == @record.id)
+
+    return true
+
   end
 
   def update_schools?

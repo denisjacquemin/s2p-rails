@@ -54,4 +54,6 @@
 //= require table_filter
 //= require bootstrap_js_activation
 //= require tab-focus
+//= require intlTelInput.min
+//= require utils
 // require_tree .

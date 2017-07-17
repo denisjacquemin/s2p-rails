@@ -5,7 +5,7 @@ class MessageMailer < ApplicationMailer
     @message = message
     @message.title = title
     @message.content = content
-    
+
     #attachments['konecto_logo.png'] = File.read(Rails.root.join("app","assets", "images","konecto_logo.png"))
     #attachments.inline[@message.mfiles[0].filename] = open('https:' + @message.mfiles[0].file_url) {|f| f.read }
     # if @message.mfiles.any?
@@ -56,7 +56,7 @@ class MessageMailer < ApplicationMailer
     headers "X-SMTPAPI" => x_smptapi_hash.to_json
 
     from = "#{@message.school_name} - #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
-    reply_to = @message.author.fullname + '<' + @message.author.email + '>' || 'konecto@konectoapp.com'
+    reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || 'konecto@konectoapp.com'
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170714100742) do
+ActiveRecord::Schema.define(version: 20170717134530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 20170714100742) do
     t.string   "algolia_search_api_key"
     t.integer  "new_announcement_counter", default: 0
     t.string   "phone"
+    t.string   "email_reply_to",           default: ""
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
     t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
