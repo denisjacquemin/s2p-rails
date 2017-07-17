@@ -7,6 +7,11 @@
       if (typeof(source)==='undefined') source = '';
 
       var text = event + source
+
+      if (event == 'delivered') {
+        text = text + created_at
+      }
+
       if (!uniqueTr[text]) {
         uniqueTr[text] = true;
         var line = '<tr class="' + target + '">';
