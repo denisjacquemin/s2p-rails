@@ -1,0 +1,26 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'nav', active: 'message_sms' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2>Messages SMS</h2>
+    <p>En cas d'urgence, rassurer, informer, la communication vers les parents est cruciale. Le SMS reste le moyen le plus rapide d'atteindre les gens.</p>
+    <p>Le coût est de 0,10 euro par SMS envoyé. La commande de pack(s) PRE-PAID de 1000 SMS pour 100 euros HTVA se fait via le <a href="/contact_support">formulaire de contact</a></p>
+    <p>A la commande mentionnez:
+      <ul>
+        <li>Le nombre de pack(s) de 1000 SMS</li>
+        <li>La répartition des ces packs pour les differentes implantations</li>
+        <li>Si la commande est urgente, mentionnez le.</li>
+      </ul>
+    </p>
+    <p>Le provision de SMS pour <em><%= current_school.name %></em> est actuellement de <%= current_school.sms_provision %>.
+    <h3>Comment envoyer un message SMS</h3>
+    <p>
+      Pour envoyer des SMS, choississez le type de <em>message court</em> à la création du message, ensuite cochez <em>envoyer par SMS</em>.<br/>
+      Un message sera envoyé aux numéros de téléphones correspondant à chaque élèves destinataires.<br/>
+      Si un même numéro de téléphone est associé à plusieurs élèves, un seul message est envoyé.<br/>
+      L'écran de statistiques d'un message publié montre la liste des messages SMS envoyés.<br/>
+      Votre provison de SMS est automatiquement mise à jour.
+    </p>
+  </div>
+</div>

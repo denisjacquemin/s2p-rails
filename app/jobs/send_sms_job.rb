@@ -3,7 +3,8 @@ class SendSmsJob < ApplicationJob
 
   def perform(message, phones)
     logger.info "[SMS] In SendSmsJob #{message.title} #{phones.inspect}"
-    sendMessageSMS(message, phones)
+    nbr_sms_sent = sendMessageSMS(message, phones)
+    message.school.decrement!(:sms_provision, nbr_sms_sent) if nbr_sms_sent > 0
   end
 
   rescue_from(Exception) do |exception|

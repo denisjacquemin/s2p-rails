@@ -14,6 +14,10 @@ class School < ApplicationRecord
     self[:send_code_title_template] || I18n.t('views.students.sendcode.title')
   end
 
+  def has_sms_provision?
+    self.sms_provision > 0
+  end
+
   def users
     User.by_school(self.id)
   end

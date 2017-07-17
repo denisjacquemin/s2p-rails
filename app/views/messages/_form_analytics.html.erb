@@ -29,7 +29,6 @@
       }
 
       var line = '<tr class="' + statusClass + '" id="' + numberSanitized + '">';
-      line += "<td></td>";
       line += "<td>" + name + "</td>";
       line += "<td>" + number + "</td>";
       line += "<td>" + getSMSStatus(status) + "</td>";
@@ -174,6 +173,9 @@
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails envoyés. Si l'email est classé dans le dossier SPAM de parents, conseillez leur d'ajouter l'adresse konecto@konectoapp.com à leur carnet d'adresses.
+        </div>
         <table class="table">
           <thead>
             <tr>
@@ -187,6 +189,9 @@
         </table>
       </div>
       <div role="tabpanel" class="tab-pane table-responsive" id="open_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des accusés de lecture des emails. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet. D'autres raisons techniques peuvent empêcher l'accusé d'apparaître sur cet écran.
+        </div>
         <table class="table">
           <thead>
             <tr>
@@ -201,8 +206,13 @@
       </div>
       <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
         <% if @message.mtype == "rappel" %>
-          <p>Pas de statistique App mobile pour un message court.</p>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Pas de statistique App mobile pour un message court.
+          </div>
         <% else %>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Ci-dessous la liste des accusés de lecture du message via smartphones ou tablettes. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet.
+          </div>
           <table class="table">
             <thead>
               <tr>
@@ -217,10 +227,15 @@
         <% end %>
       </div>
       <div role="tabpanel" class="tab-pane table-responsive" id="sms_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des numéros de téléphones auquels un SMS a été envoyé. 2 statuts possibles: <em>Envoyé</em> et <em>Reçu</em>.
+        </div>
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Pour envoyer des SMS aux parents, créez un message de type court et sélectionnez <em>Envoyer par SMS</em>.
+        </div>
         <table class="table">
           <thead>
             <tr>
-              <th></th>
               <th>Nom</th>
               <th>Numéro</th>
               <th>Statut</th>
@@ -232,6 +247,9 @@
       </div>
 
       <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails qui n'ont pu être envoyés. Vérifiez que les emails sont corrects.
+        </div>
         <table class="table">
           <thead>
             <tr>

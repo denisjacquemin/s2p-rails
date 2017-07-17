@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707122333) do
+ActiveRecord::Schema.define(version: 20170714100742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 20170707122333) do
     t.string   "file_url"
     t.text     "send_code_template"
     t.string   "send_code_title_template"
+    t.integer  "sms_provision",              default: 0
   end
 
   create_table "students", force: :cascade do |t|

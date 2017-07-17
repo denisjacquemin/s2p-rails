@@ -19,7 +19,7 @@
         <a class="tab-link" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
       </li>
       <% end %>
-      <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
+      <% if not message.publish_date.nil? %>
         <li role="presentation">
           <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a>
         </li>
@@ -73,7 +73,7 @@
         </div>
       <% end %>
 
-      <% if not message.publish_date.nil? and (current_user.superadmin? or current_user.admin?) %>
+      <% if not message.publish_date.nil? %>
         <div role="tabpanel" class="tab-pane fade in" id="analytics-tab">
           <%= render 'form_analytics', message: @message %>
         </div>
