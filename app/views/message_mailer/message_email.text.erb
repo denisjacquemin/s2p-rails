@@ -1,18 +1,17 @@
 <% if @message.message? %>
   <%= @message.title %>
   ===============================================
-
   <%= strip_tags @message.content %>
-
-
-  --
-  <% unless @message.author.fullname.nil? %><%= strip_tags @message.author.fullname %><% end %>
-  <% unless @message.school.name.nil? %><%= strip_tags @message.school.name %><% end %>
-  <% unless @message.author.function.nil? %><%= strip_tags @message.author.function %><% end %>
-  <% unless @message.school.address.nil? %><%= strip_tags @message.school.address %><% end %>
-  <% unless @message.school.phone.nil? %><%= strip_tags @message.school.phone %><% end %>
-  <% unless @message.author.reply_to.nil? %><%= strip_tags @message.author.reply_to %><% end %>
-  <% unless @message.school.url.nil? %><%= strip_tags @message.school.url %><% end %>
 <% elsif @message.rappel? %>
   <%= @message.title %>
 <% end %>
+--
+<% unless @message.author.fullname.nil? %><%= strip_tags @message.author.fullname %><% end %>
+<% unless @message.school.name.nil? %><%= strip_tags @message.school.name %><% end %>
+<% unless @message.author.function.nil? %><%= strip_tags @message.author.function %><% end %>
+<% unless @message.school.address.nil? %><%= strip_tags @message.school.address %><% end %>
+<% unless @message.school.phone.nil? %><%= strip_tags @message.school.phone %><% end %>
+<% if @message.author.display_email_address %>
+<% unless @message.author.reply_to.nil? %><%= strip_tags @message.author.reply_to %><% end %>
+<% end %>
+<% unless @message.school.url.nil? %><%= strip_tags @message.school.url %><% end %>

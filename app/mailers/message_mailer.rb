@@ -56,7 +56,11 @@ class MessageMailer < ApplicationMailer
     headers "X-SMTPAPI" => x_smptapi_hash.to_json
 
     from = "#{@message.school_name} - #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
-    reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || 'konecto@konectoapp.com'
+
+    reply_to = 'konecto@konectoapp.com'
+    if @message.author.display_email_address
+      reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || 'konecto@konectoapp.com'
+    end
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
   end

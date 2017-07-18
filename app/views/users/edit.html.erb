@@ -1,5 +1,10 @@
 <%= form_for(@user) do |f| %>
-  <h1>Rédacteurs
+  <h1>
+    <% if @user.id == current_user.id %>
+      Mes infos personnelles
+    <% else %>
+      Rédacteurs
+    <% end %>
     <div class="pull-right"><%= f.submit "Enregistrer", class: 'btn btn-primary' %></div>
   </h1>
   <hr />
@@ -28,6 +33,7 @@
               <div class="form-group">
                 <%= f.label :email_reply_to, 'Email répondre à' %>
                 <%= f.text_field :email_reply_to, class: "form-control", value: @user.reply_to %>
+                <%= f.check_box :display_email_address %> Afficher mon adresse email aux parents
                 <p class="help-block">Apparaît dans la signature des messages et comme adresse "répondre à" des emails.</p>
               </div>
             </div>

@@ -118,13 +118,15 @@ fieldset[disabled] .btn.active {
     <tr>
       <td></td>
       <td>
-        <% unless @message.author.fullname.nil? %><%= @message.author.fullname %><br><% end %>
-        <% unless @message.school.name.nil? %><%= @message.school.name %><br><% end %>
-        <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
-        <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
-        <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
-        <% unless @message.author.reply_to.nil? %><a href="mailto:<%= @message.author.reply_to %>"><%= @message.author.reply_to %></a><br><% end %>
-        <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
+        <% unless @message.author.fullname.blank? %><%= @message.author.fullname %><br><% end %>
+        <% unless @message.school.name.blank? %><%= @message.school.name %><br><% end %>
+        <% unless @message.author.function.blank? %><%= @message.author.function %><br><% end %>
+        <% unless @message.school.address.blank? %><%= @message.school.address %><br><% end %>
+        <% unless @message.school.phone.blank? %><%= @message.school.phone %><br><% end %>
+        <% if @message.author.display_email_address %>
+          <% unless @message.author.reply_to.nil? %><a href="mailto:<%= @message.author.reply_to %>"><%= @message.author.reply_to %></a><br><% end %>
+        <% end %>
+        <% unless @message.school.url.blank? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
       </td>
     </tr>
   </tbody>
