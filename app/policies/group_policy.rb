@@ -1,5 +1,10 @@
 class GroupPolicy < ApplicationPolicy
 
+  def index?
+    return true if @user.superadmin? or @user.admin?
+    false
+  end
+
   def destroy?
     # user cannot destroy a group
     return false if @user.user?

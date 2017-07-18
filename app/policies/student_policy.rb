@@ -1,13 +1,8 @@
 class StudentPolicy < ApplicationPolicy
 
   def index?
-    return true if @user.superadmin?
-    @record.each do |student|
-      if (! @user.schools.include?(student.school_id) )
-        return false
-      end
-    end
-    true
+    return true if @user.superadmin? or @user.admin?
+    false
   end
 
   def new?

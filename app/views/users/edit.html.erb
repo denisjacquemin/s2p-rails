@@ -31,9 +31,9 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="form-group">
-                <%= f.label :email_reply_to, 'Email répondre à' %>
+                <%= f.label :email_reply_to, 'Email signature et répondre à' %>
                 <%= f.text_field :email_reply_to, class: "form-control", value: @user.reply_to %>
-                <%= f.check_box :display_email_address %> Afficher mon adresse email aux parents
+                <%= f.check_box :display_email_address %> Afficher cette adresse email aux parents
                 <p class="help-block">Apparaît dans la signature des messages et comme adresse "répondre à" des emails.</p>
               </div>
             </div>
@@ -42,7 +42,7 @@
                 <%= f.label :phone, 'Téléphone (SMS)' %><br/>
                 <input id="intlphonenumber" type="tel" class="form-control">
                 <%= f.hidden_field :phone %>
-                <p class="help-block">Utilisé pour envoyer une notification lorsqu'une demande d'approbation d'un message est envoyée. N'est jamais communiqué aux parents.</p>
+                <p class="help-block">Utilisé pour envoyer une notification lorsqu'une demande d'approbation d'un message est envoyée. Ce numéro n'est jamais communiqué aux parents.</p>
               </div>
             </div>
           </div>
