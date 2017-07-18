@@ -123,7 +123,7 @@ fieldset[disabled] .btn.active {
         <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
         <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
         <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
-        <% unless @message.author.email_reply_to.nil? %><a href="mailto:<%= @message.author.email_reply_to %>"><%= @message.author.email_reply_to %></a><br><% end %>
+        <% unless @message.author.reply_to.nil? %><a href="mailto:<%= @message.author.reply_to %>"><%= @message.author.reply_to %></a><br><% end %>
         <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
       </td>
     </tr>

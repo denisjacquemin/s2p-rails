@@ -11,7 +11,7 @@
   <% unless @message.author.function.nil? %><%= strip_tags @message.author.function %><% end %>
   <% unless @message.school.address.nil? %><%= strip_tags @message.school.address %><% end %>
   <% unless @message.school.phone.nil? %><%= strip_tags @message.school.phone %><% end %>
-  <% unless @message.author.email_reply_to.nil? %><%= strip_tags @message.author.email_reply_to %><% end %>
+  <% unless @message.author.reply_to.nil? %><%= strip_tags @message.author.reply_to %><% end %>
   <% unless @message.school.url.nil? %><%= strip_tags @message.school.url %><% end %>
 <% elsif @message.rappel? %>
   <%= @message.title %>
