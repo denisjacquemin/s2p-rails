@@ -146,35 +146,24 @@
   </script>
 <% end %>
 <div class="row">
-  <div class="col-xs-12 col-sm-5 col-md-8 col-lg-8">
+  <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
     <h2><%= message.title %></h2>
     <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
   </div>
-  <div class="col-xs-12 col-sm-7 col-md-4  col-lg-4 total_counter_container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-5 col-md-8 col-lg-8">
-        <div><span id="counter_delivered">0</span> emails envoyés</div>
-        <div><span id="counter_open">0</span> emails ouverts</div>
-        <div><span id="counter_mobile">0</span> vues App mobile</div>
-        <div><span id="counter_sms">0</span> SMS envoyés/reçus</div>
-        <div><span id="counter_dropped">0</span> emails en erreur</div>
-      </div>
-      <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4" style="text-align:right">
-        <h1 class="total_counter">0</h1>
-        <p>Vues total</p>
-      </div>
-    </div>
+  <div class="col-xs-12 col-sm-3 col-md-3  col-lg-2 total_counter_container">
+    <h1 class="total_counter">0</h1>
+    <p>Vues total</p>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-12">
     <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés</a></li>
-      <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts</a></li>
-      <li role="presentation"><a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile</a></li>
-      <li role="presentation"><a href="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus</a></li>
-      <li role="presentation"><a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur</a></li>
+      <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
+      <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
+      <li role="presentation"><a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
+      <li role="presentation"><a href="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
+      <li role="presentation"><a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur (<span id="counter_dropped">0</span>)</a></li>
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
