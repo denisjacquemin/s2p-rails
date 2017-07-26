@@ -31,12 +31,14 @@
         <%= f.text_field :firstname, class: 'form-control' %>
       </div>
     </div>
+    <% unless @student.new_record? %>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <div class="form-group">
         <%= f.label :code %>
         <%= f.text_field :code, class: 'form-control' %>
       </div>
     </div>
+    <% end %>
   </div>
 
   <div class="row">
