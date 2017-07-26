@@ -58,6 +58,10 @@
     height: 40px;
     padding: 0 8px;
   }
+  .ais-search-box, .ais-search-box--input {
+    max-width: none;
+  }
+
   .sbx-sffv__input:hover {
       box-shadow: none;
     }

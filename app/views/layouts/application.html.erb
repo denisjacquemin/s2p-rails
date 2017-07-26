@@ -35,8 +35,8 @@
     <%= stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons', media: 'all',  'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag    'application_logout', media: 'all', 'data-turbolinks-track' => true %>
     <% if user_signed_in? %>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.0.0/dist/instantsearch.min.css">
       <%= stylesheet_link_tag    'application_login', media: 'all', 'data-turbolinks-track' => true %>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
     <% end %>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -67,7 +67,7 @@
 
 
     <% if user_signed_in? %>
-      <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.0.0/dist/instantsearch.min.js"></script>
       <%= javascript_include_tag 'https://www.gstatic.com/firebasejs/3.3.0/firebase.js', 'data-turbolinks-track' => true %>
       <script>
       if (firebase.apps.length === 0) {

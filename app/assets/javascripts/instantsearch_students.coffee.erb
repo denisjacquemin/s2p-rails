@@ -98,11 +98,11 @@ ready = () ->
       search.addWidget instantsearch.widgets.searchBox(
         container: '#search-input'
         placeholder: "Rechercher un élève"
+        magnifier: false
         autofocus: true
       )
       search.addWidget instantsearch.widgets.hits(
         container: '#hits'
-        hitsPerPage: 1000
         templates:
           item: getTemplate('hit')
           empty: getTemplate('no-results'))
@@ -146,7 +146,7 @@ ready = () ->
       )
       search.addWidget instantsearch.widgets.hitsPerPageSelector(
         container: '#hitperpage'
-        options: [
+        items: [
           {value: 30, label: '30'},
           {value: 50, label: '50'},
           {value: 200, label: '200'},
