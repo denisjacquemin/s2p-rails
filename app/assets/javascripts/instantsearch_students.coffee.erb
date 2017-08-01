@@ -103,6 +103,7 @@ ready = () ->
       )
       search.addWidget instantsearch.widgets.hits(
         container: '#hits'
+        hitsPerPage: 1000
         templates:
           item: getTemplate('hit')
           empty: getTemplate('no-results'))
