@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'contact_support', to: 'faq#contact_support'
   post '/submit_support', to: 'faq#submit_support'
 
-  get '/help', to: 'faq#outil_pour_lecole'
+  get '/help', to: 'faq#accueil'
   get '/guide-d-installation', to: 'website#install_app'
 
   get 'help/creation_des_eleves', to: 'faq#creation_des_eleves'
@@ -30,7 +30,13 @@ Rails.application.routes.draw do
   get 'help/excelunecolonne', to: 'faq#excelunecolonne'
   get 'help/whatsnew', to: 'faq#whatsnew'
   get 'help/import_winpage', to: 'faq#import_winpage'
+  get 'help/export_winpage', to: 'faq#export_winpage'
   get 'help/message_sms', to: 'faq#message_sms'
+  get 'help/update_students', to: 'faq#update_students'
+  get 'help/delete_students', to: 'faq#delete_students'
+  get 'help/exportcsv', to: 'faq#exportcsv'
+
+
 
   resources :mfiles
   post'/messages/sendcode', to: 'messages#create_sendcode_message'

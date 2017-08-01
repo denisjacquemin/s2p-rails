@@ -1,14 +1,13 @@
 <div class="row help">
   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-    <%= render 'nav', active: 'creation_des_eleves' %>
+    <%= render 'list_start_guide' %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h2 id="creationdeseleves">Création des élèves</h2>
     <p>Pour faciliter l'importation de la liste des élèves il est conseillé de passer par un fichier de type Excel (CSV).<br/>L'alternative consiste à les créer un par un grâce au formulaire Nouvel élève.</p>
     <blockquote>Un fichier CSV est un type de fichier très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de fichier est Microsoft Excel.</blockquote>
-
     <p>Pour démarrer, constituez un ficher d'importation dans Excel.</p>
-    <p>Si vous utilisez Winpage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) <a href="/help/import_winpage">exportez directement les élèves en suivant cette procédure</a>, sinon remplissez le fichier d'exemple (<%= link_to 'eleves.csv', '/eleves.csv' %>) reprenant les colonnes suivantes</p>
+    <p>Si vous utilisez Winpage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) <a href="/help/export_winpage">exportez directement les élèves en suivant cette procédure</a>, sinon remplissez le fichier d'exemple (<%= link_to 'eleves.csv', '/eleves.csv' %>) reprenant les colonnes suivantes</p>
     <div class="row">
       <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
         <ol>
@@ -30,14 +29,17 @@
           Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %>
           <%= image_tag asset_path("faq/eleves_csv.png"), class: "img-responsive img-thumbnail" %>
         </blockquote>
-        <%= image_tag asset_path("faq/import_csv.png"), class: "img-responsive img-thumbnail" %>
       </div>
     </div>
-
-    <p>Une fois ce fichier constitué, naviguez sur la page Elèves > Import CSV<br/>
+    <h3 id="importcsv">Importer le fichier CSV</h3>
+    <p>Une fois ce fichier constitué, naviguez sur la page Elèves, puis cliquez sur le bouton <em>Import Excel</em>.</p>
+    <%= image_tag asset_path("faq/importcsv.png"), class: "img-responsive img-thumbnail" %>
+    <p>
     Sélectionnez votre fichier CSV et cliquez sur Envoyer, en fonction du nombre d'élèves, cette étape peut prendre jusqu'à une trentaine de secondes.</p>
     <p>Naviguez sur l'écran élèves pour vérifier que tout a été importé correctement.</p>
     <br/>
+    <%= image_tag asset_path("faq/import_csv.png"), class: "img-responsive img-thumbnail" %>
+
     <br/>
     <br/>
     <div class="pull-right"><a href="/help/creation_des_groupes_de_diffusions">Création automatique des groupes de diffusion >></a></div>

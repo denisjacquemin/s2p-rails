@@ -1,0 +1,24 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'list_guides' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="creationdesredacteurs">Supprimer des élèves</h2>
+    <p>
+      Il est possible de supprimer un élève en paticulier ou un ensemble d'élèves en une seule opération.
+    </p>
+    <h3>Suppression d'un élèves</h3>
+    <p>Utilisez le menu contextuel d'un élève pour le supprimer.</p>
+    <%= image_tag asset_path("faq/delete_student.png"), class: "img-responsive" %>
+    <h3>Suppression de plusieurs élèves</h3>
+    <p>Entre 2 années scolaires les élèves de dernière année quittent l'école. Pour les supprimer en une fois voici la marche à suivre:</p>
+    <p>
+      Sur l'écran <em>Elèves</em>, sélectionner les élèves au moyen des filtres sur la droite de l'écran.</br>
+      Ensuite sélectionner les élèves à supprimer avec les cases à cochés à la gauche des noms d'élèves.
+      <%= image_tag asset_path("faq/delete_students.png"), class: "img-responsive" %>
+      <br/>
+      Utilisez le bouton <em>Supprimer</em> en haut à droite pour effacer les élèves.
+    </p>
+
+  </div>
+</div>

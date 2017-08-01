@@ -8,9 +8,17 @@ $(document).on 'turbolinks:load', ->
 
 ready = () ->
   current_user_count = parseInt($('#current_user_new_announcement_counter').val())
-  current_value = 8
+  current_value = 9
   if current_user_count < current_value
-    $('#new_announcement_menu_icon, #new_announcements_menu_item').addClass('new-announcements')
+    setTimeout ( ->
+      $('#new_announcement_menu_icon').css('color', 'red')
+      $('#new_announcements_menu_item').addClass('animated tada')
+    ), 2000
+    setTimeout ( ->
+      $('#new_announcement_menu_icon').css('color', 'white')
+      $('#new_announcement_menu_icon, #new_announcements_menu_item').addClass('new-announcements')
+    ), 3000
+
 
   $('#whatsnew').click (e) ->
     e.preventDefault

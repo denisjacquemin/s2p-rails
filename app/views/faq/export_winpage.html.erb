@@ -1,10 +1,10 @@
 <div class="row help">
   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-    <%= render 'list_start_guide' %>
+    <%= render 'list_guides' %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
-    <h2 id="winpage">Importer les élèves depuis WinPage</h2>
-    <p>Les utilisateurs de Winpage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) peuvent utiliser la procédure ci-dessous pour créer ou mettre à jour la liste des élèves.</p>
+    <h2 id="winpage">Exporter les élèves depuis WinPage</h2>
+    <p>Les utilisateurs de WinPage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) peuvent utiliser la procédure ci-dessous pour créer un fichier CSV contenant la liste des élèves.</p>
     <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -29,10 +29,12 @@
           <li>Classe (libellé)</li>
           <li>Nom</li>
           <li>Prénom</li>
+          <li>Matricule</li>
           <li>Nom du titulaire</li>
-          <li>Courriel de l'élève</li>
+          <li>Courriel de l'élève (1)</li>
           <li>Courriel signataire</li>
         </ul>
+        <blockquote>(1) L'adresse du parent responsable 1 se trouve dans le champ <em>Courriel signataire</em>. Pour renseigner l'adresse email du parent responsable 2, il est suggéré d'utiliser le champ <em>courriel de l'élève</em>.</blockquote>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
         <%= image_tag asset_path("faq/winpage_informationsaafficher.JPG"), class: "img-responsive img-thumbnail" %>
@@ -66,6 +68,7 @@
       </div>
     </div>
     <h3>2. Convertir le fichier .XLS WinPage en .CSV</h3>
+    <p>Excel permet de sauvegarder au format CSV, cette méthode pourrait générer des problèmes comme remplacer les caractères accentués par d'autres illisibles (problème d'encoding). Pour éviter ces ennuies, convertissez votre fichier .xls en .csv grâce à la méthode ci-dessous.</p>
     <p>2.1 Connectez vous à l'adresse <a href="https://convertio.co/fr/xls-csv/" target="_blank">convertio.co/fr/xls-csv/</a>.</p>
     <%= image_tag asset_path("faq/convertio.png"), class: "img-responsive img-thumbnail" %>
     <p>2.2 Sélectionnez le fichier sur votre disque dure et cliquez sur le bouton <em>Convertir</em>.</p>

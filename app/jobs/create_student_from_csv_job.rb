@@ -4,12 +4,16 @@ class CreateStudentFromCsvJob < ApplicationJob
 
   def perform(rows, school_id, user)
     logger.info "perform CreateStudentsFromCsvJob"
+    i = 0
+    puts "rows #{rows.size}"
     rows.each do |data|
+      puts "row #{i}: #{data[:winpage_matricule]}"
       if data[:winpage_matricule].nil?
         handle_simple_csv_student(data, school_id, user.id)
       else
         handle_winpage_student(data, school_id, user.id)
       end
+      i = i+1
     end
 
 
@@ -193,14 +197,27 @@ private
 
   def update_student(student, attributes, user_id)
     begin
+      attributes[:emails] = merge_new_and_old_emails(student.emails, attributes[:emails])
       if student.update_attributes(attributes)
         logger.info "student #{student.firstname} #{student.lastname} updated"
       else
         write_error_to_firebase(data, student.errors, student.school_id, user_id)
         logger.info "student update fail for #{student.firstname} #{student.lastname}"
       end
-    rescue e
+    rescue Exception => e
+      byebug
       logger.info e.inspect
     end
+  end
+
+  def merge_new_and_old_emails(old_emails, new_emails)
+    return "" if old_emails.nil? and new_emails.nil?
+    return old_emails if new_emails.nil?
+    return new_emails if old_emails.nil?
+    
+    oldEmails = old_emails.split(' ')
+    newEmails = new_emails.split(' ')
+    mergedEmails = oldEmails + newEmails
+    mergedEmails.uniq.join(' ').strip
   end
 end
