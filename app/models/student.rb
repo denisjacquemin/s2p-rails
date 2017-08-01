@@ -7,7 +7,7 @@ class Student < ApplicationRecord
     attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count
     attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code]
     attributesForFaceting ['searchable(classroom)', 'searchable(level)']
-    customRanking ['asc(classroom)']
+    customRanking ['asc(level)', 'asc(lastname)']
     typoTolerance :false
   end
 
