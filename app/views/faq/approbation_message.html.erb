@@ -4,15 +4,20 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h2>Approbation des messages avant publication</h2>
-    <p>Par default l'option <em>Validation par l'administrateur avant envoi</em> est activée.</p>
-    <p>Un rédacteur voulant publier un message devra obligatoirement le faire approuver par un administrateur.</p>
-    <p>Désactivez cette approbation via l'option <em>Validation par l'administrateur avant envoi</em> de l'écran des paramètres école.</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+        <p>Un rédacteur voulant publier un message devra obligatoirement le faire approuver par un administrateur.<br/>Désactivez cette étape d'approbation via l'option <em>Validation par l'administrateur avant envoi</em> de l'écran des paramètres école.</p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+        <%= image_tag asset_path("faq/demanderapprobation.png"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <h3>Notifications SMS</h3>
     <p>
-      Des notifications SMS sont envoyées pour prévenir qu'un message est en attente.<br/>
+      Des notifications SMS sont envoyées pour prévenir qu'un message est en attente d'approbation. Un rédacteur reçoit un SMS lorsque le message est approuvé ou refusé.<br/>
       Pour activer cette notification, indiquez les numéros de téléphone sur la fiche <em>administrateur/rédacteur</em> accessible via l'écran <em>Rédacteurs</em>.<br/>
-      Lorsqu'un rédacteur demande l'approbation d'un message, un SMS est envoyé à l'administrateur.<br/>
-      Un rédacteur reçoit un SMS lorsque le message est approuvé ou refusé.
     </p>
+    <%= image_tag asset_path("faq/telsms.png"), class: "img-responsive img-thumbnail" %>
     <p>Ces notifications SMS sont envoyées une fois par heure, si le message est approuvé avant que la notification SMS soit envoyée aucun SMS ne sera envoyé.</p>
   </div>
 </div>
