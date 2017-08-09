@@ -1,6 +1,9 @@
+<div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+  La liste des destinataires n'est plus modifiable une fois le message passé en statut <em>Publié</em>.
+</div>
 <% @current_school = current_school %>
 <div class="row groups" id="messages-groups-manager">
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
       <div class="panel panel-default">
         <div class="panel-heading">
           <ul class="nav nav-pills">
@@ -19,7 +22,9 @@
                   <tbody id="group_list" class="list">
                     <% groups.each do |group| %>
                       <tr>
-                        <td class="nowrap"><input type="checkbox" value="<%= group.id %>"/></td>
+                        <td class="nowrap">
+                          <%= check_box_tag nil, group.id, nil, disabled: (message.published? ? true : nil) %>
+                        </td>
                         <td class="groupname fullwidth"><label><%= group.name %></label></td>
                       </tr>
                     <% end %>
@@ -38,7 +43,9 @@
                   <tbody id="student_list" class="list">
                     <% students.each do |student| %>
                       <tr>
-                        <td class="nowrap"><input type="checkbox" value="<%= student.id %>"/></td>
+                        <td class="nowrap">
+                          <%= check_box_tag nil, student.id, nil, disabled: (message.published? ? true : nil) %>
+                        </td>
                         <td class="studentfullname nowrap"><label><%= student.fullname %></label></td>
                         <td class="studentfulllevel nowrap"><%= student.level %></td>
                         <td class="studentclassroom fullwidth"><%= student.classroom %></td>
@@ -57,21 +64,21 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 buttons">
       <div class="row groups">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" class="btn " id="add" aria-label="Left Align">
-              Ajouter
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" class="btn" id="remove" aria-label="Left Align">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              Enlever
-            </button>
-          </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= button_tag(type: 'button', class: 'btn', id: 'add', disabled: (message.published? ? true : nil)) do
+                concat 'Ajouter'
+                concat content_tag(:span, nil, class: 'glyphicon glyphicon-chevron-right')
+              end %>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= button_tag(type: 'button', class: 'btn', id: 'remove', disabled: (message.published? ? true : nil)) do
+                concat content_tag(:span, nil, class: 'glyphicon glyphicon-chevron-left')
+                concat 'Enlever'
+              end %>
+            </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4>Destinataires sélectionnés</h4>
@@ -84,7 +91,9 @@
                   <tr>
                     <%= fields_for g do |g_form| %>
                       <%= g_form.hidden_field :id, multiple: true%>
-                      <td class="nowrap"><input type="checkbox" id="group[<%= g.id %>]"/></td>
+                      <td class="nowrap">
+                        <%= check_box_tag nil, "group[#{g.id}]", nil, disabled: (message.published? ? true : nil) %>
+                      </td>
                       <td class="targetname fullwidth"><i class="fa fa-users" style="margin-right: 5px;"></i><%= g_form.label :id, g.name %></td>
                     <% end %>
                   </tr>
@@ -93,7 +102,9 @@
                   <tr>
                     <%= fields_for s do |s_form| %>
                       <%= s_form.hidden_field :id, multiple: true%>
-                      <td class="nowrap"><input type="checkbox" id="student[<%= s.id %>]"/></td>
+                      <td class="nowrap">
+                        <%= check_box_tag nil, "student[#{s.id}]", nil, disabled: (message.published? ? true : nil) %>
+                      </td>
                       <td class="targetname fullwidth"><i class="fa fa-user" style="margin-right: 5px;"></i> <%= s_form.label :id, s.fullname %></td>
                     <% end %>
                   </tr>
@@ -102,9 +113,5 @@
             </table>
           </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-      <p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Les emails et notifications aux apps mobiles sont envoyés à la liste des groupes d'élèves ou élèves repris ci-contre lorsque le message passe au statut <em>Publié</em>.</p>
-      <p><i class="fa fa-warning" aria-hidden="true"></i> Modifier cette liste lorsqu'un message est en statut <em>publié</em> a un impact sur la visibilité du message dans les apps mobiles.</p>
     </div>
 </div>

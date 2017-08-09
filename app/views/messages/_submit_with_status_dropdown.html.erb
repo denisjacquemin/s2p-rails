@@ -7,16 +7,26 @@
         <% if policy(message).publish? and message.draft?%>
           <li><%= render 'messages/status_items/publish' %></li>
         <% end %>
-        <% if policy(message).unpublish? and message.published? %>
-          <li><%= render 'messages/status_items/unpublish' %></li>
+        <% if policy(message).publish? and message.published?%>
+          <li><%= render 'messages/status_items/republish' %></li>
+        <% end %>
+        <% if false %>
+          <% if policy(message).unpublish? and message.published? %>
+            <li><%= render 'messages/status_items/unpublish' %></li>
+          <% end %>
         <% end %>
       <% end %>
       <% if message.school.validation_workflow_active %>
         <% if policy(message).publish? and (message.approval_accepted? or (current_user.admin? and message.draft?)) %>
           <li><%= render 'messages/status_items/publish' %></li>
         <% end %>
-        <% if policy(message).unpublish? and message.published? %>
-          <li><%= render 'messages/status_items/unpublish' %></li>
+        <% if policy(message).publish? and message.published? %>
+          <li><%= render 'messages/status_items/republish' %></li>
+        <% end %>
+        <% if false %>
+          <% if policy(message).unpublish? and message.published? %>
+            <li><%= render 'messages/status_items/unpublish' %></li>
+          <% end %>
         <% end %>
         <% if policy(message).send_for_approval? and (message.draft? or message.approval_refused?) %>
           <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-ok", aria_hidden: true) + "Demander l'approbation", "", 'data-status': 'waiting_for_approval', class: "submit_with_status icon" %></li>

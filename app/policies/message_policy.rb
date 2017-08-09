@@ -41,6 +41,18 @@ class MessagePolicy < ApplicationPolicy
     return false
   end
 
+  def republish?
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # only author can publish a message
+    return true if @record.author === @user
+
+    return true if @user.superadmin?
+
+    return false
+  end
+
   def unpublish?
 
     # admin can unpublish

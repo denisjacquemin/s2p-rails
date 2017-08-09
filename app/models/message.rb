@@ -25,7 +25,7 @@ class Message < ApplicationRecord
   scope :by_ids, ->(ids) { where(id: ids) }
 
   enum mtype: [:message, :rappel]
-  enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted ]
+  enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted, :republished ]
   after_initialize :set_default_status, :if => :new_record?
   after_initialize :set_default_mtype, :if => :new_record?
 
@@ -96,6 +96,8 @@ class Message < ApplicationRecord
     self.status = validate_status_changes(self.status_was, self.status)
     if (self.status != self.status_was)
       case self.status
+        when 'republished'
+          handle_repuplish
         when 'published'
           handle_publish
         when 'draft'
@@ -108,6 +110,11 @@ class Message < ApplicationRecord
           handle_approval_accepted
       end
     end
+  end
+
+  def handle_repuplish
+    self.status = :published
+    handle_publish
   end
 
   def handle_publish
@@ -271,6 +278,37 @@ class Message < ApplicationRecord
       user.students.by_school(school.id)
     end
   end
+
+  # payconiq related code
+  # doc available at https://dev.payconiq.com/online-payments-dock
+
+  def pq_create_transaction(amount_in_cents, description="", callbackUrl=Rails.application.secrets.payconiq_callback_url, currency='EUR' )
+
+    url = URI.parse(Rails.application.secrets.payconiq_host)
+
+    headers = {
+      'Content-Type': 'application/json',
+      'authorization': Rails.application.secrets.payconiq_access_token,
+      'cache-control': 'no-cache'
+    }
+    req = Net::HTTP::Post.new(url.path, headers)
+
+    data = {
+      "amount": amount_in_cents,
+      "currency": currency,
+      "callbackUrl": callbackUrl,
+      # "signature": 'io+eRjK6B9yO4fzijU0p4CCtdol3XCypPXoluKErM0E=',
+    }
+    req.body = data.to_json
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    response = http.request(req)
+    return JSON.parse(response.body)['transactionId'] if response.kind_of? Net::HTTPSuccess
+    return JSON.parse(response.body)['message'] unless response.kind_of? Net::HTTPError
+  end
+
 
   private
 
