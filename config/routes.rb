@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   patch '/messages/update_groups/:id', to: 'messages#update_groups'
   patch '/messages/publish/:id', to: 'messages#publish', as: 'publish_message'
   patch '/messages/unpublish/:id', to: 'messages#unpublish', as: 'unpublish_message'
+  patch '/messages/republish/:id', to: 'messages#republish', as: 'republish_message'
   patch '/messages/send_for_approval/:id', to: 'messages#send_for_approval', as: 'send_for_approval_message'
   patch '/messages/accept/:id', to: 'messages#accept', as: 'accept_message'
   patch '/messages/reject/:id', to: 'messages#reject', as: 'reject_message'
