@@ -1,5 +1,5 @@
  <div class="row">
-   <div class="col-xs-12 col-sm-8 col-md-8 col-lg-7">
+   <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
      <% unless error_message.nil? %>
        <div class="alert alert-danger" role="alert">
          <a class="close" data-dismiss="alert">&#215;</a>
@@ -19,7 +19,7 @@
        L'import CSV n'est pas compatible avec un fichier issu de Microsoft Excel pour Mac
      </blockquote>
    </div>
-   <div class="col-xs-12 col-sm-4 col-md-4 col-lg-5">
-     <%= render 'help_csv' %>
+   <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+     <%= render '/faq/create_students_import_csv' %>
    </div>
  </div>
