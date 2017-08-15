@@ -26,7 +26,7 @@
       <% transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
       <% @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
       <div class="qr pq-qr">
-      <button class="btn btn-primary deep-link" data-url="<%= "payconiq://payconiq.com/pay/1/#{transactionId}" %>">Payer avec payconiq</button>
+      <button class="btn btn-primary deep-link" data-url="<%= "#{Rails.application.secrets.payconiq_deeplink_scheme}://payconiq.com/pay/1/#{transactionId}" %>">Payer avec payconiq</button>
       <%= raw @qr.as_html %>
       </div>
     </div>
