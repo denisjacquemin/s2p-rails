@@ -24,7 +24,7 @@
           <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a>
         </li>
       <% end %>
-      <% if Rails.env == 'development' %>
+      <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
         <% if not message.new_record? and @message.mtype == 'message' %>
           <li role="presentation">
             <a class="tab-link"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
@@ -85,7 +85,7 @@
           <%= render 'form_analytics', message: @message %>
         </div>
       <% end %>
-      <% if Rails.env == 'development' %>
+      <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
         <% if not message.new_record? and @message.mtype == 'message' %>
           <div role="tabpanel" class="tab-pane fade in" id="billing-tab">
             <%= render 'form_billing', message: @message %>
