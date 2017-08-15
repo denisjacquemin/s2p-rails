@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718074720) do
+ActiveRecord::Schema.define(version: 20170811115517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,24 +90,26 @@ ActiveRecord::Schema.define(version: 20170718074720) do
     t.string   "title"
     t.text     "content"
     t.integer  "school_id"
-    t.integer  "groups",             default: [],                 array: true
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "groups",                 default: [],                 array: true
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "status"
     t.integer  "author_id"
     t.string   "when"
     t.integer  "mtype"
-    t.boolean  "send_by_email",      default: true
-    t.boolean  "send_to_app",        default: true
-    t.integer  "students",           default: [],                 array: true
-    t.boolean  "skip_send_by_email", default: false
+    t.boolean  "send_by_email",          default: true
+    t.boolean  "send_to_app",            default: true
+    t.integer  "students",               default: [],                 array: true
+    t.boolean  "skip_send_by_email",     default: false
     t.json     "attachments"
     t.json     "formdata"
     t.uuid     "muuid"
-    t.boolean  "wfa_sms_sent",       default: false
-    t.boolean  "aa_sms_sent",        default: false
-    t.boolean  "ar_sms_sent",        default: false
-    t.boolean  "send_by_sms",        default: false
+    t.boolean  "wfa_sms_sent",           default: false
+    t.boolean  "aa_sms_sent",            default: false
+    t.boolean  "ar_sms_sent",            default: false
+    t.boolean  "send_by_sms",            default: false
+    t.integer  "amount_to_pay_cents",    default: 0,     null: false
+    t.string   "amount_to_pay_currency", default: "EUR", null: false
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -117,6 +119,23 @@ ActiveRecord::Schema.define(version: 20170718074720) do
     t.integer  "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "school_id"
+    t.uuid     "uuid"
+    t.integer  "status"
+    t.integer  "price_cents_cents",        default: 0,     null: false
+    t.string   "price_cents_currency",     default: "EUR", null: false
+    t.integer  "mode"
+    t.string   "pq_transaction_id"
+    t.string   "pq_status"
+    t.string   "pq_transaction_signature"
+    t.string   "pq_security_timestamp"
+    t.string   "pq_security_key"
+    t.string   "pq_security_algorithm"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "phones", force: :cascade do |t|

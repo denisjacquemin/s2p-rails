@@ -205,7 +205,6 @@ private
         logger.info "student update fail for #{student.firstname} #{student.lastname}"
       end
     rescue Exception => e
-      byebug
       logger.info e.inspect
     end
   end
@@ -214,7 +213,7 @@ private
     return "" if old_emails.nil? and new_emails.nil?
     return old_emails if new_emails.nil?
     return new_emails if old_emails.nil?
-    
+
     oldEmails = old_emails.split(' ')
     newEmails = new_emails.split(' ')
     mergedEmails = oldEmails + newEmails

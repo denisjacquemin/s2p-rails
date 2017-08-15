@@ -1,4 +1,5 @@
 module Bulksms extend ActiveSupport::Concern
+  #https://www.synbioz.com/blog/Rails_4_utilisation_des_concerns
 
   # def send_bulk_sms(message, numbers)
   #   logger.info "Sending #{message} to #{numbers.size} sms"

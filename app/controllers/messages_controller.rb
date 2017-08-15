@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form]
-  before_action :set_message, only: [:edit, :update, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata]
+  before_action :set_message, only: [:edit, :update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -111,6 +111,15 @@ class MessagesController < ApplicationController
   def update_formdata
     if @message.update(update_formdata_params)
       redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
+    end
+  end
+
+  def update_amount_to_pay
+    authorize @message
+    if @message.update(update_amount_to_pay_params)
+      redirect_to edit_message_path(@message, anchor: 'billing-tab'), notice: 'Le message a été mis à jour.'
+    else
+      redirect_to edit_message_path(@message, anchor: 'billing-tab'), error: 'Une erreur est survenue.'
     end
   end
 
@@ -372,8 +381,12 @@ class MessagesController < ApplicationController
       params.require(:message).permit(:formdata)
     end
 
+    def update_amount_to_pay_params
+      params.require(:message).permit(:amount_to_pay)
+    end
+
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay)
     end
 
     def set_s3_direct_post

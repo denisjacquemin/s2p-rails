@@ -29,6 +29,16 @@ class MessagePolicy < ApplicationPolicy
     return false
   end
 
+  def update_amount_to_pay?
+    # return true if admin et record.school_id est inclu dans la liste des admin.schools
+    return true if @user.admin? and @user.schools.include?(@record.school_id)
+
+    # return true if user et message.owner est user
+    return true if @user.user? and @record.author === @user
+
+    return false
+  end
+
   def publish?
     # return true if admin et record.school_id est inclu dans la liste des admin.schools
     return true if @user.admin? and @user.schools.include?(@record.school_id)

@@ -1,0 +1,23 @@
+.pq-banner {
+  background-color: rgba(255,71,133,1);
+  padding: 40px 20px;
+  color: #fff;
+  font-size: 25px;
+  font-family: 'Arial';
+  .pq-price-tag {
+    text-align: right;
+    .pq-amount {
+      font-size: 30px;
+    }
+    .pq-currency {
+      font-size: 15px;
+    }
+    .pq-school {
+      font-size: 20px;
+    }
+  }
+}
+
+.pq-qr {
+  margin: 40px 20px;
+}

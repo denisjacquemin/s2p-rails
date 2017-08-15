@@ -18,4 +18,5 @@
 //= require jquery-ui/widgets/sortable
 //= require form-render
 //= require show_page
+//= require deeplink
 // require_tree .

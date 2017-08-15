@@ -24,6 +24,13 @@
           <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a>
         </li>
       <% end %>
+      <% if Rails.env == 'development' %>
+        <% if not message.new_record? and @message.mtype == 'message' %>
+          <li role="presentation">
+            <a class="tab-link"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
+          </li>
+        <% end %>
+      <% end %>
       <% unless message.new_record? %>
         <div class="pull-right"><%= render 'submit_with_status_dropdown', message: @message, size: 'btn-sm' %></div>
       <% end %>
@@ -77,6 +84,13 @@
         <div role="tabpanel" class="tab-pane fade in" id="analytics-tab">
           <%= render 'form_analytics', message: @message %>
         </div>
+      <% end %>
+      <% if Rails.env == 'development' %>
+        <% if not message.new_record? and @message.mtype == 'message' %>
+          <div role="tabpanel" class="tab-pane fade in" id="billing-tab">
+            <%= render 'form_billing', message: @message %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>

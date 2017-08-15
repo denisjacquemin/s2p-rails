@@ -53,6 +53,7 @@
     <% if not current_user.blank? and (current_user.superadmin? or current_user.admin?) %>
       <%= javascript_include_tag 'application_admin', 'data-turbolinks-track' => true %>
     <% end %>
+    <script data-payconiq-script="bootstrap" src="https://dev.payconiq.com/v2/online/static/widget.js"charset="utf-8"></script>
   </head>
 
   <body>

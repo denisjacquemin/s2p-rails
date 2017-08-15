@@ -3,6 +3,6 @@ class MessageMailerPreview < ActionMailer::Preview
 
   def message_email
     # /rails/mailers/message_mailer/message_email
-    MessageMailer.message_email(['me@example.com'], Message.find(89), Message.title, Message.content)
+    MessageMailer.message_email(['me@example.com'], Message.find(95), 'Message.title', 'Message.content')
   end
 end

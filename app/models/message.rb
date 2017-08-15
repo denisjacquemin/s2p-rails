@@ -5,6 +5,8 @@ class Message < ApplicationRecord
   include ActionView::Helpers::TextHelper # for truncate
   include AlgoliaSearch
 
+  monetize :amount_to_pay_cents
+
   algoliasearch synchronous: true do
     attribute :title, :content, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
     attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]

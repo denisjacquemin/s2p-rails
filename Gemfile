@@ -35,6 +35,7 @@ gem 'cloudinary'
 gem 'attachinary'
 gem 'nexmo'
 gem 'callr'
+gem 'rqrcode'
 
 
 gem "wysiwyg-rails", '>= 2.3.4'
@@ -46,6 +47,7 @@ gem 'net-http-persistent', '2.9.4'
 gem 'faraday'
 gem 'httparty'
 gem "animate-rails"
+gem 'money-rails', '~>1'
 
 gem 'roadie-rails', '~> 1.0'
 

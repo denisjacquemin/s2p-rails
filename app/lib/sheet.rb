@@ -18,7 +18,6 @@ module Sheet
 
   def self.RooFormat(file)
     mimemagic = MimeMagic.by_path(file.tempfile.path)
-
     format = :none
     if mimemagic.type == "text/csv"
       format = :csv

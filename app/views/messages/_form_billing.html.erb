@@ -1,0 +1,49 @@
+<%= form_for(@message, url: update_amount_to_pay_url(@message)) do |f| %>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= render 'layouts/errors', object: @message %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+      Proposez aux parents de payer via l'application smartphone payconiq. Les confirmations de paiements seront visibles sur cette page.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-inline">
+    <div class="form-group">
+      <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
+      <%= f.text_field :amount_to_pay, class: 'form-control' %>
+      <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+    </div>
+  </div>
+</div>
+<% end %>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <h2>Pourquoi Payconiq est idéal pour recevoir des paiements</h2>
+  <h3>Les transactions sont sécurisées et garanties par Payconiq.</h3>
+  <ul>
+    <li>Les transactions sont sécurisées et garanties par Payconiq.</li>
+    <li>Vous recevez instantanément une confirmation de paiement et vous êtes sûr à 100% d’être payé.</li>
+  </ul>
+  <h3>Pas d'investissement</h3>
+  <ul>
+    <li>Pas de terminal de paiement ou de matériel, hormis votre smartphone, tablette ou ordinateur.</li>
+    <li>Pas d’abonnement ni de frais d’installation. Payconiq ne coûte que 6 centimes par transaction.</li>
+  </ul>
+  <h3>Pratique</h3>
+  <ul>
+    <li>Moins d'argent liquide en circulation dans l'école. Moins de risque de perte.</li>
+    <li>Les parents peuvent payer où qu'ils soient.</li>
+</div>
+
+
+<%# transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
+<%# @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
+
+<div class="qr">
+<%#= raw @qr.as_html %>
+</div>
