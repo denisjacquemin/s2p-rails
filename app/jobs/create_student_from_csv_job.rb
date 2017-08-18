@@ -175,7 +175,6 @@ private
 
     if student.blank?
       # student don't exists yet, create a brand new one
-      byebug
       new_student = Student.new student_data
       student_key = shake_name(new_student.firstname,new_student.lastname).join
       hash = compute_code(school_id, student_key)
