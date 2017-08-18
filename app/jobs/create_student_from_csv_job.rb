@@ -156,6 +156,9 @@ private
     student_data[:emails] = [data[:emails], data[:emails2]].uniq.join(' ').strip
     student_data[:winpage_matricule] = data[:winpage_matricule].to_s
 
+    phoneArray = buildPhoneArray(data)
+    student_data[:phones] = phoneArray
+
     # get already existing student for update
     student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
     if student.nil?
@@ -172,6 +175,7 @@ private
 
     if student.blank?
       # student don't exists yet, create a brand new one
+      byebug
       new_student = Student.new student_data
       student_key = shake_name(new_student.firstname,new_student.lastname).join
       hash = compute_code(school_id, student_key)
@@ -198,6 +202,7 @@ private
   def update_student(student, attributes, user_id)
     begin
       attributes[:emails] = merge_new_and_old_emails(student.emails, attributes[:emails])
+      attributes[:phones] = merge_new_and_old_phones(students.phones, phoneArray)
       if student.update_attributes(attributes)
         logger.info "student #{student.firstname} #{student.lastname} updated"
       else
@@ -210,13 +215,44 @@ private
   end
 
   def merge_new_and_old_emails(old_emails, new_emails)
-    return "" if old_emails.nil? and new_emails.nil?
+    return "" if old_emails.blank? and new_emails.nil?
     return old_emails if new_emails.nil?
-    return new_emails if old_emails.nil?
+    return buildArrayOfPhone(new_emails) if old_emails.nil?
 
     oldEmails = old_emails.split(' ')
     newEmails = new_emails.split(' ')
     mergedEmails = oldEmails + newEmails
     mergedEmails.uniq.join(' ').strip
+  end
+
+  def buildArrayOfPhone(numbers)
+    numbers.map do |number|
+      Phone.new number: number
+    end
+  end
+
+  def merge_new_and_old_phones(old_phones, new_phones)
+    return nil if old_phones.nil? and new_phones.nil?
+    return old_phones if new_phones.nil?
+    return new_phones if old_phones.nil?
+
+    mergedPhones = old_phones + new_phones
+    return mergedPhones.uniq.flatten.compact
+
+  end
+
+  def buildPhoneArray(data)
+    phonie1 = Phonie::Phone.parse(data[:phone1], country_code: '32') unless data[:phone1].nil?
+    phone1 = phonie1.to_s unless phonie1.nil?
+    phonie2 = Phonie::Phone.parse(data[:phone2], country_code: '32') unless data[:phone2].nil?
+    phone2 = phonie2.to_s unless phonie2.nil?
+    phonie3 = Phonie::Phone.parse(data[:phone3], country_code: '32') unless data[:phone3].nil?
+    phone3 = phonie3.to_s unless phonie3.nil?
+    phonie4 = Phonie::Phone.parse(data[:phone1], country_code: '32') unless data[:phone4].nil?
+    phone4 = phonie1.to_s unless phonie4.nil?
+
+    numbers = [phone1, phone2, phone3, phone4].flatten.uniq.compact
+    return buildArrayOfPhone(numbers)
+
   end
 end

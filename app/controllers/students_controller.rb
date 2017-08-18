@@ -180,7 +180,11 @@ class StudentsController < ApplicationController
             :nom_du_titulaire => :classroom,
             "courriel_de_l'élève".to_sym  => :emails,
             "courriel_signataire".to_sym => :emails2,
-            "matricule".to_sym => :winpage_matricule
+            "matricule".to_sym => :winpage_matricule,
+            "téléphone_1".to_sym => :phone1,
+            "téléphone_2".to_sym => :phone2,
+            "téléphone_3".to_sym => :phone3,
+            "gsm".to_sym => :phone4
           },
           :remove_unmapped_keys => true,
           :value_converters => {

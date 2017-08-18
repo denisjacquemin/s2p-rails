@@ -48,6 +48,7 @@ gem 'faraday'
 gem 'httparty'
 gem "animate-rails"
 gem 'money-rails', '~>1'
+gem 'phonie'
 
 gem 'roadie-rails', '~> 1.0'
 
