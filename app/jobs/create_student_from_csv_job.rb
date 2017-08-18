@@ -201,7 +201,7 @@ private
   def update_student(student, attributes, user_id)
     begin
       attributes[:emails] = merge_new_and_old_emails(student.emails, attributes[:emails])
-      attributes[:phones] = merge_new_and_old_phones(students.phones, phoneArray)
+      attributes[:phones] = merge_new_and_old_phones(student.phones, attributes[:phones])
       if student.update_attributes(attributes)
         logger.info "student #{student.firstname} #{student.lastname} updated"
       else
@@ -236,7 +236,7 @@ private
     return new_phones if old_phones.nil?
 
     mergedPhones = old_phones + new_phones
-    return mergedPhones.uniq.flatten.compact
+    return mergedPhones.flatten.compact.uniq{|p| p.number }
 
   end
 
