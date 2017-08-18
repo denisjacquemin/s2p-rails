@@ -46,6 +46,7 @@
                        label = label.substring(0, indexOfAsterix)
                      }
                     }
+                    label = label.trim()
                     headers.push(label);
                     if (row[label] == undefined) {
                       var value = data['value'];
