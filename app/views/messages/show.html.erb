@@ -1,102 +1,89 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h1><%= @message.title %></h1>
-    <br/>
-    <%= @message.content.html_safe%>
-  </div>
+    <div class="col-lg-12">
+        <h1 class="page-header"><%= @message.title %></h1>
+    </div>
 </div>
 
-<% if @message.amount_to_pay > 0 %>
-  <br>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pq-banner">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-          <%= image_tag asset_path("logo_payconiq.png") %>
-          <br/>Scannez le QR Code avec l'appli payconiq.
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pq-price-tag">
-          <span class="pq-amount"><%= @message.amount_to_pay %></span><span class="pq-currency">EUR</span>
-          <div class="pq-school"><%= @message.school.name %></div>
-        </div>
-      </div>
+<div class="row">
+    <div class="col-md-6 col-lg-7">
+        <%= @message.content.html_safe %>
+            <table>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td>
+                    <% unless @message.author.fullname.nil? %><%= @message.author.fullname %><br><% end %>
+                    <% unless @message.school.name.nil? %><%= @message.school.name %><br><% end %>
+                    <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
+                    <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
+                    <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
+                    <% unless @message.author.email.nil? %><a href="mailto:<%= @message.author.email %>"><%= @message.author.email %></a><br><% end %>
+                    <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+    </div>
+    <div class="col-md-6 col-lg-5">
+      <% if @message.formdata.present? and @message.formdata != "[]"%>
+          <%= hidden_field_tag :formdata, @message.formdata %>
+          <%= form_tag '/m/save_form', id: 'message_form' do %>
+            <%= hidden_field_tag 'muuid', @message.muuid %>
+            <%= hidden_field_tag 'message_form_formdata' %>
+            <div id="formrender-wrap"></div>
+            <%= submit_tag 'Envoyer', class: 'btn btn-primary', data: { disable_with: "En cours d'envoi..." } %>
+          <% end %>
+      <% end %>
 
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <% transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
-      <% @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
-      <button class="btn btn-primary deep-link visible-xs-block" data-url="<%= "#{Rails.application.secrets.payconiq_deeplink_scheme}://payconiq.com/pay/1/#{transactionId}" %>">Payer avec payconiq</button>
-      <div class="qr pq-qr hidden-xs">
-      <%= raw @qr.as_html %>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <p>Payconiq est une appli gratuite : elle vous permet d'effectuer des paiements via votre smartphone, facilement et en toute sécurité. <a href="https://www.payconiq.com">payconiq.com</a></p>
-      <iframe src="https://player.vimeo.com/video/213843344" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-    </div>
-  </div>
-<% end %>
+      <% if @message.photos.any? %>
+        <hr>
+        <div class="photos">
+          <% @message.photos.each do |photo| %>
+            <span style="padding: 10px">
+              <%
+                overlay_file_format = 'image'
+                overlay_file_format = 'pdf' if photo.format == 'pdf'
+              %>
+              <a href="<%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>" target="_blank">
+                <%= cl_image_tag(photo.path.gsub(/pdf$/, 'png'), :transformation=>[
+                      {:width => 150, :height => 150, :crop => :fill},
+                      {:overlay=>"black_bar", :width=>1.0, :height=>0.17, :flags=>"relative", :gravity=>"south", :opacity=>50},
+                      {:overlay=>overlay_file_format, :gravity=>"south_west", :x=>10, :y=>5},
+                      {:overlay=>"text:Arial_10O:#{photo.public_id}", :gravity=>"south_west", :y=>7, :x=>32, :color=>"#eee", :flags => 'no_overflow'}
+                      ]) %>
 
-<% if @message.formdata.present? and @message.formdata != "[]"%>
-  <br>
-  <div class="row" style="background-color: #ddd; padding: 20px 0">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= hidden_field_tag :formdata, @message.formdata %>
-      <%= form_tag '/m/save_form', id: 'message_form' do %>
-        <%= hidden_field_tag 'muuid', @message.muuid %>
-        <%= hidden_field_tag 'message_form_formdata' %>
-        <div id="formrender-wrap"></div>
-        <%= submit_tag 'Envoyer', class: 'btn btn-primary', data: { disable_with: "En cours d'envoi..." } %>
+
+              </a>
+          </span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @message.amount_to_pay > 0 %>
+      <hr>
+      <div class="row pq">
+          <div class="col-xs-12 pq-banner">
+            <%= image_tag asset_path("logo_payconiq.png") %>
+            <br/>
+            <span class="hidden-xs">Scannez le QR Code avec l'appli payconiq.</span>
+            <span class="visible-xs-block">Cliquez sur le bouton pour payer avec l'app payconiq.</span>
+          </div>
+          <div class="col-xs-12">
+            Montant: <%= @message.amount_to_pay %> EUR
+            <% transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
+            <% @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
+            <button class="btn btn-payconiq btn-block pq-button deep-link visible-xs-block" data-url="<%= "#{Rails.application.secrets.payconiq_deeplink_scheme}://payconiq.com/pay/1/#{transactionId}" %>">Payer avec payconiq</button>
+            <div class="qr pq-qr hidden-xs">
+              <%= raw @qr.as_html %>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <p>Payconiq est une app gratuite : elle vous permet d'effectuer des paiements via votre smartphone, facilement et en toute sécurité. <a href="https://www.payconiq.com">payconiq.com</a></p>
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe src="https://player.vimeo.com/video/213843344" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+          </div>
+      </div>
       <% end %>
     </div>
-  </div>
-<% end %>
-
-<% if @message.photos.any? %>
-  <br>
-  <br>
-  <div class="photos">
-    <% @message.photos.each do |photo| %>
-      <span style="padding: 10px">
-        <%
-          overlay_file_format = 'image'
-          overlay_file_format = 'pdf' if photo.format == 'pdf'
-        %>
-        <a href="<%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>" target="_blank">
-          <%= cl_image_tag(photo.path.gsub(/pdf$/, 'png'), :transformation=>[
-                {:width => 150, :height => 150, :crop => :fill},
-                {:overlay=>"black_bar", :width=>1.0, :height=>0.17, :flags=>"relative", :gravity=>"south", :opacity=>50},
-                {:overlay=>overlay_file_format, :gravity=>"south_west", :x=>10, :y=>5},
-                {:overlay=>"text:Arial_10O:#{photo.public_id}", :gravity=>"south_west", :y=>7, :x=>32, :color=>"#eee", :flags => 'no_overflow'}
-                ]) %>
-
-
-        </a>
-    </span>
-    <% end %>
-  </div>
-<% end %>
-
-<br/>
-<br/>
-<br/>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <table>
-      <tbody>
-        <tr>
-          <td></td>
-          <td>
-            <% unless @message.author.fullname.nil? %><%= @message.author.fullname %><br><% end %>
-            <% unless @message.school.name.nil? %><%= @message.school.name %><br><% end %>
-            <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
-            <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
-            <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
-            <% unless @message.author.email.nil? %><a href="mailto:<%= @message.author.email %>"><%= @message.author.email %></a><br><% end %>
-            <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </div>

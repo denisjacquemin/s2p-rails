@@ -1,23 +1,37 @@
-.pq-banner {
-  background-color: rgba(255,71,133,1);
-  padding: 40px 20px;
+.pq {
+  font-family: Sofia-Pro-Light, Arial, Helvetica, sans-serif;
   color: #fff;
-  font-size: 25px;
-  font-family: 'Arial';
-  .pq-price-tag {
-    text-align: right;
-    .pq-amount {
-      font-size: 30px;
-    }
-    .pq-currency {
-      font-size: 15px;
-    }
-    .pq-school {
-      font-size: 20px;
+  padding: 0 0 30px 0;
+  background-color: rgba(255,71,133,1);
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .btn-payconiq {
+    background: #00cb75;
+    border: none;
+    border-radius: 0;
+    padding: 20px 0;
+    font-size: 20px;
+    color: #fff;
+    &:hover {
+      background: #60dfa5;
+      color: #fff;
     }
   }
-}
 
-.pq-qr {
-  margin: 40px 20px;
+  .pq-banner {
+    padding: 40px 20px;
+    color: #fff;
+    font-size: 25px;
+  }
+  .pq-button {
+    margin: 15px 0;
+  }
+  .pq-qr {
+    margin: 40px auto;
+    display: table;
+  }
 }

@@ -1,52 +1,35 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Konecto App</title>
+<html lang="en">
+
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="robots" content="noindex">
-    <meta name="googlebot" content="noindex">
-    <%= csrf_meta_tags %>
-    <%= favicon_link_tag 'apple-icon-57x57.png', rel: 'apple-touch-icon', sizes: "57x57" %>
-    <%= favicon_link_tag 'apple-icon-60x60.png', rel: 'apple-touch-icon', sizes: "60x60" %>
-    <%= favicon_link_tag 'apple-icon-72x72.png', rel: 'apple-touch-icon', sizes: "72x72" %>
-    <%= favicon_link_tag 'apple-icon-76x76.png', rel: 'apple-touch-icon', sizes: "76x76" %>
-    <%= favicon_link_tag 'apple-icon-114x114.png', rel: 'apple-touch-icon', sizes: "114x114" %>
-    <%= favicon_link_tag 'apple-icon-120x120.png', rel: 'apple-touch-icon', sizes: "120x120" %>
-    <%= favicon_link_tag 'apple-icon-144x144.png', rel: 'apple-touch-icon', sizes: "144x144" %>
-    <%= favicon_link_tag 'apple-icon-152x152.png', rel: 'apple-touch-icon', sizes: "152x152" %>
-    <%= favicon_link_tag 'apple-icon-180x180.png', rel: 'apple-touch-icon', sizes: "180x180" %>
-    <%= favicon_link_tag 'android-icon-192x192.png', rel: 'icon', sizes: "192x192", type: 'image/png' %>
-    <%= favicon_link_tag 'favicon-32x32.png', rel: 'icon', sizes: "32x32", type: 'image/png' %>
-    <%= favicon_link_tag 'favicon-96x96.png', rel: 'icon', sizes: "96x96", type: 'image/png' %>
-    <%= favicon_link_tag 'favicon-16x16.png', rel: 'icon', sizes: "16x16", type: 'image/png' %>
-    <%= favicon_link_tag 'manifest.json', rel: 'manifest' %>
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="assets/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>1 Col Portfolio - Start Bootstrap Template</title>
 
     <%= stylesheet_link_tag    'show', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'show', 'data-turbolinks-track' => true %>
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
 
-  <body>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-              <%= yield %>
-          </div>
-        </div>
-      </div>
-  </body>
+</head>
+
+<body>
+
+    <div class="container">
+        <%= yield %>
+    </div>
+
+</body>
+
 </html>
