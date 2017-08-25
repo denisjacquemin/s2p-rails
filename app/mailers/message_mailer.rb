@@ -27,7 +27,7 @@ class MessageMailer < ApplicationMailer
     x_smptapi_hash['to'] = [to] if to.kind_of?(String)
 
     codes = []
-    if content.include?('[code]')
+    # if content.include?('[code]')
       # "sub": {
       #   "[code]": [
       #     "John",
@@ -46,7 +46,7 @@ class MessageMailer < ApplicationMailer
           "<li>#{student.fullname}: #{student.code}</li>"
         end.join || ""
       end
-    end
+    # end
 
     unless codes.blank?
       x_smptapi_hash['sub'] = {
