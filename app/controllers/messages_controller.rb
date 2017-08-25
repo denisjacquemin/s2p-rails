@@ -243,7 +243,7 @@ class MessagesController < ApplicationController
 
   def publish
     authorize @message
-    @message.published!
+    @message.status = 'published'
     if @message.save
       # groups = @message.groups
       # if groups.present? or @message.students.present?
