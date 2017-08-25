@@ -267,6 +267,7 @@ class MessagesController < ApplicationController
       redirect_back fallback_location: messages_url, notice: 'Message publié avec succès'
       #redirect_to messages_url, notice: 'Message publié avec succès'
     else
+      @message.status = @message.status_was
       render :edit
     end
   end
