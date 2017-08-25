@@ -31,10 +31,12 @@ class Message < ApplicationRecord
   after_initialize :set_default_status, :if => :new_record?
   after_initialize :set_default_mtype, :if => :new_record?
 
-  validates :mtype, presence: true
   validates :title, presence: true
+  validate  :presence_of_recipients, if: "status_changed?"
 
+  before_update :avoid_nil_for_status, if: "status_changed?"
   before_update :handle_status_changed, if: "status_changed?"
+  before_update :handle_status_republish, if: "status_changed?"
 
   def publish_date
     publish_date = nil
@@ -95,7 +97,7 @@ class Message < ApplicationRecord
   end
 
   def handle_status_changed
-    self.status = validate_status_changes(self.status_was, self.status)
+    logger.info ">>> in Message.handle_status_changed"
     if (self.status != self.status_was)
       case self.status
         when 'republished'
@@ -114,8 +116,11 @@ class Message < ApplicationRecord
     end
   end
 
+  def handle_status_republish
+    status = :published if republished?
+  end
+
   def handle_repuplish
-    self.status = :published
     handle_publish
   end
 
@@ -318,10 +323,15 @@ class Message < ApplicationRecord
     self.muuid = SecureRandom.uuid
   end
 
-  def validate_status_changes(old_value, new_value)
-    if new_value.nil?
-      return old_value # keep current value if new value is nil
+  def avoid_nil_for_status
+    if status.blank?
+      status = status_was # keep current value if new value is nil
     end
-    return new_value
+  end
+
+  def presence_of_recipients
+    if status == 'published' and students.blank? and groups.blank?
+      errors.add(:base, "La liste des destinataires est vide")
+    end
   end
 end

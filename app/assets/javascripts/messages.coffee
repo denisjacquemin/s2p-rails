@@ -62,6 +62,7 @@ build_group_row = (group_id, group_name) ->
 
 submit_with_status = (status) ->
   $('#message_status').val(status)
+  $('#change_status').val(true)
   $('.edit_message')[0].submit()
 
 sent_by_email_message = () ->

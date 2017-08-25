@@ -207,21 +207,15 @@ class MessagesController < ApplicationController
     submitted_students_ids = params[:student][:id] unless params[:student].nil?
     @message.students = submitted_students_ids
 
-    if not params[:message_status].blank?
-      @message_params[:status] = params[:message_status]
+    unless params[:change_status] == 'true'
+      @message_params[:status] = @message.status
     end
 
-    respond_to do |format|
-      if @message.update(@message_params)
-        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.' }
-        format.json { render :show, status: :ok, location: @message }
-      else
-        format.html {
-          @mfile = Mfile.new
-          render :edit
-        }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+    if @message.update(@message_params)
+      redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
+    else
+      @message.status = @message.status_was
+      render :edit
     end
   end
 
@@ -386,7 +380,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay)
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status)
     end
 
     def set_s3_direct_post

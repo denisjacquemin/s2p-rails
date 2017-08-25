@@ -8,7 +8,8 @@
     <% end %>
 
     <% unless message.new_record? %>
-      <%= hidden_field_tag 'message_status' %>
+      <%= f.hidden_field :status %>
+      <input type="hidden" id="change_status" name="change_status" value="false" />
     <% end %>
 
     <div class="form-group">
