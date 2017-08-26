@@ -83,7 +83,14 @@
     <div class="div-column hidden-xs">{{{_highlightResult.classroom.value}}}</div>
     <div class="div-column">{{{_highlightResult.code.value}}}</div>
     <div class="div-column-action hidden-xs hidden-sm">
-      {{#followers}}
+      <table class="flags">
+        <tr>
+          <td class="flag" {{#followers}}style="visibility:visible"{{/followers}}><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup></td>
+          <td class="flag" {{#message_sent_by_email}}style="visibility:visible"{{/message_sent_by_email}}><i class="fa fa-envelope"></i></td>
+          <td class="flag" {{#phones_count}}style="visibility:visible"{{/phones_count}}><span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup></td>
+        </tr>
+      </table>
+      <!-- {{#followers}}
         <span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup>
       {{/followers}}
       {{#message_sent_by_email}}
@@ -91,7 +98,7 @@
       {{/message_sent_by_email}}
       {{#phones_count}}
         <span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup>
-      {{/phones_count}}
+      {{/phones_count}} -->
       <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
         <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="{{{objectID}}}">
           <i class="dd-toggle material-icons">more_vert</i>
