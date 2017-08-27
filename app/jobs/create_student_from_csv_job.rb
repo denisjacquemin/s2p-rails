@@ -214,9 +214,9 @@ private
   end
 
   def merge_new_and_old_emails(old_emails, new_emails)
-    return "" if old_emails.blank? and new_emails.nil?
-    return old_emails if new_emails.nil?
-    return buildArrayOfPhone(new_emails) if old_emails.nil?
+    return "" if old_emails.blank? and new_emails.blank?
+    return old_emails if new_emails.blank?
+    return new_emails if old_emails.blank?
 
     oldEmails = old_emails.split(' ')
     newEmails = new_emails.split(' ')
@@ -247,8 +247,8 @@ private
     phone2 = phonie2.to_s unless phonie2.nil?
     phonie3 = Phonie::Phone.parse(data[:phone3], country_code: '32') unless data[:phone3].nil?
     phone3 = phonie3.to_s unless phonie3.nil?
-    phonie4 = Phonie::Phone.parse(data[:phone1], country_code: '32') unless data[:phone4].nil?
-    phone4 = phonie1.to_s unless phonie4.nil?
+    phonie4 = Phonie::Phone.parse(data[:phone4], country_code: '32') unless data[:phone4].nil?
+    phone4 = phonie4.to_s unless phonie4.nil?
 
     numbers = [phone1, phone2, phone3, phone4].flatten.uniq.compact
     return buildArrayOfPhone(numbers)
