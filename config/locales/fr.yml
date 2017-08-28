@@ -31,6 +31,7 @@ fr:
   model:
     group:
       all_students: Tous les élèves
+      all_writers: Tous les rédacteurs
       all_emails: Tous les emails
   activerecord:
     errors:

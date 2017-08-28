@@ -150,7 +150,13 @@ class Message < ApplicationRecord
         phones.each_slice(40) {|a| SendSmsJob.perform_later(self, a)}
       end
 
-      build_emails(students, self, self.title, self.content) if self.send_by_email and students.present?
+      # if group "Tous les redacteurs" is selected gets all redactors' emails
+      writers_emails = []
+      if groups.include?(Group.where(internal_id: 'all_writers', school_id: self.school_id).pluck(:id).first)
+        writers_emails = User.by_school(self.school_id).no_superadmin.active.pluck(:email)
+      end
+
+      build_emails(students, self, self.title, self.content, writers_emails) if self.send_by_email and (students.present? or writers_emails.present?)
     end
   end
 
@@ -211,7 +217,7 @@ class Message < ApplicationRecord
     # send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
 
-  def build_emails(students, message, title, content)
+  def build_emails(students, message, title, content, writers_emails=[])
     emails = students.collect { |s|
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
     }      # build an array of emails
@@ -219,6 +225,8 @@ class Message < ApplicationRecord
    # content = message.content
     emails.push(message.author_email) unless message.author_email.blank?
     message.admins_emails.each {|e| emails.push(e)} unless message.admins_emails.blank?
+    emails.push(writers_emails)
+
     emails = emails.compact.flatten.uniq
     # if message.content.include?('[code]')
     #   sub = emails.each |email| do

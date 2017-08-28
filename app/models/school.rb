@@ -39,7 +39,7 @@ class School < ApplicationRecord
 
   after_create do
     Group.create({name: I18n.t('model.group.all_students'), internal_id: 'all_students', school_id: self.id, updatable: false})
-    # Group.create({name: I18n.t('model.group.all_writers'), internal_id: 'all_writers', school_id: self.id, updatable: false})
+    Group.create({name: I18n.t('model.group.all_writers'), internal_id: 'all_writers', school_id: self.id, updatable: false})
     User.superadmin.update_all(['schools = array_append(schools, ?)', self.id])
   end
 end
