@@ -41,7 +41,7 @@ class Group < ApplicationRecord
   # end
 
   def clean_automatic_group
-    if (self.updatable === false && self.internal_id != 'all_students' ) #&& self.internal_id != 'all_writers'
+    if (self.updatable === false && self.internal_id != 'all_students' && self.internal_id != 'all_writers') #&& self.internal_id != 'all_writers'
 
       students = self.students
       self.destroy if students.blank?
