@@ -87,6 +87,7 @@ ready = () ->
         apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
         indexName: 'Student'
         searchParameters:
+          hitsPerPage: 1000
           numericRefinements :
             school_id:
               '=': [$('#current_school_id').val()]
