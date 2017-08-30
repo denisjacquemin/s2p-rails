@@ -178,6 +178,7 @@ class StudentsController < ApplicationController
             "classe_(libellé)".to_sym  => :level,
             "prénom".to_sym  => :firstname,
             :nom_du_titulaire => :classroom,
+            "prénom_du_titulaire".to_sym => :firstname_classroom,
             "courriel_de_l'élève".to_sym  => :emails,
             "courriel_signataire".to_sym => :emails2,
             "matricule".to_sym => :winpage_matricule,

@@ -152,7 +152,7 @@ private
     student_data[:firstname] =  data[:firstname]
     student_data[:lastname] = data[:lastname]
     student_data[:level] = data[:level]
-    student_data[:classroom] = data[:classroom]
+    student_data[:classroom] = [data[:firstname_classroom], data[:classroom]].join(' ').strip
     student_data[:emails] = [data[:emails], data[:emails2]].uniq.join(' ').strip
     student_data[:winpage_matricule] = data[:winpage_matricule].to_s
 
