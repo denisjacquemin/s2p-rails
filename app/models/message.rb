@@ -117,7 +117,7 @@ class Message < ApplicationRecord
   end
 
   def handle_status_republish
-    status = :published if republished?
+    self.status = 'published' if republished?
   end
 
   def handle_repuplish
