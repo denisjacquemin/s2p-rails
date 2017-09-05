@@ -71,11 +71,11 @@
           </div>
           <div class="col-xs-12">
             Montant: <%= @message.amount_to_pay %> EUR
-            <span class="pq-button">
-              <%= render 'pq_button', transactionId: @transactionId %>
-            </span>
+            <% transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
+            <% @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
+            <a class="btn btn-payconiq btn-block pq-button visible-xs-block" href="<%= "#{Rails.application.secrets.payconiq_deeplink_scheme}://payconiq.com/pay/1/#{transactionId}" %>">Payer avec payconiq</a>
             <div class="qr pq-qr hidden-xs">
-              <%= render 'qr', transactionId: @transactionId %>
+              <%= raw @qr.as_html %>
             </div>
           </div>
           <div class="col-xs-12">

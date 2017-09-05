@@ -332,6 +332,7 @@ class Message < ApplicationRecord
   end
 
   def avoid_nil_for_status
+    byebug
     if status.blank?
       status = status_was # keep current value if new value is nil
     end

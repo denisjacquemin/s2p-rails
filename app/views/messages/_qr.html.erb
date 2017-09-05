@@ -1,0 +1,2 @@
+<% @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
+<%= raw @qr.as_html %>

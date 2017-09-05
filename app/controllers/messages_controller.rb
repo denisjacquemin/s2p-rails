@@ -24,6 +24,7 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @message = Message.find_by_muuid(params[:uuid])
+    @transactionId = build_payconiq_transaction_id(@message)
 
     render layout: "show"
   end
@@ -214,6 +215,7 @@ class MessagesController < ApplicationController
     if @message.update(@message_params)
       redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
     else
+      logger.info "error in MessageController.update #{@message.inspect}"
       @message.status = @message.status_was
       render :edit
     end
@@ -284,7 +286,7 @@ class MessagesController < ApplicationController
 
   def republish
     authorize @message
-    @message.republished!
+    @message.status = 'republished'
     if @message.save
       redirect_back fallback_location: messages_url, notice: 'Message réenvoyé avec succès'
     else
@@ -360,6 +362,11 @@ class MessagesController < ApplicationController
     end
   end
 
+  def refresh_qr
+    message = Message.find_by_muuid(params[:muuid])
+    @transactionId = build_payconiq_transaction_id(message)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
@@ -391,5 +398,9 @@ class MessagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mfile_params
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
+    end
+
+    def build_payconiq_transaction_id(message)
+      message.pq_create_transaction(message.amount_to_pay_cents, 'first qr code')
     end
 end

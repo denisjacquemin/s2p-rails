@@ -72,8 +72,14 @@ sent_by_email_message = () ->
     return "<li>Ne Sera pas envoyé par email aux parents</li>"
 
 
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
 
 $(document).on 'turbolinks:load', ->
+  ready()
+
+ready = () ->
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')

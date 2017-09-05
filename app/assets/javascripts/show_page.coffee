@@ -6,6 +6,10 @@ $(document).on 'turbolinks:load', ->
   ready()
 
 ready = () ->
+  setInterval () ->
+    refreshQr()
+  , 100000
+
   formRender = $('#formrender-wrap').formRender({
     #messages: language['fr'],
     dataType: 'json',
@@ -80,3 +84,9 @@ isSelectEmpty = (selectContainer) ->
   else
     if $(selectContainer).find('.missingfield').length > 0
       $(selectContainer).find('.missingfield').remove()
+
+refreshQr = ->
+  console.log('refreshQr')
+  muuid = $('#muuid')
+  $.ajax url: '/messages/refresh_qr/' + muuid.val()
+  return
