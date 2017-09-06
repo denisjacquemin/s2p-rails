@@ -101,11 +101,12 @@ ready = () ->
       $('.send_by_sms_container').show()
   $('.submit_with_status').click (e) ->
     e.preventDefault()
-    console.log "$('.submit_with_status').click"
-    if $(e.target).data('before-submit-confirm') # if data-confirm is present don't submit form
+    anchor = $(this).closest('a')
+    status = anchor.data('status')
+    if anchor.data('before-submit-confirm') # if data-confirm is present don't submit form
       bootbox.confirm
-        title: $(e.target).data('title')
-        message: $(e.target).data('message')
+        title: anchor.data('title')
+        message: anchor.data('message')
         buttons:
           confirm:
             label: 'Oui'
@@ -115,9 +116,9 @@ ready = () ->
             className: 'btn-danger'
         callback: (result) ->
           if result
-            submit_with_status($(e.target).data('status'))
+            submit_with_status(status)
           return
     else
-      submit_with_status($(e.target).data('status'))
+      submit_with_status(status)
 
   $('[data-toggle="popover"]').popover()
