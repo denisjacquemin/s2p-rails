@@ -401,6 +401,8 @@ class MessagesController < ApplicationController
     end
 
     def build_payconiq_transaction_id(message)
-      message.pq_create_transaction(message.amount_to_pay_cents, 'first qr code')
+      transaction = message.pq_create_transaction(message.amount_to_pay_cents, 'first qr code')
+      logger.debug "$build_payconiq_transaction_id$ #{transaction}"
+      return transaction
     end
 end
