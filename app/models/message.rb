@@ -312,6 +312,7 @@ class Message < ApplicationRecord
       "amount": amount_in_cents,
       "currency": currency,
       "callbackUrl": callbackUrl,
+      "description": description
       # "signature": 'io+eRjK6B9yO4fzijU0p4CCtdol3XCypPXoluKErM0E=',
     }
     req.body = data.to_json
