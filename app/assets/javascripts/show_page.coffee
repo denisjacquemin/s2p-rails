@@ -6,9 +6,10 @@ $(document).on 'turbolinks:load', ->
   ready()
 
 ready = () ->
-  setInterval () ->
-    refreshQr()
-  , 100000
+  if $('.pq').length
+    setInterval () ->
+      refreshQr()
+    , 100000
 
   formRender = $('#formrender-wrap').formRender({
     #messages: language['fr'],
