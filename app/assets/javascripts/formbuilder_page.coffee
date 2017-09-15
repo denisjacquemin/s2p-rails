@@ -183,6 +183,8 @@ ready = () ->
           },
           'text': {
             onadd: (fld) ->
+              input = $('.fb-text input', fld)
+              input.prop('disabled', true)
               fldLabels = $('.fld-label', fld)
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
