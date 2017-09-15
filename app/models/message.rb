@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 
   monetize :amount_to_pay_cents
 
-  algoliasearch synchronous: true do
+  algoliasearch synchronous: false do
     attribute :title, :content, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
     attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
@@ -326,7 +326,30 @@ class Message < ApplicationRecord
   end
 
 
+  # def get_students_names_by_email(email)
+  #
+  #   # for a given email, find student's names targeted for that message
+  #   students_by_email = Student.by_email(email) # gets all students for a given email
+  #
+  #   # then keep only students targeted by the message based on message.groups ans message.students
+  #   students_names = students_by_email.each do |student|
+  #     gic = false
+  #     gic = group_in_common?(student.groups, self.groups) if (self.groups.present?)
+  #
+  #     s_contained_in_m = false
+  #     s_contained_in_m = self.students.include?(s.id) if (self.students.present?)
+  #
+  #     s.fullname if (gic or s_contained_in_m)
+  #   end
+  # end
+
   private
+
+  # def group_in_common?(student_groups, message_groups)
+  #   sg = student_groups || []
+  #   mg = message_groups || []
+  #   (sg & mg).any?
+  # end
 
   def generate_uuid
     self.muuid = SecureRandom.uuid
