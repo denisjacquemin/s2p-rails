@@ -2,7 +2,7 @@ class Group < ApplicationRecord
   include Code
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch enqueue: true do
     # list of attribute used to build an Algolia record
     attribute :name, :school_id
     # the attributesToIndex` setting defines the attributes you want to search in

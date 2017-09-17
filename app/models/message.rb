@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 
   monetize :amount_to_pay_cents
 
-  algoliasearch synchronous: false do
+  algoliasearch enqueue: true do
     attribute :title, :content, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
     attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
