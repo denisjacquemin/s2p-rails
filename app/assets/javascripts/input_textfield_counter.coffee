@@ -16,7 +16,7 @@ ready = () ->
 @InputFieldCounter =
   update_counter: (el) ->
     element = $(el)
-    console.log 'element: ' + el
+    # console.log 'element: ' + el
     targetSelector = element.data('target')
     max = element.attr('maxLength')
     console.log 'targetSelector: ' + targetSelector

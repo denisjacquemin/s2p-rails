@@ -160,6 +160,15 @@ ready = () ->
       typeUserEvents: {
           'checkbox-group': {
             onadd: (fld, event) ->
+              question = $('.frm-holder .label-wrap input[type="text"]', fld)
+              if (question.length > 0)
+                question.prop('placeholder', 'Votre question ici')
+                if question.prop('value') == 'Groupe de cases à cocher'
+                  question.prop('value', '')
+              label = $('.field-label', fld)
+              if (label.length > 0)
+                if label.text() == 'Groupe de cases à cocher'
+                  label.text('Votre question apparaîtra ici')
               $('.option-selected, .checkbox-group', fld).prop('checked', false).attr("disabled", true)
               $(fld).on('keyup', '.option-label', (e) ->
                 $(this).next().val(e.target.value)
@@ -174,7 +183,6 @@ ready = () ->
                 $(fldLabel).attr('data-target', '.' + counterClass)
                 $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
                 InputFieldCounter.update_counter(fldLabel)
-
               true
           },
           'checkbox': {
@@ -183,8 +191,38 @@ ready = () ->
           },
           'text': {
             onadd: (fld) ->
-              input = $('.fb-text input', fld)
-              input.prop('disabled', true)
+              question = $('.frm-holder .label-wrap input[type="text"]', fld)
+              if (question.length > 0)
+                question.prop('placeholder', 'Votre question ici')
+                if question.prop('value') == 'Texte'
+                  question.prop('value', '')
+              label = $('.field-label', fld)
+              if (label.length > 0)
+                if label.text() == 'Texte'
+                  label.text('Votre question apparaîtra ici')
+              fldLabels = $('.fld-label', fld)
+              if (fldLabels.length > 0)
+                fldLabel = fldLabels[0]
+                counterInputClass = 'counter-input'
+                counterClass = 'counter-' + fld.id.slice(-1)
+                $(fldLabel).addClass('counter-input')
+                $(fldLabel).attr('maxlength','50')
+                $(fldLabel).attr('data-target', '.' + counterClass)
+                $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
+                InputFieldCounter.update_counter(fldLabel)
+              true
+          }
+          'textarea': {
+            onadd: (fld, event) ->
+              question = $('.frm-holder .label-wrap input[type="text"]', fld)
+              if (question.length > 0)
+                question.prop('placeholder', 'Votre question ici')
+                if question.prop('value') == 'Texte long'
+                  question.prop('value', '')
+              label = $('.field-label', fld)
+              if (label.length > 0)
+                if label.text() == 'Texte long'
+                  label.text('Votre question apparaîtra ici')
               fldLabels = $('.fld-label', fld)
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
@@ -199,6 +237,15 @@ ready = () ->
           }
           'select': {
             onadd: (fld, event) ->
+              question = $('.frm-holder .label-wrap input[type="text"]', fld)
+              if (question.length > 0)
+                question.prop('placeholder', 'Votre question ici')
+                if question.prop('value') == 'Sélection'
+                  question.prop('value', '')
+              label = $('.field-label', fld)
+              if (label.length > 0)
+                if label.text() == 'Sélection'
+                  label.text('Votre question apparaîtra ici')
               $(fld).on('keyup', '.option-label', (e) ->
                 $(this).next().val(e.target.value)
               )
@@ -237,3 +284,6 @@ ready = () ->
         _method: form.find( "input[name='_method']" ).val()
       }
     });
+  $('#formbuilder-wrap').on 'propertychange change click keyup input paste', ".prev-holder input, .prev-holder textarea", ->
+    console.log('catched')
+    $( this ).val('')
