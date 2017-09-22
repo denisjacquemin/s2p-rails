@@ -5,6 +5,20 @@
 <% elsif @message.rappel? %>
   <%= @message.title %>
 <% end %>
+
+<% if @message.formdata.present? and @message.formdata != "[]"%>
+  Suivez le lien ci-dessous pour remplir le formulaire
+  <%= message_form_url(@message.muuid) %>
+<% end %>
+
+<% if @message.photos.any? %>
+++++++++
+
+  <% @message.photos.each do |photo| %>
+    <%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>
+  <% end %>
+<% end %>
+
 --
 <% unless @message.author.fullname.nil? %><%= strip_tags @message.author.fullname %><% end %>
 <% unless @message.school.name.nil? %><%= strip_tags @message.school.name %><% end %>
