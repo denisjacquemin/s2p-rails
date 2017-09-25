@@ -1,27 +1,35 @@
 <%= form_for(message, url: messages_add_photo_path(message.id), method: :patch, html: { id: 'message_add_photo', multipart: true }) do |f| %>
   <div class="row">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="col-lg-8 col-md-8 col-xs-12">
       <div style="visibility:hidden;" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="progress-bar progress-bar-success" style="width: 0;"></div>
       </div>
     </div>
-  </div>
-  <div class="row pull-right">
-    <div class="col-lg-12 col-md-12 col-xs-12">
-      <%= f.submit "Enregistrer les images / PDFs", class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+    <div class="col-lg-4 col-md-4 col-xs-12" style="text-align:right">
+      <%= f.submit "Enregistrer", class: 'btn btn-primary fab visible-xs', data: { disable_with: "Enregistrement..." } %>
+      <%= f.submit "Enregistrer les images / PDFs", class: 'btn btn-primary hidden-xs', data: { disable_with: "Enregistrement..." } %>
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+  <div class="row" style="padding-top:30px">
+    <div class="col-lg-9 col-md-8 col-xs-12">
       <div class="dropzone">
         <div class="middle">
           <div class="inner">
             <br/>
-            <p><%= f.attachinary_file_field :photos, cloudinary: { use_filename: true } %></p>
-            <p>ou</p>
-            <p>Glisser déposer des images ou PDF ici</p>
+            <p>
+              <%= f.attachinary_file_field :photos, cloudinary: { use_filename: true } %>
+            </p>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-xs-12">
+      <div class="maximumreached alert alert-info" style="display:<%= message.photos.count > 6 ? 'block' : 'none' %>;color: #333333;background-color: #f5ae63;border-color:#bce8f1;" role="alert">
+        <p>Le nombre maximum de 7 fichiers est atteint.</p>
+      </div>
+      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+        <p>Ajoutez à votre message des images (jpg, png ou gif) ou des PDFs. Maximum 7 fichiers.</p>
+        <p>Vous pouvez <em>glisser déposer</em> des images ou PDF dans la zone pointillée</p>
       </div>
     </div>
   </div>
