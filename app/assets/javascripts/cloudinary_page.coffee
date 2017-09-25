@@ -48,10 +48,23 @@ ready = () ->
     console.log 'fileadded'
   $('.attachinary-input').bind 'attachinary:fileremoved', (event, data) ->
     console.log 'fileremoved'
+    $('.maximumreached').hide()
     #save_photos $('#message_add_photo')
   $('.attachinary-input').bind 'fileuploadfail', (event, data) ->
+    message = data.errorThrown
+    numberOfFiles = data.attachinary.files.length + data.originalFiles.length
     console.log data
-    $.snackbar({content: data.errorThrown, style: 'error', timeout: 10000});
+    console.log 'numberOfFiles: ' + numberOfFiles
+    console.log 'data.attachinary.maximum: ' + data.attachinary.maximum
+    if (numberOfFiles > data.attachinary.maximum)
+      message = 'Le maximum de ' + data.attachinary.maximum + ' fichiers est atteint'
+      $('.progress').invisible()
+      $('.maximumreached').show()
+    # console.log 'fileuploadfail'
+    # console.log 'originalFiles.length: ' + data.originalFiles.length
+    # console.log 'attachinary.maximum: ' + data.attachinary.maximum
+    # console.log data
+    $.snackbar({content: message, style: 'error', timeout: 10000});
   $('.attachinary-input').bind 'fileuploadprogressall', (event, data) ->
     console.log 'in fileuploadprogressall'
     progress = parseInt(data.loaded / data.total * 100, 10)
