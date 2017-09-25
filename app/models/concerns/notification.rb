@@ -17,7 +17,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(message.title, truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
+        send_ios_notifications(message.title.force_encoding("utf-8"), truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
 
         # options = {
         #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
