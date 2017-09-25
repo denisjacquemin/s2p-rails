@@ -17,7 +17,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(message.title.force_encoding("utf-8"), truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
+        send_ios_notifications(message.title, truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
 
         # options = {
         #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
@@ -98,8 +98,8 @@ module Notification extend ActiveSupport::Concern
           n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
           n.alert = {
-            title: truncate(alert, :length => 256),
-            body: truncate(content, :length => 256)
+            title: truncate(alert, :length => 256).force_encoding("utf-8"),
+            body: truncate(content, :length => 256).force_encoding("utf-8")
           }
           n.content_available = true
           expiry_value = Time.now + 2.day
