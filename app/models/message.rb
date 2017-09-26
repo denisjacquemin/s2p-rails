@@ -7,9 +7,17 @@ class Message < ApplicationRecord
 
   monetize :amount_to_pay_cents
 
-  algoliasearch enqueue: true do
-    attribute :title, :content, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
+  algoliasearch enqueue: true, sanitize: true do
+    attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
+
+    attribute :content do
+      content.truncate(5000)
+    end
+
     attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]
+
+
+
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
     attributesToSnippet ['content:35']
     customRanking ['desc(created_at_ISO8601)']
