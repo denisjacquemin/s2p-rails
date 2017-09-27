@@ -38,7 +38,7 @@ gem 'callr'
 gem 'rqrcode'
 
 
-gem "wysiwyg-rails", '>= 2.3.4'
+gem "wysiwyg-rails", '>= 2.7.0'
 gem 'kramdown'
 gem 'mail'
 gem 'rpush'#, '< 2.7.0' # https://github.com/rpush/rpush/wiki/Herokuquit
