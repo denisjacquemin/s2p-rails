@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 
   monetize :amount_to_pay_cents
 
-  algoliasearch enqueue: true, sanitize: true do
+  algoliasearch sanitize: true do
     attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
 
     attribute :content do
