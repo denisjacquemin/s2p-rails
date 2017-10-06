@@ -8,13 +8,24 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
   if $('.algolia_messages').length
 
-    $('#hits').on 'click', '.title-and-content', (event) ->
+    $('.hits').on 'click', '.title-and-content', (event) ->
       Turbolinks.visit('/messages/' + $(this).data('message-id') + '/edit')
       event.preventDefault()
 
-    $('#hits').on 'click', '.dropdown-menu a', (event) ->
+    $('.hits').on 'click', '.dropdown-menu a', (event) ->
       console.log "start progress now"
 
+    $('.algolia').on 'keydown', 'input.ais-search-box--input', (event) ->
+      $('#hits').show()
+      $('#latest_messages').hide()
+
+    $('.algolia').on 'click', '.ais-pagination--item', (event) ->
+      $('#hits').show()
+      $('#latest_messages').hide()
+
+    if window.location.search != ''
+      $('#hits').show()
+      $('#latest_messages').hide()
 
     linkAction = (action, message_id) ->
       switch action
@@ -36,7 +47,7 @@ ready = () ->
           return '<a data-confirmbootbox="Etes vous sûr?" data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
 
 
-    $('#hits').on 'click', '.dropdown-toggle', (event) ->
+    $('.hits').on 'click', '.dropdown-toggle', (event) ->
       ul = $(this).next('.dropdown-menu')
       if $(ul).find('li').length == 0
         workflowActive = $('#worflow_active').val()
@@ -86,6 +97,7 @@ ready = () ->
       apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
       indexName: 'Message'
       searchParameters:
+        hitsPerPage: 12
         numericRefinements :
           school_id:
             '=': [$('#current_school_id').val()]
@@ -102,7 +114,6 @@ ready = () ->
     )
     search.addWidget instantsearch.widgets.hits(
       container: '#hits'
-      hitsPerPage: 12
       templates:
         item: getTemplate('hit')
         empty: getTemplate('no-results'))
@@ -140,6 +151,16 @@ ready = () ->
     #     }
     #   })
     search.start()
+    search.on('render', onRenderHandler);
+
 
 getTemplate = (templateName) ->
   document.getElementById(templateName + '-template').innerHTML
+
+onRenderHandler = () ->
+  # reset selected row counter
+  $('#selected').text('0')
+  $('#toggle_all, .scb').prop('checked', false)
+  $('.div-row').removeClass('active')
+  if search?
+    search.clearCache()

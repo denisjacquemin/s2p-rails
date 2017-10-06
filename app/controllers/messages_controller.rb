@@ -18,14 +18,22 @@ class MessagesController < ApplicationController
     @current_school_id = @current_school.id
     # @current_user = current_user
     @workflow_active = @current_school.validation_workflow_active
+
+    @latest_messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc).limit(12)
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
     @message = Message.find_by_muuid(params[:uuid])
-    @transactionId = build_payconiq_transaction_id(@message)
+    @email = params[:email]
 
+    # build transaction only if message.amount is present
+    if @message.amount_to_pay_cents > 0
+      students_names = @message.get_students_names_by_email(params[:email]) if params[:email].present?
+
+      @transactionId = build_payconiq_transaction_id(@message, "#{students_names} - #{@message.title}")
+    end
     render layout: "show"
   end
 
@@ -363,8 +371,10 @@ class MessagesController < ApplicationController
   end
 
   def refresh_qr
-    message = Message.find_by_muuid(params[:muuid])
-    @transactionId = build_payconiq_transaction_id(message)
+    @message = Message.find_by_muuid(params[:muuid])
+    students_names = @message.get_students_names_by_email(params[:email]) if params[:email].present?
+
+    @transactionId = build_payconiq_transaction_id(@message, "#{students_names} - #{@message.title}")
   end
 
   private
@@ -400,9 +410,9 @@ class MessagesController < ApplicationController
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
     end
 
-    def build_payconiq_transaction_id(message)
-      transaction = message.pq_create_transaction(message.amount_to_pay_cents, 'first qr code')
-      logger.debug "$build_payconiq_transaction_id$ #{transaction}"
+    def build_payconiq_transaction_id(message, description="")
+      transaction = message.pq_create_transaction(message.amount_to_pay_cents, description)
+      logger.debug "$build_payconiq_transaction_id$ #{transaction} with description : #{description}"
       return transaction
     end
 end
