@@ -1,53 +1,6 @@
-<body id="page-top">
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.10&appId=453229218065573";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
 
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                  <img src="img/logo_konectoapp.png" height="30px" width="30px" class="img-responsive" alt="">
-                  <span class="hidden-xs hidden-sm">Konecto App</span>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="#why">Pourquoi /<span class="hidden-lg hidden-xs"><br/></span> Pour Qui?</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#features">Fonction<span class="hidden-lg hidden-xs">-<br/></span>nalités</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#download">Démo</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#presse">Les médias<span class="hidden-lg hidden-xs"><br/></span> en parlent</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                    <li>
-                        <%= link_to 'Accès Membre', new_user_session_path, data: { turbolinks: false } %>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
+    <%= render 'fb' %>
+    <%= render 'nav' %>
 
     <header>
         <div class="container">
@@ -426,6 +379,9 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <h3><strong>L'avenir</strong> - Profs et parents sont Konecto à Marche - 19 septembre 2017</h3>
+              <p><a style="color: #000;text-decoration:underline;" href="http://www.lavenir.net/cnt/dmf20170918_01057053/profs-et-parents-sont-konecto-a-marche" target="_blank">À Marche-en-Famenne, un papa d’élève des écoles communales a développé une application – Konecto – qui permet aux directions d’écoles et aux enseignants d’envoyer directement les informations aux parents.</a></p>
+              <br/>
               <h3>Reportage <strong>TV Lux</strong> 31 janvier 2017 - Konecto app : une appli école - parents</h3>
               <%= link_to image_tag("tvlux.jpg" , border: 0, class: 'img-responsive', alt: "TVLux Konecto app : une appli école - parents"), 'http://www.tvlux.be/video/societe/konecto-app-une-appli-ecole-parents_25086.html', target: '_blank' %>
               <br/>
@@ -483,6 +439,6 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2016 - 2017 Konecto App.</p>
+            <p>&copy; 2016 - 2017 Konecto App. - <a href="/disclaimer">Notice légale</a></p>
         </div>
     </footer>

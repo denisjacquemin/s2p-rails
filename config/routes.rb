@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
 
   get '/amp', to: 'website#amp'
+  get '/disclaimer', to: 'website#disclaimer'
   post '/contactme', to: 'website#contactme'
   get '/faq', to: 'faq#show'
   get 'contact_support', to: 'faq#contact_support'
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
   patch 'messages/update_amounttopay/:id', to: 'messages#update_amount_to_pay', as: 'update_amount_to_pay'
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   patch 'messages/update_formdata/:id', to: 'messages#update_formdata', as: 'messages_update_form'
+  get 'm/:uuid/:emailencrypted', to: 'messages#show'
   get 'm/:uuid', to: 'messages#show', as: "message_form"
   get 'p/:uuid', to: 'messages#show', as: "message_pay"
 
