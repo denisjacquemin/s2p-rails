@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
     if @message.amount_to_pay_cents > 0
       students_names = @message.get_students_names_by_email(params[:email]) if params[:email].present?
 
-      @transactionId = build_payconiq_transaction_id(@message, "#{students_names} - #{@message.title}")
+      @transactionId = build_payconiq_transaction_id(@message)
     end
     render layout: "show"
   end
@@ -374,7 +374,7 @@ class MessagesController < ApplicationController
     @message = Message.find_by_muuid(params[:muuid])
     students_names = @message.get_students_names_by_email(params[:email]) if params[:email].present?
 
-    @transactionId = build_payconiq_transaction_id(@message, "#{students_names} - #{@message.title}")
+    @transactionId = build_payconiq_transaction_id(@message)
   end
 
   private
@@ -394,7 +394,7 @@ class MessagesController < ApplicationController
     end
 
     def update_amount_to_pay_params
-      params.require(:message).permit(:amount_to_pay)
+      params.require(:message).permit(:amount_to_pay, :billing_description)
     end
 
     def message_params
@@ -410,9 +410,10 @@ class MessagesController < ApplicationController
       params.require(:mfile).permit(:filename, :file_url, :school_id, :message_id)
     end
 
-    def build_payconiq_transaction_id(message, description="")
-      transaction = message.pq_create_transaction(message.amount_to_pay_cents, description)
-      logger.debug "$build_payconiq_transaction_id$ #{transaction} with description : #{description}"
-      return transaction
+    def build_payconiq_transaction_id(message)
+      transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description)
+      Payment.create(school_id: message.school_id, message_id: message.id, pq_transaction_id: transactionId, price_cents_cents: message.amount_to_pay_cents, pq_status: 'INITIATED', )
+      logger.debug "$build_payconiq_transaction_id$ #{transactionId.inspect()} with description : #{message.billing_description}"
+      return transactionId
     end
 end

@@ -12,13 +12,20 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-inline">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
     <div class="form-group">
       <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
       <%= f.text_field :amount_to_pay, class: 'form-control' %>
-      <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
     </div>
   </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+    <div class="form-group">
+      <%= f.label :billing_description, 'Communication' %></br>
+      <%= f.text_field :billing_description, value: @message.title, class: 'form-control' %>
+    </div>
+  </div>
+  <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+
 </div>
 <% end %>
 <div class="row">
