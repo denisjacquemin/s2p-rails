@@ -25,7 +25,10 @@
     </div>
   </div>
   <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
-
+  <% Payment.where(message_id: @message.id).each do |payment| %>
+    <%= payment.pq_transaction_id %>
+    <%= payment.pq_status %>
+  <% end %>
 </div>
 <% end %>
 <div class="row">
