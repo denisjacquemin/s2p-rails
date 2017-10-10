@@ -5,7 +5,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+  <div class="col-lg-12 col-md-12 col-xs-12" style="text-align:right">
+    <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
     <div class="form-group">
       <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
       <%= f.text_field :amount_to_pay, class: 'form-control' %>
@@ -15,47 +20,48 @@
     <div class="form-group">
       <%= f.label :billing_description, 'Communication' %></br>
       <%= f.text_field :billing_description, value: @message.title, class: 'form-control' %>
-      <span class="help-block">Communication structurée ou libre.</span>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
-    <label></label>
-    <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
-  </div>
-
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-      Ci-dessous la liste des paiements effectués, l'argent est disponible 1 ou 2 jours après le paiement effectif sur le compte en banque.
+      <span class="help-block">Communication structurée ou libre qui sera visible dans les extraits de compte.</span>
     </div>
   </div>
 </div>
+<% payments = Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED') %>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Horodateur</th>
-        <th>Eleves</th>
-        <th>Montant</th>
-        <th>Communication</th>
-        <th>Statut</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').each do |payment| %>
-      <tr>
-        <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
-        <td><%= payment.students_names %></td>
-        <td><%= humanized_money payment.price_cents %>
-        <td><%= payment.communication %></td>
-        <td><%= payment.pq_status %></td>
-      </tr>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <% if payments.blank? %>
+      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+        Apparaîtra à cette endroit la liste des paiement reçus.
+      </div>
+    <% else %>
+      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+        Ci-dessous la liste des paiements effectués, l'argent est disponible 1 ou 2 jours après le paiement effectif sur le compte en banque.
+      </div>
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Horodateur</th>
+          <th>Eleves</th>
+          <th>Montant (EUR)</th>
+          <th>Communication</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% payments.each do |payment| %>
+        <tr>
+          <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
+          <td><%= payment.students_names %></td>
+          <td><%= humanized_money payment.price_cents %>
+          <td><%= payment.communication %></td>
+          <td><%= payment.pq_status %></td>
+        </tr>
+      <% end %>
+      </tbody>
+      </table>
     <% end %>
-    </tbody>
-    </table>
   </div>
 </div>
 <% end %>
+<!--
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <h2>Pourquoi Payconiq est idéal pour recevoir des paiements</h2>
@@ -74,11 +80,4 @@
     <li>Moins d'argent liquide en circulation dans l'école. Moins de risque de perte.</li>
     <li>Les parents peuvent payer où qu'ils soient.</li>
 </div>
-
-
-<%# transactionId = @message.pq_create_transaction(@message.amount_to_pay_cents, 'first qr code') %>
-<%# @qr = RQRCode::QRCode.new( "https://payconiq.com/pay/1/#{transactionId}", :size => 6, :level => :h ) %>
-
-<div class="qr">
-<%#= raw @qr.as_html %>
-</div>
+-->
