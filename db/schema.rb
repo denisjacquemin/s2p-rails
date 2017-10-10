@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828075203) do
+ActiveRecord::Schema.define(version: 20171010092409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 20170828075203) do
     t.boolean  "send_by_sms",            default: false
     t.integer  "amount_to_pay_cents",    default: 0,     null: false
     t.string   "amount_to_pay_currency", default: "EUR", null: false
+    t.string   "billing_description"
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -136,6 +137,9 @@ ActiveRecord::Schema.define(version: 20170828075203) do
     t.string   "pq_security_algorithm"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.integer  "message_id"
+    t.string   "students_names"
+    t.string   "communication"
   end
 
   create_table "phones", force: :cascade do |t|

@@ -11,6 +11,9 @@ class Student < ApplicationRecord
     typoTolerance :false
   end
 
+  scope :by_email, ->(email) { where("emails LIKE ?", "%#{email}%") }
+
+
   def message_sent_by_email
     self.sent_message_by_email and self.emails.present?
   end
@@ -25,7 +28,6 @@ class Student < ApplicationRecord
   before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
   after_update :clean_old_level, if: "level_changed?"
   after_update :clean_old_classroom, if: "classroom_changed?"
-  #after_destroy :clean_groups
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
@@ -85,6 +87,20 @@ class Student < ApplicationRecord
 
   def add_groups(groups_to_add)
     self.groups = self.groups + groups_to_add
+  end
+
+  def self.email_encrypt(email_to_encrypt)
+    salt  = Rails.application.secrets.secret_key_base
+    key   = ActiveSupport::KeyGenerator.new('password').generate_key(salt, 32) # => "\x89\xE0\x156\xAC..."
+    crypt = ActiveSupport::MessageEncryptor.new(key)
+    crypt.encrypt_and_sign(email_to_encrypt)
+  end
+
+  def self.email_decrypt(email_encrypted)
+    salt  = Rails.application.secrets.secret_key_base
+    key   = ActiveSupport::KeyGenerator.new('password').generate_key(salt, 32) # => "\x89\xE0\x156\xAC..."
+    crypt = ActiveSupport::MessageEncryptor.new(key)
+    crypt.decrypt_and_verify(email_encrypted)
   end
 
   def self.to_csv_file
@@ -236,7 +252,7 @@ class Student < ApplicationRecord
 
       # assign "Tous les élèves to each new student"
       all_students = Group.find_by(internal_id: 'all_students', school_id: self.school_id)
-      self.groups.push(all_students.id) unless all_students.nil?      
+      self.groups.push(all_students.id) unless all_students.nil?
       #Student.add_group(self.id, all_students.id) unless all_students.nil?
     end
 

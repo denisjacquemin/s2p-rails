@@ -26,13 +26,14 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @message = Message.find_by_muuid(params[:uuid])
-    @email = params[:email]
-
+    @email_encrypted = params[:e]
+    @email = Student.email_decrypt(@email_encrypted)
     # build transaction only if message.amount is present
     if @message.amount_to_pay_cents > 0
-      students_names = @message.get_students_names_by_email(params[:email]) if params[:email].present?
-
+      students_names_array = @message.get_students_names_by_email(@email) if @email.present?
+      students_names = students_names_array.join ', ' if students_names_array.any?
       @transactionId = build_payconiq_transaction_id(@message)
+      Payment.create(school_id: @message.school_id, message_id: @message.id, pq_transaction_id: @transactionId, price_cents_cents: @message.amount_to_pay_cents, pq_status: 'INITIATED', students_names: students_names, communication: @message.billing_description)
     end
     render layout: "show"
   end
@@ -412,7 +413,6 @@ class MessagesController < ApplicationController
 
     def build_payconiq_transaction_id(message)
       transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description)
-      Payment.create(school_id: message.school_id, message_id: message.id, pq_transaction_id: transactionId, price_cents_cents: message.amount_to_pay_cents, pq_status: 'INITIATED', )
       logger.debug "$build_payconiq_transaction_id$ #{transactionId.inspect()} with description : #{message.billing_description}"
       return transactionId
     end

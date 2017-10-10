@@ -334,22 +334,22 @@ class Message < ApplicationRecord
   end
 
 
-  # def get_students_names_by_email(email)
-  #
-  #   # for a given email, find student's names targeted for that message
-  #   students_by_email = Student.by_email(email) # gets all students for a given email
-  #
-  #   # then keep only students targeted by the message based on message.groups ans message.students
-  #   students_names = students_by_email.each do |student|
-  #     gic = false
-  #     gic = group_in_common?(student.groups, self.groups) if (self.groups.present?)
-  #
-  #     s_contained_in_m = false
-  #     s_contained_in_m = self.students.include?(s.id) if (self.students.present?)
-  #
-  #     s.fullname if (gic or s_contained_in_m)
-  #   end
-  # end
+  def get_students_names_by_email(email)
+
+    # for a given email, find student's names targeted for that message
+    students_by_email = Student.by_email(email) # gets all students for a given email
+
+    # then keep only students targeted by the message based on message.groups ans message.students
+    students_names = students_by_email.collect do |student|
+      gic = false
+      gic = group_in_common?(student.groups, self.groups) if (self.groups.present?)
+
+      s_contained_in_m = false
+      s_contained_in_m = self.students.include?(student.id) if (self.students.present?)
+
+      student.fullname if (gic or s_contained_in_m)
+    end
+  end
 
   private
 

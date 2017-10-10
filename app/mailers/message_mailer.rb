@@ -27,6 +27,7 @@ class MessageMailer < ApplicationMailer
     x_smptapi_hash['to'] = [to] if to.kind_of?(String)
 
     codes = []
+    emails_encrypt = []
     # if content.include?('[code]')
       # "sub": {
       #   "[code]": [
@@ -35,6 +36,7 @@ class MessageMailer < ApplicationMailer
       #   ]
       # }
       to.each do |email|
+        emails_encrypt << Student.email_encrypt(email)
         # for current email gets all students to build the codes
         students_containing_email_string = Student.where("emails LIKE ?", "%#{email}%").by_school(@message.school_id)
         students = students_containing_email_string.select do |s|
@@ -48,11 +50,17 @@ class MessageMailer < ApplicationMailer
       end
     # end
 
-    unless codes.blank?
-      x_smptapi_hash['sub'] = {
-        "[code]": codes
-      }
+    x_smptapi_hash['sub'] = {}.tap do |my_hash|
+      my_hash["code"] = codes unless codes.blank?
+      my_hash["-email_encrypt-"] = emails_encrypt unless emails_encrypt.blank?
     end
+
+    # unless codes.blank?
+    #   x_smptapi_hash['sub'] = {
+    #     "[code]": codes,
+    #     "-email_encrypt-": emails_encrypt
+    #   }
+    # end
     headers "X-SMTPAPI" => x_smptapi_hash.to_json
 
     from = "#{@message.school_name} - #{@message.author.fullname}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'

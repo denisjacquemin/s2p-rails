@@ -5,30 +5,47 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-      Proposez aux parents de payer via l'application smartphone payconiq. Les confirmations de paiements seront visibles sur cette page.
-    </div>
-  </div>
-</div>
-<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
     <div class="form-group">
       <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
       <%= f.text_field :amount_to_pay, class: 'form-control' %>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
     <div class="form-group">
       <%= f.label :billing_description, 'Communication' %></br>
       <%= f.text_field :billing_description, value: @message.title, class: 'form-control' %>
+      <span class="help-block">Communication structurée ou libre.</span>
     </div>
   </div>
-  <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+  <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
+    <label></label>
+    <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+      Ci-dessous la liste des paiements effectués, l'argent est disponible 1 ou 2 jours après le paiement effectif sur le compte en banque.
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Eleves</th>
+      <th>Communication</th>
+      <th>Statut</th>
+    </tr>
+  </thead>
+  <tbody>
   <% Payment.where(message_id: @message.id).each do |payment| %>
-    <%= payment.pq_transaction_id %>
-    <%= payment.pq_status %>
+    <tr>
+      <td><%= payment.students_names %></td>
+      <td><%= payment.communication</td>
+      <td><%= payment.pq_status %></td>
+    </tr>
   <% end %>
+  </tbody>
+  </table>
 </div>
 <% end %>
 <div class="row">
