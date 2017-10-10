@@ -40,7 +40,7 @@
   <% Payment.where(message_id: @message.id).each do |payment| %>
     <tr>
       <td><%= payment.students_names %></td>
-      <td><%= payment.communication</td>
+      <td><%= payment.communication %></td>
       <td><%= payment.pq_status %></td>
     </tr>
   <% end %>
