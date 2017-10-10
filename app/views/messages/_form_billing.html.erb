@@ -28,24 +28,32 @@
       Ci-dessous la liste des paiements effectués, l'argent est disponible 1 ou 2 jours après le paiement effectif sur le compte en banque.
     </div>
   </div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Eleves</th>
-      <th>Communication</th>
-      <th>Statut</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% Payment.where(message_id: @message.id).each do |payment| %>
-    <tr>
-      <td><%= payment.students_names %></td>
-      <td><%= payment.communication %></td>
-      <td><%= payment.pq_status %></td>
-    </tr>
-  <% end %>
-  </tbody>
-  </table>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Horodateur</th>
+        <th>Eleves</th>
+        <th>Montant</th>
+        <th>Communication</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').each do |payment| %>
+      <tr>
+        <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short)} %></td>
+        <td><%= payment.students_names %></td>
+        <td><%= payment.price_cents %>
+        <td><%= payment.communication %></td>
+        <td><%= payment.pq_status %></td>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </div>
 </div>
 <% end %>
 <div class="row">
