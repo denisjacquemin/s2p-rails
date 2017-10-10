@@ -44,7 +44,7 @@
     <tbody>
     <% Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').each do |payment| %>
       <tr>
-        <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short)} %></td>
+        <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
         <td><%= payment.students_names %></td>
         <td><%= payment.price_cents %>
         <td><%= payment.communication %></td>
