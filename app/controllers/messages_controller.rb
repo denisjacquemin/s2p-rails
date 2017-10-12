@@ -26,12 +26,15 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @message = Message.find_by_muuid(params[:uuid])
-    @email_encrypted = params[:e]
-    @email = Student.email_decrypt(@email_encrypted)
-    # build transaction only if message.amount is present
-    if @message.amount_to_pay_cents > 0
+    students_names = ""
+    if (params[:e].present?) # if not, it should still works
+      @email_encrypted = params[:e]
+      @email = Student.email_decrypt(@email_encrypted)
       students_names_array = @message.get_students_names_by_email(@email) if @email.present?
       students_names = students_names_array.flatten.uniq.compact.join ', ' if students_names_array.any?
+    end
+    # build transaction only if message.amount is present
+    if @message.amount_to_pay_cents > 0
       @transactionId = build_payconiq_transaction_id(@message)
       Payment.create(school_id: @message.school_id, message_id: @message.id, pq_transaction_id: @transactionId, price_cents_cents: @message.amount_to_pay_cents, pq_status: 'INITIATED', students_names: students_names, communication: @message.billing_description)
     end
@@ -412,7 +415,8 @@ class MessagesController < ApplicationController
     end
 
     def build_payconiq_transaction_id(message)
-      transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description)
+      access_token = message.school.payconiq_access_token
+      transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description, access_token)
       logger.debug "$build_payconiq_transaction_id$ #{transactionId.inspect()} with description : #{message.billing_description}"
       return transactionId
     end

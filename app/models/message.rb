@@ -305,13 +305,12 @@ class Message < ApplicationRecord
   # payconiq related code
   # doc available at https://dev.payconiq.com/online-payments-dock
 
-  def pq_create_transaction(amount_in_cents, description="", callbackUrl=Rails.application.secrets.payconiq_callback_url, currency='EUR' )
+  def pq_create_transaction(amount_in_cents, description="", access_token="", callbackUrl=Rails.application.secrets.payconiq_callback_url, currency='EUR')
 
     url = URI.parse(Rails.application.secrets.payconiq_host)
-
     headers = {
       'Content-Type': 'application/json',
-      'authorization': Rails.application.secrets.payconiq_access_token,
+      'authorization': access_token,
       'cache-control': 'no-cache'
     }
     req = Net::HTTP::Post.new(url.path, headers)

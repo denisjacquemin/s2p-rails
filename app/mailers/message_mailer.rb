@@ -51,7 +51,7 @@ class MessageMailer < ApplicationMailer
     # end
 
     x_smptapi_hash['sub'] = {}.tap do |my_hash|
-      my_hash["code"] = codes unless codes.blank?
+      my_hash["[code]"] = codes unless codes.blank?
       my_hash["-email_encrypt-"] = emails_encrypt unless emails_encrypt.blank?
     end
 

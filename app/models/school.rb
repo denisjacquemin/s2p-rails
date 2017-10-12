@@ -42,4 +42,8 @@ class School < ApplicationRecord
     Group.create({name: I18n.t('model.group.all_writers'), internal_id: 'all_writers', school_id: self.id, updatable: false})
     User.superadmin.update_all(['schools = array_append(schools, ?)', self.id])
   end
+
+  def billing_enable?
+    self.payconiq_access_token.present?
+  end
 end
