@@ -24,7 +24,7 @@
               </tbody>
             </table>
     </div>
-    <div class="col-md-6 col-lg-5" name="formsection">
+    <div class="col-md-6 col-lg-5" id="formsection">
       <% if @message.formdata.present? and @message.formdata != "[]"%>
           <%= hidden_field_tag :formdata, @message.formdata %>
           <%= form_tag '/m/save_form', id: 'message_form' do %>
@@ -59,7 +59,7 @@
 
       <% if @message.amount_to_pay > 0 %>
       <hr>
-      <div class="row pq" name="paysection">
+      <div class="row pq" id="paysection">
           <%= hidden_field_tag 'muuid', @message.muuid %>
           <%= hidden_field_tag 'email', @email %>
           <div class="col-xs-12 pq-banner">
