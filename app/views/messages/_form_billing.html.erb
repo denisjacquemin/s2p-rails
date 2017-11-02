@@ -43,6 +43,7 @@
           <th>Eleves</th>
           <th>Montant (EUR)</th>
           <th>Communication</th>
+          <th>Ref Payconiq</th>
           <th>Statut</th>
         </tr>
       </thead>
@@ -53,6 +54,7 @@
           <td><%= payment.students_names %></td>
           <td><%= humanized_money payment.price_cents %>
           <td><%= payment.communication %></td>
+          <td><%= payment.pq_transaction_id %></td>
           <td><%= payment.pq_status %></td>
         </tr>
       <% end %>
