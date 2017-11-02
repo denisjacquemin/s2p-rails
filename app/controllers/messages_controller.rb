@@ -27,12 +27,18 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find_by_muuid(params[:uuid])
     students_names = ""
+    # params[:e] is the email encrypted
     if (params[:e].present?) # if not, it should still works
       @email_encrypted = params[:e]
       @email = Student.email_decrypt(@email_encrypted)
       students_names_array = @message.get_students_names_by_email(@email) if @email.present?
       students_names = students_names_array.flatten.uniq.compact.join ', ' if students_names_array.any?
     end
+    # params[:s] is the list of students names encrypted
+    if (params[:s].present?)
+      students_names = params[:s]
+    end
+
     # build transaction only if message.amount is present
     if @message.amount_to_pay_cents > 0
       @transactionId = build_payconiq_transaction_id(@message)
