@@ -14,7 +14,6 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Code</th>
               <% if current_user.superadmin? %>
                 <th>Ecole</th>
               <% end %>
@@ -30,7 +29,6 @@
                 <% else %>
                   <td><%= link_to group.name , group_path(group) %></td>
                 <% end %>
-                <td><%= group.code %></td>
                 <% if current_user.superadmin? %>
                   <td><% if group.school.present? %><%= group.school.name %><% end %></td>
                 <% end %>
