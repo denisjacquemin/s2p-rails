@@ -269,11 +269,11 @@ class Student < ApplicationRecord
         begin
           # group not found, needs to be created
           group = Group.new(name: name, school_id: school_id, updatable: false)
-          group.code = 'g' + hash[0] + hash[1].last(4 + name.length % 3)
+          #group.code = 'g' + hash[0] + hash[1].last(4 + name.length % 3)
           group.save
         rescue ActiveRecord::RecordNotUnique
           recordUniqueCount = recordUniqueCount + 1
-          group.code = 'g' + hash[0] + hash[1].last(4 + recordUniqueCount + name.length % 3)
+          #group.code = 'g' + hash[0] + hash[1].last(4 + recordUniqueCount + name.length % 3)
           retry
         end
       end
