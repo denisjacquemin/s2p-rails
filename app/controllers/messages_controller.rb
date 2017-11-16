@@ -67,6 +67,11 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
+    # @students_for_billing = []
+    # @students_for_billing = Student.by_groups(@message.groups) unless @message.groups.nil?
+    # students_form_students_ids = Student.by_ids(@message.students)
+    # @students_for_billing += students_form_students_ids unless students_form_students_ids.nil?
+    # @students_for_billing = @students_for_billing.compact.flatten.uniq if @students_for_billing.any?
   end
 
   def create_sendcode_message
@@ -198,7 +203,7 @@ class MessagesController < ApplicationController
           filename_title = @message.title.slice(0..20).parameterize
         end
 
-        send_data csv_data.encode("cp1252"),
+        send_data csv_data.encode("cp1252", invalid: :replace, undef: :replace),
           filename: "export_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv",
           type: 'text/csv; charset=iso-8859-1; header=present'
       }
@@ -404,7 +409,7 @@ class MessagesController < ApplicationController
     end
 
     def update_amount_to_pay_params
-      params.require(:message).permit(:amount_to_pay, :billing_description)
+      params.require(:message).permit(:amount_to_pay, :billing_description, :billing_type, :account_id, :billing_comment)
     end
 
     def message_params
