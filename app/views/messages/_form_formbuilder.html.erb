@@ -45,6 +45,7 @@
                      if (indexOfAsterix !== -1) {
                        label = label.substring(0, indexOfAsterix)
                      }
+                     label = label.replace(/\.*$/,"")
                     }
                     label = label.trim()
                     headers.push(label);
