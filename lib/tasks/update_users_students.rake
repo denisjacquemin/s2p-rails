@@ -10,5 +10,5 @@ task :update_users_students => :environment do
     students_ids = Group.where(id: u.groups.pluck(:id)).collect{|g| g.students.pluck(:id)}.flatten.compact.uniq
     # puts "students_ids: #{students_ids}"
     u.student_ids = students_ids
-  end
+  # end
 end
