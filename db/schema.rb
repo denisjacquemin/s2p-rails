@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012090022) do
+ActiveRecord::Schema.define(version: 20171125153627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "school_id"
+    t.string   "payconiq_access_token"
+    t.string   "account_number"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
 
   create_table "attachinary_files", force: :cascade do |t|
     t.string   "attachinariable_type"
@@ -28,6 +37,17 @@ ActiveRecord::Schema.define(version: 20171012090022) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["attachinariable_type", "attachinariable_id", "scope"], name: "by_scoped_parent", using: :btree
+  end
+
+  create_table "billed_students", force: :cascade do |t|
+    t.integer  "student_id"
+    t.integer  "message_id"
+    t.string   "communication"
+    t.string   "comment"
+    t.integer  "amount_to_pay_cents",    default: 0
+    t.string   "amount_to_pay_currency"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -111,6 +131,10 @@ ActiveRecord::Schema.define(version: 20171012090022) do
     t.integer  "amount_to_pay_cents",    default: 0,     null: false
     t.string   "amount_to_pay_currency", default: "EUR", null: false
     t.string   "billing_description"
+    t.integer  "billing_type",           default: 0
+    t.integer  "account_id"
+    t.text     "billing_comment"
+    t.string   "billing_due_date"
   end
 
   create_table "mfiles", force: :cascade do |t|
