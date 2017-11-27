@@ -56,4 +56,7 @@
 //= require tab-focus
 //= require intlTelInput.min
 //= require utils
+//= require moment
+//= require bootstrap-datetimepicker
+//= require moment/fr
 // require_tree .
