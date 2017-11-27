@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_id: 1
+  communication: MyString
+  comment: MyString
+  amount_to_pay_cents: 1
+  amount_to_pay_currency: MyString
+
+two:
+  student_id: 1
+  communication: MyString
+  comment: MyString
+  amount_to_pay_cents: 1
+  amount_to_pay_currency: MyString
