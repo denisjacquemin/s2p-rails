@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
-  before_action :set_message, only: [:edit, :update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata]
+  before_action :set_message, only: [:edit, :update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -67,11 +67,6 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
-    # @students_for_billing = []
-    # @students_for_billing = Student.by_groups(@message.groups) unless @message.groups.nil?
-    # students_form_students_ids = Student.by_ids(@message.students)
-    # @students_for_billing += students_form_students_ids unless students_form_students_ids.nil?
-    # @students_for_billing = @students_for_billing.compact.flatten.uniq if @students_for_billing.any?
   end
 
   def create_sendcode_message
@@ -137,10 +132,25 @@ class MessagesController < ApplicationController
       redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
     end
   end
+  
+  def billed_students_list
+    @students_for_billing = []
+    @students_for_billing = Student.by_groups(@message.groups) unless @message.groups.nil?
+    students_form_students_ids = Student.by_ids(@message.students)
+    @students_for_billing += students_form_students_ids unless students_form_students_ids.nil?
+    @students_for_billing = @students_for_billing.compact.flatten.uniq if @students_for_billing.any?
+    @billed_students = @students_for_billing.collect do |sfb|
+      bs = BilledStudent.find_by(student_id: sfb.id, message_id: @message.id)
+      bs = BilledStudent.new(student_id: sfb.id) if bs.nil?
+      bs
+    end
+    
+    render :layout => false 
+  end
 
   def update_amount_to_pay
     authorize @message
-    if @message.update(update_amount_to_pay_params)
+    if @message.update!(update_amount_to_pay_params)
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), notice: 'Le message a été mis à jour.'
     else
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), error: 'Une erreur est survenue.'
@@ -409,7 +419,7 @@ class MessagesController < ApplicationController
     end
 
     def update_amount_to_pay_params
-      params.require(:message).permit(:amount_to_pay, :billing_description, :billing_type, :account_id, :billing_comment)
+      params.require(:message).permit(:amount_to_pay, :billing_description, :billing_type, :account_id, :billing_comment, :billing_due_date, :billed_students, billed_students_attributes: [ :id, :student_id, :communication, :comment, :amount_to_pay ])
     end
 
     def message_params

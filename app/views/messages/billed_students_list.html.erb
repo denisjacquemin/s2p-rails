@@ -1,0 +1,21 @@
+<table class="table">
+  <tr>
+    <th>Elèves</th>
+    <th>Communication</th>
+    <th>Commentaire</th>
+    <th>Montant à payer (EUR)</th>
+  </tr>
+  <% @billed_students.each_with_index do |bs, index| %>
+    <tr>
+      <%= hidden_field_tag "message[billed_students_attributes][#{index}][id]", bs.id %>
+      <%= hidden_field_tag "message[billed_students_attributes][#{index}][student_id]", bs.student_id %>
+      <td><%= bs.student.fullname %></td>
+                              <!-- message[billing_due_date]
+                              message[billed_students_attributes][index][communication]
+                              student[lastname]
+                              student[phones_attributes][0][owner_name] -->
+      <td><%= text_field_tag "message[billed_students_attributes][#{index}][communication]", bs.communication, class: 'form-control' %></td>
+      <td><%= text_area_tag "message[billed_students_attributes][#{index}][comment]", bs.comment, class: 'form-control' %></td>
+      <td><%= text_field_tag "message[billed_students_attributes][#{index}][amount_to_pay]", bs.amount_to_pay, class: 'form-control' %></td>
+    </tr>
+  <% end %>

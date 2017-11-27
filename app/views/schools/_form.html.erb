@@ -63,6 +63,20 @@
     <%= f.label :payconiq_access_token, "Access Token Payconiq" %>
     <%= f.text_area :payconiq_access_token, rows: 5, class: 'form-control' %>
   </div>
+
+  <%= f.fields_for :accounts do |account_form| %>
+    <%= render 'account_fields', f: account_form %>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= link_to_add_fields "Ajouter un Numéro de compte", f, :accounts %>
+        <br/>
+        <br/>
+      </div>
+    </div>
+
+  <% end %>
+
+
   <% end %>
 
   <%= f.submit 'Sauver', class: 'btn btn-primary' %>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   mount Attachinary::Engine => "/attachinary"
 
   get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
+  get 'messages/billed_students_list', to: 'messages#billed_students_list'
 
   get '/amp', to: 'website#amp'
   get '/disclaimer', to: 'website#disclaimer'
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
   get 'help/update_students', to: 'faq#update_students'
   get 'help/delete_students', to: 'faq#delete_students'
   get 'help/exportcsv', to: 'faq#exportcsv'
+  get 'help/payments', to: 'faq#payments'
 
 
 

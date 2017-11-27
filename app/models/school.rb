@@ -3,6 +3,8 @@ class School < ApplicationRecord
   has_many :students, dependent: :destroy
   has_many :groups, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :accounts, dependent: :destroy
+  accepts_nested_attributes_for :accounts
 
   scope :by_ids, ->(ids) { where(id: ids) }
 

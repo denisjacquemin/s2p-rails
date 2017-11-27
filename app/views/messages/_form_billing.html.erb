@@ -1,84 +1,140 @@
-<%= form_for(@message, url: update_amount_to_pay_url(@message)) do |f| %>
-<div class="row">
+<%= hidden_field_tag 'message_id', @message.id %>
+<div class="row" id="formbilling_page">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render 'layouts/errors', object: @message %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-lg-12 col-md-12 col-xs-12" style="text-align:right">
-    <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-    <div class="form-group">
-      <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
-      <%= f.text_field :amount_to_pay, class: 'form-control' %>
+    <ul class="nav nav-pills" id="formbuilder_pills">
+      <li role="presentation" class="active"><a class="tab-link" href="#billingdetails" aria-controls="details" role="tab" data-toggle="tab">Facturation</a></li>
+      <li role="presentation"><a class="tab-link" href="#billingcallbacks" aria-controls="billed" role="tab" data-toggle="tab">Paiements</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="billingdetails">
+        <%= form_for(@message, url: update_amount_to_pay_url(@message)) do |f| %>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <%= render 'layouts/errors', object: @message %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12" style="text-align:right">
+              <%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <div class="radio">
+                  <label>
+                    <%= f.radio_button(:billing_type, "0", class: 'billingtype') %>
+                    Montant identique pour tous
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <%= f.radio_button(:billing_type, "1", class: 'billingtype') %>
+                    Montant différents
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+              <div class="form-group">
+                <%= f.label :account_id, 'Compte Bancaire' %>
+                <% if @message.school.accounts.count > 1 %>
+                  <%= f.select :account_id, @message.school.accounts.collect {|a| [ a.name + ' ' + a.account_number, a.id ] }, {}, {class: 'form-control'} %>
+                <% else %>
+                  <% account = @message.school.accounts.first %>
+                  <% if account.present? %>
+                    <%= f.hidden_field :account_id, value: account.id %>
+                    <br/><%= "#{account.name} #{account.account_number}" %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+              <div class="form-group">
+                <%= f.label :billing_due_date, "Date d'échéance" %>
+                <div class='input-group date' id='datetimepickerduedate'>
+                    <%= f.text_field :billing_due_date, class: 'form-control' %>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="sameprice" class="row <%= 'hidden' if @message.billing_type == 1 %>">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
+                <%= f.text_field :amount_to_pay, class: 'form-control' %>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+              <div class="form-group">
+                <% @communication =  @message.billing_description || @message.title %>
+                <%= f.label :billing_description, 'Communication structurée ou libre' %></br>
+                <%= f.text_field :billing_description, value: @communication, class: 'form-control' %>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="form-group">
+                <%= f.label :billing_comment, 'Commentaire' %></br>
+                <%= f.text_area :billing_comment,class: 'form-control', rows: 4 %>
+              </div>
+            </div>
+          </div>
+          <div id="differentprice" class="row <%= 'hidden' if @message.billing_type == 0 %>">
+            <% if @students_for_billing.present? %>
+
+              
+              <% end %>
+              <% if @students_for_billing.blank? %>
+              <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+                <p>Choisissez les destinataires du messages dans l'onglet <em>Titre et contenu</em>. Les étudiants destinataires seront listés ici.</p>
+              </div>
+              <% end %>
+            </table>
+          </div>
+        <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="billingcallbacks">
+        <% payments = Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').order('updated_at DESC') %>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <% if payments.blank? %>
+              <br/>
+              <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+                Apparaîtra à cet endroit la liste des paiement reçus via Payconiq.
+              </div>
+            <% else %>
+              <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+                Ci-dessous la liste des paiements effectués, l'argent est disponible sur le compte en banque 1 ou 2 jours après le paiement effectif.
+              </div>
+              <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                  <th>Horodateur</th>
+                  <th>Eleves</th>
+                  <th>Montant (EUR)</th>
+                  <th>Communication</th>
+                  <th>Ref Payconiq</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% payments.each do |payment| %>
+                <tr>
+                  <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
+                  <td><%= payment.students_names %></td>
+                  <td><%= payment.price_cents %></td>
+                  <td><%= payment.communication %></td>
+                  <td><%= payment.pq_transaction_id %></td>
+                </tr>
+              <% end %>
+              </tbody>
+              </table>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-    <div class="form-group">
-      <% @communication =  @message.billing_description || @message.title %>
-      <%= f.label :billing_description, 'Communication' %></br>
-      <%= f.text_field :billing_description, value: @communication, class: 'form-control' %>
-      <span class="help-block">Communication structurée ou libre qui sera visible dans les extraits de compte.</span>
-    </div>
-  </div>
 </div>
-<% payments = Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').order('updated_at DESC') %>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <% if payments.blank? %>
-      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-        Apparaîtra à cette endroit la liste des paiement reçus.
-      </div>
-    <% else %>
-      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-        Ci-dessous la liste des paiements effectués, l'argent est disponible sur le compte en banque 1 ou 2 jours après le paiement effectif.
-      </div>
-      <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-          <th>Horodateur</th>
-          <th>Eleves</th>
-          <th>Montant (EUR)</th>
-          <th>Communication</th>
-          <th>Ref Payconiq</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% payments.each do |payment| %>
-        <tr>
-          <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
-          <td><%= payment.students_names %></td>
-          <td><%= payment.price_cents %></td>
-          <td><%= payment.communication %></td>
-          <td><%= payment.pq_transaction_id %></td>
-        </tr>
-      <% end %>
-      </tbody>
-      </table>
-    <% end %>
-  </div>
-</div>
-<% end %>
-<!--
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <h2>Pourquoi Payconiq est idéal pour recevoir des paiements</h2>
-  <h3>Les transactions sont sécurisées et garanties par Payconiq.</h3>
-  <ul>
-    <li>Les transactions sont sécurisées et garanties par Payconiq.</li>
-    <li>Vous recevez instantanément une confirmation de paiement et vous êtes sûr à 100% d’être payé.</li>
-  </ul>
-  <h3>Pas d'investissement</h3>
-  <ul>
-    <li>Pas de terminal de paiement ou de matériel, hormis votre smartphone, tablette ou ordinateur.</li>
-    <li>Pas d’abonnement ni de frais d’installation. Payconiq ne coûte que 6 centimes par transaction.</li>
-  </ul>
-  <h3>Pratique</h3>
-  <ul>
-    <li>Moins d'argent liquide en circulation dans l'école. Moins de risque de perte.</li>
-    <li>Les parents peuvent payer où qu'ils soient.</li>
-</div>
--->

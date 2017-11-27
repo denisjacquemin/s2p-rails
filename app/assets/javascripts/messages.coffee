@@ -78,8 +78,32 @@ if not Turbolinks.supported
 
 $(document).on 'turbolinks:load', ->
   ready()
+  
+load_billing_students = () ->
+  $.ajax
+    url: '/messages/billed_students_list'
+    data: { id: $('#message_id').val()}
+    success: (html) ->
+      $('#differentprice').html html
+      return
 
 ready = () ->
+  $('#datetimepickerduedate').datetimepicker
+    locale: 'fr'
+    format: 'DD/MM/YYYY'
+
+  if $('input[type=radio][name="message[billing_type]"]:checked').val() == '1'
+    load_billing_students()
+  
+  $('input[type=radio][name="message[billing_type]"]').change ->
+    if @value == '0'
+      $('#differentprice').addClass('hidden')
+      $('#sameprice').removeClass('hidden')
+    else if @value == '1'
+      $('#sameprice').addClass('hidden')
+      $('#differentprice').removeClass('hidden')
+      load_billing_students()
+    return
   $('#message_manage_group #add').click ->
     add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
@@ -120,5 +144,6 @@ ready = () ->
           return
     else
       submit_with_status(status)
+  
 
   $('[data-toggle="popover"]').popover()

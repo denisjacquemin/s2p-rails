@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  school_id: 1
+  payconiq_access_token: MyString
+  account_number: MyString
+
+two:
+  name: MyString
+  school_id: 1
+  payconiq_access_token: MyString
+  account_number: MyString

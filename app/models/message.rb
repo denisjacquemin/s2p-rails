@@ -30,6 +30,9 @@ class Message < ApplicationRecord
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy
   belongs_to :author, class_name: "User"
+  has_many :billed_students
+  accepts_nested_attributes_for :billed_students
+  belongs_to :account
 
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_ids, ->(ids) { where(id: ids) }

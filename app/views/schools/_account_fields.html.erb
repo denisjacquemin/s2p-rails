@@ -1,0 +1,23 @@
+<div class="row" style="background-color: #eee">
+  <div class="form-group">
+    <div class="col-xs-12 col-sm-5 col-md-6 col-lg-6">
+      <%= f.label :name, "Nom du compte" %>
+      <%= f.text_field :name, class: 'form-control' %>
+      <span class="help-block">Exemple: Compte repas chauds, Compte excursion</span>
+   </div>
+   <div class="col-xs-12 col-sm-5 col-md-6 col-lg-6">
+     <%= f.label :account_number, 'Numéro de compte' %>
+     <%= f.text_field :account_number, class: 'form-control' %>
+   </div>
+   <div class="col-xs-12 col-sm-5 col-md-9 col-lg-9">
+     <%= f.label :payconiq_access_token %>
+     <%= f.text_area :payconiq_access_token, rows: 5, class: 'form-control' %>
+     <span class="help-block">Fourni par payconiq</span>
+   </div>
+   <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+     <label></label>
+     <%= link_to "Supprimer le compte", '#', class: "remove_fields btn btn-danger btn-sm" %>
+     <%= f.hidden_field '_destroy' %>
+   </div>
+ </div>
+</div>
