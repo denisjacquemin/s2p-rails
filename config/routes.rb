@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'help/delete_students', to: 'faq#delete_students'
   get 'help/exportcsv', to: 'faq#exportcsv'
   get 'help/payments', to: 'faq#payments'
+  get 'help/payconiq', to: 'faq#payconiq'
 
 
 
