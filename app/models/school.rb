@@ -46,6 +46,10 @@ class School < ApplicationRecord
   end
 
   def billing_enable?
-    self.payconiq_access_token.present?
+    self.billing_enable?
+  end
+
+  def payconiq_enable?
+    self.payconiq_enable?
   end
 end

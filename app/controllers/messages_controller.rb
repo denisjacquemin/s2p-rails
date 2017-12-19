@@ -436,7 +436,7 @@ class MessagesController < ApplicationController
     end
 
     def build_payconiq_transaction_id(message)
-      access_token = message.school.payconiq_access_token
+      access_token = message.account.payconiq_access_token
       transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description, access_token)
       logger.debug "$build_payconiq_transaction_id$ #{transactionId.inspect()} with description : #{message.billing_description}"
       return transactionId

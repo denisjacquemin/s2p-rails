@@ -5,7 +5,9 @@
       <ul class="nav nav-pills">
         <li role="presentation" class="active"><a href="#general">Général</a></li>
         <li role="presentation"><a href="#logo">Logo</a></li>
-        <li role="presentation"><a href="#billing">Facturation</a></li>
+        <% if school.billing_enable? %>
+          <li role="presentation"><a href="#billing">Facturation</a></li>
+        <% end %>
       </ul>
 
       <div class="panel-body ">
@@ -78,33 +80,36 @@
             <%= render 'logo', school: school %>
             <%= render 'form_file', school: school, s3_direct_post: @s3_direct_post %>
           </div>
-          <div role="tabpanel" class="tab-pane fade in" id="billing">
+          <% if school.billing_enable? %>
 
-            <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
-              <%= form_for(school) do |f| %>
-                <% if school.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(school.errors.count, "erreur") %> empêche l'enregistrement de cette école:</h2>
+            <div role="tabpanel" class="tab-pane fade in" id="billing">
 
-                    <ul>
-                    <% school.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                    </ul>
-                  </div>
+              <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
+                <%= form_for(school) do |f| %>
+                  <% if school.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(school.errors.count, "erreur") %> empêche l'enregistrement de cette école:</h2>
+
+                      <ul>
+                      <% school.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+
+                  <%= f.fields_for :accounts do |account_form| %>
+                    <%= render 'account_fields', f: account_form %>
+                    <br/>
+                  <% end %>
+
+                  <%= link_to_add_fields "Ajouter un Numéro de compte", f, :accounts %>
+                  <%= f.submit 'Sauver', class: 'btn btn-primary' %>
+
                 <% end %>
-
-                <%= f.fields_for :accounts do |account_form| %>
-                  <%= render 'account_fields', f: account_form %>
-                  <br/>
-                <% end %>
-
-                <%= link_to_add_fields "Ajouter un Numéro de compte", f, :accounts %>
-                <%= f.submit 'Sauver', class: 'btn btn-primary' %>
-
               <% end %>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         </div>
       </div>
 

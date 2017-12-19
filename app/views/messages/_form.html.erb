@@ -19,12 +19,10 @@
         <a class="tab-link" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
       </li>
       <% end %>
-      <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
-        <% if not message.new_record? and @message.mtype == 'message' %>
-          <li role="presentation">
-            <a class="tab-link"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
-          </li>
-        <% end %>
+      <% if not message.new_record? and @message.mtype == 'message' and message.school.billing_enable? %>
+        <li role="presentation">
+          <a class="tab-link"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
+        </li>
       <% end %>
       <% if not message.publish_date.nil? %>
         <li role="presentation">
@@ -85,14 +83,10 @@
           <%= render 'form_analytics', message: @message %>
         </div>
       <% end %>
-      <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
-        <% if not message.new_record? and @message.mtype == 'message' %>
-          <div role="tabpanel" class="tab-pane fade in" id="billing-tab">
-            <% if @message.school.billing_enable? %>
-              <%= render 'form_billing', message: @message %>
-            <% end %>
-          </div>
-        <% end %>
+      <% if not message.new_record? and @message.mtype == 'message' and message.school.billing_enable?  %>
+        <div role="tabpanel" class="tab-pane fade in" id="billing-tab">
+          <%= render 'form_billing', message: @message %>
+        </div>
       <% end %>
     </div>
   </div>
