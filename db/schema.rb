@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125153627) do
+ActiveRecord::Schema.define(version: 20171219084654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20171125153627) do
     t.integer  "account_id"
     t.text     "billing_comment"
     t.string   "billing_due_date"
+    t.boolean  "include_payment",        default: false
   end
 
   create_table "mfiles", force: :cascade do |t|
@@ -247,7 +248,6 @@ ActiveRecord::Schema.define(version: 20171125153627) do
     t.text     "send_code_template"
     t.string   "send_code_title_template"
     t.integer  "sms_provision",              default: 0
-    t.string   "payconiq_access_token"
   end
 
   create_table "students", force: :cascade do |t|

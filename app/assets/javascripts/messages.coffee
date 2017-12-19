@@ -78,7 +78,7 @@ if not Turbolinks.supported
 
 $(document).on 'turbolinks:load', ->
   ready()
-  
+
 load_billing_students = () ->
   $.ajax
     url: '/messages/billed_students_list'
@@ -92,9 +92,18 @@ ready = () ->
     locale: 'fr'
     format: 'DD/MM/YYYY'
 
+  if $('#message_include_payment:checked').length
+    $('#payment_form').show()
+
+  $('#message_include_payment').change ->
+    if $('#message_include_payment:checked').length
+      $('#payment_form').show()
+    else
+      $('#payment_form').hide()
+
   if $('input[type=radio][name="message[billing_type]"]:checked').val() == '1'
     load_billing_students()
-  
+
   $('input[type=radio][name="message[billing_type]"]').change ->
     if @value == '0'
       $('#differentprice').addClass('hidden')
@@ -144,6 +153,6 @@ ready = () ->
           return
     else
       submit_with_status(status)
-  
+
 
   $('[data-toggle="popover"]').popover()

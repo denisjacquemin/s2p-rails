@@ -1,13 +1,13 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="field">
-    <%= form_for(school,
+    <%= form_for(@school,
                   url: {action: "add_logo"},
                   html: { class: "directUpload",
                   data: { 'form-data' => (@s3_direct_post.fields),
                           'url' => @s3_direct_post.url,
                           'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
       <div class="field">
-        
+
         <%= f.hidden_field :id %>
         <%= f.file_field :file_url %>
       </div>

@@ -35,8 +35,11 @@
           <% end %>
       <% end %>
 
-      <% if @message.photos.any? %>
+      <% if (@message.formdata.present? and @message.formdata != "[]") and @message.photos.any? %>
         <hr>
+      <% end %>
+
+      <% if @message.photos.any? %>
         <div class="photos">
           <% @message.photos.each do |photo| %>
             <span style="padding: 10px">
@@ -56,35 +59,37 @@
           <% end %>
         </div>
       <% end %>
+      <% if ((@message.formdata.present? and @message.formdata != "[]") or @message.photos.any?) and @message.include_payment %>
+        <hr>
+      <% end %>
 
-      <% if @message.amount_to_pay > 0 %>
-      <hr>
-      <div class="row pq" id="paysection">
-          <%= hidden_field_tag 'muuid', @message.muuid %>
-          <%= hidden_field_tag 'email', @email %>
-          <div class="col-xs-12 pq-banner">
-            <%= image_tag asset_path("logo_payconiq.png") %>
-            <br/>
-            <span class="hidden-xs">Scannez le QR Code avec l'appli payconiq.</span>
-            <span class="visible-xs-block">Cliquez sur le bouton pour payer avec l'app payconiq.</span>
-          </div>
-          <div class="col-xs-12">
-            Montant: <%= @message.amount_to_pay %> EUR
-            <span class="pq-button">
-              <%= render 'pq_button', transactionId: @transactionId %>
-            </span>
-            <div class="qr pq-qr hidden-xs">
-              <%= render 'qr', transactionId: @transactionId %>
+      <% if @message.include_payment %>
+        <div class="row pq" id="paysection">
+            <%= hidden_field_tag 'muuid', @message.muuid %>
+            <%= hidden_field_tag 'email', @email %>
+            <div class="col-xs-12 pq-banner">
+              <%= image_tag asset_path("logo_payconiq.png") %>
+              <br/>
+              <span class="hidden-xs">Scannez le QR Code avec l'appli payconiq.</span>
+              <span class="visible-xs-block">Cliquez sur le bouton pour payer avec l'app payconiq.</span>
             </div>
-          </div>
-          <div class="col-xs-12">
-            <p><a href="https://www.payconiq.com">Payconiq</a> est une app gratuite : elle vous permet d'effectuer des paiements via votre smartphone, facilement et en toute sécurité. Téléchargez l'app sur <a href="https://play.google.com/store/apps/details?id=com.payconiq.customers&hl=fr">Android Google Play</a> ou <a href="https://itunes.apple.com/be/app/payconiq/id966172246?l=fr">Apple App Store</a></p>
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="hidden-xs" src="https://player.vimeo.com/video/213843344" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-              <iframe class="hidden-sm hidden-md hidden-lg" src="https://player.vimeo.com/video/213843274" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <div class="col-xs-12">
+              Montant: <%= @message.amount_to_pay %> EUR
+              <span class="pq-button">
+                <%= render 'pq_button', transactionId: @transactionId %>
+              </span>
+              <div class="qr pq-qr hidden-xs">
+                <%= render 'qr', transactionId: @transactionId %>
+              </div>
             </div>
-          </div>
-      </div>
+            <div class="col-xs-12">
+              <p><a href="https://www.payconiq.com">Payconiq</a> est une app gratuite : elle vous permet d'effectuer des paiements via votre smartphone, facilement et en toute sécurité. Téléchargez l'app sur <a href="https://play.google.com/store/apps/details?id=com.payconiq.customers&hl=fr">Android Google Play</a> ou <a href="https://itunes.apple.com/be/app/payconiq/id966172246?l=fr">Apple App Store</a></p>
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="hidden-xs" src="https://player.vimeo.com/video/213843344" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                <iframe class="hidden-sm hidden-md hidden-lg" src="https://player.vimeo.com/video/213843274" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              </div>
+            </div>
+        </div>
       <% end %>
     </div>
 </div>

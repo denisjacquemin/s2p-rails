@@ -28,6 +28,7 @@ class MessageMailer < ApplicationMailer
 
     codes = []
     emails_encrypt = []
+    amount_to_pay = []
     # if content.include?('[code]')
       # "sub": {
       #   "[code]": [
@@ -35,19 +36,21 @@ class MessageMailer < ApplicationMailer
       #     "Jane"
       #   ]
       # }
-      to.each do |email|
-        emails_encrypt << Student.email_encrypt(email)
-        # for current email gets all students to build the codes
-        students_containing_email_string = Student.where("emails LIKE ?", "%#{email}%").by_school(@message.school_id)
-        students = students_containing_email_string.select do |s|
-          emails = s.emails.split(' ').collect(&:strip);
-          emails.include?(email)
-        end
-
-        codes << students.map do |student|
-          "<li>#{student.fullname}: #{student.code}</li>"
-        end.join || ""
+    to.each do |email|
+      emails_encrypt << Student.email_encrypt(email)
+      # for current email gets all students to build the codes
+      students_containing_email_string = Student.where("emails LIKE ?", "%#{email}%").by_school(@message.school_id)
+      students = students_containing_email_string.select do |s|
+        emails = s.emails.split(' ').collect(&:strip);
+        emails.include?(email)
       end
+
+      codes << students.map do |student|
+        "<li>#{student.fullname}: #{student.code}</li>"
+      end.join || ""
+
+
+    end
     # end
 
     x_smptapi_hash['sub'] = {}.tap do |my_hash|

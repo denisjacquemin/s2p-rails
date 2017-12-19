@@ -132,7 +132,7 @@ class MessagesController < ApplicationController
       redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
     end
   end
-  
+
   def billed_students_list
     @students_for_billing = []
     @students_for_billing = Student.by_groups(@message.groups) unless @message.groups.nil?
@@ -144,8 +144,8 @@ class MessagesController < ApplicationController
       bs = BilledStudent.new(student_id: sfb.id) if bs.nil?
       bs
     end
-    
-    render :layout => false 
+
+    render :layout => false
   end
 
   def update_amount_to_pay
@@ -419,7 +419,7 @@ class MessagesController < ApplicationController
     end
 
     def update_amount_to_pay_params
-      params.require(:message).permit(:amount_to_pay, :billing_description, :billing_type, :account_id, :billing_comment, :billing_due_date, :billed_students, billed_students_attributes: [ :id, :student_id, :communication, :comment, :amount_to_pay ])
+      params.require(:message).permit(:amount_to_pay, :billing_description, :billing_type, :account_id, :billing_comment, :billing_due_date, :billed_students, :include_payment, billed_students_attributes: [ :id, :student_id, :communication, :comment, :amount_to_pay ])
     end
 
     def message_params

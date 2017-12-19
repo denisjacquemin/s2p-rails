@@ -1,84 +1,116 @@
-<%= form_for(school) do |f| %>
-  <% if school.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(school.errors.count, "erreur") %> empêche l'enregistrement de cette école:</h2>
 
-      <ul>
-      <% school.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+
+  <div class="panel panel-default" id="settings_tabs">
+    <div class="panel-heading">
+      <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a href="#general">Général</a></li>
+        <li role="presentation"><a href="#logo">Logo</a></li>
+        <li role="presentation"><a href="#billing">Facturation</a></li>
       </ul>
-    </div>
-  <% end %>
 
-  <div class="form-group">
-    <%= f.label :name, 'Nom' %>
-    <%= f.text_field :name, class: 'form-control' %>
-  </div>
+      <div class="panel-body ">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="general">
+            <%= form_for(school) do |f| %>
+              <% if school.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(school.errors.count, "erreur") %> empêche l'enregistrement de cette école:</h2>
 
-  <div class="form-group">
-    <%= f.label :address, 'Adresse' %>
-    <%= f.text_field :address, class: 'form-control' %>
-  </div>
+                  <ul>
+                  <% school.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              <div class="form-group">
+                <%= f.label :name, 'Nom' %>
+                <%= f.text_field :name, class: 'form-control' %>
+              </div>
 
-  <div class="form-group">
-    <%= f.label :phone, 'Téléphone' %>
-    <%= f.text_field :phone, class: 'form-control' %>
-  </div>
+              <div class="form-group">
+                <%= f.label :address, 'Adresse' %>
+                <%= f.text_field :address, class: 'form-control' %>
+              </div>
 
-  <div class="form-group">
-    <%= f.label :email, 'Email' %>
-    <%= f.text_field :email, class: 'form-control' %>
-  </div>
+              <div class="form-group">
+                <%= f.label :phone, 'Téléphone' %>
+                <%= f.text_field :phone, class: 'form-control' %>
+              </div>
 
-  <div class="form-group">
-    <%= f.label :url, 'Site Internet' %>
-    <%= f.text_field :url, class: 'form-control' %>
-  </div>
+              <div class="form-group">
+                <%= f.label :email, 'Email' %>
+                <%= f.text_field :email, class: 'form-control' %>
+              </div>
 
-  <div class="form-group">
-    <%= f.label :sms_provision, 'Provision SMS' %>
-    <p>Votre provision SMS est de <%= current_school.sms_provision %>. <a href="/help/message_sms">Comment réapprovisionner?</a></p>
-    <% if current_user.superadmin? %>
-      <%= f.text_field :sms_provision, class: 'form-control' %>
-    <% end %>
-  </div>
+              <div class="form-group">
+                <%= f.label :url, 'Site Internet' %>
+                <%= f.text_field :url, class: 'form-control' %>
+              </div>
 
-  <div class="form-group">
-   <%= f.label :validation_workflow_active, 'Validation par l\'administrateur avant envoi' %>
-   <%= f.check_box :validation_workflow_active %>
-  </div>
+              <div class="form-group">
+                <%= f.label :sms_provision, 'Provision SMS' %>
+                <p>Votre provision SMS est de <%= current_school.sms_provision %>. <a href="/help/message_sms">Comment réapprovisionner?</a></p>
+                <% if current_user.superadmin? %>
+                  <%= f.text_field :sms_provision, class: 'form-control' %>
+                <% end %>
+              </div>
 
-  <div class="form-group">
-   <%= f.label :send_code_title_template, "Titre d'email d'envoi des codes" %>
-   <%= f.text_field :send_code_title_template, class: 'form-control' %>
-  </div>
+              <div class="form-group">
+               <%= f.label :validation_workflow_active, 'Validation par l\'administrateur avant envoi' %>
+               <%= f.check_box :validation_workflow_active %>
+              </div>
 
-  <div class="form-group">
-   <%= f.label :send_code_template, "Modèle d'email d'envoi des codes" %>
-   <%= f.text_area :send_code_template, rows: 10, class: 'form-control' %>
-  </div>
-  <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
-  <div class="form-group">
-    <%= f.label :payconiq_access_token, "Access Token Payconiq" %>
-    <%= f.text_area :payconiq_access_token, rows: 5, class: 'form-control' %>
-  </div>
+              <div class="form-group">
+               <%= f.label :send_code_title_template, "Titre d'email d'envoi des codes" %>
+               <%= f.text_field :send_code_title_template, class: 'form-control' %>
+              </div>
 
-  <%= f.fields_for :accounts do |account_form| %>
-    <%= render 'account_fields', f: account_form %>
-    <div class="row">
-      <div class="col-xs-12">
-        <%= link_to_add_fields "Ajouter un Numéro de compte", f, :accounts %>
-        <br/>
-        <br/>
+              <div class="form-group">
+               <%= f.label :send_code_template, "Modèle d'email d'envoi des codes" %>
+               <%= f.text_area :send_code_template, rows: 10, class: 'form-control' %>
+              </div>
+              <%= f.submit 'Sauver', class: 'btn btn-primary' %>
+
+            <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane fade in" id="logo">
+            <%= render 'logo', school: school %>
+            <%= render 'form_file', school: school, s3_direct_post: @s3_direct_post %>
+          </div>
+          <div role="tabpanel" class="tab-pane fade in" id="billing">
+
+            <% if Rails.env == 'development' or current_user.email == 'denis.jacquemin@gmail.com' %>
+              <%= form_for(school) do |f| %>
+                <% if school.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(school.errors.count, "erreur") %> empêche l'enregistrement de cette école:</h2>
+
+                    <ul>
+                    <% school.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+
+                <%= f.fields_for :accounts do |account_form| %>
+                  <%= render 'account_fields', f: account_form %>
+                  <br/>
+                <% end %>
+
+                <%= link_to_add_fields "Ajouter un Numéro de compte", f, :accounts %>
+                <%= f.submit 'Sauver', class: 'btn btn-primary' %>
+
+              <% end %>
+            <% end %>
+          </div>
+        </div>
       </div>
-    </div>
 
-  <% end %>
-
-
-  <% end %>
-
-  <%= f.submit 'Sauver', class: 'btn btn-primary' %>
-
-<% end %>
+      <script>
+      $('#settings_tabs a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+      </script>

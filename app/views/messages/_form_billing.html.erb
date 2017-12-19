@@ -21,79 +21,90 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
               <div class="form-group">
-                <div class="radio">
-                  <label>
-                    <%= f.radio_button(:billing_type, "0", class: 'billingtype') %>
-                    Montant identique pour tous
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <%= f.radio_button(:billing_type, "1", class: 'billingtype') %>
-                    Montant différents
-                  </label>
+                <div class="checkbox">
+                  <label><%= f.check_box(:include_payment?) %>Inclure un montant à payer</label>
                 </div>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
-              <div class="form-group">
-                <%= f.label :account_id, 'Compte Bancaire' %>
-                <% if @message.school.accounts.count > 1 %>
-                  <%= f.select :account_id, @message.school.accounts.collect {|a| [ a.name + ' ' + a.account_number, a.id ] }, {}, {class: 'form-control'} %>
-                <% else %>
-                  <% account = @message.school.accounts.first %>
-                  <% if account.present? %>
-                    <%= f.hidden_field :account_id, value: account.id %>
-                    <br/><%= "#{account.name} #{account.account_number}" %>
+          </div>
+          <span id="payment_form" style="display:none;">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <div class="radio">
+                    <label>
+                      <%= f.radio_button(:billing_type, "0", class: 'billingtype') %>
+                      Montant identique pour tous
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <%= f.radio_button(:billing_type, "1", class: 'billingtype') %>
+                      Montant différents
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+                <div class="form-group">
+                  <%= f.label :account_id, 'Compte Bancaire' %>
+                  <% if @message.school.accounts.count > 1 %>
+                    <%= f.select :account_id, @message.school.accounts.collect {|a| [ a.name + ' ' + a.account_number, a.id ] }, {}, {class: 'form-control'} %>
+                  <% else %>
+                    <% account = @message.school.accounts.first %>
+                    <% if account.present? %>
+                      <%= f.hidden_field :account_id, value: account.id %>
+                      <br/><%= "#{account.name} #{account.account_number}" %>
+                    <% end %>
                   <% end %>
-                <% end %>
+                </div>
               </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-              <div class="form-group">
-                <%= f.label :billing_due_date, "Date d'échéance" %>
-                <div class='input-group date' id='datetimepickerduedate'>
-                    <%= f.text_field :billing_due_date, class: 'form-control' %>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                <div class="form-group">
+                  <%= f.label :billing_due_date, "Date d'échéance" %>
+                  <div class='input-group date' id='datetimepickerduedate'>
+                      <%= f.text_field :billing_due_date, class: 'form-control' %>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div id="sameprice" class="row <%= 'hidden' if @message.billing_type == 1 %>">
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-              <div class="form-group">
-                <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
-                <%= f.text_field :amount_to_pay, class: 'form-control' %>
+            <div id="sameprice" class="row <%= 'hidden' if @message.billing_type == 1 %>">
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <%= f.label :amount_to_pay, 'Montant à payer (EUR)' %></br>
+                  <%= f.text_field :amount_to_pay, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                <div class="form-group">
+                  <% @communication =  @message.billing_description || @message.title %>
+                  <%= f.label :billing_description, 'Communication structurée ou libre' %></br>
+                  <%= f.text_field :billing_description, value: @communication, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <%= f.label :billing_comment, 'Commentaire' %></br>
+                  <%= f.text_area :billing_comment,class: 'form-control', rows: 4 %>
+                </div>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-              <div class="form-group">
-                <% @communication =  @message.billing_description || @message.title %>
-                <%= f.label :billing_description, 'Communication structurée ou libre' %></br>
-                <%= f.text_field :billing_description, value: @communication, class: 'form-control' %>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                <%= f.label :billing_comment, 'Commentaire' %></br>
-                <%= f.text_area :billing_comment,class: 'form-control', rows: 4 %>
-              </div>
-            </div>
-          </div>
-          <div id="differentprice" class="row <%= 'hidden' if @message.billing_type == 0 %>">
-            <% if @students_for_billing.present? %>
+            <div id="differentprice" class="row <%= 'hidden' if @message.billing_type == 0 %>">
+              <% if @students_for_billing.present? %>
 
-              
-              <% end %>
-              <% if @students_for_billing.blank? %>
-              <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-                <p>Choisissez les destinataires du messages dans l'onglet <em>Titre et contenu</em>. Les étudiants destinataires seront listés ici.</p>
-              </div>
-              <% end %>
-            </table>
-          </div>
+
+                <% end %>
+                <% if @students_for_billing.blank? %>
+                <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+                  <p>Choisissez les destinataires du messages dans l'onglet <em>Titre et contenu</em>. Les étudiants destinataires seront listés ici.</p>
+                </div>
+                <% end %>
+              </table>
+            </div>
+          </span>
         <% end %>
       </div>
       <div role="tabpanel" class="tab-pane" id="billingcallbacks">
