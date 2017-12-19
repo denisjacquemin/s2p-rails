@@ -45,11 +45,4 @@ class School < ApplicationRecord
     User.superadmin.update_all(['schools = array_append(schools, ?)', self.id])
   end
 
-  def billing_enable?
-    self.billing_enable?
-  end
-
-  def payconiq_enable?
-    self.payconiq_enable?
-  end
 end
