@@ -56,6 +56,9 @@
                       <%= f.hidden_field :account_id, value: account.id %>
                       <br/><%= "#{account.name} #{account.account_number}" %>
                     <% end %>
+                    <% if account.blank? %>
+                      <br/>Ajoutez un compte bancaire dans les paramètres de l'école ( Seul un administrateur peut effectuer cet ajout (<%= @current_school.admins.map {|u| u.fullname}.join(', ') %>))
+                    <% end %>
                   <% end %>
                 </div>
               </div>
@@ -93,16 +96,6 @@
               </div>
             </div>
             <div id="differentprice" class="row <%= 'hidden' if @message.billing_type == 0 %>">
-              <% if @students_for_billing.present? %>
-
-
-                <% end %>
-                <% if @students_for_billing.blank? %>
-                <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-                  <p>Choisissez les destinataires du messages dans l'onglet <em>Titre et contenu</em>. Les étudiants destinataires seront listés ici.</p>
-                </div>
-                <% end %>
-              </table>
             </div>
           </span>
         <% end %>

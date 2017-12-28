@@ -101,6 +101,6 @@ class SchoolsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def school_params
-      params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active, :url, :send_code_title_template, :send_code_template, :sms_provision, accounts_attributes: [:name, :payconiq_access_token, :account_number, :_destroy, :id])
+      params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active, :url, :send_code_title_template, :send_code_template, :sms_provision, :billing_enable, :payconiq_enable, accounts_attributes: [:name, :payconiq_access_token, :account_number, :_destroy, :id])
     end
 end
