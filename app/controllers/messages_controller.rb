@@ -107,17 +107,11 @@ class MessagesController < ApplicationController
       @message.school_id = current_school.id
     end
 
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to edit_message_path(@message), notice: 'Le message a été créé avec succès.' }
-        format.json { render :show, status: :created, location: @message }
-      else
-        format.html {
-          @mfile = Mfile.new
-          render :new
-        }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+    anchor = params[:active_tab][1..-1] unless params[:active_tab].nil?
+    if @message.save
+      redirect_to edit_message_path(@message, anchor: anchor), notice: 'Le message a été créé avec succès.'
+    else
+      render :new
     end
   end
 

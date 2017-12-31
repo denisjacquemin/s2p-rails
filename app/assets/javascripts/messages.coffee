@@ -88,6 +88,18 @@ load_billing_students = () ->
       return
 
 ready = () ->
+
+  $('a.tab-link.save-form').click (e) ->
+    e.preventDefault()
+    active_tab = $(e.target).attr('href')
+    $('<input>').attr({
+        type: 'hidden',
+        value: active_tab,
+        name: 'active_tab'
+    }).appendTo($('#new_message'))
+    $('#new_message').submit()
+
+
   $('#datetimepickerduedate').datetimepicker
     locale: 'fr'
     format: 'DD/MM/YYYY'
@@ -123,14 +135,15 @@ ready = () ->
     remove student for student in $("#in_groups input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)
   $('#mtype').change ->
-    console.log $('#mtype').val()
     if $('#mtype').val() == 'message'
       $('.alert_mtype').hide()
+      $('.save-form').show()
       $('.message_mtype').show()
       $('.send_by_sms_container').hide()
     else
       $('.alert_mtype').show()
       $('.message_mtype').hide()
+      $('.save-form').hide()
       $('.send_by_sms_container').show()
   $('.submit_with_status').click (e) ->
     e.preventDefault()
