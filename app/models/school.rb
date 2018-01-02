@@ -25,7 +25,7 @@ class School < ApplicationRecord
   end
 
   def admins
-    self.users.active_and_invitation_accepted.admin
+    self.users.active_and_invitation_accepted.admin.with_send_email_to_admin
   end
 
   def levels

@@ -233,27 +233,20 @@ class Message < ApplicationRecord
       s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
     }      # build an array of emails
 
-   # content = message.content
-    emails.push(message.author_email) unless message.author_email.blank?
+    emails.push(message.author_email) if message.author.send_email_to_author? and not message.author_email.blank?
     message.admins_emails.each {|e| emails.push(e)} unless message.admins_emails.blank?
     emails.push(writers_emails)
 
-    emails = emails.compact.flatten.uniq
-    # if message.content.include?('[code]')
-    #   sub = emails.each |email| do
-    #     For current email gets all students to build the codes
-    #     codes = Student.by_email(email).collect |student| do
-    #       "<li>#{student.fullname}: #{student.code}</li>"
-    #     end
-    #
-    #   end
-    MessageMailer.message_email(emails, message, title, content).deliver_later
 
-    # emails.each do |e|
-    #   message.content = replace_code_smart_tag(students, e, content) if content.include?('[code]')
-    #   MessageMailer.message_email(e, message).deliver_later
-    # end
-    #message.content = content
+    emails = emails.compact.flatten.uniq
+
+    unless emails.blank?
+      emailsChucked = emails.each_slice(250).to_a
+      emailsChucked.each do |list_of_emails|
+        MessageMailer.message_email(list_of_emails, message, title, content).deliver_later
+      end
+    end
+
   end
 
   def author_email
