@@ -88,7 +88,7 @@ fieldset[disabled] .btn.active {
     </tbody>
   </table>
 <% end %>
-<% if @message.amount_to_pay > 0 %>
+<% if @message.include_payment? %>
   <table cellpadding="0" cellspacing="0" border="0" align="left" style="border-collapse:separate;border:1px solid #1791c8;width:100%">
     <tbody>
       <tr>
@@ -97,12 +97,22 @@ fieldset[disabled] .btn.active {
       <tr>
         <td width="30"> </td>
         <td>
+          <% account_number = @message.account.account_number unless @message.account.nil? or @message.account.account_number.blank? %>
           <p style="margin-bottom:0px;text-align:left;margin:0px;padding:0px;color:#000;font-family:Verdana,Geneva,sans-serif;font-size:14px;line-height:22px">
-            Le montant de <strong style="color:#1d92c4"><%=  humanized_money @message.amount_to_pay %> EUR</strong> est à payer <strong style="color:#1d92c4">avant le <%= @message.billing_due_date %></strong>
-            <br>sur le compte <strong style="color:#1d92c4"><%= @message.account.account_number %></strong>
-            <br>avec la communication <strong style="color:#1d92c4"><%= @message.billing_description %></strong>.
-            <br><br>
-            <%= @message.billing_comment %>
+            Le montant de <strong style="color:#1d92c4"><%=  humanized_money @message.amount_to_pay %> EUR</strong> est à payer
+            <% unless @message.billing_due_date.blank? %>
+              avant le <strong style="color:#1d92c4"> <%= @message.billing_due_date %></strong>
+            <% end %>
+            <% unless account_number.blank? %>
+              <br>sur le compte <strong style="color:#1d92c4"><%= account_number %></strong>
+            <% end %>
+            <% unless @message.billing_description.blank? %>
+              <br>avec la communication <strong style="color:#1d92c4"><%= @message.billing_description %></strong>.
+            <% end %>
+            <% unless @message.billing_comment.blank? %>
+              <br><br>
+              <%= @message.billing_comment %>
+            <% end %>
           </p>
         </td>
         <td width="30"> </td>
@@ -112,22 +122,24 @@ fieldset[disabled] .btn.active {
       </tr>
     </tbody>
   </table>
-  <table>
-    <tbody>
-      <tr>
-        <td height="15"></td>
-      </tr>
-    </tbody>
-  </table>
-  <table style="background-color: #ff4785; color: #fff; max-width: 400px; padding: 20px 5px; border: 1px solid #ff4785; width: 100%;">
-    <tbody>
-      <tr>
-        <td style="text-align:center">
-          <%= link_to "Payer avec payconiq", message_pay_url(@message.muuid, e: '-email_encrypt-'), class: 'btn btn-lg', style: 'background-color: #ff4785' %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <% if @message.school.payconiq_enable? %>
+    <table>
+      <tbody>
+        <tr>
+          <td height="15"></td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="background-color: #ff4785; color: #fff; max-width: 400px; padding: 20px 5px; border: 1px solid #ff4785; width: 100%;">
+      <tbody>
+        <tr>
+          <td style="text-align:center">
+            <%= link_to "Payer avec payconiq", message_pay_url(@message.muuid, e: '-email_encrypt-'), class: 'btn btn-lg', style: 'background-color: #ff4785' %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
 <% end %>
 
 <br>

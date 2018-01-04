@@ -106,12 +106,15 @@ ready = () ->
 
   if $('#message_include_payment:checked').length
     $('#payment_form').show()
+    $('#payment_doc').hide()
 
   $('#message_include_payment').change ->
     if $('#message_include_payment:checked').length
       $('#payment_form').show()
+      $('#payment_doc').hide()
     else
       $('#payment_form').hide()
+      $('#payment_doc').show()
 
   if $('input[type=radio][name="message[billing_type]"]:checked').val() == '1'
     load_billing_students()

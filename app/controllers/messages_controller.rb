@@ -144,7 +144,7 @@ class MessagesController < ApplicationController
 
   def update_amount_to_pay
     authorize @message
-    if @message.update!(update_amount_to_pay_params)
+    if @message.update(update_amount_to_pay_params)
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), notice: 'Le message a été mis à jour.'
     else
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), error: 'Une erreur est survenue.'
