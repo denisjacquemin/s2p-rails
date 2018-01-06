@@ -64,6 +64,40 @@
       <% end %>
 
       <% if @message.include_payment %>
+        <table cellpadding="0" cellspacing="0" border="0" align="left" style="border-collapse:separate;border:1px solid #1791c8;width:100%">
+          <tbody>
+            <tr>
+              <td height="15" colspan="3"> </td>
+            </tr>
+            <tr>
+              <td width="30"> </td>
+              <td>
+                <% account_number = @message.account.account_number unless @message.account.nil? or @message.account.account_number.blank? %>
+                <p style="margin-bottom:0px;text-align:left;margin:0px;padding:0px;color:#000;font-family:Verdana,Geneva,sans-serif;font-size:14px;line-height:22px">
+                  Le montant de <strong style="color:#1d92c4"><%=  humanized_money @message.amount_to_pay %> EUR</strong> est à payer
+                  <% unless @message.billing_due_date.blank? %>
+                    avant le <strong style="color:#1d92c4"> <%= @message.billing_due_date %></strong>
+                  <% end %>
+                  <% unless account_number.blank? %>
+                    <br>sur le compte <strong style="color:#1d92c4"><%= account_number %></strong>
+                  <% end %>
+                  <% unless @message.billing_description.blank? %>
+                    <br>avec la communication <strong style="color:#1d92c4"><%= @message.billing_description %></strong>.
+                  <% end %>
+                  <% unless @message.billing_comment.blank? %>
+                    <br><br>
+                    <%= @message.billing_comment %>
+                  <% end %>
+                </p>
+              </td>
+              <td width="30"> </td>
+            </tr>
+            <tr>
+              <td height="15" colspan="3"></td>
+            </tr>
+          </tbody>
+        </table>
+
         <div class="row pq" id="paysection">
             <%= hidden_field_tag 'muuid', @message.muuid %>
             <%= hidden_field_tag 'email', @email %>
