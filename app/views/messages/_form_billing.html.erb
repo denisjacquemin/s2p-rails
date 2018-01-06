@@ -1,10 +1,13 @@
 <%= hidden_field_tag 'message_id', @message.id %>
 <div class="row" id="formbilling_page">
+
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <ul class="nav nav-pills" id="formbuilder_pills">
-      <li role="presentation" class="active"><a class="tab-link" href="#billingdetails" aria-controls="details" role="tab" data-toggle="tab">Facturation</a></li>
-      <li role="presentation"><a class="tab-link" href="#billingcallbacks" aria-controls="billed" role="tab" data-toggle="tab">Paiements</a></li>
-    </ul>
+    <% if @message.school.payconiq_enable? %>
+      <ul class="nav nav-pills" id="formbuilder_pills">
+        <li role="presentation" class="active"><a class="tab-link" href="#billingdetails" aria-controls="details" role="tab" data-toggle="tab">Facturation</a></li>
+        <li role="presentation"><a class="tab-link" href="#billingcallbacks" aria-controls="billed" role="tab" data-toggle="tab">Paiements</a></li>
+      </ul>
+    <% end %>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="billingdetails">
         <%= form_for(@message, url: update_amount_to_pay_url(@message)) do |f| %>
@@ -29,17 +32,12 @@
           </div>
           <span id="payment_doc">
             <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                   <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-                    <em>Inclure un montant à payer</em> affiche clairement les informations de paiement dans un message
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="form-group">
-                  <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-                    Doc a propos de payconiq
+                    <em>Inclure un montant à payer</em> affiche clairement les informations de paiement dans un message, et si vous activez payconiq, un bouton permettra aux parents de payer directement grâce à leur smartphone. Voir exemple ci-dessous.
+                    <br><br>
+                    <%= image_tag asset_path("info_billing.png"), class: 'img-responsive' %>
                   </div>
                 </div>
               </div>
