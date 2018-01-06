@@ -67,7 +67,7 @@
         <div class="row pq" id="paysection">
             <%= hidden_field_tag 'muuid', @message.muuid %>
             <%= hidden_field_tag 'email', @email %>
-            <% unless @message.account.access_token.blank? %>
+            <% unless @message.account.payconiq_access_token.blank? %>
               <div class="col-xs-12 pq-banner">
                 <%= image_tag asset_path("logo_payconiq.png") %>
                 <br/>
