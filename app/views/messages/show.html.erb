@@ -98,10 +98,11 @@
           </tbody>
         </table>
 
-        <div class="row pq" id="paysection">
-            <%= hidden_field_tag 'muuid', @message.muuid %>
-            <%= hidden_field_tag 'email', @email %>
-            <% unless @message.account.payconiq_access_token.blank? %>
+        <% unless @message.account.payconiq_access_token.blank? %>
+
+          <div class="row pq" id="paysection">
+              <%= hidden_field_tag 'muuid', @message.muuid %>
+              <%= hidden_field_tag 'email', @email %>
               <div class="col-xs-12 pq-banner">
                 <%= image_tag asset_path("logo_payconiq.png") %>
                 <br/>
@@ -124,8 +125,8 @@
                   <iframe class="hidden-sm hidden-md hidden-lg" src="https://player.vimeo.com/video/213843274" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
               </div>
-            <% end %>
-        </div>
+            </div>
+          <% end %>
       <% end %>
     </div>
 </div>
