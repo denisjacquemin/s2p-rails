@@ -11,13 +11,17 @@
       <% #end %>
 
       <% save_form_with_tab = message.new_record? and @message.mtype == 'message' %>
-      <li role="presentation">
-        <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF</a>
-      </li>
-      <li role="presentation">
-        <a class="tab-link <%= 'save-form' if save_form_with_tab %>" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
-      </li>
-      <% if current_school.billing_enable? %>
+      <% if @message.mtype == 'message' %>
+        <li role="presentation">
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF</a>
+        </li>
+      <% end %>
+      <% if @message.mtype == 'message' %>
+        <li role="presentation">
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
+        </li>
+      <% end %>
+      <% if @message.mtype == 'message' and current_school.billing_enable? %>
         <li role="presentation">
           <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
         </li>

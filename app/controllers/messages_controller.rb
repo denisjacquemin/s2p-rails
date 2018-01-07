@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
   before_action :set_message, only: [:edit, :update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
-  before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
+  # before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
   # GET /messages.json
@@ -420,9 +420,9 @@ class MessagesController < ApplicationController
       params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status)
     end
 
-    def set_s3_direct_post
-      @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
-    end
+    # def set_s3_direct_post
+    #   @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
+    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mfile_params

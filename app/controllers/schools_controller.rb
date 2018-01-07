@@ -1,6 +1,8 @@
 class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_s3_direct_post, only: [:new, :edit]
+
 
   # GET /schools
   # GET /schools.json
@@ -23,7 +25,6 @@ class SchoolsController < ApplicationController
 
   # GET /schools/1/edit
   def edit
-    @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     if params[:id].nil?
       @school = current_school
     else
@@ -102,5 +103,9 @@ class SchoolsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def school_params
       params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active, :url, :send_code_title_template, :send_code_template, :sms_provision, :billing_enable, :payconiq_enable, accounts_attributes: [:name, :payconiq_access_token, :account_number, :_destroy, :id])
+    end
+
+    def set_s3_direct_post
+      @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     end
 end

@@ -130,6 +130,7 @@ fieldset[disabled] .btn.active {
         </tr>
       </tbody>
     </table>
+    <% unless @message.account.payconiq_access_token.blank? %>
     <table style="background-color: #ff4785; color: #fff; max-width: 400px; padding: 20px 5px; border: 1px solid #ff4785; width: 100%;">
       <tbody>
         <tr>
@@ -139,6 +140,7 @@ fieldset[disabled] .btn.active {
         </tr>
       </tbody>
     </table>
+    <% end %>
   <% end %>
 <% end %>
 
