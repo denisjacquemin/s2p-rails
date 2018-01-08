@@ -46,8 +46,9 @@
               </div>
             </div>
           </div>
-          <% unless current_user.user? %>
+
           <div class="row">
+            <% unless current_user.user? %>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="form-group">
                 <%= f.label :function, 'Fonction' %>
@@ -55,6 +56,7 @@
                 <p class="help-block">Apparaît dans la signature des messages.</p>
               </div>
             </div>
+            <% end %>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="checkbox">
                 <%= f.label :send_email_to_author do %>
@@ -70,7 +72,7 @@
               <% end %>
             </div>
           </div>
-          <% end %>
+
 
 
           <% unless @user.admin? or current_user.user? %>

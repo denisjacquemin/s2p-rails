@@ -1,5 +1,16 @@
 <input type="hidden" name="whatsnew-counter" value="7" />
 <div class="whatsnew">
+  <span class="date">8 janvier 2018</span>
+  <p>
+    Par defaut un administrateur et un auteur de message reçoivent ceux-ci automatiquement par email.<br/>
+    2 nouvelles options permettent de désactiver ces envois:
+    <br><br>Via le menu paramètres (la roue dentée), puis votre nom:
+    <ul>
+      <li>Pour les administrateurs: <br><%= image_tag asset_path("faq/option_send_email_to_admin"), class: "img-responsive" %></li>
+      <li>Pour les auteurs: <br><%= image_tag asset_path("faq/option_send_email_to_author"), class: "img-responsive" %></li>
+    </ul>
+  </p>
+  <hr/>
   <span class="date">31 décembre 2017</span>
   <p>
     Les onglets <em>Images/PDF</em> et <em>Formulaire</em> sont maintenant affichés même lorsqu'un nouveau message n'est pas encore sauvegardé.
