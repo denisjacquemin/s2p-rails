@@ -13,10 +13,17 @@
       margin: 5px 0;
     }
 
-    tbody {
+    .scroll-area {
       height: 310px;       /* Just for the demo          */
       overflow-y: auto;    /* Trigger vertical scroll    */
       overflow-x: hidden;  /* Hide the horizontal scroll */
+    }
+
+    tbody {
+      .checkbox {
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
       td.fullwidth {
         width: 99%;
       }

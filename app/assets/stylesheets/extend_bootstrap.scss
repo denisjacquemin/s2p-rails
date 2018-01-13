@@ -11,3 +11,12 @@
   max-height: calc(100vh - 212px);
   overflow-y: auto;
 }
+
+.navbar.bg-dark {
+  background-color: #373a3c;
+}
+
+
+.panel-body .tab-content .tab-pane tbody {
+  display: table-row-group;
+}
