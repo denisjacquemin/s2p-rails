@@ -102,10 +102,13 @@
                   <tr>
                     <%= fields_for s do |s_form| %>
                       <%= s_form.hidden_field :id, multiple: true%>
+
                       <td class="nowrap">
                         <%= check_box_tag "student_#{s.id}", "student[#{s.id}]", nil, disabled: (message.published? ? true : nil) %>
                       </td>
-                      <td class="targetname fullwidth"><i class="fa fa-user" style="margin-right: 5px;"></i> <label for="<%= "student_#{s.id}" %>"><%= s.fullname %></label</td>
+                      <td class="studentfullname nowrap"><i class="fa fa-user" style="margin-right: 5px;"></i> <label for="<%= "student_#{s.id}" %>"><%= s.fullname %></label></td>
+                      <td class="studentfulllevel nowrap"><label for="<%= "student_#{s.id}" %>"><%= s.level %></label></td>
+                      <td class="studentclassroom fullwidth"><label for="<%= "student_#{s.id}" %>"><%= s.classroom %></label></td>
                     <% end %>
                   </tr>
                 <% end %>
