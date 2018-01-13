@@ -94,7 +94,7 @@
                       <td class="nowrap">
                         <%= check_box_tag "group_#{g.id}", "group[#{g.id}]", nil, disabled: (message.published? ? true : nil) %>
                       </td>
-                      <td class="targetname fullwidth"><i class="fa fa-users" style="margin-right: 5px;"></i><label for="<%= "group_#{g.id}" %>"><%= g.name %></label></td>
+                      <td class="targetname fullwidth" colspan="3"><i class="fa fa-users" style="margin-right: 5px;"></i><label for="<%= "group_#{g.id}" %>"><%= g.name %></label></td>
                     <% end %>
                   </tr>
                 <% end %>
