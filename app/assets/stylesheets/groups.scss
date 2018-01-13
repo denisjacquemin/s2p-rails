@@ -20,9 +20,8 @@
     }
 
     tbody {
-      .checkbox {
-        margin-top: 3px;
-        margin-bottom: 3px;
+      label {
+        font-weight: normal;
       }
       td.fullwidth {
         width: 99%;

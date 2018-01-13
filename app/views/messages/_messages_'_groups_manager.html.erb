@@ -22,32 +22,14 @@
                   <table class="table table-hover table-condensed" id="group_list">
                     <% groups.each do |group| %>
                       <tr>
-                        <td>
-                          <div class="checkbox">
-                            <label>
-                              <%= check_box_tag nil, group.id, nil, disabled: (message.published? ? true : nil) %> <%= group.name %>
-                            </label>
-                          </div>
+                        <td class="nowrap">
+                          <%= check_box_tag "gr_#{group.id}", group.id, nil, disabled: (message.published? ? true : nil) %>
                         </td>
+                        <td class="groupname fullwidth"><label for="<%= "gr_#{group.id}" %>"><%= group.name %></label></td>
                       </tr>
                     <% end %>
                   </table>
                 </div>
-                <!-- <table class="table table-hover table-condensed" >
-                  <tbody id="group_list" class="list">
-                    <% groups.each do |group| %>
-                      <tr>
-                        <td class="nowrap">
-                          <div class="checkbox">
-                            <label>
-                              <%= check_box_tag nil, group.id, nil, disabled: (message.published? ? true : nil) %> <%= group.name %>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table> -->
               <% end %>
               <% if groups.empty? %>
                 <p><%= I18n.t('views.messages.groups_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
@@ -62,11 +44,11 @@
                     <% students.each do |student| %>
                       <tr>
                         <td class="nowrap">
-                          <%= check_box_tag nil, student.id, nil, disabled: (message.published? ? true : nil) %>
+                          <%= check_box_tag "cb_#{student.id}", student.id, nil, disabled: (message.published? ? true : nil) %>
                         </td>
-                        <td class="studentfullname nowrap"><label><%= student.fullname %></label></td>
-                        <td class="studentfulllevel nowrap"><%= student.level %></td>
-                        <td class="studentclassroom fullwidth"><%= student.classroom %></td>
+                        <td class="ctb studentfullname nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.fullname %></label></td>
+                        <td class="ctb studentfulllevel nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.level %></label></td>
+                        <td class="ctb studentclassroom fullwidth"><label for="<%= "cb_#{student.id}" %>"> <%= student.classroom %></label></td>
                       </tr>
                     <% end %>
                   </tbody>
