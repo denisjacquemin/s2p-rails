@@ -94,7 +94,7 @@
                       <td class="nowrap">
                         <%= check_box_tag nil, "group[#{g.id}]", nil, disabled: (message.published? ? true : nil) %>
                       </td>
-                      <td class="targetname fullwidth"><i class="fa fa-users" style="margin-right: 5px;"></i><%= g_form.label :id, g.name %></td>
+                      <td class="targetname fullwidth"><i class="fa fa-users" style="margin-right: 5px;"></i><label for="<%= "group[#{g.id}]" %>"><%= g.name %></label></td>
                     <% end %>
                   </tr>
                 <% end %>
@@ -105,7 +105,7 @@
                       <td class="nowrap">
                         <%= check_box_tag nil, "student[#{s.id}]", nil, disabled: (message.published? ? true : nil) %>
                       </td>
-                      <td class="targetname fullwidth"><i class="fa fa-user" style="margin-right: 5px;"></i> <%= s_form.label :id, s.fullname %></td>
+                      <td class="targetname fullwidth"><i class="fa fa-user" style="margin-right: 5px;"></i> <label for="<%= "student[#{s.id}]" %>"><%= s.fullname %></label</td>
                     <% end %>
                   </tr>
                 <% end %>
