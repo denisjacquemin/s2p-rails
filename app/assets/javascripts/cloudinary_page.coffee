@@ -53,9 +53,8 @@ ready = () ->
   $('.attachinary-input').bind 'fileuploadfail', (event, data) ->
     message = data.errorThrown
     numberOfFiles = data.attachinary.files.length + data.originalFiles.length
-    console.log data
-    console.log 'numberOfFiles: ' + numberOfFiles
-    console.log 'data.attachinary.maximum: ' + data.attachinary.maximum
+    if (data.messages.uploadedBytes == 'Uploaded bytes exceed file size')
+      message = "Taille maximale d'une image dépassée (max 10Mb)."
     if (numberOfFiles > data.attachinary.maximum)
       message = 'Le maximum de ' + data.attachinary.maximum + ' fichiers est atteint'
       $('.progress').invisible()
