@@ -241,7 +241,7 @@ class Message < ApplicationRecord
     emails = emails.compact.flatten.uniq
 
     unless emails.blank?
-      emailsChucked = emails.each_slice(250).to_a
+      emailsChucked = emails.each_slice(100).to_a
       emailsChucked.each do |list_of_emails|
         MessageMailer.message_email(list_of_emails, message, title, content).deliver_later
       end
