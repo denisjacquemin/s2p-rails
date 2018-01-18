@@ -95,33 +95,35 @@
                       <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
                           <input type="text" class="filter" data-table="#user_group_list" placeholder="Rechercher">
-                          <table class="table table-hover table-condensed">
-                            <tbody id="user_group_list" class="list">
-                            <%= hidden_field_tag "user[group_ids][]", nil %>
-                            <%
-                              @user.groups.each do |g|
-                                if g.school_id != current_school.id %>
-                                    <%= hidden_field_tag "user[group_ids][]", g.id %>
-                            <%
+                          <div class="scroll-area">
+                            <table class="table table-hover table-condensed">
+                              <tbody id="user_group_list" class="list">
+                              <%= hidden_field_tag "user[group_ids][]", nil %>
+                              <%
+                                @user.groups.each do |g|
+                                  if g.school_id != current_school.id %>
+                                      <%= hidden_field_tag "user[group_ids][]", g.id %>
+                              <%
+                                  end
                                 end
-                              end
-                            %>
+                              %>
 
-                            <%
-                                groups = Group.by_school(current_school)
-                                groups.each do |g| %>
-                                <tr>
-                                  <td class="nowrap">
-                                    <%= check_box_tag "user[group_ids][#{g.id}]",
-                                       g.id,
-                                       @user.groups.include?(g),
-                                       name: 'user[group_ids][]' %>
-                                  </td>
-                                  <td class="fullwidth"><%= g.name %></td>
-                                </tr>
-                              <% end %>
-                            </tbody>
-                          </table>
+                              <%
+                                  groups = Group.by_school(current_school)
+                                  groups.each do |g| %>
+                                  <tr>
+                                    <td class="nowrap">
+                                      <%= check_box_tag "user[group_ids][#{g.id}]",
+                                         g.id,
+                                         @user.groups.include?(g),
+                                         name: 'user[group_ids][]' %>
+                                    </td>
+                                    <td class="fullwidth"><%= g.name %></td>
+                                  </tr>
+                                <% end %>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
 <% if false %>
 
