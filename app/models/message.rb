@@ -138,7 +138,6 @@ class Message < ApplicationRecord
   def handle_publish
     groups = self.groups
     if groups.present? or self.students.present?
-
       send_message_notifications(self) if self.send_to_app
 
       students = Student.includes(:phones).by_groups(groups) unless groups.nil?

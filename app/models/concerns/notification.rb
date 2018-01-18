@@ -98,7 +98,8 @@ module Notification extend ActiveSupport::Concern
           n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
           n.alert = {
-            title: truncate(alert, :length => 256).force_encoding("utf-8"),
+            title: alert,
+            # title: truncate(alert, :length => 256).force_encoding("utf-8"),
             body: truncate(content, :length => 256).force_encoding("utf-8")
           }
           n.content_available = true
