@@ -87,35 +87,37 @@
           </div>
           <div class="panel-body table-filter" id="in_groups_list">
             <input type="text" class="filter" data-table="#destinataires" placeholder="Rechercher">
-            <table class="table table-hover table-condensed" id="in_groups">
-              <tbody class="list" id="destinataires">
-                <% message.groups_obj.each do |g| %>
-                  <tr>
-                    <%= fields_for g do |g_form| %>
-                      <%= g_form.hidden_field :id, multiple: true%>
-                      <td class="nowrap">
-                        <%= check_box_tag "group_#{g.id}", "group[#{g.id}]", nil, disabled: (message.published? ? true : nil) %>
-                      </td>
-                      <td class="targetname fullwidth" colspan="3"><i class="fa fa-users" style="margin-right: 5px;"></i><label for="<%= "group_#{g.id}" %>"><%= g.name %></label></td>
-                    <% end %>
-                  </tr>
-                <% end %>
-                <% message.students_obj.each do |s| %>
-                  <tr>
-                    <%= fields_for s do |s_form| %>
-                      <%= s_form.hidden_field :id, multiple: true%>
+            <div class="scroll-area">
+              <table class="table table-hover table-condensed" id="in_groups">
+                <tbody class="list" id="destinataires">
+                  <% message.groups_obj.each do |g| %>
+                    <tr>
+                      <%= fields_for g do |g_form| %>
+                        <%= g_form.hidden_field :id, multiple: true%>
+                        <td class="nowrap">
+                          <%= check_box_tag "group_#{g.id}", "group[#{g.id}]", nil, disabled: (message.published? ? true : nil) %>
+                        </td>
+                        <td class="targetname fullwidth" colspan="3"><i class="fa fa-users" style="margin-right: 5px;"></i><label for="<%= "group_#{g.id}" %>"><%= g.name %></label></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                  <% message.students_obj.each do |s| %>
+                    <tr>
+                      <%= fields_for s do |s_form| %>
+                        <%= s_form.hidden_field :id, multiple: true%>
 
-                      <td class="nowrap">
-                        <%= check_box_tag "student_#{s.id}", "student[#{s.id}]", nil, disabled: (message.published? ? true : nil) %>
-                      </td>
-                      <td class="studentfullname nowrap"><i class="fa fa-user" style="margin-right: 5px;"></i> <label for="<%= "student_#{s.id}" %>"><%= s.fullname %></label></td>
-                      <td class="studentfulllevel nowrap"><label for="<%= "student_#{s.id}" %>"><%= s.level %></label></td>
-                      <td class="studentclassroom fullwidth"><label for="<%= "student_#{s.id}" %>"><%= s.classroom %></label></td>
-                    <% end %>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+                        <td class="nowrap">
+                          <%= check_box_tag "student_#{s.id}", "student[#{s.id}]", nil, disabled: (message.published? ? true : nil) %>
+                        </td>
+                        <td class="studentfullname nowrap"><i class="fa fa-user" style="margin-right: 5px;"></i> <label for="<%= "student_#{s.id}" %>"><%= s.fullname %></label></td>
+                        <td class="studentfulllevel nowrap"><label for="<%= "student_#{s.id}" %>"><%= s.level %></label></td>
+                        <td class="studentclassroom fullwidth"><label for="<%= "student_#{s.id}" %>"><%= s.classroom %></label></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
     </div>
