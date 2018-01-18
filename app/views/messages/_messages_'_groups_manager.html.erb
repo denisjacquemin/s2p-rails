@@ -39,20 +39,22 @@
               <% students = current_user.students_by_school(@current_school.id) %>
               <% if students.present? %>
                 <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
-                <table class="table table-hover table-condensed" >
-                  <tbody id="student_list" class="list">
-                    <% students.each do |student| %>
-                      <tr>
-                        <td class="nowrap">
-                          <%= check_box_tag "cb_#{student.id}", student.id, nil, disabled: (message.published? ? true : nil) %>
-                        </td>
-                        <td class="ctb studentfullname nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.fullname %></label></td>
-                        <td class="ctb studentfulllevel nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.level %></label></td>
-                        <td class="ctb studentclassroom fullwidth"><label for="<%= "cb_#{student.id}" %>"> <%= student.classroom %></label></td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
+                <div class="scroll-area">
+                  <table class="table table-hover table-condensed" >
+                    <tbody id="student_list" class="list">
+                      <% students.each do |student| %>
+                        <tr>
+                          <td class="nowrap">
+                            <%= check_box_tag "cb_#{student.id}", student.id, nil, disabled: (message.published? ? true : nil) %>
+                          </td>
+                          <td class="ctb studentfullname nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.fullname %></label></td>
+                          <td class="ctb studentfulllevel nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.level %></label></td>
+                          <td class="ctb studentclassroom fullwidth"><label for="<%= "cb_#{student.id}" %>"> <%= student.classroom %></label></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
               <% end %>
               <% if students.empty? %>
                 <p><%= I18n.t('views.messages.students_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
