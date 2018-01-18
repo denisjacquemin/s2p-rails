@@ -99,8 +99,7 @@ module Notification extend ActiveSupport::Concern
           n.device_token = device.registration_id # 64-character hex string
           n.alert = {
             title: alert[0..256],
-            # title: truncate(alert, :length => 256).force_encoding("utf-8"),
-            body: truncate(content, :length => 256).force_encoding("utf-8")
+            body: content[0..256]
           }
           n.content_available = true
           expiry_value = Time.now + 2.day
