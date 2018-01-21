@@ -3,8 +3,13 @@
     <%= render 'list_guides' %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
-    <h2 id="winpage">Exporter les élèves depuis WinPage</h2>
+    <h2 id="winpage">Importer les élèves depuis WinPage</h2>
     <p>Les utilisateurs de WinPage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) peuvent utiliser la procédure ci-dessous pour créer un fichier CSV contenant la liste des élèves.</p>
+    <ol>
+      <li>Création d'un fichier excel contenant la liste des élèves</li>
+      <li>Convertir le fichier .XLS WinPage en .CSV</li>
+      <li>Importer le fichier .CSV dans Konecto App</li>
+    </ol>
     <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -37,13 +42,19 @@
           <li>Téléphone 3</li>
           <li>Gsm</li>
           <li>Courriel de l'élève (1)</li>
-          <li>Courriel signataire</li>
+          <li>Courriel signataire (1)</li>
         </ul>
-        <blockquote>(1) L'adresse du parent responsable 1 se trouve dans le champ <em>Courriel signataire</em>. Pour renseigner l'adresse email du parent responsable 2, il est suggéré d'utiliser le champ <em>courriel de l'élève</em>.</blockquote>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
         <%= image_tag asset_path("faq/winpage_informationsaafficher.JPG"), class: "img-responsive img-thumbnail" %>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <blockquote>
+        (1) Seul l'adresse du parent responsable coché <em>signataire</em> peut être exporté en excel. Pour renseigner l'adresse email du second parent, utilisez le champ courriel des données de <em>Contacts</em>.
+        <%= image_tag asset_path("faq/winpage_courriels.jpg"), class: "img-responsive img-thumbnail" %>
+      </blockquote>
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -74,6 +85,8 @@
     </div>
     <h3>2. Convertir le fichier .XLS WinPage en .CSV</h3>
     <p>Ouvrez le fichier xls dans excel, dans le menu <em>Fichier > Enregistrer Sous</em>. Dans type de fichier, choisir <em>CSV (séparateur: point-virgule)</em>
-
+    <h3>3. Importer le fichier .CSV dans Konecto App</h3>
+    <%= render 'import_csv_file' %>
   </div>
+
 </div>

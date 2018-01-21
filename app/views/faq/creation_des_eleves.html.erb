@@ -5,14 +5,8 @@
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h2 id="creationdeseleves">Création des élèves</h2>
     <%= render 'create_students_import_csv' %>
-    <h3 id="importcsv">Importer le fichier CSV</h3>
-    <p>Une fois ce fichier constitué, naviguez sur la page Elèves, puis cliquez sur le bouton <em>Import Excel</em>.</p>
-    <%= image_tag asset_path("faq/importcsv.png"), class: "img-responsive img-thumbnail" %>
-    <p>
-    Sélectionnez votre fichier CSV et cliquez sur Envoyer, en fonction du nombre d'élèves, cette étape peut prendre jusqu'à une trentaine de secondes.</p>
-    <p>Naviguez sur l'écran élèves pour vérifier que tout a été importé correctement.</p>
-    <br/>
-    <%= image_tag asset_path("faq/import_csv.png"), class: "img-responsive img-thumbnail" %>
+    <h3>Importer le fichier .CSV dans Konecto App</h3>
+    <%= render 'import_csv_file' %>
 
     <br/>
     <br/>
