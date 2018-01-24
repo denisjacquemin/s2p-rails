@@ -67,6 +67,7 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     authorize @message
+    @form_templates = FormTemplate.where(school_id: current_school.id)
   end
 
   def create_sendcode_message

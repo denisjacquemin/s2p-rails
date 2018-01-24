@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+    <h1>Gestion des modèles de formulaires</h1>
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+    <div class="pull-right"><%= link_to 'Nouveau modèle de formulaire', new_form_template_path, class: 'btn btn-primary' %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <hr />
+  </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nom du formulaire</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @form_templates.each do |form_template| %>
+            <tr>
+              <td><%= link_to form_template.name, edit_form_template_path(form_template) %></td>
+              <td>
+                <div class="pull-right">
+                  <%= link_to 'Edition', edit_form_template_path(form_template), class: 'btn btn-default btn-xs', data: { disable_with: "Edition..." } %>
+                  &nbsp;<%= link_to 'Supprimer', form_template, method: :delete, data: { confirm: 'Etes vous sûr?' }, class: 'btn btn-default btn-xs', data: { disable_with: "Suppression..." } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+</div>

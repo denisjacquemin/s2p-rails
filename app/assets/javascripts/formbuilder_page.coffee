@@ -5,6 +5,8 @@ if not Turbolinks.supported
 $(document).on 'turbolinks:load', ->
   ready()
 
+formBuilder = null
+
 ready = () ->
   if $('#formbuilder-wrap').length
     language =
@@ -134,7 +136,6 @@ ready = () ->
       warning: 'Warning!'
       viewXML: '</>'
       yes: 'Yes'
-    console.log 'init formbuilder'
     # levels = ({ label: level, value: level, selected: false} for level in JSON.parse($('#levels').val()))
     formBuilder = $('#formbuilder-wrap').formBuilder({
       messages: language['fr'],
@@ -262,28 +263,41 @@ ready = () ->
               true
           }
       },
-      formData: $('#message_formdata').val()
+      formData: $('#formdata').val()
     }).data('formBuilder')
     $(".form-builder-save").click (e) ->
       e.preventDefault()
-      save_form(formBuilder.formData)
+      $('#formdata').val(formBuilder.formData)
+      save_form()
+    $("#setformdata").change (e) ->
+      formBuilder.actions.setData(this.value)
     $('.option-label').change (e) ->
       console.log e.target.value
-  save_form = (form_json) ->
+    set_formdata = () ->
+      console.log 'coucou'
+  save_form = () ->
     form = $('#message_update_form')
-    utf8 = form.find( "input[name='utf8']" ).val()
-    authenticity_token = form.find( "input[name='authenticity_token']" ).val()
+    # utf8 = form.find( "input[name='utf8']" ).val()
+    # authenticity_token = form.find( "input[name='authenticity_token']" ).val()
     $.ajax({
       type: "POST",
       url: form.attr('action'),
-      data: {
-        utf8: utf8,
-        authenticity_token: authenticity_token,
-        'message[formdata]': form_json,
-        format: 'js',
-        _method: form.find( "input[name='_method']" ).val()
-      }
+      data:  form.serialize()
+      # data: {
+      #   utf8: utf8,
+      #   authenticity_token: authenticity_token,
+      #   'message[formdata]': form_json,
+      #   format: 'js',
+      #   _method: form.find( "input[name='_method']" ).val()
+      # }
     });
   $('#formbuilder-wrap').on 'propertychange change click keyup input paste', ".prev-holder input, .prev-holder textarea", ->
     console.log('catched')
     $( this ).val('')
+  $('#form_template_id').change (e) ->
+    form = $('#load_form_template')
+    $.ajax({
+      type: "GET",
+      url: form.attr('action'),
+      data:  form.serialize()
+    });

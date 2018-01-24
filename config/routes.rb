@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :form_templates, :except => :show
+  get '/form_templates/loadformtemplate', to: 'form_templates#load_form_template'
   mount Attachinary::Engine => "/attachinary"
 
   get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
