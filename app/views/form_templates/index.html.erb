@@ -13,27 +13,32 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nom du formulaire</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @form_templates.each do |form_template| %>
+      <% if @form_templates.any? %>
+        <table class="table">
+          <thead>
             <tr>
-              <td><%= link_to form_template.name, edit_form_template_path(form_template) %></td>
-              <td>
-                <div class="pull-right">
-                  <%= link_to 'Edition', edit_form_template_path(form_template), class: 'btn btn-default btn-xs', data: { disable_with: "Edition..." } %>
-                  &nbsp;<%= link_to 'Supprimer', form_template, method: :delete, data: { confirm: 'Etes vous sûr?' }, class: 'btn btn-default btn-xs', data: { disable_with: "Suppression..." } %>
-                </div>
-              </td>
+              <th>Nom du formulaire</th>
+              <th></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-
+          </thead>
+          <tbody>
+            <% @form_templates.each do |form_template| %>
+              <tr>
+                <td><%= link_to form_template.name, edit_form_template_path(form_template) %></td>
+                <td>
+                  <div class="pull-right">
+                    <%= link_to 'Edition', edit_form_template_path(form_template), class: 'btn btn-default btn-xs', data: { disable_with: "Edition..." } %>
+                    &nbsp;<%= link_to 'Supprimer', form_template, method: :delete, data: { confirm: 'Etes vous sûr?' }, class: 'btn btn-default btn-xs', data: { disable_with: "Suppression..." } %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          <p>Aucun modèle pour l'instant, créez votre premier modèle de formulaire en cliquant sur le bouton <em>Nouveau modèle de formulaire</em>.</p>
+        </div>
+      <% end %>
     </div>
 </div>
