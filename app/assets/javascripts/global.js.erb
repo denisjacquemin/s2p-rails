@@ -1,11 +1,4 @@
-var ready;
-ready = function() {
-  $.each( flashMessages, function(key, value){
-    console.log('value: ' + value + ' key: ' + key)
-    res = $.snackbar({content: value, style: key, timeout: 10000});
-    console.log(res);
-  });
-};
+
 
 if (!Turbolinks.supported) {
   $(document).ready(function() {
@@ -18,6 +11,16 @@ $(document).on('turbolinks:load', function() {
 });
 
 
+var ready;
+ready = function() {
+  $("body").append("<div id=snackbar-container/>");
+
+  $.each( flashMessages, function(key, value){
+    console.log('value: ' + value + ' key: ' + key)
+    res = $.snackbar({content: value, style: key, timeout: 10000});
+    console.log(res);
+  });
+};
 
 
 function getParameterByName(name, url) {

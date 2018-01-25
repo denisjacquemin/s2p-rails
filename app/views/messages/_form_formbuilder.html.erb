@@ -10,10 +10,10 @@
           <div class="col-lg-12 col-md-12 col-xs-12">
             <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
               <%= f.hidden_field :formdata, id: 'formdata' %>
-              <%= hidden_field_tag 'setformdata' %>
 
+              <%= hidden_field_tag 'setformdata' %>
+              <div class="pull-right"><%= f.submit 'Enregistrer le formulaire', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
             <% end %>
-            <div class="pull-right"><%= link_to 'Enregistrer le formulaire', nil, id: 'frmb-0-save', class: 'btn btn-primary form-builder-save', data: { disable_with: "Enregistrement..." } %></div>
           </div>
         </div>
         <div class="row">

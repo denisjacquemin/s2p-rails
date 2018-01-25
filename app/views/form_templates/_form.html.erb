@@ -1,23 +1,13 @@
-<%= form_for(form_template, html: { id: 'message_update_form'}) do |f| %>
+<%= form_for(form_template) do |f| %>
   <%= f.hidden_field :formdata, id: 'formdata' %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <% if form_template.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(form_template.errors.count, "error") %> prohibited this form_template from being saved:</h2>
-
-            <ul>
-            <% form_template.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
-          </div>
-        <% end %>
+      <%= render 'layouts/errors', object: form_template %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="pull-right"><%= f.submit 'Enregistrer', class: 'btn btn-primary form-builder-save', data: { disable_with: "Enregistrement..." } %></div>
+      <div class="pull-right"><%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
     </div>
   </div>
   <div class="row">

@@ -51,7 +51,7 @@ class FormTemplatesController < ApplicationController
   def destroy
     @form_template.destroy
     respond_to do |format|
-      format.html { redirect_to form_templates_url, notice: 'Form template was successfully destroyed.' }
+      format.html { redirect_to form_templates_url, notice: 'Le formulaire a été supprimé avec succès.' }
       format.json { head :no_content }
     end
   end

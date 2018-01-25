@@ -265,32 +265,12 @@ ready = () ->
       },
       formData: $('#formdata').val()
     }).data('formBuilder')
-    $(".form-builder-save").click (e) ->
-      e.preventDefault()
+    $(".edit_form_template, #message_update_form").submit (e) ->
       $('#formdata').val(formBuilder.formData)
-      save_form()
     $("#setformdata").change (e) ->
       formBuilder.actions.setData(this.value)
     $('.option-label').change (e) ->
       console.log e.target.value
-    set_formdata = () ->
-      console.log 'coucou'
-  save_form = () ->
-    form = $('#message_update_form')
-    # utf8 = form.find( "input[name='utf8']" ).val()
-    # authenticity_token = form.find( "input[name='authenticity_token']" ).val()
-    $.ajax({
-      type: "POST",
-      url: form.attr('action'),
-      data:  form.serialize()
-      # data: {
-      #   utf8: utf8,
-      #   authenticity_token: authenticity_token,
-      #   'message[formdata]': form_json,
-      #   format: 'js',
-      #   _method: form.find( "input[name='_method']" ).val()
-      # }
-    });
   $('#formbuilder-wrap').on 'propertychange change click keyup input paste', ".prev-holder input, .prev-holder textarea", ->
     console.log('catched')
     $( this ).val('')
