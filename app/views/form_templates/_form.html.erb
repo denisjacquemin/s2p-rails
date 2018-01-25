@@ -1,12 +1,14 @@
-<%= form_for(form_template) do |f| %>
-  <%= f.hidden_field :formdata, id: 'formdata' %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <%= render 'layouts/errors', object: form_template %>
     </div>
   </div>
+  <%= form_for(form_template) do |f| %>
+    <%= f.hidden_field :formdata, id: 'formdata' %>
+
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
       <div class="pull-right"><%= f.submit 'Enregistrer', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
     </div>
   </div>
@@ -18,9 +20,9 @@
       </div>
     </div>
   </div>
+  <% end %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div id="formbuilder-wrap"></div>
     </div>
   </div>
-<% end %>

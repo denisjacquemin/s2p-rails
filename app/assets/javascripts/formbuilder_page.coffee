@@ -266,7 +266,6 @@ ready = () ->
       formData: $('#formdata').val()
     }).data('formBuilder')
     $(".edit_form_template, #message_update_form").submit (e) ->
-      $('*[required]').removeAttr('required')
       $('#formdata').val(formBuilder.formData)
     $("#setformdata").change (e) ->
       formBuilder.actions.setData(this.value)
