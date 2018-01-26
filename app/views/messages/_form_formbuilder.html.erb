@@ -19,6 +19,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12">
             <label>Formulaire</label>
+            <% @form_templates = FormTemplate.where(school_id: current_school.id) %>
             <% if @form_templates.any? %>
               &nbsp;|&nbsp;
               Modèle:
