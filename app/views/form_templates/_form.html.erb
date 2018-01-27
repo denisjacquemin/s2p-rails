@@ -3,7 +3,7 @@
       <%= render 'layouts/errors', object: form_template %>
     </div>
   </div>
-  <%= form_for(form_template) do |f| %>
+  <%= form_for(form_template, html: { class: 'edit_form_template'}) do |f| %>
     <%= f.hidden_field :formdata, id: 'formdata' %>
 
   <div class="row">
