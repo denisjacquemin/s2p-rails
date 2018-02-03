@@ -45,6 +45,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_record_query_trace (1.5.4)
     activejob (5.0.2)
       activesupport (= 5.0.2)
       globalid (>= 0.3.6)
@@ -305,6 +306,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_record_query_trace
   algoliasearch-rails
   animate-rails
   attachinary
@@ -357,5 +359,8 @@ DEPENDENCIES
   web-console (~> 3.0)
   wysiwyg-rails (>= 2.7.0)
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.11.2
+   1.16.0
