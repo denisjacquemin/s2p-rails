@@ -39,17 +39,19 @@ class MessageMailer < ApplicationMailer
     to.each do |email|
       emails_encrypt << Student.email_encrypt(email)
       # for current email gets all students to build the codes
-      students_containing_email_string = Student.where("emails LIKE ?", "%#{email}%").by_school(@message.school_id)
-      students = students_containing_email_string.select do |s|
-        emails = s.emails.split(' ').collect(&:strip);
-        emails.include?(email)
-      end
-
-      codes << students.map do |student|
-        "<li>#{student.fullname}: #{student.code}</li>"
-      end.join || ""
-
-
+      codes << get_students_code_by_email(email, @message.school_id).join
+      #
+      # students_emails = StudentEmails.where(email: email).pluck(:student_id)
+      #
+      # students_containing_email_string = Student.find(students_emails).by_school(@message.school_id)
+      # students = students_containing_email_string.select do |s|
+      #   emails = s.emails.split(' ').collect(&:strip);
+      #   emails.include?(email)
+      # end
+      #
+      # codes << students.map do |student|
+      #   "<li>#{student.fullname}: #{student.code}</li>"
+      # end.join || ""
     end
     # end
 
@@ -75,4 +77,18 @@ class MessageMailer < ApplicationMailer
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
   end
+
+  private
+    def get_students_code_by_email(email, school_id)
+      # for a given email, gets the corresponding students scoped to the school_id
+      # for each students, get the codes
+      students_ids = StudentEmail.where(email: email).pluck(:student_id)
+      students = Student.where(id: students_ids, school_id: school_id).pluck(:code, :firstname, :lastname)
+      codes_li_tags = []
+      students.each do |student|
+        codes_li_tags << "<li>#{student[1]} #{student[2]}: #{student[0]}</li>"
+      end
+      codes_li_tags = "" if codes_li_tags.empty?
+      codes_li_tags
+    end
 end
