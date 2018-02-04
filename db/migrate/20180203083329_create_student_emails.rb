@@ -6,6 +6,5 @@ class CreateStudentEmails < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index(:student_emails, :email)
   end
 end
