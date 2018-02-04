@@ -11,11 +11,11 @@ class Student < ApplicationRecord
     typoTolerance :false
   end
 
-  scope :by_email, ->(email) { where("emails LIKE ?", "%#{email}%") }
+  scope :by_email, ->(email) { joins(:student_emails).where('student_emails.email = ?', email) }
 
 
   def message_sent_by_email
-    self.sent_message_by_email and self.emails.present?
+    self.sent_message_by_email and self.student_emails.count > 0
   end
 
   def phones_count
@@ -32,6 +32,32 @@ class Student < ApplicationRecord
   belongs_to :school, required: false
   has_and_belongs_to_many :users
   has_many :phones, inverse_of: :student
+  has_many :student_emails
+
+  def emails
+    self.student_emails.pluck(:email).join(' ')
+  end
+
+  # def emails=(emails)
+  #   unless emails.nil?
+  #     submitted_emails = emails.split(' ')
+  #     emails_already_exist = self.student_emails.pluck(:email)
+  #     emails_to_create = submitted_emails - emails_already_exist
+  #     emails_to_delete = emails_already_exist - submitted_emails
+  #
+  #     unless emails_to_create.nil?
+  #       emails_to_create.each do |email|
+  #         StudentEmail.create(student_id: self.id, email: email)
+  #       end
+  #     end
+  #     unless emails_to_delete.nil?
+  #       emails_to_delete.each do |email|
+  #         StudentEmail.where(student_id: self.id, email: email).delete_all
+  #       end
+  #     end
+  #   end
+  # end
+
   accepts_nested_attributes_for :phones,
     :allow_destroy => true,
     :reject_if => proc { |att| att[:number].blank? }

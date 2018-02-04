@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118163248) do
+ActiveRecord::Schema.define(version: 20180203101329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,13 @@ ActiveRecord::Schema.define(version: 20180118163248) do
     t.boolean  "payconiq_enable",            default: false
   end
 
+  create_table "student_emails", force: :cascade do |t|
+    t.integer  "student_id"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "students", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
@@ -272,7 +279,7 @@ ActiveRecord::Schema.define(version: 20180118163248) do
     t.string   "classroom"
     t.string   "level"
     t.integer  "followers",             default: 0
-    t.string   "emails"
+    t.string   "emails_old"
     t.boolean  "sent_message_by_email", default: true
     t.uuid     "uuid"
     t.string   "winpage_matricule"
