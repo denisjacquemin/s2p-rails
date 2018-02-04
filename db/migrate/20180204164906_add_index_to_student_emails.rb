@@ -1,5 +1,5 @@
 class AddIndexToStudentEmails < ActiveRecord::Migration[5.0]
   def change
-    add_index :student_emails, :student_
+    add_index :student_emails, :student_id
   end
 end

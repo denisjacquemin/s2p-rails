@@ -7,7 +7,6 @@ class MigrateEmailsToStudentEmails < ActiveRecord::Migration[5.0]
           StudentEmail.create(email: email, student_id: student.id)
         end
       end
-    end
-    add_index :student_emails, :email 
+    end 
   end
 end
