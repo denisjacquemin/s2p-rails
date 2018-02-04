@@ -8,6 +8,6 @@ class MigrateEmailsToStudentEmails < ActiveRecord::Migration[5.0]
         end
       end
     end
-    add_index :student_emails, :email
+    add_index :student_emails, :email 
   end
 end
