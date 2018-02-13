@@ -1,7 +1,6 @@
 <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
   La liste des destinataires n'est plus modifiable une fois le message passé en statut <em>Publié</em>.
 </div>
-<% @current_school = current_school %>
 <div class="row groups" id="messages-groups-manager">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
       <div class="panel panel-default">
@@ -15,7 +14,7 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
 
-              <% groups = current_user.groups_by_school(@current_school.id) %>
+              <% groups = current_user.groups_by_school(current_school.id).pluck(:id, :name) %>
               <% if groups.present? %>
                 <input type="text" class="filter" data-table="#group_list" placeholder="Rechercher">
                 <div class="scroll-area">
@@ -23,20 +22,20 @@
                     <% groups.each do |group| %>
                       <tr>
                         <td class="nowrap">
-                          <%= check_box_tag "gr_#{group.id}", group.id, nil, disabled: (message.published? ? true : nil) %>
+                          <%= check_box_tag "gr_#{group[0]}", group[0], nil, disabled: (message.published? ? true : nil) %>
                         </td>
-                        <td class="groupname fullwidth"><label for="<%= "gr_#{group.id}" %>"><%= group.name %></label></td>
+                        <td class="groupname fullwidth"><label for="<%= "gr_#{group[0]}" %>"><%= group[1] %></label></td>
                       </tr>
                     <% end %>
                   </table>
                 </div>
               <% end %>
               <% if groups.empty? %>
-                <p><%= I18n.t('views.messages.groups_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+                <p><%= I18n.t('views.messages.groups_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
               <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
-              <% students = current_user.students_by_school(@current_school.id) %>
+              <% students = current_user.students_by_school(current_school.id).pluck(:id, :firstname, :lastname, :level, :classroom) %>
               <% if students.present? %>
                 <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
                 <div class="scroll-area">
@@ -45,11 +44,11 @@
                       <% students.each do |student| %>
                         <tr>
                           <td class="nowrap">
-                            <%= check_box_tag "cb_#{student.id}", student.id, nil, disabled: (message.published? ? true : nil) %>
+                            <%= check_box_tag "cb_#{student[0]}", student[0], nil, disabled: (message.published? ? true : nil) %>
                           </td>
-                          <td class="ctb studentfullname nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.fullname %></label></td>
-                          <td class="ctb studentfulllevel nowrap"><label for="<%= "cb_#{student.id}" %>"><%= student.level %></label></td>
-                          <td class="ctb studentclassroom fullwidth"><label for="<%= "cb_#{student.id}" %>"> <%= student.classroom %></label></td>
+                          <td class="ctb studentfullname nowrap"><label for="cb_<%= student[0]%>"><%= student[1] %> <%= student[2] %></label></td>
+                          <td class="ctb studentfulllevel nowrap"><label for="cb_<%= student[0]%>"><%= student[3] %></label></td>
+                          <td class="ctb studentclassroom fullwidth"><label for="cb_<%= student[0]%>"><%= student[4] %></label></td>
                         </tr>
                       <% end %>
                     </tbody>
@@ -57,7 +56,7 @@
                 </div>
               <% end %>
               <% if students.empty? %>
-                <p><%= I18n.t('views.messages.students_no_rights', admins: @current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+                <p><%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
               <% end %>
             </div>
           </div>

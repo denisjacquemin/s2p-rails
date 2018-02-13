@@ -1,10 +1,26 @@
 class MessageMailer < ApplicationMailer
   include Roadie::Rails::Automatic
 
-  def message_email(to, message, title, content)
+  def message_email(emails_data_to_process, message, title, content)
     @message = message
     @message.title = title
     @message.content = content
+
+    to = []
+    codes = []
+    emails_encrypt = []
+    emails_data_to_process.each do |email_to_process|
+
+      to.push(email_to_process[:email])
+      codes.push(email_to_process[:code])
+      emails_encrypt.push(email_to_process[:email_encrypted])
+    end
+
+    puts "######### to.size: #{to.size}"
+    puts "######### codes.size: #{codes.size}"
+    puts "######### emails_encrypt.size: #{emails_encrypt.size}"
+
+
 
     #attachments['konecto_logo.png'] = File.read(Rails.root.join("app","assets", "images","konecto_logo.png"))
     #attachments.inline[@message.mfiles[0].filename] = open('https:' + @message.mfiles[0].file_url) {|f| f.read }
@@ -26,8 +42,6 @@ class MessageMailer < ApplicationMailer
     x_smptapi_hash['to'] = to if to.kind_of?(Array) # if to argument is an array build 'to' X-SMTPAPI list
     x_smptapi_hash['to'] = [to] if to.kind_of?(String)
 
-    codes = []
-    emails_encrypt = []
     amount_to_pay = []
     # if content.include?('[code]')
       # "sub": {
@@ -36,24 +50,6 @@ class MessageMailer < ApplicationMailer
       #     "Jane"
       #   ]
       # }
-    to.each do |email|
-      emails_encrypt << Student.email_encrypt(email)
-      # for current email gets all students to build the codes
-      codes << get_students_code_by_email(email, @message.school_id).join
-      #
-      # students_emails = StudentEmails.where(email: email).pluck(:student_id)
-      #
-      # students_containing_email_string = Student.find(students_emails).by_school(@message.school_id)
-      # students = students_containing_email_string.select do |s|
-      #   emails = s.emails.split(' ').collect(&:strip);
-      #   emails.include?(email)
-      # end
-      #
-      # codes << students.map do |student|
-      #   "<li>#{student.fullname}: #{student.code}</li>"
-      # end.join || ""
-    end
-    # end
 
     x_smptapi_hash['sub'] = {}.tap do |my_hash|
       my_hash["[code]"] = codes unless codes.blank?
@@ -78,15 +74,17 @@ class MessageMailer < ApplicationMailer
     logger.info "message_email response: #{resp.inspect}"
   end
 
+  rescue_from(StandardError) do |exception|
+   logger.info "error raised in message_email: #{exception}"
+  end
+
   private
-    def get_students_code_by_email(email, school_id)
+    def get_students_code_by_email(students)
       # for a given email, gets the corresponding students scoped to the school_id
       # for each students, get the codes
-      students_ids = StudentEmail.where(email: email).pluck(:student_id)
-      students = Student.where(id: students_ids, school_id: school_id).pluck(:code, :firstname, :lastname)
       codes_li_tags = []
       students.each do |student|
-        codes_li_tags << "<li>#{student[1]} #{student[2]}: #{student[0]}</li>"
+        codes_li_tags << "<li>#{student.firstname} #{student.lastname}: #{student.code}</li>"
       end
       codes_li_tags = "" if codes_li_tags.empty?
       codes_li_tags

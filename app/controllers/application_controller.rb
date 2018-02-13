@@ -22,14 +22,12 @@ class ApplicationController < ActionController::Base
   def current_school
     if session[:current_school].nil?
       if current_user.superadmin?
-        s = School.first
-        session[:current_school] = s.id
-        return s
+        session[:current_school] ||= School.pluck(:id).first
       else
-        session[:current_school] ||= current_user.schools_obj[0].id
+        session[:current_school] ||= current_user.schools.first
       end
     end
-    School.find(session[:current_school])
+    @current_school ||= School.find(session[:current_school])
   end
 
   protected

@@ -1,4 +1,4 @@
-web: bundle exec puma -t 3:3 -p ${PORT:-3000} -e ${RACK_ENV:-development}
+web: bundle exec puma -C config/puma.rb
 rpush: bundle exec rpush start -e $RACK_ENV -f
 worker: rake jobs:work
 

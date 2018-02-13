@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
-  before_action :set_message, only: [:edit, :update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
+  before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
   # before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages
@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
     # @current_user = current_user
     @workflow_active = @current_school.validation_workflow_active
 
-    @latest_messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc).limit(12)
+    @latest_messages = policy_scope(Message).includes(:author).where(school_id: current_school.id).order(created_at: :desc).limit(12)
   end
 
   # GET /messages/1
@@ -60,12 +60,12 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
-    @mfile = Mfile.new
     authorize @message
   end
 
   # GET /messages/1/edit
   def edit
+    @message = Message.includes([:author, :school, :photo_files, :succeeded_payments, school: :accounts]).find(params[:id])
     authorize @message
   end
 
@@ -102,10 +102,8 @@ class MessagesController < ApplicationController
     @message.students = submitted_students_ids
 
     @message.author = current_user
+    @message.school_id = current_school.id
 
-    unless current_user.superadmin?
-      @message.school_id = current_school.id
-    end
 
     anchor = params[:active_tab][1..-1] unless params[:active_tab].nil?
     if @message.save

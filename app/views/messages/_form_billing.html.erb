@@ -64,7 +64,7 @@
               <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
                 <div class="form-group">
                   <%= f.label :account_id, 'Compte Bancaire' %>
-                  <% if @message.school.accounts.count > 1 %>
+                  <% if @message.school.accounts.size > 1 %>
                     <%= f.select :account_id, @message.school.accounts.collect {|a| [ a.name + ' ' + a.account_number, a.id ] }, {}, {class: 'form-control'} %>
                   <% else %>
                     <% account = @message.school.accounts.first %>
@@ -73,7 +73,7 @@
                       <br/><%= "#{account.name} #{account.account_number}" %>
                     <% end %>
                     <% if account.blank? %>
-                      <br/>Ajoutez un compte bancaire dans les paramètres de l'école ( Seul un administrateur peut effectuer cet ajout (<%= @current_school.admins.map {|u| u.fullname}.join(', ') %>))
+                      <br/>Ajoutez un compte bancaire dans les paramètres de l'école ( Seul un administrateur peut effectuer cet ajout (<%= message.school.admins.map {|u| u.fullname}.join(', ') %>))
                     <% end %>
                   <% end %>
                 </div>
@@ -120,7 +120,7 @@
         <% payments = Payment.where(message_id: @message.id, pq_status: 'SUCCEEDED').order('updated_at DESC') %>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <% if payments.blank? %>
+            <% if message.succeeded_payments.blank? %>
               <br/>
               <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
                 Apparaîtra à cet endroit la liste des paiement reçus via Payconiq.
@@ -140,7 +140,7 @@
                 </tr>
               </thead>
               <tbody>
-              <% payments.each do |payment| %>
+              <% message.succeeded_payments.each do |payment| %>
                 <tr>
                   <td><%= I18n.l(payment.updated_at.to_datetime().in_time_zone, format: :short) %></td>
                   <td><%= payment.students_names %></td>

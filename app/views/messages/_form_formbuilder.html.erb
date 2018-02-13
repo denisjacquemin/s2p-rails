@@ -19,12 +19,12 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12">
             <label>Formulaire</label>
-            <% @form_templates = FormTemplate.where(school_id: current_school.id) %>
+            <% @form_templates = FormTemplate.where(school_id: message.school.id).pluck(:id, :name) %>
             <% if @form_templates.any? %>
               &nbsp;|&nbsp;
               Modèle:
               <%= form_tag('/form_templates/loadformtemplate',  {id: 'load_form_template'}) do %>
-                <%= select_tag 'form_template_id', options_for_select(@form_templates.collect{ |ft| [ft.name, ft.id] }), include_blank: true %>
+                <%= select_tag 'form_template_id', options_for_select(@form_templates.collect{ |ft| [ft[1], ft[0]] }), include_blank: true %>
               <% end %>
             <% end %>
             <%= hidden_field_tag 'levels', @levels.to_json %>

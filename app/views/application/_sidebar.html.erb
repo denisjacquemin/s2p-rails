@@ -1,4 +1,4 @@
-<% @current_school = current_school if user_signed_in?%>
+<% @current_school = current_school if user_signed_in? %>
 <nav class="navbar navbar-default navbar-fixed-top bg-dark">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -32,8 +32,8 @@
                         <li><a class="this_school" data-school-id="<%= s.id %>" href="#"><%= s.name %></a></li>
                        <% end %>
                      <% else %>
-                       <% current_user.schools_obj.each do |s| %>
-                        <li><a class="this_school" data-school-id="<%= s.id %>" href="#"><%= s.name %></a></li>
+                       <% School.find(current_user.schools).pluck(:id, :name).each do |s| %>
+                        <li><a class="this_school" data-school-id="<%= s[0] %>" href="#"><%= s[1] %></a></li>
                        <% end %>
                      <% end %>
                    </ul>

@@ -11,7 +11,7 @@ class Student < ApplicationRecord
     typoTolerance :false
   end
 
-  scope :by_email, ->(email) { joins(:student_emails).where('student_emails.email = ?', email) }
+  scope :by_emails, ->(emails) { joins(:student_emails).where('student_emails.email': emails) }
 
 
   def message_sent_by_email
@@ -119,7 +119,14 @@ class Student < ApplicationRecord
     salt  = Rails.application.secrets.secret_key_base
     key   = ActiveSupport::KeyGenerator.new('password').generate_key(salt, 32) # => "\x89\xE0\x156\xAC..."
     crypt = ActiveSupport::MessageEncryptor.new(key)
-    crypt.encrypt_and_sign(email_to_encrypt)
+
+    if email_to_encrypt.is_a? Array
+      email_to_encrypt.map do |email|
+        crypt.encrypt_and_sign(email)
+      end
+    else
+      crypt.encrypt_and_sign(email_to_encrypt)
+    end
   end
 
   def self.email_decrypt(email_encrypted)

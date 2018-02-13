@@ -34,6 +34,9 @@ class Message < ApplicationRecord
   accepts_nested_attributes_for :billed_students
   belongs_to :account
 
+  has_many :succeeded_payments, -> { succeeded }, class_name: "Payment"
+
+
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_ids, ->(ids) { where(id: ids) }
 
@@ -140,8 +143,8 @@ class Message < ApplicationRecord
     if groups.present? or self.students.present?
       send_message_notifications(self) if self.send_to_app
 
-      students = Student.includes(:phones).by_groups(groups) unless groups.nil?
-      students = students + Student.includes(:phones).find(self.students) unless self.students.nil?
+      students = Student.includes([:phones, :student_emails]).by_groups(groups) unless groups.nil?
+      students = students + Student.includes([:phones, :student_emails]).find(self.students) unless self.students.nil?
       students = students.uniq
       # student_codes = students.map {|s| s.code }
       # codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
@@ -228,24 +231,87 @@ class Message < ApplicationRecord
   end
 
   def build_emails(students, message, title, content, writers_emails=[])
-    emails = students.collect { |s|
-      s.emails.split(' ') if (s.sent_message_by_email or message.skip_send_by_email) and !s.emails.nil?
-    }      # build an array of emails
+    # building emails required to build 3 arrays
+    # 1. emails
+    # 2. codes: for each email set the code (in li tags)
+    # 3. emails_encrypt: for each email encrypt the email
+    # for emails without code ei: admins and author set an empty string
+    emails_data = {}
 
-    emails.push(message.author_email) if message.author.send_email_to_author? and not message.author_email.blank?
-    message.admins_emails.each {|e| emails.push(e)} unless message.admins_emails.blank?
-    emails.push(writers_emails)
-
-
-    emails = emails.compact.flatten.uniq
-
-    unless emails.blank?
-      emailsChucked = emails.each_slice(300).to_a
-      emailsChucked.each do |list_of_emails|
-        MessageMailer.message_email(list_of_emails, message, title, content).deliver_later
+    students.each do |student|
+      if (student.sent_message_by_email or message.skip_send_by_email)
+        student.student_emails.each do |se|
+          emails_data = add_to_hash_and_merge_code(emails_data, se.email, "<li>#{student.firstname} #{student.lastname}: #{student.code}</li>")
+        end
       end
     end
 
+
+    # add author
+    if message.author.send_email_to_author? and not message.author_email.blank?
+      emails_data = add_to_hash_and_merge_code(emails_data, message.author_email, "")
+    end
+    # add admins
+    unless message.admins_emails.blank?
+      message.admins_emails.each { |email|
+        emails_data = add_to_hash_and_merge_code(emails_data, email, "")
+      }
+    end
+    # add writers (redacteurs)
+    unless writers_emails.blank?
+      writers_emails.each { |email|
+        emails_data = add_to_hash_and_merge_code(emails_data, email, "")
+      }
+    end
+
+    puts "######### emails_data.size: #{emails_data.size}"
+    unless emails_data.blank?
+      chunck_size = 100
+
+      index = 0
+      array_to_process = []
+      emails_data.each_value do |value|
+        array_to_process.push(value)
+        index= index+1
+        if index == chunck_size
+          index = 0
+          MessageMailer.message_email(array_to_process, message, title, content).deliver_later
+          array_to_process = []
+        end
+      end
+      # process latest if any
+      MessageMailer.message_email(array_to_process, message, title, content).deliver_later unless array_to_process.empty?
+
+      # emails_dataChucked = emails_data.each_slice(chuckSize).to_a
+      # index = 0
+      # array_to_process = []
+      # emails_dataChucked.each do |email_data|
+      #   array_to_process.push(email_data)
+      #   index++
+      #   if index == chunck_size
+      #     index = 0
+      #     MessageMailer.message_email(array_to_process, message, title, content).deliver_later
+      #     array_to_process = []
+      # end
+    end
+
+  end
+
+  def add_to_hash_and_merge_code(hash, email, codeTag)
+    code = ""
+    if hash[email].nil?
+      code = codeTag
+    else
+      already_existing_code = hash[email][:code]
+      code = "#{already_existing_code}#{codeTag}"
+    end
+
+    hash[email] = {
+      email: email,
+      code: code,
+      email_encrypted: Student.email_encrypt(email)
+    }
+    hash
   end
 
   def author_email

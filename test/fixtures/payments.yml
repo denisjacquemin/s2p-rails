@@ -2,12 +2,10 @@
 
 one:
   school_id: 1
-  uuid: 
+  uuid:
   status: 1
-  price_cents: 1
 
 two:
   school_id: 1
-  uuid: 
+  uuid:
   status: 1
-  price_cents: 1
