@@ -26,13 +26,16 @@ class StudentsController < ApplicationController
   # GET /students/new
   def new
     @student = Student.new
+    @student.phones.new
+    @student.student_emails.new
     authorize @student
   end
 
   # GET /students/1/edit
   def edit
     authorize @student
-    @student.phones.new if @student.phones.count == 0
+    @student.phones.new
+    @student.student_emails.new
   end
 
   # POST /students
@@ -52,7 +55,7 @@ class StudentsController < ApplicationController
     recordUniqueCount = 0
     begin
       @student.save
-      update_students_emails(@student, params[:student][:emails]) unless params[:student][:emails].empty?
+      # update_students_emails(@student, params[:student][:emails]) unless params[:student][:emails].empty?
     rescue ActiveRecord::RecordNotUnique => e
       recordUniqueCount = recordUniqueCount + 1
       @student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
@@ -72,8 +75,8 @@ class StudentsController < ApplicationController
 
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
+
     if @student.update(student_params)
-      update_students_emails(@student, params[:student][:emails])
       redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success')
     else
       render :edit
@@ -266,26 +269,8 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, phones_attributes: [:id, :number, :owner_name, :_destroy])
+      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, :emails, student_emails_attributes: [:id, :email, :_destroy], phones_attributes: [:id, :number, :owner_name, :_destroy])
     end
 
-    def update_students_emails(student, emails)
-        unless emails.nil?
-          submitted_emails = emails.split(' ')
-          emails_already_exist = student.student_emails.pluck(:email)
-          emails_to_create = submitted_emails - emails_already_exist
-          emails_to_delete = emails_already_exist - submitted_emails
 
-          unless emails_to_create.nil?
-            emails_to_create.each do |email|
-              StudentEmail.create(student_id: student.id, email: email)
-            end
-          end
-          unless emails_to_delete.nil?
-            emails_to_delete.each do |email|
-              StudentEmail.where(student_id: student.id, email: email).delete_all
-            end
-          end
-        end
-    end
 end
