@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   patch 'messages/update_formdata/:id', to: 'messages#update_formdata', as: 'messages_update_form'
   get 'm/:uuid/:emailencrypted', to: 'messages#show'
-  get 'm/:uuid', to: 'messages#show', as: "message_form"
+  get 'm/:uuid(:sid)', to: 'messages#show', as: "message_form"
   get 'p/:uuid', to: 'messages#show', as: "message_pay"
 
   post 'm/save_form', to: 'messages#save_form'
