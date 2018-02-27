@@ -32,7 +32,13 @@ class Student < ApplicationRecord
   belongs_to :school, required: false
   has_and_belongs_to_many :users
   has_many :phones, inverse_of: :student
-  has_many :student_emails
+  accepts_nested_attributes_for :phones,
+    :allow_destroy => true,
+    :reject_if => proc { |att| att[:number].blank? }
+  has_many :student_emails, inverse_of: :student, dependent: :delete_all
+  accepts_nested_attributes_for :student_emails,
+    :allow_destroy => true,
+    :reject_if => proc { |att| att[:email].blank? }
 
   def emails
     self.student_emails.pluck(:email).join(' ')
@@ -58,9 +64,7 @@ class Student < ApplicationRecord
   #   end
   # end
 
-  accepts_nested_attributes_for :phones,
-    :allow_destroy => true,
-    :reject_if => proc { |att| att[:number].blank? }
+
 
 
   default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
