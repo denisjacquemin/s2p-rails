@@ -2,6 +2,10 @@ class CreateStudentFromCsvJob < ApplicationJob
   include Code
   queue_as :default
 
+  rescue_from(Exception) do |exception|
+   logger "Exception in CreateStudentFromCsvJob: #{exception.inspect}"
+  end
+
   def perform(rows, school_id, user)
     logger.info "perform CreateStudentsFromCsvJob"
     i = 0
@@ -99,7 +103,10 @@ private
 
   def handle_simple_csv_student(data, school_id, user_id)
     number_of_collision = 0
+    emails = data.delete(:emails)
     student_data = data
+    student_data[:student_emails] = []
+    student_data[:student_emails] = buildEmailArray(emails) unless emails.nil?
     student_data['school_id'] = school_id
     if student_data[:code].nil?
       unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
@@ -114,6 +121,7 @@ private
             write_error_to_firebase(data, student.errors, school_id, user_id)
             #logger.info "student create fail for #{@student.firstname} #{@student.lastname} #{@student.errors}"
           end
+
         rescue ActiveRecord::RecordNotUnique => e
 
           #logger.info "CreateStudentFromCsvJob::Error::RecordNotUnique #{e.inspect}"
@@ -153,24 +161,23 @@ private
     student_data[:lastname] = data[:lastname]
     student_data[:level] = data[:level]
     student_data[:classroom] = [data[:firstname_classroom], data[:classroom]].join(' ').strip
-    student_data[:emails] = [data[:emails], data[:emails2]].uniq.join(' ').strip
+    emails = [data[:emails], data[:emails2]].uniq.join(' ').strip
     student_data[:winpage_matricule] = data[:winpage_matricule].to_s
 
-    phoneArray = buildPhoneArray(data)
-    student_data[:phones] = phoneArray
-
+    student_data[:phones] = buildPhoneArray(data)
+    student_data[:student_emails] = buildEmailArray(emails)
     # get already existing student for update
     student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
     if student.nil?
       # student not found based on winpage_matricule, try to find it by firstname and lastname
       student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
       if student.size == 1
-        update_student(student.first, student_data, user_id)
+        update_student(student.first, student_data, user_id, emails)
       elsif student.size > 1
         write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
       end
     else
-      update_student(student, student_data, user_id)
+      update_student(student, student_data, user_id, emails)
     end
 
     if student.blank?
@@ -198,9 +205,9 @@ private
     end
   end
 
-  def update_student(student, attributes, user_id)
+  def update_student(student, attributes, user_id, emails)
     begin
-      attributes[:emails] = merge_new_and_old_emails(student.emails, attributes[:emails])
+      attributes[:student_emails] = merge_new_and_old_emails(student.student_emails, attributes[:student_emails])
       attributes[:phones] = merge_new_and_old_phones(student.phones, attributes[:phones])
       if student.update_attributes(attributes)
         logger.info "student #{student.firstname} #{student.lastname} updated"
@@ -214,19 +221,34 @@ private
   end
 
   def merge_new_and_old_emails(old_emails, new_emails)
-    return "" if old_emails.blank? and new_emails.blank?
-    return old_emails if new_emails.blank?
-    return new_emails if old_emails.blank?
 
-    oldEmails = old_emails.split(' ')
-    newEmails = new_emails.split(' ')
-    mergedEmails = oldEmails + newEmails
-    mergedEmails.uniq.join(' ').strip
+    return nil if old_emails.nil? and new_emails.nil?
+    return old_emails if new_emails.nil?
+    return new_emails if old_emails.nil?
+
+    # keep old_mail if present in new_emails
+    newEmailsArray = new_emails.pluck(:email)
+    mergedEmails = old_emails.select { |old_email|
+      newEmailsArray.include?(old_email.email)
+    }
+    # add new_email only present in new_emails
+    oldEmailsArray = old_emails.pluck(:email)
+    mergedEmails << new_emails.select { |new_email|
+      not oldEmailsArray.include?(new_email.email)
+    }
+
+    return mergedEmails.flatten.compact.uniq{|p| p.email }
   end
 
   def buildArrayOfPhone(numbers)
     numbers.map do |number|
       Phone.new number: number
+    end
+  end
+
+  def buildArrayOfStudentEmail(emails)
+    emails.map do |email|
+      StudentEmail.new email: email
     end
   end
 
@@ -237,7 +259,6 @@ private
 
     mergedPhones = old_phones + new_phones
     return mergedPhones.flatten.compact.uniq{|p| p.number }
-
   end
 
   def buildPhoneArray(data)
@@ -253,5 +274,9 @@ private
     numbers = [phone1, phone2, phone3, phone4].flatten.uniq.compact
     return buildArrayOfPhone(numbers)
 
+  end
+
+  def buildEmailArray(emails)
+    return buildArrayOfStudentEmail(emails.split(' '))
   end
 end
