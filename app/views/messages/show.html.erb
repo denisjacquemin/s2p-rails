@@ -17,7 +17,7 @@
                     <% unless @message.author.function.nil? %><%= @message.author.function %><br><% end %>
                     <% unless @message.school.address.nil? %><%= @message.school.address %><br><% end %>
                     <% unless @message.school.phone.nil? %><%= @message.school.phone %><br><% end %>
-                    <% unless @message.author.email.nil? %><a href="mailto:<%= @message.author.email %>"><%= @message.author.email %></a><br><% end %>
+                    <% if @message.author.display_email_address and not @message.author.email_reply_to.nil? %><a href="mailto:<%= @message.author.email_reply_to %>"><%= @message.author.email_reply_to %></a><br><% end %>
                     <% unless @message.school.url.nil? %><a href="<%= @message.school.url %>" target="_blank"><%= @message.school.url %></a><br><% end %>
                   </td>
                 </tr>
