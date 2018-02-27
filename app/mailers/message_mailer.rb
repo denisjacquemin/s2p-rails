@@ -9,18 +9,17 @@ class MessageMailer < ApplicationMailer
     to = []
     codes = []
     emails_encrypt = []
+    studentids = []
     emails_data_to_process.each do |email_to_process|
-
       to.push(email_to_process[:email])
       codes.push(email_to_process[:code])
       emails_encrypt.push(email_to_process[:email_encrypted])
+      studentids.push(email_to_process[:student_id])
     end
 
     puts "######### to.size: #{to.size}"
     puts "######### codes.size: #{codes.size}"
     puts "######### emails_encrypt.size: #{emails_encrypt.size}"
-
-
 
     #attachments['konecto_logo.png'] = File.read(Rails.root.join("app","assets", "images","konecto_logo.png"))
     #attachments.inline[@message.mfiles[0].filename] = open('https:' + @message.mfiles[0].file_url) {|f| f.read }
@@ -76,6 +75,7 @@ class MessageMailer < ApplicationMailer
 
   rescue_from(StandardError) do |exception|
    logger.info "error raised in message_email: #{exception}"
+   logger.info exception.backtrace
   end
 
   private
