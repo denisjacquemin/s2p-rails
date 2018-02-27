@@ -1,21 +1,17 @@
 <div class="row">
-  <div class="form-group">
-    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-     <%= f.label :owner_name, 'Nom prénom' %><br/>
-     <%= f.text_field :owner_name, class: 'form-control' %>
-   </div>
-   <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-     <%= f.label :number, 'Téléphone' %><br/>
-     <input type="tel" class="intlphonenumber form-control">
-     <%= f.hidden_field :number, class: 'form-control' %>
-   </div>
-   <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-     <label></label>
-     <%= link_to "Supprimer téléphone", '#', class: "remove_fields btn btn-danger btn-sm" %>
-     <%= f.hidden_field '_destroy' %>
-   </div>
-   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-     <span id="helpBlock" class="help-block">Numéro de téléphone auquel sera envoyé les messages SMS.</span>
-   </div>
- </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="tel" class="intlphonenumber form-control">
+        <%= f.hidden_field :number, class: 'form-control' %>
+        <div class="input-group-btn">
+          <a class="btn btn-default remove_fields">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a>
+          <%= f.hidden_field '_destroy' %>
+        </div>
+      </div>
+      <span id="helpBlock" class="help-block">Numéro de téléphone auquel sera envoyé les messages SMS.</span>
+    </div>
+  </div>
 </div>
