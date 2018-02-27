@@ -141,11 +141,15 @@ class Message < ApplicationRecord
   def handle_publish
     groups = self.groups
     if groups.present? or self.students.present?
-      send_message_notifications(self) if self.send_to_app
 
-      students = Student.includes([:phones, :student_emails]).by_groups(groups) unless groups.nil?
-      students = students + Student.includes([:phones, :student_emails]).find(self.students) unless self.students.nil?
-      students = students.uniq
+      send_message_notifications(self) if self.send_to_app
+      # students = Student.includes([:phones, :student_emails]).by_groups(groups) unless groups.nil?
+      #
+      # students = students + Student.includes([:phones, :student_emails]).find(self.students) unless self.students.nil?
+      #
+      # students = students.uniq
+
+
       # student_codes = students.map {|s| s.code }
       # codes = (student_codes +  Group.find(groups).pluck(:code)).flatten
       #
@@ -156,10 +160,12 @@ class Message < ApplicationRecord
 
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
+
+      student_ids = build_student_ids(groups, self.students)
       if self.send_by_sms and self.school.has_sms_provision?
         logger.info "send_by_sms: #{students.inspect}"
-        phones = students.select {|s|  s.phones.present?}.map {|s| s.phones.select(:id, :number)}.flatten.compact.uniq
-
+        # phones = students.select {|s|  s.phones.present?}.map {|s| s.phones.select(:id, :number)}.flatten.compact.uniq
+        phones = Student.joins(:phones).where(id: student_ids).pluck( :id, :"phones.number")
         phones.each_slice(40) {|a| SendSmsJob.perform_later(self, a)}
       end
 
@@ -168,9 +174,15 @@ class Message < ApplicationRecord
       if groups.include?(Group.where(internal_id: 'all_writers', school_id: self.school_id).pluck(:id).first)
         writers_emails = User.by_school(self.school_id).no_superadmin.active.pluck(:email)
       end
-
-      build_emails(students, self, self.title, self.content, writers_emails) if self.send_by_email and (students.present? or writers_emails.present?)
+      build_emails(student_ids, self, self.title, self.content, writers_emails) if self.send_by_email and (student_ids.present? or writers_emails.present?)
     end
+  end
+
+  def build_student_ids(groups, student_ids)
+    ids = []
+    ids = student_ids if student_ids.present?
+    ids = ids + Student.by_groups(groups).pluck(:id) if groups.present?
+    ids.uniq
   end
 
   def handle_draft
@@ -229,8 +241,7 @@ class Message < ApplicationRecord
     # }
     # send_android_notifications(alert, devicesAndroid, dataAndroid) unless devicesAndroid.nil?
   end
-
-  def build_emails(students, message, title, content, writers_emails=[])
+  def build_emails(student_ids, message, title, content, writers_emails=[])
     # building emails required to build 3 arrays
     # 1. emails
     # 2. codes: for each email set the code (in li tags)
@@ -238,33 +249,31 @@ class Message < ApplicationRecord
     # for emails without code ei: admins and author set an empty string
     emails_data = {}
 
+    students = Student.joins(:student_emails).where(id: student_ids).pluck( :sent_message_by_email, :firstname, :lastname, :code, :"student_emails.email", :id)
+
     students.each do |student|
-      if (student.sent_message_by_email or message.skip_send_by_email)
-        student.student_emails.each do |se|
-          emails_data = add_to_hash_and_merge_code(emails_data, se.email, "<li>#{student.firstname} #{student.lastname}: #{student.code}</li>")
-        end
+      if (student[0] or message.skip_send_by_email)
+        emails_data = add_to_hash_and_merge_code(emails_data, student[4], "<li>#{student[1]} #{student[2]}: #{student[3]}</li>", student[5])
       end
     end
 
-
     # add author
     if message.author.send_email_to_author? and not message.author_email.blank?
-      emails_data = add_to_hash_and_merge_code(emails_data, message.author_email, "")
+      emails_data = add_to_hash_and_merge_code(emails_data, message.author_email)
     end
     # add admins
     unless message.admins_emails.blank?
       message.admins_emails.each { |email|
-        emails_data = add_to_hash_and_merge_code(emails_data, email, "")
+        emails_data = add_to_hash_and_merge_code(emails_data, email)
       }
     end
     # add writers (redacteurs)
     unless writers_emails.blank?
       writers_emails.each { |email|
-        emails_data = add_to_hash_and_merge_code(emails_data, email, "")
+        emails_data = add_to_hash_and_merge_code(emails_data, email)
       }
     end
 
-    puts "######### emails_data.size: #{emails_data.size}"
     unless emails_data.blank?
       chunck_size = 100
 
@@ -297,19 +306,16 @@ class Message < ApplicationRecord
 
   end
 
-  def add_to_hash_and_merge_code(hash, email, codeTag)
-    code = ""
-    if hash[email].nil?
-      code = codeTag
-    else
-      already_existing_code = hash[email][:code]
-      code = "#{already_existing_code}#{codeTag}"
-    end
+  def add_to_hash_and_merge_code(hash, email, codeTag="", student_id="")
+
+    code = codeTag
+    code = "#{hash[email][:code]}#{codeTag}" if hash.key?(email)
 
     hash[email] = {
       email: email,
-      code: code,
-      email_encrypted: Student.email_encrypt(email)
+      email_encrypted: "ed", #Student.email_encrypt(email)
+      student_id: student_id,
+      code: code
     }
     hash
   end
