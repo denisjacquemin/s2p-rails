@@ -44,10 +44,10 @@ private
       api = CALLR::Api.new(ENV["CALLR_LOGIN"], ENV["CALLR_PASSWORD"])
       nbr_sms_sent = 0
       phones.each do |phone|
-        optionSMS = { :nature => 'ALERTING', :force_encoding => 'GSM', :user_data => "mid#{message.id}AAsid#{message.school_id}AApid#{phone.id}" }
+        optionSMS = { :nature => 'ALERTING', :force_encoding => 'GSM', :user_data => "mid#{message.id}AAsid#{message.school_id}AApid#{phone[0]}" }
         puts "[SMS] CALLR optionSMS: #{optionSMS.inspect}"
         begin
-          if api.call('sms.send', 'SMS', phone.number, message.title, optionSMS)
+          if api.call('sms.send', 'SMS', phone[1], message.title, optionSMS)
             nbr_sms_sent = nbr_sms_sent + 1
           end
         rescue CALLR::CallrException, CALLR::CallrLocalException => e
