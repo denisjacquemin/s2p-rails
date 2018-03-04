@@ -60,11 +60,11 @@ class UsersController < ApplicationController
 
     # check if submited groups are not yet in db
     submitted_schools_to_add = submitted_schools_ids.select { |s| !actual_schools_ids.include?(s.to_i) }
-    @user.schools = @user.schools + @user.schools + submitted_schools_to_add.map(&:to_i) if submitted_schools_to_add.any?
+    @user.schools = @user.schools + submitted_schools_to_add.map(&:to_i) if submitted_schools_to_add.any?
     #User.add_schools(@user.id, ) if submitted_schools_to_add.any?
     @user.schools = @user.schools - actual_schools_to_delete.map(&:to_i) if actual_schools_to_delete.any?
     #User.remove_schools(@user.id, actual_schools_to_delete) if actual_schools_to_delete.any?
-
+    byebug
     #@user.set_all_writers
 
 
