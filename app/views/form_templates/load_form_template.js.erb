@@ -1,3 +1,8 @@
-var formData = `<%= @form_template.formdata.html_safe %>`;
+//# sourceURL=dynamicScript.js
+function jsonClean(str)  {
+    return str.replace(/\n/g, "").replace(/\r/g, "").replace(/\t/g, "");
+}
 
-$('#setformdata').val(formData).trigger('change')
+var formData = `<%= raw @form_template.formdata %>`;
+
+$('#setformdata').val(jsonClean(formData)).trigger('change');
