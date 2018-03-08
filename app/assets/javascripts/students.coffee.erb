@@ -65,7 +65,7 @@ ready = () ->
 
     $('.intlphonenumber').intlTelInput(
         separateDialCode: true
-        preferredCountries: ["be", "fr", "lu", "nl"]
+        preferredCountries: ["be", "ma", "fr", "lu", "nl"]
         autoPlaceholder: 'off'
     )
     for intlphonenumber in $('.intlphonenumber')
@@ -88,7 +88,7 @@ ready = () ->
     $(this).before(elem)
     elem.find('.intlphonenumber').intlTelInput(
         separateDialCode: true
-        preferredCountries: ["be", "fr", "lu", "nl"]
+        preferredCountries: ["be", "ma", "fr", "lu", "nl"]
         autoPlaceholder: 'off'
     )
     event.preventDefault()
