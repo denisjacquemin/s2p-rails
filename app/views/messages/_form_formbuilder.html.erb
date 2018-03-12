@@ -68,7 +68,7 @@
                       }
                       row[label] = value;
                     } else {
-                      row[label] = [row[label], data['value']].join(", ")
+                      row[label] = [row[data['label']], data['value']].join(", ")
                     }
                   });
                   rows.push(row);
