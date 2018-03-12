@@ -1,0 +1,71 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'list_guides' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="proeco">Importer les élèves depuis ProEco</h2>
+    <p>Les utilisateurs de ProEco peuvent utiliser la procédure ci-dessous pour créer un fichier CSV contenant la liste des élèves.</p>
+    <ol>
+      <li>Création d'un fichier excel (.CSV) contenant la liste des élèves</li>
+      <li>Importer le fichier .CSV dans Konecto App</li>
+    </ol>
+    <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        1.1 Dans ProEco, naviguez dans le menu <em>Elèves</em> et sélectionner les élèves à exporter.
+        <br/><br/>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/proeco1.JPG"), class: "img-responsive img-thumbnail" %>
+        <br/><br/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        1.2 Cliquez sur le menu <em>Liste</em>.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/proeco2.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <br/><br/>
+        1.3 La fenêtre de sélection des champs s'ouvre, faites passer les informations suivantes dans la liste <em>Champs sélectionnés</em>.
+        <ul>
+          <li>Administratif > Matricule informatique (Matric Info)</li>
+          <li>Administratif > Nom de l'élève (Nom Elève)</li>
+          <li>Administratif > Prénom de l'élève (Prénom Elève)</li>
+          <li>Père > GSM du père (GSM Père)</li>
+          <li>Père > EMail du père (EMail Père)</li>
+          <li>Mère > GSM de la mère (GSM Mère)</li>
+          <li>Mère > EMail de la mère (EMail Mère)</li>
+          <li>Localisation > Année</li>
+          <li>Localisation > Classe</li>
+        </ul>
+        Cliquez ensuite sur le bouton <em>Exporte</em> dans le bas de la fenêtre.
+        <br><br>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/proeco4.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <br><br>
+        1.4 Paramétrez l'exportation comme décrit ci-dessous:
+        <ul>
+          <li>Choisissez le <em>; (point virgule)</em> dans le champ <em>Sep</em>.</li>
+          <li>Sélectionnez <em>texte CSV</em></li>
+          <li>Cochez <em>Avec Titres</em></li>
+        </ul>
+        Ensuite cliquez sur <em>Ok</em> pour créer le fichier.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        <%= image_tag asset_path("faq/proeco5.JPG"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <%= render 'import_csv_file' %>
+  </div>
+
+</div>
