@@ -58,7 +58,7 @@
                      }
                     }
                     label = label.trim()
-                    label = label.replace(/\.*$/,"")
+                    label = label.replace(/\.*/g,"")
                     label = label.trim()
                     headers.push(label);
                     if (row[label] == undefined) {
