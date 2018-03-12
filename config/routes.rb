@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get 'help/whatsnew', to: 'faq#whatsnew'
   get 'help/import_winpage', to: 'faq#import_winpage'
   get 'help/export_winpage', to: 'faq#export_winpage'
+  get 'help/export_proeco', to: 'faq#export_proeco'
   get 'help/message_sms', to: 'faq#message_sms'
   get 'help/update_students', to: 'faq#update_students'
   get 'help/delete_students', to: 'faq#delete_students'
