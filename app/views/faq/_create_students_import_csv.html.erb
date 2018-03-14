@@ -1,27 +1,47 @@
 <p>Pour faciliter l'importation de la liste des élèves il est conseillé de passer par un fichier de type Excel (CSV).<br/>L'alternative consiste à les créer un par un grâce au formulaire Nouvel élève.</p>
 <blockquote>Un fichier CSV est un type de fichier très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de fichier est Microsoft Excel.</blockquote>
 <p>Pour démarrer, constituez un ficher d'importation dans Excel.</p>
-<p>Si vous utilisez Winpage (<a href="http://www.cecp.be/" target="_blank">CECP</a>) <a href="/help/export_winpage">exportez directement les élèves en suivant cette procédure</a>, sinon remplissez le fichier d'exemple (<%= link_to 'eleves.csv', '/eleves.csv' %>) reprenant les colonnes suivantes</p>
 <div class="row">
-  <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-    <ol>
-      <li>Prenom</li>
-      <li>Nom</li>
-      <li>Emails</li>
-      <li>Annee</li>
-      <li>Titulaire</li>
-    </ol>
-    <dl>
-      <dt>Colonne <i>Emails</i></dt>
-      <dd>Contient la liste des emails des parents séparés par un espace.</dd>
-      <dt>Colonnes <i>Annee</i> et <i>Titulaire</i></dt>
-      <dd>Ces 2 colonnes vous aideront plus tard à communiquer vers les parents d'élèves. A chaque année et titulaire correspondra un groupe de diffusion.</dd>
-    </dl>
+  <div class="col-xs-4">
+      <div class="thumbnail">
+        <%= image_tag asset_path("faq/winpage_logo.png") %>
+        <div class="caption">
+          <h3>Win Page</h3>
+          <p>Si vous utilisez Winpage, suivez ce guide pour importer vos élèves</p>
+          <p><a href="/help/export_winpage" class="btn btn-primary" role="button">Guide Winpage</a></p>
+        </div>
+      </div>
+
   </div>
-  <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-    <blockquote>
-      Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %>
-      <%= image_tag asset_path("faq/eleves_csv.png"), class: "img-responsive img-thumbnail" %>
-    </blockquote>
+  <div class="col-xs-4">
+      <div class="thumbnail" height="150px">
+        <%= image_tag asset_path("faq/proeco_logo.png") %>
+        <div class="caption">
+          <h3>Pro Eco</h3>
+          <p>Si vous utilisez ProEco, suivez ce guide pour importer vos élèves</p>
+          <p><a href="/help/export_proeco" class="btn btn-primary" role="button">Guide ProEco</a></p>
+        </div>
+      </div>
+  </div>
+<!--
+  <div class="col-xs-4">
+      <div class="thumbnail" height="150px">
+        <%= image_tag asset_path("faq/creos.png") %>
+        <div class="caption">
+          <h3>Creos</h3>
+          <p>Si vous utilisez Creos, suivez ce guide pour importer vos élèves</p>
+          <p><a href="/help/export_creos" class="btn btn-primary" role="button">Guide Creos</a></p>
+        </div>
+      </div>
+  </div>
+-->
+  <div class="col-xs-4">
+      <div class="thumbnail" height="150px">
+        <div class="caption">
+          <h3>Excel manuel</h3>
+          <p>Si vous n'utilisez ni ProEco, ni Winpage, ni Creos, suivez ce guide pour importer vos élèves</p>
+          <p><a href="/help/import_excel" class="btn btn-primary" role="button">Guide Import Excel</a></p>
+        </div>
+      </div>
   </div>
 </div>

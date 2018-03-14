@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204164906) do
+ActiveRecord::Schema.define(version: 20180310082529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 20180204164906) do
     t.boolean  "sent_message_by_email", default: true
     t.uuid     "uuid"
     t.string   "winpage_matricule"
+    t.string   "proeco_id"
     t.index ["code"], name: "index_students_on_code", unique: true, using: :btree
   end
 

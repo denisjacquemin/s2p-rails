@@ -166,7 +166,7 @@ class StudentsController < ApplicationController
           :col_sep => col_sep,
           :strip_chars_from_headers => /[\-"]/,
           :quote_char => '"',
-          :chunk_size => 1000,
+          :chunk_size => 100,
           :key_mapping => {
             :prenom => :firstname,
             :nom => :lastname,
@@ -175,7 +175,7 @@ class StudentsController < ApplicationController
             :annee => :level,
             :titulaire => :classroom,
             :code => :code,
-            # keys from WinPage
+            # keys from WinPage ou Creos
             "classe_(libellé)".to_sym  => :level,
             "prénom".to_sym  => :firstname,
             :nom_du_titulaire => :classroom,
@@ -186,7 +186,19 @@ class StudentsController < ApplicationController
             "téléphone_1".to_sym => :phone1,
             "téléphone_2".to_sym => :phone2,
             "téléphone_3".to_sym => :phone3,
-            "gsm".to_sym => :phone4
+            "gsm".to_sym => :phone4,
+            "Implantation".to_sym => :implantation,
+            # :classe => :level2,
+            # keys from ProEco
+            :matric_info => :proeco_id,
+            :nom_elève => :lastname,
+            :prénom_elève => :firstname,
+            :gsm_père => :phone1,
+            :gsm_mère => :phone2,
+            :année => :level1,
+            :classe => :level2,
+            :email_père => :email1,
+            :email_mère => :email3,
           },
           :remove_unmapped_keys => true,
           :value_converters => {
@@ -194,11 +206,11 @@ class StudentsController < ApplicationController
           },
           :file_encoding => encoding #detection[:encoding]
         }
-        # content = File.read(params[:csv].tempfile.path)
+        content = File.read(params[:csv].tempfile.path)
         # detection = CharlockHolmes::EncodingDetector.detect(content)
         # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
-
         current_school_id = current_school.id
+
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
           CreateStudentFromCsvJob.perform_later(r, current_school.id, current_user)
 

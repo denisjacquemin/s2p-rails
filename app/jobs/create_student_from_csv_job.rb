@@ -12,10 +12,12 @@ class CreateStudentFromCsvJob < ApplicationJob
     puts "rows #{rows.size}"
     rows.each do |data|
       puts "row #{i}: #{data[:winpage_matricule]}"
-      if data[:winpage_matricule].nil?
-        handle_simple_csv_student(data, school_id, user.id)
-      else
+      if data[:winpage_matricule].present?
         handle_winpage_student(data, school_id, user.id)
+      elsif data[:proeco_id].present?
+        handle_proeco_student(data, school_id, user.id)
+      else
+        handle_simple_csv_student(data, school_id, user.id)
       end
       i = i+1
     end
@@ -102,7 +104,6 @@ private
   end
 
   def handle_simple_csv_student(data, school_id, user_id)
-    number_of_collision = 0
     emails = data.delete(:emails)
     student_data = data
     student_data[:student_emails] = []
@@ -152,6 +153,40 @@ private
     end
   end
 
+  def handle_proeco_student(data, school_id, user_id)
+    student_data = {}
+    student_data[:proeco_id] = data[:proeco_id].to_s
+    student_data[:school_id] = school_id
+    student_data[:firstname] = data[:firstname]
+    student_data[:lastname] = data[:lastname]
+    student_data[:level] = "#{data[:level1]}#{data[:level2]}"
+    emails = [data[:email1], data[:email2], data[:email3], data[:email4]].uniq.join(' ').strip
+    student_data[:student_emails] = buildEmailArray(emails)
+    student_data[:phones] = buildPhoneArray(data)
+
+
+    # get already existing student for update
+    student = Student.where('proeco_id = ? and school_id = ?', student_data[:proeco_id].to_s, student_data[:school_id]).first
+
+    if student.nil?
+      # student not found based on proeco_id, try to find it by firstname and lastname
+      student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+      if student.size == 1
+        update_student(student.first, student_data, user_id, emails)
+      elsif student.size > 1
+        write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+      end
+    else
+      update_student(student, student_data, user_id, emails)
+    end
+
+    if student.blank?
+      # student don't exists yet, create a brand new one
+      create_new_student(student_data, school_id)
+    end
+
+  end
+
   def handle_winpage_student(data, school_id, user_id)
     number_of_collision = 0
 
@@ -181,27 +216,32 @@ private
     end
 
     if student.blank?
+      create_new_student(student_data, school_id)
       # student don't exists yet, create a brand new one
-      new_student = Student.new student_data
-      student_key = shake_name(new_student.firstname,new_student.lastname).join
-      hash = compute_code(school_id, student_key)
-      new_student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
-      recordUniqueCount = 0
-      begin
-        unless new_student.save
-          write_error_to_firebase(data, new_student.errors, school_id, user_id)
-        end
-      rescue ActiveRecord::RecordNotUnique => e
-        number_of_collision = number_of_collision + 1
-        recordUniqueCount = recordUniqueCount + 1
-        logger.debug "[collision]: #{new_student.code} for [#{student_key}] #{hash[1]}"
-        #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
-        new_student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
-        retry
-      rescue Exception => e
-        logger.info "CreateStudentFromCsvWinpageJob::Error #{e.inspect}"
-        retry
+    end
+  end
+
+  def create_new_student(data, school_id)
+    number_of_collision = 0
+    new_student = Student.new data
+    student_key = shake_name(new_student.firstname,new_student.lastname).join
+    hash = compute_code(school_id, student_key)
+    new_student.code = 's' + hash[0] + hash[1].last(4 + student_key.length % 3)
+    recordUniqueCount = 0
+    begin
+      unless new_student.save
+        write_error_to_firebase(data, new_student.errors, school_id, user_id)
       end
+    rescue ActiveRecord::RecordNotUnique => e
+      number_of_collision = number_of_collision + 1
+      recordUniqueCount = recordUniqueCount + 1
+      logger.debug "[collision]: #{new_student.code} for [#{student_key}] #{hash[1]}"
+      #key = "#{rand(999999)}#{@student.school_id}#{@student.firstname}#{@student.lastname}"
+      new_student.code = 's' + hash[0] + hash[1].last(4 + recordUniqueCount + student_key.length % 3)
+      retry
+    rescue Exception => e
+      logger.info "CreateStudentFromCsvWinpageJob::Error #{e.inspect}"
+      retry
     end
   end
 
