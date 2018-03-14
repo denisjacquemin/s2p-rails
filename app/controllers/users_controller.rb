@@ -64,7 +64,6 @@ class UsersController < ApplicationController
     #User.add_schools(@user.id, ) if submitted_schools_to_add.any?
     @user.schools = @user.schools - actual_schools_to_delete.map(&:to_i) if actual_schools_to_delete.any?
     #User.remove_schools(@user.id, actual_schools_to_delete) if actual_schools_to_delete.any?
-    byebug
     #@user.set_all_writers
 
 
