@@ -19,6 +19,11 @@
   <% end %>
 <% end %>
 
+<% if @message.author.display_email_address and @message.author.reply_to %>
+  PS: Pour répondre à cet E-mail utilisez l'adresse <%= @message.author.reply_to %>.
+<% else %>
+  PS: Ne répondez pas à cet E-mail, votre réponse n'aboutirait nulle part.
+<% end %>
 --
 <% unless @message.author.fullname.nil? %><%= strip_tags @message.author.fullname %><% end %>
 <% unless @message.school.name.nil? %><%= strip_tags @message.school.name %><% end %>

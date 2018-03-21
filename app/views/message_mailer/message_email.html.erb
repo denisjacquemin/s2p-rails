@@ -167,6 +167,12 @@ fieldset[disabled] .btn.active {
 
 <br>
 <br>
+<% if @message.author.display_email_address and @message.author.reply_to %>
+  <p>PS: Pour répondre à cet E-mail utilisez l'adresse <a href="mailto:<%= @message.author.reply_to %>?subject=Re: <%= @message.title %>"><%= @message.author.reply_to %></a>.</p>
+<% else %>
+  <p>PS: Ne répondez pas à cet E-mail, votre réponse n'aboutirait nulle part.</p>
+<% end %>
+
 <hr>
 <table>
   <tbody>
