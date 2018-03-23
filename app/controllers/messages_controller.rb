@@ -49,12 +49,21 @@ class MessagesController < ApplicationController
 
   def save_form
     j = JSON.parse params[:message_form_formdata]
+
+
     j.prepend({label: 'horodateur', value: I18n.l(Time.now.to_datetime().in_time_zone, format: :short)})
     @form = Form.new(muuid: params[:muuid], formdata: JSON.generate(j))
 
     @form.save
 
-    render layout: "show"
+    # if params[:s] is present, send email confirmation to each email corresponding to that :s student id
+    if params[:s].present?
+      student_id = params[:s]
+      emails = StudentEmail.where(student_id: student_id).pluck(:email)
+      if emails.any?
+        ConfirmFormSubmittedMailer.send_confirmation(emails, @form.id).deliver_later
+      end
+    end
   end
 
   # GET /messages/new

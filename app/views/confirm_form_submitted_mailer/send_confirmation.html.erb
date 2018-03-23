@@ -1,0 +1,16 @@
+<p>Votre réponse a bien été envoyée</p>
+<p>Voici un recapitulatif de vos réponses</p>
+<%
+  obj = JSON.parse(@form.formdata)
+%>
+<ul>
+<%
+  obj.each do |question|
+%>
+    <li><%= question["label"] %>:  <%= question["value"] %></li>
+<%
+  end
+%>
+</ul>
+
+<p>PS: Ceci est un E-mail envoyé automatiquement.</p>

@@ -22,13 +22,15 @@ ready = () ->
         $('input[required], textarea[required], select[required]').removeAttr('required').removeAttr('aria-required')
   })
 
+  $('#s').val(getParameterByName('s'))
+
   $('#message_form').submit (e) ->
     checkRequiredFields()
     if $('.missingfield').length > 0
       e.preventDefault()
       return false
     else
-      serializedForm = $('input, textarea, select', this).not( "[name='utf8']").not("[name='formdata']").not( "[name='authenticity_token']").not( "#message_form_formdata").not( "[name='muuid']").not('.btn').serializeArray()
+      serializedForm = $('input, textarea, select', this).not("#s").not( "[name='utf8']").not("[name='formdata']").not( "[name='authenticity_token']").not( "#message_form_formdata").not( "[name='muuid']").not('.btn').serializeArray()
 
       serializedWithLabel = []
       $.each(serializedForm, (index, data) ->
@@ -39,6 +41,16 @@ ready = () ->
           serializedWithLabel.push(elem)
       )
       $('#message_form_formdata').val(JSON.stringify(serializedWithLabel))
+      valuesToSubmit = $(this).serialize()
+      $.ajax(
+        type: 'POST'
+        url: $(this).attr('action')
+        data: valuesToSubmit
+        dataType: 'script')
+
+      return false
+
+
 
 
 checkRequiredFields = () ->
@@ -91,3 +103,15 @@ refreshQr = ->
   muuid = $('#muuid')
   $.ajax url: '/messages/refresh_qr/' + muuid.val()
   return
+
+getParameterByName = (name, url) ->
+  if !url
+    url = window.location.href
+  name = name.replace(/[\[\]]/g, '\\$&')
+  regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+  results = regex.exec(url)
+  if !results
+    return null
+  if !results[2]
+    return ''
+  decodeURIComponent results[2].replace(/\+/g, ' ')

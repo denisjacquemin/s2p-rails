@@ -27,7 +27,9 @@
     <div class="col-md-6 col-lg-5" id="formsection">
       <% if @message.formdata.present? and @message.formdata != "[]"%>
           <%= hidden_field_tag :formdata, @message.formdata %>
+          <div id="notification"></div>
           <%= form_tag '/m/save_form', id: 'message_form' do %>
+            <%= hidden_field_tag 's' %>
             <%= hidden_field_tag 'muuid', @message.muuid %>
             <%= hidden_field_tag 'message_form_formdata' %>
             <div id="formrender-wrap"></div>
