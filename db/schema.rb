@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180325143803) do
+ActiveRecord::Schema.define(version: 20180325151933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20180325143803) do
     t.string   "code"
     t.boolean  "updatable",   default: true
     t.string   "internal_id"
+    t.string   "type",        default: ""
     t.index ["code"], name: "index_groups_on_code", unique: true, using: :btree
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true, using: :btree
   end

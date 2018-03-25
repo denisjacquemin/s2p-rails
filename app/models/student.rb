@@ -214,10 +214,10 @@ class Student < ApplicationRecord
       old_group
     end
 
-    def get_new_group(new_name)
+    def get_new_group(new_name, type)
       new_group_id = nil
       if new_name.present?
-        new_group = find_or_create_group(new_name, self.school_id)
+        new_group = find_or_create_group(new_name, self.school_id, type)
         new_group_id = new_group.id unless new_group.nil?
       end
       new_group_id
@@ -231,8 +231,8 @@ class Student < ApplicationRecord
       old_classroom_group = get_old_group(self.classroom_was)
       old_classroom_group_id = old_classroom_group.id if old_classroom_group.present?
 
-      new_level_group_id = get_new_group(self.level)
-      new_classroom_group_id = get_new_group(self.classroom)
+      new_level_group_id = get_new_group(self.level, 'level')
+      new_classroom_group_id = get_new_group(self.classroom, 'classroom')
 
       # update student's groups by removing old groups
       # update student's groups by adding new groups
@@ -276,12 +276,12 @@ class Student < ApplicationRecord
       self.groups = [] if self.groups.nil?
 
       if self.level.present?
-        group = find_or_create_group(self.level, self.school_id)
+        group = find_or_create_group(self.level, self.school_id, 'level')
         #Student.add_group(self.id, group.id)
         self.groups.push(group.id)
       end
       if self.classroom.present?
-        group = find_or_create_group(self.classroom, self.school_id)
+        group = find_or_create_group(self.classroom, self.school_id, 'classroom')
         #Student.add_group(self.id, group.id)
         self.groups.push(group.id)
       end
@@ -297,7 +297,7 @@ class Student < ApplicationRecord
       Group.find_by(name: name, school_id: school_id)
     end
 
-    def find_or_create_group(name, school_id)
+    def find_or_create_group(name, school_id, type='')
       # find it
       group = Group.where('lower(name) = ? and school_id = ?', name.downcase, school_id).first
       if group.nil?
@@ -305,7 +305,7 @@ class Student < ApplicationRecord
         recordUniqueCount = 0
         begin
           # group not found, needs to be created
-          group = Group.new(name: name, school_id: school_id, updatable: false)
+          group = Group.new(name: name, school_id: school_id, updatable: false, type: type)
           #group.code = 'g' + hash[0] + hash[1].last(4 + name.length % 3)
           group.save
         rescue ActiveRecord::RecordNotUnique
