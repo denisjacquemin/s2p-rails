@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20180325151933) do
     t.string   "code"
     t.boolean  "updatable",   default: true
     t.string   "internal_id"
-    t.string   "type",        default: ""
+    t.string   "group_type",  default: ""
     t.index ["code"], name: "index_groups_on_code", unique: true, using: :btree
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true, using: :btree
   end

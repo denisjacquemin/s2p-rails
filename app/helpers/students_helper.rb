@@ -9,7 +9,7 @@ module StudentsHelper
 
   def level_label
     if current_school.iscity
-      "Ville"
+      "Entité"
     else
       "Année"
     end

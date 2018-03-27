@@ -12,7 +12,9 @@
           <tr>
             <th>Nom - Prénom</th>
             <th>Email</th>
-            <th>Ecole(s)</th>
+            <% unless current_school.iscity %>
+              <th>Ecole(s)</th>
+            <% end %>
             <th>Statut Invitation</th>
             <th colspan="3"></th>
           </tr>
@@ -23,7 +25,9 @@
             <tr>
               <td><%= link_to "#{user.lastname} #{user.firstname}", edit_user_path(user) %></td>
               <td><%= link_to user.email, edit_user_path(user) %></td>
-              <td><% if user.schools.any? %><%= School.find(user.schools).pluck(:name).join(', ') %><% end %></td>
+              <% unless current_school.iscity %>
+                <td><% if user.schools.any? %><%= School.find(user.schools).pluck(:name).join(', ') %><% end %></td>
+              <% end %>
               <td><%= user.invitation_status %></td>
               <% if user.active? && user.invitation_status === "En attente" %>
                 <td><%= link_to "Renvoyer l'invitation", resend_invite_path(user), method: :get, class: 'btn btn-default btn-xs' %>

@@ -129,9 +129,9 @@ ready = () ->
       load_billing_students()
     return
   $('#message_manage_group #add').click ->
-    add_group group for group in $("#group_list input:checkbox:checked").closest('tr')
+    add_group group for group in $("#group_list input:checkbox:checked, #city_list input:checkbox:checked, #classroom_list input:checkbox:checked").closest('tr')
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
-    $("#group_list input:checkbox:checked").attr('checked', false)
+    $("#group_list input:checkbox:checked, #city_list input:checkbox:checked, #classroom_list input:checkbox:checked").attr('checked', false)
     $("#student_list input:checkbox:checked").attr('checked', false)
   $('#message_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')

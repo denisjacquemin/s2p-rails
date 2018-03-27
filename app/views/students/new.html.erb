@@ -1,4 +1,5 @@
-<%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + ' Retour à la liste des élèves', students_path %>
-<h1>Nouvel élève</h1>
+<% back_message = current_school.iscity ? 'Retour à la liste des citoyens' : 'Retour à la liste des élèves' %>
+<%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + back_message, current_school.iscity ? citizens_path : students_path %>
+<h1><%= current_school.iscity ? 'Nouveau citoyen' : 'Nouvel élève' %></h1>
 <hr />
 <%= render 'form', student: @student %>
