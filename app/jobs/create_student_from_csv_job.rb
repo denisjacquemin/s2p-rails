@@ -12,7 +12,7 @@ class CreateStudentFromCsvJob < ApplicationJob
     puts "rows #{rows.size}"
     rows.each do |data|
       puts "row #{i}: #{data[:winpage_matricule]}"
-      if data[:winpage_matricule].present?
+      if data[:winpage_matricule].present? # Winpage ou Creos
         handle_winpage_student(data, school_id, user.id)
       elsif data[:proeco_id].present?
         handle_proeco_student(data, school_id, user.id)
@@ -189,17 +189,32 @@ private
 
   def handle_winpage_student(data, school_id, user_id)
     number_of_collision = 0
-
     student_data = {}
     student_data[:school_id] = school_id
     student_data[:firstname] =  data[:firstname]
     student_data[:lastname] = data[:lastname]
-    student_data[:level] = data[:level]
+    student_data[:level] = data[:level] if data[:level] # WinPage
+    student_data[:level] = data[:level2] if data[:level2] # Creos
     student_data[:classroom] = [data[:firstname_classroom], data[:classroom]].join(' ').strip
     emails = [data[:emails], data[:emails2]].uniq.join(' ').strip
     student_data[:winpage_matricule] = data[:winpage_matricule].to_s
 
-    student_data[:phones] = buildPhoneArray(data)
+    # handle Creos info_contact, build an array of emails and an array of phones
+    emailsArray = []
+    phonesArray = []
+    contactArray = [data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
+    contactArray.each { |contact|
+      if contact.include?('@')
+        emailsArray.push(contact)
+      else
+        phonesArray.push(contact)
+      end
+    } if contactArray.any?
+    emails = emailsArray.uniq.join(' ').strip if emailsArray.any?
+
+    student_data[:phones] = buildArrayOfPhone(phonesArray) if phonesArray.any?
+    student_data[:phones] = buildPhoneArray(data) unless phonesArray.any?
+
     student_data[:student_emails] = buildEmailArray(emails)
     # get already existing student for update
     student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
@@ -268,14 +283,15 @@ private
 
     # keep old_mail if present in new_emails
     newEmailsArray = new_emails.pluck(:email)
-    mergedEmails = old_emails.select { |old_email|
-      newEmailsArray.include?(old_email.email)
-    }
+    # mergedEmails = old_emails.select { |old_email|
+    #   newEmailsArray.include?(old_email.email)
+    # }
     # add new_email only present in new_emails
     oldEmailsArray = old_emails.pluck(:email)
-    mergedEmails << new_emails.select { |new_email|
-      not oldEmailsArray.include?(new_email.email)
-    }
+    # mergedEmails << new_emails.select { |new_email|
+    #   not oldEmailsArray.include?(new_email.email)
+    # }
+    mergedEmails = old_emails + new_emails
 
     return mergedEmails.flatten.compact.uniq{|p| p.email }
   end

@@ -188,7 +188,18 @@ class StudentsController < ApplicationController
             "téléphone_3".to_sym => :phone3,
             "gsm".to_sym => :phone4,
             "Implantation".to_sym => :implantation,
-            # :classe => :level2,
+            "titulaire_nom".to_sym => :classroom,
+            "titulaire_prénom".to_sym => :firstname_classroom,
+            "personnes_responsables_informations_de_contact_1".to_sym => :info_contact1,
+            "personnes_responsables_informations_de_contact_2".to_sym => :info_contact2,
+            "personnes_responsables_informations_de_contact_3".to_sym => :info_contact3,
+            "personnes_responsables_informations_de_contact_4".to_sym => :info_contact4,
+            "personnes_responsables_informations_de_contact_5".to_sym => :info_contact5,
+            "personnes_responsables_informations_de_contact_6".to_sym => :info_contact6,
+            "personnes_responsables_informations_de_contact_7".to_sym => :info_contact7,
+            "personnes_responsables_informations_de_contact_8".to_sym => :info_contact8,
+            "personnes_responsables_informations_de_contact_9".to_sym => :info_contact9,  
+            # :classe => :level2, # champ Creos mais deja supporté grace à ProEco
             # keys from ProEco
             :matric_info => :proeco_id,
             :nom_elève => :lastname,
@@ -210,11 +221,8 @@ class StudentsController < ApplicationController
         # detection = CharlockHolmes::EncodingDetector.detect(content)
         # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
         current_school_id = current_school.id
-
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
           CreateStudentFromCsvJob.perform_later(r, current_school.id, current_user)
-
-
           # r.each do |data|
           #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           #   groups = []
