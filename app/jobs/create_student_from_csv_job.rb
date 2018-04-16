@@ -15,7 +15,6 @@ class CreateStudentFromCsvJob < ApplicationJob
   end
 
   def perform(rows, school_id, user)
-    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id}").deliver_later
 
     logger.info "perform CreateStudentsFromCsvJob"
     i = 0
@@ -31,6 +30,7 @@ class CreateStudentFromCsvJob < ApplicationJob
       end
       i = i+1
     end
+    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id} : #{i}/#{rows.size} rows processed").deliver_later
 
 
     #
