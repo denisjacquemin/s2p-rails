@@ -6,7 +6,17 @@ class CreateStudentFromCsvJob < ApplicationJob
    logger "Exception in CreateStudentFromCsvJob: #{exception.inspect}"
   end
 
+  def error(job, exception)
+    AlertAdminMailer.send_alert(job.inspect + exception.inspect).deliver_later
+  end
+
+  def failure(job)
+    AlertAdminMailer.send_alert(job.inspect).deliver_later
+  end
+
   def perform(rows, school_id, user)
+    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id}").deliver_later
+
     logger.info "perform CreateStudentsFromCsvJob"
     i = 0
     puts "rows #{rows.size}"
