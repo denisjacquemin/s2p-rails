@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 
   resources :form_templates, :except => :show
   get '/form_templates/loadformtemplate', to: 'form_templates#load_form_template'
