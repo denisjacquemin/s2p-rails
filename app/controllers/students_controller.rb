@@ -166,7 +166,7 @@ class StudentsController < ApplicationController
           :col_sep => col_sep,
           :strip_chars_from_headers => /[\-"]/,
           :quote_char => '"',
-          :chunk_size => 100,
+          :chunk_size => 500,
           :key_mapping => {
             :prenom => :firstname,
             :nom => :lastname,
@@ -198,7 +198,7 @@ class StudentsController < ApplicationController
             "personnes_responsables_informations_de_contact_6".to_sym => :info_contact6,
             "personnes_responsables_informations_de_contact_7".to_sym => :info_contact7,
             "personnes_responsables_informations_de_contact_8".to_sym => :info_contact8,
-            "personnes_responsables_informations_de_contact_9".to_sym => :info_contact9,  
+            "personnes_responsables_informations_de_contact_9".to_sym => :info_contact9,
             # :classe => :level2, # champ Creos mais deja supporté grace à ProEco
             # keys from ProEco
             :matric_info => :proeco_id,
