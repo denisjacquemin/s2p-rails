@@ -18,10 +18,12 @@ class CreateStudentFromCsvJob < ApplicationJob
 
     logger.info "perform CreateStudentsFromCsvJob"
     i = 0
+    liste = ""
     puts "rows #{rows.size}"
     rows.each do |data|
       puts "row #{i}: #{data[:winpage_matricule]}"
       if data[:winpage_matricule].present? # Winpage ou Creos
+        liste = liste + " #{data[:winpage_matricule]}"
         handle_winpage_student(data, school_id, user.id)
       elsif data[:proeco_id].present?
         handle_proeco_student(data, school_id, user.id)
@@ -30,7 +32,7 @@ class CreateStudentFromCsvJob < ApplicationJob
       end
       i = i+1
     end
-    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id} : #{i}/#{rows.size} rows processed / #{data.inspect}").deliver_later
+    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id} : #{i}/#{rows.size} rows processed / #{liste}").deliver_later
 
 
     #
