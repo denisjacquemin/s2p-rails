@@ -204,7 +204,7 @@ private
     phonesArray = []
     contactArray = [data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
     contactArray.each { |contact|
-      if contact.include?('@')
+      if contact.to_s.include?('@')
         emailsArray.push(contact)
       else
         phonesArray.push(contact)
