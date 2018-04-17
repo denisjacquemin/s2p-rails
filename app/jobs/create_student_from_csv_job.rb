@@ -32,7 +32,7 @@ class CreateStudentFromCsvJob < ApplicationJob
       end
       i = i+1
     end
-    AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id} : #{i}/#{rows.size} rows processed / #{liste}").deliver_later
+    # AlertAdminMailer.send_alert("CreateStudentFromCsvJob starting for school #{school_id} : #{i}/#{rows.size} rows processed / #{liste}").deliver_later
 
 
     #
