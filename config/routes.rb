@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get 'help/import_winpage', to: 'faq#import_winpage'
   get 'help/export_winpage', to: 'faq#export_winpage'
   get 'help/export_proeco', to: 'faq#export_proeco'
+  get 'help/export_creos', to: 'faq#export_creos'
   get 'help/import_excel', to: 'faq#import_excel'
   get 'help/message_sms', to: 'faq#message_sms'
   get 'help/update_students', to: 'faq#update_students'
