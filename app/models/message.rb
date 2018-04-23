@@ -403,7 +403,7 @@ class Message < ApplicationRecord
   def get_students_names_by_email(email)
 
     # for a given email, find student's names targeted for that message
-    students_by_email = Student.by_email(email) # gets all students for a given email
+    students_by_email = Student.by_emails(email) # gets all students for a given email
 
     # then keep only students targeted by the message based on message.groups ans message.students
     students_names = students_by_email.collect do |student|
