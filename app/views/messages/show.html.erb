@@ -108,20 +108,24 @@
               <div class="col-xs-12 pq-banner">
                 <%= image_tag asset_path("logo_payconiq.png") %>
                 <br/>
-                <span class="visible-xs-block">Cliquez sur le bouton pour payer avec l'app payconiq.</span>
               </div>
               <div class="col-xs-12">
                 <div class="pq_amount">Montant: <%= @message.amount_to_pay %> EUR</div>
                 <span class="pq-button">
                   <%= render 'pq_button', transactionId: @transactionId %>
                 </span>
-                <div class="qr pq-qr hidden-xs">
+                <div class="col-xs-12 pq-steps">
                   <ol>
                     <li>Ouvrez l'app payconiq</li>
                     <li>Pointez la caméra du téléphone sur le QR code</li>
                     <li>Entrez votre code PIN pour payer</li>
                   </ol>
+                </div>
+                <div class="qr pq-qr hidden-xs">
                   <%= render 'qr', transactionId: @transactionId %>
+
+                </div>
+                <div>
                   <p><a href="#" id="show_pq_help">Besoin d'aide?</a></p>
                 </div>
               </div>
