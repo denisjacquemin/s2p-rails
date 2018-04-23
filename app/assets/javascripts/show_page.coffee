@@ -11,6 +11,10 @@ ready = () ->
       refreshQr()
     , 100000
 
+  $('#show_pq_help').click (e) ->
+    e.preventDefault()
+    $('#pq_help').toggle()
+
   formRender = $('#formrender-wrap').formRender({
     #messages: language['fr'],
     dataType: 'json',
