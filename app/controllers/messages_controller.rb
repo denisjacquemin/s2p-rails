@@ -29,8 +29,8 @@ class MessagesController < ApplicationController
     students_names = ""
     # params[:e] is the email encrypted
     if (params[:e].present?) # if not, it should still works
-      @email_encrypted = params[:e]
-      @email = Student.email_decrypt(@email_encrypted)
+      #@email_encrypted = params[:e]
+      @email = params[:e] #Student.email_decrypt(@email_encrypted)
       students_names_array = @message.get_students_names_by_email(@email) if @email.present?
       students_names = students_names_array.flatten.uniq.compact.join ', ' if students_names_array.any?
     end

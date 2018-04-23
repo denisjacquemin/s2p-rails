@@ -313,7 +313,7 @@ class Message < ApplicationRecord
 
     hash[email] = {
       email: email,
-      email_encrypted: "ed", #Student.email_encrypt(email)
+      email_encrypted: email, #"ed", #Student.email_encrypt(email)
       student_id: student_id,
       code: code
     }
