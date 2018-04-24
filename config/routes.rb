@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm' 
+
   match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 
   resources :form_templates, :except => :show
@@ -96,7 +98,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # Serve websocket cable requests in-process
-  # mount ActionCable.server => '/cable'
+  mount ActionCable.server => '/cable'
 
   authenticated :user do
     root 'messages#index', as: :authenticated_root

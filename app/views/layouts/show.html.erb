@@ -8,11 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <%= action_cable_meta_tag %>
+
 
     <title>Konecto App</title>
 
     <%= stylesheet_link_tag    'show', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'show', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'cable', 'data-turbolinks-track' => true %>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
