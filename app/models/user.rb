@@ -34,7 +34,7 @@ class User < ApplicationRecord
     self.code = 'u' + hash[1].last(4 + user_key.length % 4)
   end
 
-  after_save :createAlgoliaApiKey, if: "schools_changed?"
+  after_save :createAlgoliaApiKey, if: :algolia_key_needs_update?
 
   # after_invitation_accepted :set_and_save_all_writers
 
@@ -132,5 +132,9 @@ class User < ApplicationRecord
     def createAlgoliaApiKey
       @create_algolia_api_key_service = CreateAlgoliaApiKeyService.new(self)
       @create_algolia_api_key_service.generate_key
+    end
+
+    def algolia_key_needs_update?
+      schools_changed? || role_changed?
     end
 end
