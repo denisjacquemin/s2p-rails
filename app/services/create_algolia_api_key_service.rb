@@ -18,13 +18,13 @@ class CreateAlgoliaApiKeyService
       # if user is superadmin filters is ""
       if user.admin?
         # Restrict on user.schools
-        schools = @user.schools.reject!(&:blank?)
+        schools = user.schools.reject(&:blank?)
         unless schools.nil?
           filters = schools.map {|s| "school_id=#{s}"}.join(' OR ')
         end
       elsif user.user?
         # Restrict on user.schools and author_id = user.id
-        schools = @user.schools.reject!(&:blank?)
+        schools = user.schools.reject(&:blank?)
         unless schools.nil?
           filters = '(' + schools.map {|s| "school_id=#{s}"}.join(' OR ') + ') AND '
         end
