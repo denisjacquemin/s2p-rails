@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180310082529) do
+ActiveRecord::Schema.define(version: 20180501132650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,29 @@ ActiveRecord::Schema.define(version: 20180310082529) do
     t.string   "account_number"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "app_users", force: :cascade do |t|
+    t.string   "email",                             default: "", null: false
+    t.string   "encrypted_password",                default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                     default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "authentication_token",   limit: 30
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.index ["authentication_token"], name: "index_app_users_on_authentication_token", unique: true, using: :btree
+    t.index ["confirmation_token"], name: "index_app_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["email"], name: "index_app_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_app_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "attachinary_files", force: :cascade do |t|
@@ -104,6 +127,7 @@ ActiveRecord::Schema.define(version: 20180310082529) do
     t.string   "code"
     t.boolean  "updatable",   default: true
     t.string   "internal_id"
+    t.string   "group_type",  default: ""
     t.index ["code"], name: "index_groups_on_code", unique: true, using: :btree
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true, using: :btree
   end
@@ -259,6 +283,7 @@ ActiveRecord::Schema.define(version: 20180310082529) do
     t.integer  "sms_provision",              default: 0
     t.boolean  "billing_enable",             default: false
     t.boolean  "payconiq_enable",            default: false
+    t.boolean  "iscity",                     default: false
   end
 
   create_table "student_emails", force: :cascade do |t|
@@ -268,6 +293,17 @@ ActiveRecord::Schema.define(version: 20180310082529) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_student_emails_on_email", using: :btree
     t.index ["student_id"], name: "index_student_emails_on_student_id", using: :btree
+  end
+
+  create_table "student_recipients", force: :cascade do |t|
+    t.integer  "student_id"
+    t.boolean  "viewed_by_app",   default: false
+    t.boolean  "viewed_by_email", default: false
+    t.boolean  "viewed_by_sms",   default: false
+    t.integer  "message_id"
+    t.integer  "school_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "students", force: :cascade do |t|

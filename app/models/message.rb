@@ -162,6 +162,7 @@ class Message < ApplicationRecord
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
 
       student_ids = build_student_ids(groups, self.students)
+      StudentsByMessagePublishJob.perform_later(student_ids, self.id, self.school_id)
       if self.send_by_sms and self.school.has_sms_provision?
         logger.info "send_by_sms: #{students.inspect}"
         # phones = students.select {|s|  s.phones.present?}.map {|s| s.phones.select(:id, :number)}.flatten.compact.uniq
