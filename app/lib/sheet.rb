@@ -48,7 +48,7 @@ module Sheet
 
   def self.encoding(file)
     # MacRoman (excel mac) cp1252 (superset de ISO-8859-1 compatible avec le sigle euro) utf-8
-    encoding = 'utf-8'
+    encoding = 'utf-8' #File.open(file.tempfile.path).read.encoding
     begin
       lines = CSV.read(file.tempfile.path, :encoding => encoding)
     rescue ArgumentError
