@@ -1,0 +1,2 @@
+class EmailRecipient < ApplicationRecord
+end

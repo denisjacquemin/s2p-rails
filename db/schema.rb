@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180501132650) do
+ActiveRecord::Schema.define(version: 20180502073633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(version: 20180501132650) do
     t.string   "uuid"
     t.string   "registration_id"
     t.index ["uuid"], name: "index_devices_on_uuid", unique: true, using: :btree
+  end
+
+  create_table "email_recipients", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "student_id"
+    t.integer  "message_id"
+    t.string   "status"
+    t.string   "dateandtime"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "form_templates", force: :cascade do |t|
