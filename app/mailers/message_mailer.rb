@@ -64,7 +64,7 @@ class MessageMailer < ApplicationMailer
     # end
     headers "X-SMTPAPI" => x_smptapi_hash.to_json
 
-    from = "#{I18n.transliterate(@message.school_name)} - #{I18n.transliterate(@message.author.fullname)}" + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
+    from = %Q["#{@message.school_name} - #{@message.author.fullname}"] + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
 
     reply_to = 'konecto@konectoapp.com'
     if @message.author.display_email_address
