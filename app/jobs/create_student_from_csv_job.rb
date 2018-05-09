@@ -121,6 +121,7 @@ private
     student_data[:student_emails] = []
     student_data[:student_emails] = buildEmailArray(emails) unless emails.nil?
     student_data['school_id'] = school_id
+    student_data[:phones] = buildPhoneArray(data)
     if student_data[:code].nil?
       unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
         student = Student.new student_data

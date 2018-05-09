@@ -173,7 +173,9 @@ class StudentsController < ApplicationController
             :emails => :emails,
             :envoi_des_messages_via_email => :sent_message_by_email,
             :annee => :level,
+            :entite => :level,
             :titulaire => :classroom,
+            :rue => :classroom,
             :code => :code,
             # keys from WinPage ou Creos
             "classe_(libellé)".to_sym  => :level,
@@ -275,10 +277,11 @@ class StudentsController < ApplicationController
 
   def export_csv
     students = Student.where(:id => params[:student][:id])
-    send_data(students.to_csv_file.encode("cp1252"),
+    file_name = current_school.iscity ? "citoyens-" : "eleves-"
+    send_data(students.to_csv_file(current_school.iscity).encode("cp1252"),
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',
-      filename: "eleves-#{current_school.name.parameterize}-#{Date.today}.csv")
+      filename: "#{file_name}#{current_school.name.parameterize}-#{Date.today}.csv")
   end
 
   private

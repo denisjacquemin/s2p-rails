@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   get '/students/new_index', to: 'students#new_index'
 
   resources :students
+  resources :students, :path => "citizens", as: "citizens"
   patch '/students/update_groups/:id', to: 'students#update_groups'
   post '/users/newannouncementsviewed/:count', to: 'users#new_announcements_viewed'
   devise_for :users, :controllers => { :invitations => 'invitations' }

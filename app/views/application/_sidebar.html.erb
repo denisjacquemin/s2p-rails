@@ -50,7 +50,11 @@
          <% end %>
          <% if policy(Student).index? %>
            <li>
-               <%= link_to content_tag(:i, nil, class: "fa fa-user", aria_hidden: true) + ' Elèves', students_path %>
+               <% if current_school.iscity %>
+                <%= link_to content_tag(:i, nil, class: "fa fa-user", aria_hidden: true) + ' Citoyens', citizens_path %>
+               <% else %>
+                <%= link_to content_tag(:i, nil, class: "fa fa-user", aria_hidden: true) + ' Elèves', students_path %>
+               <% end %>
            </li>
          <% end %>
          <% if policy(Group).index? %>

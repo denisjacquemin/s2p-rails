@@ -141,21 +141,17 @@ ready = () ->
           'count:desc'
         ]
         operator: 'or'
-        templates: {
-          header: '<h4>Filtrer par titulaire</h4>'
-          # item: getTemplate('facet-item')
-        }
       )
-      search.addWidget instantsearch.widgets.hitsPerPageSelector(
-        container: '#hitperpage'
-        items: [
-          {value: 30, label: '30'},
-          {value: 50, label: '50'},
-          {value: 200, label: '200'},
-          {value: 1000, label: '1000'}
-        ]
-        autoHideContainer: false
-      )
+      # search.addWidget instantsearch.widgets.hitsPerPageSelector(
+      #   container: '#hitperpage'
+      #   items: [
+      #     {value: 30, label: '30'},
+      #     {value: 50, label: '50'},
+      #     {value: 200, label: '200'},
+      #     {value: 1000, label: '1000'}
+      #   ]
+      #   autoHideContainer: false
+      # )
 
 
       search.addWidget instantsearch.widgets.refinementList(
@@ -176,7 +172,6 @@ ready = () ->
           'count:desc'
         ]
         operator: 'or'
-        templates: header: '<h4>Filtrer par année</h4>'
       )
       search.start()
       search.on('render', onRenderHandler);

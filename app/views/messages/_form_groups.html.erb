@@ -1,6 +1,10 @@
 <div class="row" id="message_manage_group">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h3>Choix des destinataires</h3>
-    <%= render "messages_'_groups_manager", message: message %>
+    <% if current_school.iscity %>
+      <%= render "messages_'_groups_manager_for_city", message: message %>
+    <% else  %>
+      <%= render "messages_'_groups_manager", message: message %>
+    <% end %>
   </div>
 </div>

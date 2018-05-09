@@ -140,8 +140,13 @@ class Student < ApplicationRecord
     crypt.decrypt_and_verify(email_encrypted)
   end
 
-  def self.to_csv_file
-    attributes = ['Prenom', 'Nom', 'Emails', 'Envoi des messages via email', 'Annee', 'Titulaire', 'Code']
+  def self.to_csv_file(iscity = false)
+    attributes = []
+    if iscity
+      attributes = ['Prenom', 'Nom', 'Emails', 'Entite', 'Rue', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
+    else
+      attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Code']
+    end
     CSV.generate(headers: true, :col_sep => ";") do |csv|
       csv << attributes
 
@@ -149,18 +154,33 @@ class Student < ApplicationRecord
         firstname = (student.firstname == nil or student.firstname.strip == "")? nil : student.firstname
         lastname = (student.lastname == nil or student.lastname.strip == "")? nil : student.lastname
         emails = (student.emails == nil or student.emails.strip == "")? nil : student.emails
-        sent = if student.sent_message_by_email then 'oui' else 'non' end
         level = (student.level == nil or student.level.strip == "")? nil : student.level
         classroom = (student.classroom == nil or student.classroom.strip == "")? nil : student.classroom
         code = (student.code == nil or student.code.strip == "")? nil : student.code
 
+        phone1 = ""
+        phone2 = ""
+        phone3 = ""
+        phone4 = ""
+        phones = student.phones.pluck(:number)
+        if phones.any?
+          phone1 = phones[0] if phones.size >= 1
+          phone2 = phones[1] if phones.size >= 2
+          phone3 = phones[2] if phones.size >= 3
+          phone4 = phones[3] if phones.size >= 4
+        end
+
         csv << [firstname,
                 lastname,
                 emails,
-                sent,
                 level,
                 classroom,
-                code]
+                phone1,
+                phone2,
+                phone3,
+                phone4,
+                code
+              ]
       end
     end
   end
@@ -214,10 +234,10 @@ class Student < ApplicationRecord
       old_group
     end
 
-    def get_new_group(new_name)
+    def get_new_group(new_name, type)
       new_group_id = nil
       if new_name.present?
-        new_group = find_or_create_group(new_name, self.school_id)
+        new_group = find_or_create_group(new_name, self.school_id, type)
         new_group_id = new_group.id unless new_group.nil?
       end
       new_group_id
@@ -231,8 +251,8 @@ class Student < ApplicationRecord
       old_classroom_group = get_old_group(self.classroom_was)
       old_classroom_group_id = old_classroom_group.id if old_classroom_group.present?
 
-      new_level_group_id = get_new_group(self.level)
-      new_classroom_group_id = get_new_group(self.classroom)
+      new_level_group_id = get_new_group(self.level, 'level')
+      new_classroom_group_id = get_new_group(self.classroom, 'classroom')
 
       # update student's groups by removing old groups
       # update student's groups by adding new groups
@@ -276,12 +296,12 @@ class Student < ApplicationRecord
       self.groups = [] if self.groups.nil?
 
       if self.level.present?
-        group = find_or_create_group(self.level, self.school_id)
+        group = find_or_create_group(self.level, self.school_id, 'level')
         #Student.add_group(self.id, group.id)
         self.groups.push(group.id)
       end
       if self.classroom.present?
-        group = find_or_create_group(self.classroom, self.school_id)
+        group = find_or_create_group(self.classroom, self.school_id, 'classroom')
         #Student.add_group(self.id, group.id)
         self.groups.push(group.id)
       end
@@ -297,7 +317,7 @@ class Student < ApplicationRecord
       Group.find_by(name: name, school_id: school_id)
     end
 
-    def find_or_create_group(name, school_id)
+    def find_or_create_group(name, school_id, type='')
       # find it
       group = Group.where('lower(name) = ? and school_id = ?', name.downcase, school_id).first
       if group.nil?
@@ -305,7 +325,7 @@ class Student < ApplicationRecord
         recordUniqueCount = 0
         begin
           # group not found, needs to be created
-          group = Group.new(name: name, school_id: school_id, updatable: false)
+          group = Group.new(name: name, school_id: school_id, updatable: false, group_type: type)
           #group.code = 'g' + hash[0] + hash[1].last(4 + name.length % 3)
           group.save
         rescue ActiveRecord::RecordNotUnique
