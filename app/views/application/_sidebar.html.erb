@@ -57,10 +57,12 @@
                <% end %>
            </li>
          <% end %>
-         <% if policy(Group).index? %>
-           <li>
-               <%= link_to content_tag(:i, nil, class: "fa fa-users", aria_hidden: true) + ' Groupes', groups_path %>
-           </li>
+         <% unless current_school.iscity %>
+           <% if policy(Group).index? %>
+             <li>
+                 <%= link_to content_tag(:i, nil, class: "fa fa-users", aria_hidden: true) + ' Groupes', groups_path %>
+             </li>
+           <% end %>
          <% end %>
          <% if policy(User).index? %>
            <li>
