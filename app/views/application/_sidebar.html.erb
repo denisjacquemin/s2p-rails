@@ -82,9 +82,12 @@
                <% end %>
              </ul>
          </li>
-         <li id="new_announcements_menu_item">
-           <input type="hidden" id="current_user_new_announcement_counter" value="<%= current_user.new_announcement_counter %>"/>
-           <a href="#" id="whatsnew"><%= content_tag(:i, nil, class: "fa fa-bell", aria_hidden: true, id: 'new_announcement_menu_icon') %></a></li>
+         <% unless current_school.iscity %>
+           <li id="new_announcements_menu_item">
+             <input type="hidden" id="current_user_new_announcement_counter" value="<%= current_user.new_announcement_counter %>"/>
+             <a href="#" id="whatsnew"><%= content_tag(:i, nil, class: "fa fa-bell", aria_hidden: true, id: 'new_announcement_menu_icon') %></a>
+           </li>
+          <% end %>
          <li class="dropdown">
            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= content_tag(:i, nil, class: "fa fa-question-circle", aria_hidden: true) %><span class="hidden-md"> Aide</span> <span class="caret"></span></a>
              <ul class="dropdown-menu">
