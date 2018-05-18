@@ -61,7 +61,7 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
   $('.add_fields').addClass('btn btn-primary')
 
-  if $('#edit_student').length
+  if $('#edit_student, #new_student').length
 
     $('.intlphonenumber').intlTelInput(
         separateDialCode: true
