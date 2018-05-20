@@ -11,11 +11,13 @@
             <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Citoyens</a></li>
           </ul>
         </div>
+        <% all_groups = current_user.groups_by_school(current_school.id) %>
         <div class="panel-body ">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active table-filter" id="city">
 
-              <% groups = current_user.groups_by_school(current_school.id).only_level.pluck(:id, :name) %>
+              <%  groups = []
+                  groups = all_groups.map{|g| g.group_type == 'level'? [g.id, g.name]: []}.reject(&:empty?) unless all_groups.empty? %>
               <% if groups.present? %>
                 <input type="text" class="filter" data-table="#city_list" placeholder="Rechercher">
                 <div class="scroll-area">
@@ -37,7 +39,9 @@
             </div>
             <div role="tabpanel" class="tab-pane fade in table-filter" id="street">
 
-              <% groups = current_user.groups_by_school(current_school.id).only_classroom.pluck(:id, :name) %>
+              <% byebug
+                 groups = []
+                 groups = all_groups.map{|g| g.group_type == 'classroom'? [g.id, g.name]: []}.reject(&:empty?) unless all_groups.empty?%>
               <% if groups.present? %>
                 <input type="text" class="filter" data-table="#classroom_list" placeholder="Rechercher">
                 <div class="scroll-area">

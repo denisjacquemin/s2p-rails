@@ -17,7 +17,6 @@ class User < ApplicationRecord
   validates :lastname, presence: true
   # validates :email, presence: true
   #validates_uniqueness_of :email
-
   scope :active_and_invitation_accepted, -> { where(deleted_at: nil).where.not(invitation_accepted_at: nil) }
   scope :with_send_email_to_admin,  -> { where(send_email_to_admin: true) }
   scope :active, -> { where(deleted_at: nil) }
