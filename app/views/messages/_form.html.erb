@@ -21,7 +21,7 @@
           <a class="tab-link <%= 'save-form' if save_form_with_tab %>" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
         </li>
       <% end %>
-      <% if @message.mtype == 'message' and @message.school.billing_enable? %>
+      <% if @message.mtype == 'message' and current_school.billing_enable? %>
         <li role="presentation">
           <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
         </li>
