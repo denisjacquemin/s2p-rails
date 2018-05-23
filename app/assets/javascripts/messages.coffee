@@ -100,7 +100,7 @@ ready = () ->
     $('#new_message').submit()
 
 
-  $('#datetimepickerduedate').datetimepicker
+  $('#datetimepickerduedate, #datetimepickerformduedate').datetimepicker
     locale: 'fr'
     format: 'DD/MM/YYYY'
 

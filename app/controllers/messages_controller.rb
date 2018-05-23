@@ -129,7 +129,10 @@ class MessagesController < ApplicationController
   end
 
   def update_formdata
-    if @message.update(update_formdata_params)
+    form_due_date = nil
+    form_due_date = DateTime.parse(params[:formduedate]) if params[:formduedate].present?
+
+    if @message.update(formdata: params[:message][:formdata], form_due_date: form_due_date)
       redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
     end
   end
@@ -229,7 +232,6 @@ class MessagesController < ApplicationController
     #   when 'publish'
     #     @message.published!
     # end
-
     @message_params = message_params
 
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?

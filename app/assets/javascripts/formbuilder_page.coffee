@@ -265,8 +265,11 @@ ready = () ->
       },
       formData: $('#formdata').val()
     }).data('formBuilder')
-    $(".edit_form_template, #message_update_form").submit (e) ->
+    $(".edit_form_template, #message_update_form").submit () ->
       $('#formdata').val(formBuilder.formData)
+      console.log '#form_due_date val: ' + $('#form_due_date').val()
+      $('#formduedate').val($('#form_due_date').val())
+      return true
     $("#setformdata").change (e) ->
       formBuilder.actions.setData(this.value)
     $('.option-label').change (e) ->

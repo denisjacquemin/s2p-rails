@@ -10,7 +10,7 @@
           <div class="col-lg-12 col-md-12 col-xs-12">
             <%= form_for(message, url: messages_update_form_path(message.id), method: :patch, html: { id: 'message_update_form'}) do |f| %>
               <%= f.hidden_field :formdata, id: 'formdata' %>
-
+              <%= hidden_field_tag 'formduedate' %>
               <%= hidden_field_tag 'setformdata' %>
               <div class="pull-right"><%= f.submit 'Enregistrer le formulaire', class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
             <% end %>
@@ -30,6 +30,18 @@
             <%= hidden_field_tag 'levels', @levels.to_json %>
             (<a href="/help/formulaire" target="_blank">Guide d'utilisation</a>)
             <div id="formbuilder-wrap"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-xs-12 pull-right">
+            <%= label_tag "Date limite" %>
+            <div class='input-group date' id='datetimepickerformduedate'>
+                <%= text_field_tag 'form_due_date', @message.form_due_date.try(:strftime,"%d/%m/%y"), class: 'form-control' %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <span class="help-block">Dernier jour pour lequel le formulaire peut être rempli. Pas de date signifie qu'il n'y a aucune limite.</span>
           </div>
         </div>
       </div>

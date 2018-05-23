@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180502073633) do
+ActiveRecord::Schema.define(version: 20180521123109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20180502073633) do
     t.text     "billing_comment"
     t.string   "billing_due_date"
     t.boolean  "include_payment",        default: false
+    t.datetime "form_due_date"
   end
 
   create_table "mfiles", force: :cascade do |t|

@@ -26,6 +26,7 @@
     </div>
     <div class="col-md-6 col-lg-5" id="formsection">
       <% if @message.formdata.present? and @message.formdata != "[]"%>
+        <% if @message.form_due_date.nil? || @message.form_due_date >= Date.today %>
           <%= hidden_field_tag :formdata, @message.formdata %>
           <div id="notification"></div>
           <%= form_tag '/m/save_form', id: 'message_form' do %>
@@ -35,6 +36,9 @@
             <div id="formrender-wrap"></div>
             <%= submit_tag 'Envoyer', class: 'btn btn-primary', data: { disable_with: "En cours d'envoi..." } %>
           <% end %>
+        <% else %>
+          <p style="background:yellow; color:red;">La date limite pour remplir le formulaire est dépassée.</p>
+        <% end %>
       <% end %>
 
       <% if (@message.formdata.present? and @message.formdata != "[]") and @message.photos.any? %>
