@@ -80,6 +80,9 @@
                <% if current_user.admin? %>
                 <li><%= link_to @current_school.name, edit_current_school_path %></li>
                <% end %>
+               <% if current_user.superadmin? %>
+               <li><%= link_to 'Categories de message', message_categories_path %></li>
+               <% end %>
              </ul>
          </li>
          <% unless current_school.iscity %>

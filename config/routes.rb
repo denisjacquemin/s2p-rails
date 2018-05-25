@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :message_categories
   get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm' 
 
   match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]

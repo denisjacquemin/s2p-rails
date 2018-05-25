@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+    <h1>Gestion des catégories de message</h1>
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+    <div class="pull-right"><%= link_to 'Nouvelle catégorie', new_message_category_path, class: 'btn btn-primary' %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <hr />
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @message_categories.each do |message_category| %>
+      <tr>
+        <td><%= link_to message_category.name, edit_message_category_path(message_category) %></td>
+        <td>
+          <div class="pull-right">
+            <%= link_to 'Supprimer', message_category, class: 'btn btn-default btn-xs',method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

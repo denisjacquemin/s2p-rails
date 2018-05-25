@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + ' Retour à la liste des catégories',  message_categories_path %>
+    <h1>Edition Catégorie</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <hr />
+  </div>
+</div>
+<%= render 'form', message_category: @message_category %>
