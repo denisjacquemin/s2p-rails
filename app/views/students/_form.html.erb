@@ -86,7 +86,22 @@
       </div>
     </div>
   </div>
-
+  <% if current_school.iscity %>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">Categories</div>
+          <div class="panel-body">
+            <%= hidden_field_tag "student[message_category_ids][]", nil%>
+            <% MessageCategory.by_school(current_school.id).each do |category| %>
+              <%= check_box_tag "student[message_category_ids][]", category.id, student.message_category_ids.include?(category.id), id: dom_id(category) %>
+              <%= label_tag dom_id(category), category.name %><br/>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
   <% if current_user.superadmin? %>
     <div class="row">

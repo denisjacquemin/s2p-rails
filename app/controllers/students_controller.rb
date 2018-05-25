@@ -292,7 +292,7 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, :emails, student_emails_attributes: [:id, :email, :_destroy], phones_attributes: [:id, :number, :owner_name, :_destroy])
+      params.require(:student).permit(:firstname, :lastname, :school_id, :classroom, :level, :code, :sent_message_by_email, :emails, "message_category_ids" => [], student_emails_attributes: [:id, :email, :_destroy], phones_attributes: [:id, :number, :owner_name, :_destroy])
     end
 
 

@@ -31,6 +31,7 @@ class Student < ApplicationRecord
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :message_categories
   has_many :phones, inverse_of: :student
   accepts_nested_attributes_for :phones,
     :allow_destroy => true,
