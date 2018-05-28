@@ -9,7 +9,6 @@ module Notification extend ActiveSupport::Concern
 
       devicesAndroid = devices.android
       devicesIOS = devices.ios
-
       if devicesIOS.any?
         dataIOS = {
           "title": truncate(message.title, :length => 200),
@@ -17,7 +16,7 @@ module Notification extend ActiveSupport::Concern
           "content-available": 1,
           "notId": message.id
         }
-        send_ios_notifications(message.title, truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 150), devicesIOS, dataIOS)
+        send_ios_notifications(message.title, ActionController::Base.helpers.strip_tags(message.content)[0..150], devicesIOS, dataIOS)
 
         # options = {
         #   "application": ENV["PUSHWOOSH_APPLICATION_CODE"],
