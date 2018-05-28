@@ -29,6 +29,7 @@ class Message < ApplicationRecord
 
   belongs_to :school, required: false
   has_many :mfiles, dependent: :destroy
+  has_and_belongs_to_many :message_categories
   belongs_to :author, class_name: "User"
   has_many :billed_students
   accepts_nested_attributes_for :billed_students

@@ -4,7 +4,12 @@ module Notification extend ActiveSupport::Concern
       groups_ids = message.groups
       students_ids = message.students
 
-      devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
+      devices = []
+      if message.school.iscity?
+        devices = getDevicesByGroupsAndStudentsFilterByCategories(groups_ids, students_ids, message.message_categories.pluck(:id))
+      else
+        devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
+      end
       logger.error "[PW] devices: #{devices.inspect}"
 
       devicesAndroid = devices.android
@@ -70,22 +75,39 @@ module Notification extend ActiveSupport::Concern
       # handle students
       # handle groups
       # handle all_students
-      if groups_ids.nil?
-        return nil
+      students = []
+      if groups_ids.empty? && students_ids.empty?
+        return []
       else
-        students = Student.by_groups(groups_ids).pluck(:code) unless groups_ids.nil?
-        students += Student.find(students_ids).pluck(:code) unless students_ids.nil?
-        groups = Group.find(groups_ids).pluck(:code)
+        students = Student.by_groups(groups_ids).pluck(:code) unless groups_ids.empty?
+        students += Student.find(students_ids).pluck(:code) unless students_ids.empty?
         # if groups_ids contains all_student, get all students for the targeted schools
         #all_students_groups = Group.where(id: groups_ids, internal_id: 'all_students')
         #alls_students = all_students_groups.map { |g| Student.by_school(g.school_id).pluck(:code)}
         #students += alls_students
 
         students.uniq!
-        Device.by_codes(students + groups)
+        Device.by_codes(students)
         # find devices by students.pluck(:code) groups.pluck(:code)
       end
 
+    end
+
+    def getDevicesByGroupsAndStudentsFilterByCategories(groups_ids, students_ids, message_categories)
+      students = []
+      if groups_ids.empty? && students_ids.empty?
+        return []
+      else
+        students = Student.by_groups(groups_ids) unless groups_ids.empty?
+        students += Student.find(students_ids) unless students_ids.empty?
+        # filter by categories
+        students_filtered = students.select do |student|
+          (message_categories & student.message_categories.pluck(:id)).any?
+        end
+        students_codes_filtered = students_filtered.pluck(:code)
+        students_codes_filtered.uniq!
+        return Device.by_codes(students_codes_filtered)
+      end
     end
 
 

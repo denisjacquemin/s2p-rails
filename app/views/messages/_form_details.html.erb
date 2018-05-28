@@ -29,24 +29,50 @@
       <%= f.label :content %>
       <%= f.text_area :content, class: 'form-control', id: 'wysiwyg',  rows: 5 %>
     </div>
-    <% unless current_user.user? %>
-      <div class="form-group">
-        <%= f.check_box :send_by_email %>
-        <%= f.label :send_by_email%>
-      </div>
-      <div class="form-group">
-        <%= f.check_box :send_to_app %>
-        <%= f.label :send_to_app %>
-      </div>
-      <div class="form-group send_by_sms_container" style=<%= "#{'display:none' if message.mtype != 'rappel'}" %>>
-        <%= f.check_box :send_by_sms, disabled: !current_school.has_sms_provision? %>
-        <%= f.label :send_by_sms %>
-        <p>
-          Votre provision SMS est de <%= current_school.sms_provision %>.
-          <a href="/help/message_sms">Comment réapprovisionner?</a>.
-        </p>
-      </div>
-    <% end %>
+
 
   </div>
+
+</div>
+
+<div class="row">
+  <% unless current_user.user? %>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Mode d'envoi</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= f.check_box :send_by_email %>
+            <%= f.label :send_by_email%>
+          </div>
+          <div class="form-group">
+            <%= f.check_box :send_to_app %>
+            <%= f.label :send_to_app %>
+          </div>
+          <div class="form-group send_by_sms_container" style=<%= "#{'display:none' if message.mtype != 'rappel'}" %>>
+            <%= f.check_box :send_by_sms, disabled: !current_school.has_sms_provision? %>
+            <%= f.label :send_by_sms %>
+            <p>
+              Votre provision SMS est de <%= current_school.sms_provision %>.
+              <a href="/help/message_sms">Comment réapprovisionner?</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if current_school.iscity %>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Catégories</div>
+        <div class="panel-body">
+          <%= hidden_field_tag "message[message_category_ids][]", nil%>
+          <% MessageCategory.by_school(current_school.id).each do |category| %>
+            <%= check_box_tag "message[message_category_ids][]", category.id, message.message_category_ids.include?(category.id), id: dom_id(category) %>
+            <%= label_tag dom_id(category), category.name %><br/>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
