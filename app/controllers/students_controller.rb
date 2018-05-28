@@ -28,6 +28,8 @@ class StudentsController < ApplicationController
     @student = Student.new
     @student.phones.new
     @student.student_emails.new
+    @student.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
+
     authorize @student
   end
 
