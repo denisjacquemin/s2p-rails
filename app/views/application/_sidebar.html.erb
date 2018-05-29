@@ -81,7 +81,7 @@
                 <li><%= link_to @current_school.name, edit_current_school_path %></li>
                <% end %>
                <% if current_user.superadmin? && current_school.iscity %>
-               <li><%= link_to 'Categories de message', message_categories_path %></li>
+               <li><%= link_to 'Catégories de message', message_categories_path %></li>
                <% end %>
              </ul>
          </li>

@@ -162,7 +162,7 @@ class Message < ApplicationRecord
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
 
-      student_ids = build_student_ids(groups, self.students)
+      student_ids = build_student_ids(groups, self.students, self.school.iscity?, self.message_categories.pluck(:id))
       # StudentsByMessagePublishJob.perform_later(student_ids, self.id, self.school_id)
       if self.send_by_sms and self.school.has_sms_provision?
         logger.info "send_by_sms: #{students.inspect}"
@@ -180,11 +180,21 @@ class Message < ApplicationRecord
     end
   end
 
-  def build_student_ids(groups, student_ids)
+  def build_student_ids(groups, student_ids, iscity, message_categories)
     ids = []
     ids = student_ids if student_ids.present?
     ids = ids + Student.by_groups(groups).pluck(:id) if groups.present?
-    ids.uniq
+
+    # if iscity then filter on categories
+    if iscity
+      ids_filtered = ids.select do |id|
+        student_categories = Student.where(id: id).joins(:message_categories).pluck("message_categories.id")
+        (student_categories & message_categories).any?
+      end
+      return ids_filtered.uniq
+    else
+      return ids.uniq
+    end
   end
 
   def handle_draft
