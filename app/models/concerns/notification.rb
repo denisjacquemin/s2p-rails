@@ -79,8 +79,8 @@ module Notification extend ActiveSupport::Concern
       if groups_ids.empty? && students_ids.empty?
         return []
       else
-        students = Student.by_groups(groups_ids).pluck(:code) unless groups_ids.empty?
-        students += Student.find(students_ids).pluck(:code) unless students_ids.empty?
+        students = Student.by_groups(groups_ids).pluck(:code) unless groups_ids.nil? || groups_ids.empty?
+        students += Student.find(students_ids).pluck(:code) unless students_ids.nil? || students_ids.empty?
         # if groups_ids contains all_student, get all students for the targeted schools
         #all_students_groups = Group.where(id: groups_ids, internal_id: 'all_students')
         #alls_students = all_students_groups.map { |g| Student.by_school(g.school_id).pluck(:code)}
