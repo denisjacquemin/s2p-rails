@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :message_categories
-  get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm' 
+  get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm'
 
   match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 
@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get 'help/payments', to: 'faq#payments'
   get 'help/payconiq', to: 'faq#payconiq'
   get 'help/form_template', to: 'faq#form_template'
+  get 'gts', to: 'faq#gts'
 
 
 
