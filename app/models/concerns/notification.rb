@@ -98,8 +98,8 @@ module Notification extend ActiveSupport::Concern
       if groups_ids.empty? && students_ids.empty?
         return []
       else
-        students = Student.by_groups(groups_ids) unless groups_ids.empty?
-        students += Student.find(students_ids) unless students_ids.empty?
+        students = Student.by_groups(groups_ids) unless groups_ids.nil? || groups_ids.empty?
+        students += Student.find(students_ids) unless students_ids.nil? || students_ids.empty?
         # filter by categories
         students_filtered = students.select do |student|
           (message_categories & student.message_categories.pluck(:id)).any?
