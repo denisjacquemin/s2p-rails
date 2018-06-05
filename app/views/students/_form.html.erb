@@ -14,6 +14,9 @@
         <% if policy(student).destroy? and not student.new_record? %>
           <%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
         <% end %>
+        <% unless student.new_record? %>
+          <div class="pull-right"><%= render 'actions_dropdown', student: student, size: 'btn-sm' %></div>
+        <% end %>
       </div>
     </div>
   </div>

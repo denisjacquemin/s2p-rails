@@ -1,0 +1,11 @@
+<div class="btn-group">
+  <button class="x <%= size %> dropdown-toggle btn-primary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Actions <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <% if policy(student).destroy? and not student.new_record? %>
+      <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-trash", aria_hidden: true) + t('views.global.destroy'), student, method: :delete, class: "before-submit-confirm icon", data: {'before-submit-confirm': true, message: "Etes vous sûr de vouloir supprimer définitivement?", title: t('views.global.destroy')} %></li>
+      <!-- <%= link_to t('views.global.destroy'), student, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %> -->
+    <% end %>
+  </ul>
+</div>

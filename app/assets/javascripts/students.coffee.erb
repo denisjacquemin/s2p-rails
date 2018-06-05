@@ -59,6 +59,31 @@ $(document).on 'turbolinks:load', ->
 
 
 ready = () ->
+  $('.before-submit-confirm').click (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    anchor = $(this).closest('a')
+    if anchor.data('before-submit-confirm') # if data-confirm is present don't submit form
+      bootbox.confirm
+        title: anchor.data('title')
+        message: anchor.data('message')
+        buttons:
+          confirm:
+            label: 'Oui'
+            className: 'btn-success'
+          cancel:
+            label: 'Non'
+            className: 'btn-danger'
+        callback: (result) ->
+          if result
+            console.log 'res is ok'
+            return true
+          else
+            console.log 'res is not ok'
+            return false
+    else
+      return false
+
   $('.add_fields').addClass('btn btn-primary')
 
   if $('#edit_student, #new_student').length

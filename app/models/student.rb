@@ -146,7 +146,7 @@ class Student < ApplicationRecord
     if iscity
       attributes = ['Prenom', 'Nom', 'Emails', 'Entite', 'Rue', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
     else
-      attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Code']
+      attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
     end
     CSV.generate(headers: true, :col_sep => ";") do |csv|
       csv << attributes
