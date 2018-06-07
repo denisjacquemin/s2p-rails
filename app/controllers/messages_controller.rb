@@ -92,6 +92,8 @@ class MessagesController < ApplicationController
       school_id: current_school.id
     })
     @message.students = submitted_students_ids.map(&:to_i)
+    @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
+
 
     if @message.save
       redirect_to edit_message_path(@message), notice: 'Le message a été créé avec succès.'
