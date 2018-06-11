@@ -56,6 +56,10 @@ class MessageMailer < ApplicationMailer
       my_hash["-studentids-"] = studentids unless studentids.blank?
     end
 
+
+    logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash.to_json)}"
+
+
     # unless codes.blank?
     #   x_smptapi_hash['sub'] = {
     #     "[code]": codes,
