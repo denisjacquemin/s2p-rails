@@ -57,7 +57,7 @@ class MessageMailer < ApplicationMailer
     end
 
 
-    logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash.to_json)}"
+    logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash)}"
 
 
     # unless codes.blank?
