@@ -171,6 +171,7 @@ class MessagesController < ApplicationController
     forms.each do |form| # for each form get the colum names
       formjson = JSON.parse(form.formdata)
       formjson.each do |column|
+        column_name_title = ""
         column_name_title = column['label'].strip unless column['label'].nil?
         column_name_title = column_name_title.gsub(' *', '')
         column_name_title = 'Pas de titre' if column_name_title.blank?
