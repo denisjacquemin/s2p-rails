@@ -189,6 +189,7 @@ class MessagesController < ApplicationController
         formjson.each do |column|
           # logger.info "current culumn_name: #{column_name} for column: #{column.inspect}"
           # logger.info "#{column['label']} == #{column_name} = #{column['label'] == column_name}"
+          column_name_title = ""
           column_name_title = column['label'].strip unless column['label'].nil?
           column_name_title = column_name_title.gsub(' *', '')
           column_name_title = 'Pas de titre' if column_name_title.blank?
