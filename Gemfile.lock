@@ -208,6 +208,8 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
+    rack-mini-profiler (1.0.0)
+      rack (>= 1.2.0)
     rack-protection (2.0.1)
       rack
     rack-test (0.6.3)
@@ -358,6 +360,7 @@ DEPENDENCIES
   phonie
   puma
   pundit
+  rack-mini-profiler
   rails (>= 5.0.0.beta4, < 5.1)
   rails_12factor
   recaptcha

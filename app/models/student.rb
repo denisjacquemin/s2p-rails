@@ -309,8 +309,8 @@ class Student < ApplicationRecord
       self.groups.uniq!
 
       # assign "Tous les élèves to each new student"
-      all_students = Group.find_by(internal_id: 'all_students', school_id: self.school_id)
-      self.groups.push(all_students.id) unless all_students.nil?
+      all_students_id = Group.where(internal_id: 'all_students', school_id: self.school_id).pluck(:id).first
+      self.groups.push(all_students_id) unless all_students_id.nil?
       #Student.add_group(self.id, all_students.id) unless all_students.nil?
     end
 

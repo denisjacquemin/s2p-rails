@@ -229,24 +229,38 @@ private
     student_data[:phones] = buildPhoneArray(data) unless phonesArray.any?
 
     student_data[:student_emails] = buildEmailArray(emails)
-    # get already existing student for update
-    student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
-    if student.nil?
-      # student not found based on winpage_matricule, try to find it by firstname and lastname
-      student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+
+    # test if student already existe
+    studentAlreadyexist = Student.where('winpage_matricule = ?', student_data[:winpage_matricule].to_s).or(Student.where('firstname = ? and lastname = ?', student_data[:firstname], student_data[:lastname])).where('school_id = ?', student_data[:school_id]).exists?
+    if studentAlreadyexist # if yes update
+      student = Student.where('winpage_matricule = ?', student_data[:winpage_matricule].to_s).or(Student.where('firstname = ? and lastname = ?', student_data[:firstname], student_data[:lastname])).where('school_id = ?', student_data[:school_id]).includes([:student_emails, :phones]).load
       if student.size == 1
         update_student(student.first, student_data, user_id, emails)
       elsif student.size > 1
         write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
       end
-    else
-      update_student(student, student_data, user_id, emails)
+    else # if no create
+      create_new_student(student_data, school_id)
     end
 
-    if student.blank?
-      create_new_student(student_data, school_id)
-      # student don't exists yet, create a brand new one
-    end
+    # get already existing student for update
+    # student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
+    # if student.nil?
+    #   # student not found based on winpage_matricule, try to find it by firstname and lastname
+    #   student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+    #   if student.size == 1
+    #     update_student(student.first, student_data, user_id, emails)
+    #   elsif student.size > 1
+    #     write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+    #   end
+    # else
+    #   update_student(student, student_data, user_id, emails)
+    # end
+    #
+    # if student.blank?
+    #   create_new_student(student_data, school_id)
+    #   # student don't exists yet, create a brand new one
+    # end
   end
 
   def create_new_student(data, school_id)
@@ -289,7 +303,6 @@ private
   end
 
   def merge_new_and_old_emails(old_emails, new_emails)
-
     return nil if old_emails.nil? and new_emails.nil?
     return old_emails if new_emails.nil?
     return new_emails if old_emails.nil?
