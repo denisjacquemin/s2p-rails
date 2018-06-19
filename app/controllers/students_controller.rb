@@ -194,6 +194,7 @@ class StudentsController < ApplicationController
             "Implantation".to_sym => :implantation,
             "titulaire_nom".to_sym => :classroom,
             "titulaire_prénom".to_sym => :firstname_classroom,
+            "informations_de_contact".to_sym => :info_contact,
             "personnes_responsables_informations_de_contact_1".to_sym => :info_contact1,
             "personnes_responsables_informations_de_contact_2".to_sym => :info_contact2,
             "personnes_responsables_informations_de_contact_3".to_sym => :info_contact3,
