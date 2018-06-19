@@ -215,13 +215,16 @@ private
     # handle Creos info_contact, build an array of emails and an array of phones
     emailsArray = []
     phonesArray = []
-    contactArray = [data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
-    contactArray.each { |contact|
-      if contact.to_s.include?('@')
-        emailsArray.push(contact)
-      else
-        phonesArray.push(contact)
-      end
+    contactArray = [data[:info_contact], data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
+    contactArray.each { |contactElem|
+      contacts = contactElem.split(' ')
+      contacts.each { |contact|
+        if contact.to_s.include?('@')
+          emailsArray.push(contact)
+        else
+          phonesArray.push(contact)
+        end
+      }
     } if contactArray.any?
     emails = emailsArray.uniq.join(' ').strip if emailsArray.any?
 
