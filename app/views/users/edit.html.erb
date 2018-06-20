@@ -60,13 +60,18 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <div class="checkbox">
                 <%= f.label :send_email_to_author do %>
-                  <%= f.check_box :send_email_to_author %> M'envoyer un email lorsque je suis l'auteur du message
+                  <%= f.check_box :send_email_to_author %> M'envoyer un email lorsque je suis l'auteur du message.
                 <% end %>
               </div>
               <% unless current_user.user? %>
               <div class="checkbox">
                 <%= f.label :send_email_to_admin do %>
-                  <%= f.check_box :send_email_to_admin %> En tant qu'administrateur, m'envoyer un email pour chaque message
+                  <%= f.check_box :send_email_to_admin %> En tant qu'administrateur, m'envoyer un email pour chaque message.
+                <% end %>
+              </div>
+              <div class="checkbox">
+                <%= f.label :send_notification_by_email do %>
+                  <%= f.check_box :send_notification_by_email %> En tant qu'administrateur, m'envoyer un email lorsqu'un rédacteur demande une approbation.
                 <% end %>
               </div>
               <% end %>

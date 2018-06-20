@@ -26,6 +26,7 @@ class User < ApplicationRecord
   scope :admin, -> { where(role: :admin)}
   scope :superdamin, -> { where(role: :superadmin)}
   scope :no_superadmin, -> { where.not(role: :superadmin)}
+  scope :wants_email_notification, -> { where(send_notification_by_email: true) }
 
   before_create do
     user_key = shake_name(self.firstname,self.lastname).join

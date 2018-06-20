@@ -205,6 +205,9 @@ class Message < ApplicationRecord
     self.wfa_sms_sent = false
     self.aa_sms_sent = false
     self.ar_sms_sent = false
+    admin_emails = self.school.admins.wants_email_notification.map{|u| u.email}
+    NotificationMailer.approval_requested(admin_emails, self.title, self.author.lastname).deliver_later unless admin_emails.empty?
+
     # codes = self.school.admins.map{|u| u.code}
     # phone_numbers = self.school.admins.map{|u| u.phone}
     # alert = "#{self.author.firstname} demande une approbation: #{self.title}"

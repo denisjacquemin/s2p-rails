@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180525123329) do
+ActiveRecord::Schema.define(version: 20180619125317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,21 +361,21 @@ ActiveRecord::Schema.define(version: 20180525123329) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                    default: "",   null: false
-    t.string   "encrypted_password",       default: "",   null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",            default: 0,    null: false
+    t.integer  "sign_in_count",              default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",          default: 0,    null: false
+    t.integer  "failed_attempts",            default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "role"
     t.string   "firstname"
     t.string   "lastname"
@@ -386,19 +386,20 @@ ActiveRecord::Schema.define(version: 20180525123329) do
     t.integer  "invitation_limit"
     t.string   "invited_by_type"
     t.integer  "invited_by_id"
-    t.integer  "invitations_count",        default: 0
+    t.integer  "invitations_count",          default: 0
     t.datetime "deleted_at"
-    t.integer  "schools",                  default: [],                array: true
+    t.integer  "schools",                    default: [],                 array: true
     t.string   "function"
     t.string   "code"
-    t.integer  "groups",                   default: [],                array: true
+    t.integer  "groups",                     default: [],                 array: true
     t.string   "algolia_search_api_key"
-    t.integer  "new_announcement_counter", default: 0
+    t.integer  "new_announcement_counter",   default: 0
     t.string   "phone"
-    t.string   "email_reply_to",           default: ""
-    t.boolean  "display_email_address",    default: true
-    t.boolean  "send_email_to_author",     default: true
-    t.boolean  "send_email_to_admin",      default: true
+    t.string   "email_reply_to",             default: ""
+    t.boolean  "display_email_address",      default: true
+    t.boolean  "send_email_to_author",       default: true
+    t.boolean  "send_email_to_admin",        default: true
+    t.boolean  "send_notification_by_email", default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
     t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
