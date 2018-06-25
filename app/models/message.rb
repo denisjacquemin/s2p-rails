@@ -344,10 +344,10 @@ class Message < ApplicationRecord
   end
 
   def admins_emails
-    if self.school.nil? or self.school.admins.blank?
+    if self.school.nil? or self.school.admins.with_send_email_to_admin.blank?
       return nil
     else
-      return self.school.admins.pluck(:email)
+      return self.school.admins.with_send_email_to_admin.pluck(:email)
     end
   end
 
