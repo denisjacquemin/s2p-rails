@@ -36,12 +36,14 @@ class MessageMailer < ApplicationMailer
     # <% #end %>
     # <!--<td><%= image_tag attachments['logo.png'].url %></td>-->
 
-    x_smptapi_hash = {}
-    x_smptapi_hash['unique_args'] = { mid: @message.id, sid: @message.school_id }
-    x_smptapi_hash['to'] = to if to.kind_of?(Array) # if to argument is an array build 'to' X-SMTPAPI list
-    x_smptapi_hash['to'] = [to] if to.kind_of?(String)
+    x_smptapi = create_sg_header(to, codes, emails_encrypt, studentids, @message.id, @message.school_id)
 
-    amount_to_pay = []
+    # x_smptapi_hash = {}
+    # x_smptapi_hash['unique_args'] = { mid: @message.id, sid: @message.school_id }
+    # x_smptapi_hash['to'] = to if to.kind_of?(Array) # if to argument is an array build 'to' X-SMTPAPI list
+    # x_smptapi_hash['to'] = [to] if to.kind_of?(String)
+
+    # amount_to_pay = []
     # if content.include?('[code]')
       # "sub": {
       #   "[code]": [
@@ -50,14 +52,14 @@ class MessageMailer < ApplicationMailer
       #   ]
       # }
 
-    x_smptapi_hash['sub'] = {}.tap do |my_hash|
-      my_hash["[code]"] = codes unless codes.blank?
-      my_hash["-email_encrypt-"] = emails_encrypt unless emails_encrypt.blank?
-      my_hash["-studentids-"] = studentids unless studentids.blank?
-    end
+    # x_smptapi_hash['sub'] = {}.tap do |my_hash|
+    #   my_hash["[code]"] = codes unless codes.blank?
+    #   my_hash["-email_encrypt-"] = emails_encrypt unless emails_encrypt.blank?
+    #   my_hash["-studentids-"] = studentids unless studentids.blank?
+    # end
 
 
-    logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash)}"
+    logger.info "X-SMTPAPI pretty output: #{x_smptapi.json_string}"
 
 
     # unless codes.blank?
@@ -66,7 +68,7 @@ class MessageMailer < ApplicationMailer
     #     "-email_encrypt-": emails_encrypt
     #   }
     # end
-    headers "X-SMTPAPI" => x_smptapi_hash.to_json
+    headers "X-SMTPAPI" => x_smptapi.json_string
 
     from = %Q["#{@message.school_name} - #{@message.author.fullname}"] + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
 
@@ -93,5 +95,19 @@ class MessageMailer < ApplicationMailer
       end
       codes_li_tags = "" if codes_li_tags.empty?
       codes_li_tags
+    end
+
+    def create_sg_header(to=[], codes=[], emails_encrypt=[], studentsids=[], message_id="0", school_id="0")
+      header = Smtpapi::Header.new
+
+      header.add_to(to)
+
+      header.add_unique_arg('mid', message_id)
+      header.add_unique_arg('sid', school_id)
+
+      header.add_substitution("[code]", codes)
+      header.add_substitution("-email_encrypt-", emails_encrypt)
+      header.add_substitution("-studentids-", studentsids)
+
     end
 end

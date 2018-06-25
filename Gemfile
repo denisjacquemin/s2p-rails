@@ -92,6 +92,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 gem "delayed_job_web"
 
+gem 'smtpapi'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'dotenv-rails'
