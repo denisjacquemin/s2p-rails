@@ -66,7 +66,7 @@ class MessageMailer < ApplicationMailer
     #     "-email_encrypt-": emails_encrypt
     #   }
     # end
-    headers "X-SMTPAPI" => x_smptapi_hash.to_json
+    headers "X-SMTPAPI" => JSON.generate(x_smptapi_hash)
 
     from = %Q["#{@message.school_name} - #{@message.author.fullname}"] + '<' + 'konecto@konectoapp.com' + '>' || 'konecto@konectoapp.com'
 
