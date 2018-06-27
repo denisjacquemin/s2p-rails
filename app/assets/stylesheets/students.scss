@@ -52,7 +52,7 @@
 }
 
 
-.algolia_students #hits .div-row:hover {
+.algolia_students .hits .div-row:hover {
   cursor:pointer;
   color: #2780E3;
   text-decoration: underline;
@@ -99,11 +99,11 @@
   }
 }
 
-#hitperpage {
-  display: inline-block;
+#results_by_page {
+  margin-top: 50px;
 }
 
-.algolia_students #hits .hit-content.active {
+.algolia_students .hits .hit-content.active {
   background-color: #eff9fd;
 }
 

@@ -25,8 +25,12 @@ ready = () ->
         e.preventDefault()
         return
       return
+    $('.algolia_students').on 'click', '#all_students', (e) ->
+      $('.algolia_students #toggle_all, .hits .scb').prop('checked', false)
+      $('.div-row').removeClass('active')
+      $('#selected').text('0')
 
-    $('#hits').on 'click', '.div-row', (e) ->
+    $('.hits').on 'click', '.div-row', (e) ->
       if $(e.target).is('.sendcode')
         e.preventDefault()
         $.ajax('/messages/sendcode',
@@ -38,6 +42,7 @@ ready = () ->
           })
         return
       if $(e.target).is('.toggle-row')
+        $('#all_students').prop('checked', false)
         divRow = $(e.target).closest('.div-row')
         toggleSelectedRow(divRow)
         updateSelectedRowsCounter()
@@ -83,12 +88,28 @@ ready = () ->
 
 
     if $('.algolia_students').length
+      $('.algolia').on 'keydown', 'input.ais-search-box--input', (event) ->
+        $('#hits').show()
+        $('#first_students').hide()
+
+      $('.algolia').on 'click', '.ais-pagination--item', (event) ->
+        $('#hits').show()
+        $('#first_students').hide()
+
+      $('.algolia').on 'click', '.ais-refinement-list--checkbox', (event) ->
+        $('#hits').show()
+        $('#first_students').hide()
+
+      if window.location.search != ''
+        $('#hits').show()
+        $('#first_students').hide()
+
       search = instantsearch(
         appId: '<%= Rails.application.secrets.algolia_app_id %>'
         apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
         indexName: 'Student'
         searchParameters:
-          hitsPerPage: 1000
+          hitsPerPage: 100
           numericRefinements :
             school_id:
               '=': [$('#current_school_id').val()]
@@ -102,6 +123,7 @@ ready = () ->
         placeholder: "Rechercher"
         magnifier: false
         autofocus: true
+        reset: true
       )
       search.addWidget instantsearch.widgets.hits(
         container: '#hits'
@@ -110,7 +132,6 @@ ready = () ->
           empty: getTemplate('no-results'))
       search.addWidget instantsearch.widgets.pagination(
         container: '#pagination'
-        maxPages: 10
         cssClasses: {
           root: 'pagination'
           active: 'active'
@@ -118,7 +139,7 @@ ready = () ->
       search.addWidget instantsearch.widgets.stats({
         container: '#stats',
         templates: {
-          body: "Total: {{nbHits}}"
+          body: "Total: {{nbHits}}<span id='nbhits' style='display:none;'>{{nbHits}}</span>"
         }
       })
 
@@ -145,10 +166,8 @@ ready = () ->
       # search.addWidget instantsearch.widgets.hitsPerPageSelector(
       #   container: '#hitperpage'
       #   items: [
-      #     {value: 30, label: '30'},
-      #     {value: 50, label: '50'},
-      #     {value: 200, label: '200'},
-      #     {value: 1000, label: '1000'}
+      #     {value: 100, label: '100'},
+      #     {value: 500, label: '500'},
       #   ]
       #   autoHideContainer: false
       # )
@@ -177,7 +196,8 @@ ready = () ->
       search.on('render', onRenderHandler);
 
       $('.algolia_students').on 'click', '#toggle_all', (e) ->
-        rows = $('div.div-row')
+        $('#all_students').prop('checked', false)
+        rows = $('div.div-row:visible')
         setSelectedRow($(row), this.checked) for row in rows
         updateSelectedRowsCounter()
 
@@ -225,3 +245,4 @@ onRenderHandler = () ->
 updateSelectedRowsCounter = () ->
   counter = $('.algolia_students').find('input.scb:checked').length
   $('#selected').text(counter)
+  $('#selected').css('background', '#FFFF00')

@@ -80,7 +80,13 @@ class MessagesController < ApplicationController
   end
 
   def create_sendcode_message
-    submitted_students_ids = params[:student][:id] unless params[:student].nil?
+    all_students_selected = params[:all_students].present?
+
+    submitted_students_ids = []
+    unless all_students_selected
+      submitted_students_ids = params[:student][:id] unless params[:student].nil?
+    end
+
 
     @message = Message.new({
       title: current_school.send_code_title_template,
@@ -91,7 +97,13 @@ class MessagesController < ApplicationController
       author: current_user,
       school_id: current_school.id
     })
-    @message.students = submitted_students_ids.map(&:to_i)
+    unless all_students_selected
+      @message.students = submitted_students_ids.map(&:to_i)
+    end
+
+    if all_students_selected
+      @message.groups = Group.by_school(current_school.id).where(internal_id: 'all_students').pluck(:id)
+    end
     @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
 
 

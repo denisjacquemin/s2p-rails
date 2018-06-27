@@ -11,6 +11,10 @@ class StudentsController < ApplicationController
     @current_school = current_school
     #@students = current_user.students_by_school(@current_school.id)
     @message = Message.new
+
+    # sync order by with algolia default ranking parameters
+    @first_500_students = Student.includes([:phones, :student_emails]).by_school(@current_school.id).order(:level, :lastname).limit(100)
+    @total_of_students = Student.by_school(@current_school.id).count
   end
 
   def new_index
@@ -116,7 +120,8 @@ class StudentsController < ApplicationController
 
   def destroy_all
     ActiveRecord::Base.transaction do
-      Student.where(id: params[:student][:id]).destroy_all
+      Student.destroy_all(id: params[:student][:id], school_id: current_school.id)
+      # Student.where(id: params[:student][:id]).destroy_all
     end
     render js: %(window.location.href='#{students_url}') and return
   end
@@ -279,7 +284,8 @@ class StudentsController < ApplicationController
   end
 
   def export_csv
-    students = Student.where(:id => params[:student][:id])
+    students = Student.includes([:phones, :student_emails]).where(school_id: current_school.id) unless params[:all_students].nil?
+    students = Student.includes([:phones, :student_emails]).where(id: params[:student][:id], school_id: current_school.id) unless params[:student].nil?
     file_name = current_school.iscity ? "citoyens-" : "eleves-"
     send_data(students.to_csv_file(current_school.iscity).encode("cp1252"),
       type: 'text/csv; charset=iso-8859-1; header=present',

@@ -55,12 +55,42 @@
       <div class="div-column">Code</div>
       <div class="div-column-action hidden-xs hidden-sm"></div>
     </div>
-    <div id="hits" class="div-table hits">
+    <div id="hits" class="div-table hits" style='display:none;'>
       <div class="spinner">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
       </div>
+    </div>
+    <div id="first_students" class="hits">
+      <% @first_500_students.each do |student| %>
+      <div class="ais-hits--item">
+        <div class="clearfix div-row hit-content" data-student-id="<%= student.id %>">
+          <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="<%= student.id %>" class="scb toggle-row"></div>
+          <div class="div-column"><%= student.lastname %></div>
+          <div class="div-column"><%= student.firstname %></div>
+          <div class="div-column"><%= student.level %></div>
+          <div class="div-column hidden-xs"><%= student.classroom %></div>
+          <div class="div-column"><%= student.code %></div>
+          <div class="div-column-action hidden-xs hidden-sm">
+            <table class="flags">
+              <tr>
+                <td class="flag" <% if student.followers > 0 %>style="visibility:visible" <% end %>><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup><%= student.followers %></sup></td>
+                <td class="flag" <% if student.emails.size > 0 %> style="visibility:visible"<% end %>><i class="fa fa-envelope"></i></td>
+                <td class="flag" <% if student.phones.size > 0 %> style="visibility:visible"<% end %>><span class="fa fa-phone" aria-hidden="true"></span><sup><%= student.phones.size %></sup></td>
+              </tr>
+            </table>
+            <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+              <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="<%= student.id %>">
+                <i class="dd-toggle material-icons">more_vert</i>
+              </a>
+              <ul class="dropdown-menu pull-right">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
     </div>
     <div id="pagination"></div>
   </div>
@@ -71,8 +101,17 @@
       <div id="stats" class="pull-right"></div>
     </div>
     <div id="search-input"></div>
+    <div>
+      <label class="ais-refinement-list--label">
+        <input type="checkbox" class="scb" name="all_students" id="all_students" value="true">
+            Tous les <%= current_school.iscity ? 'citoyens' : 'élèves' %> (<%= @total_of_students %>)
+      </label>
+    <br/>
     <div id="level"></div>
     <div id="classroom"></div>
+    <!--
+    <div class="pull-right" id="results_by_page"><span id="hitperpage"></span> Résultats par page</div>
+    -->
   </div>
 </div>
 
