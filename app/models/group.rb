@@ -28,7 +28,7 @@ class Group < ApplicationRecord
   default_scope { order('name ASC') }
 
   def students
-    Student.by_group(self.id)
+    Student.by_group(self.id).default_order
   end
 
   def writers

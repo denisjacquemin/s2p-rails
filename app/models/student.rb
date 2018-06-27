@@ -67,8 +67,8 @@ class Student < ApplicationRecord
 
 
 
-
-  default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
+  scope :default_order, -> { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
+  #default_scope { order('classroom ASC, level ASC, lastname ASC, firstname ASC') }
 
   validates :firstname, presence: true
   validates :lastname, presence: true

@@ -94,7 +94,7 @@ class Message < ApplicationRecord
   end
 
   def students_obj
-    Student.by_ids(self.students)
+    Student.default_order.by_ids(self.students)
   end
 
   def self.add_groups(message_ids, group_ids)

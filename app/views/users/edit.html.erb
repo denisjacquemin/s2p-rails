@@ -138,7 +138,7 @@
                             <tbody id="user_student_list">
                             <%= hidden_field_tag "user[student_ids][]", nil %>
                             <%
-                                students = Student.by_school(current_school)
+                                students = Student.default_order.by_school(current_school)
                                 students.each do |s| %>
                                 <tr>
                                   <td class="nowrap">

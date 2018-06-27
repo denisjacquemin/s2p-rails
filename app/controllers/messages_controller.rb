@@ -154,7 +154,7 @@ class MessagesController < ApplicationController
 
   def billed_students_list
     @students_for_billing = []
-    @students_for_billing = Student.by_groups(@message.groups) unless @message.groups.nil?
+    @students_for_billing = Student.default_order.by_groups(@message.groups) unless @message.groups.nil?
     students_form_students_ids = Student.by_ids(@message.students)
     @students_for_billing += students_form_students_ids unless students_form_students_ids.nil?
     @students_for_billing = @students_for_billing.compact.flatten.uniq if @students_for_billing.any?

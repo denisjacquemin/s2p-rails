@@ -11,7 +11,7 @@
               <th>Année - titulaire </th>
             </thead>
             <tbody>
-              <% Student.by_school(@group.school_id).each do |s| %>
+              <% Student.default_order.by_school(@group.school_id).each do |s| %>
                 <tr>
                   <td><input type="checkbox" value="<%= s.id %>"/></td>
                   <td><label class="fullname"><%= "#{s.lastname} #{s.firstname}" %></label></td>
