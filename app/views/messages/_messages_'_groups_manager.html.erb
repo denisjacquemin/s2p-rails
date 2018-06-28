@@ -35,28 +35,33 @@
               <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
-              <% students = current_user.students_by_school(current_school.id).pluck(:id, :firstname, :lastname, :level, :classroom) %>
-              <% if students.present? %>
-                <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
-                <div class="scroll-area">
-                  <table class="table table-hover table-condensed" >
-                    <tbody id="student_list" class="list">
-                      <% students.each do |student| %>
-                        <tr>
-                          <td class="nowrap">
-                            <%= check_box_tag "cb_#{student[0]}", student[0], nil, disabled: (message.published? ? true : nil) %>
-                          </td>
-                          <td class="ctb studentfullname nowrap"><label for="cb_<%= student[0]%>"><%= student[1] %> <%= student[2] %></label></td>
-                          <td class="ctb studentfulllevel nowrap"><label for="cb_<%= student[0]%>"><%= student[3] %></label></td>
-                          <td class="ctb studentclassroom fullwidth"><label for="cb_<%= student[0]%>"><%= student[4] %></label></td>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
+              <% if current_user.id != 610 %>
+                <% students = current_user.students_by_school(current_school.id).pluck(:id, :firstname, :lastname, :level, :classroom) %>
+                <% if students.present? %>
+                  <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">
+                  <div class="scroll-area">
+                    <table class="table table-hover table-condensed" >
+                      <tbody id="student_list" class="list">
+                        <% students.each do |student| %>
+                          <tr>
+                            <td class="nowrap">
+                              <%= check_box_tag "cb_#{student[0]}", student[0], nil, disabled: (message.published? ? true : nil) %>
+                            </td>
+                            <td class="ctb studentfullname nowrap"><label for="cb_<%= student[0]%>"><%= student[1] %> <%= student[2] %></label></td>
+                            <td class="ctb studentfulllevel nowrap"><label for="cb_<%= student[0]%>"><%= student[3] %></label></td>
+                            <td class="ctb studentclassroom fullwidth"><label for="cb_<%= student[0]%>"><%= student[4] %></label></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% end %>
+                <% if students.empty? %>
+                  <p><%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+                <% end %>
               <% end %>
-              <% if students.empty? %>
-                <p><%= I18n.t('views.messages.students_no_rights', admins: current_school.admins.map {|u| u.fullname}.join(', ')) %></p>
+              <% if current_user.id == 610 %>
+                <p>Liste des élèves temporairement désactivée</p>
               <% end %>
             </div>
           </div>
