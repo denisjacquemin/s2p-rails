@@ -120,7 +120,10 @@ class StudentsController < ApplicationController
 
   def destroy_all
     ActiveRecord::Base.transaction do
-      Student.destroy_all(id: params[:student][:id], school_id: current_school.id)
+      students = Student.where(school_id: current_school.id) unless params[:all_students].nil?
+      students = Student.where(id: params[:student][:id], school_id: current_school.id) unless params[:student].nil?
+
+      students.destroy_all
       # Student.where(id: params[:student][:id]).destroy_all
     end
     render js: %(window.location.href='#{students_url}') and return
