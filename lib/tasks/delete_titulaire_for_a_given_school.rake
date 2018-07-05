@@ -7,6 +7,5 @@ task :delete_classroom_for_a_given_school, [:school_id] => :environment do |task
   puts "Delete Classroom for #{school.name}."
 
   students = school.students
-  puts "students.size #{students.size}"
-  # students.update_all(classroom: '')
+  students.update_all(classroom: '')
 end
