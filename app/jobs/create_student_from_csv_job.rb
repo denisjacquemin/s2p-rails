@@ -180,7 +180,7 @@ private
     emails = [data[:siel_email_1], data[:siel_email_2]].uniq.join(' ').strip
     byebug
     student_data[:student_emails] = buildEmailArray(emails)
-    student_data[:phones] = buildPhoneArray(data)
+    student_data[:phones] = buildPhoneArray(data) 
 
     # get already existing student for update
     student = Student.where('siel_id = ? and school_id = ?', student_data[:siel_id].to_s, student_data[:school_id]).first
