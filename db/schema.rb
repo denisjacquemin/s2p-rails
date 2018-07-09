@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619125317) do
+ActiveRecord::Schema.define(version: 20180703083538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(version: 20180619125317) do
     t.uuid     "uuid"
     t.string   "winpage_matricule"
     t.string   "proeco_id"
+    t.string   "siel_id"
     t.index ["code"], name: "index_students_on_code", unique: true, using: :btree
   end
 

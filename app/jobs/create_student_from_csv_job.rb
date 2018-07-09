@@ -27,6 +27,8 @@ class CreateStudentFromCsvJob < ApplicationJob
         handle_winpage_student(data, school_id, user.id)
       elsif data[:proeco_id].present?
         handle_proeco_student(data, school_id, user.id)
+      elsif data[:siel_id].present?
+        handle_siel_student(data, school_id, user.id)
       else
         handle_simple_csv_student(data, school_id, user.id)
       end
@@ -164,6 +166,41 @@ private
         logger.info "student update fail for #{student.firstname} #{student.lastname}"
       end
     end
+  end
+
+  def handle_siel_student(data, school_id, user_id)
+    logger.info "Siel: #{data.inspect}"
+    student_data = {}
+    student_data[:siel_id] = data[:siel_id].to_s
+    student_data[:school_id] = school_id
+    student_data[:firstname] = data[:firstname]
+    student_data[:lastname] = data[:lastname]
+    student_data[:level] = "#{data[:siel_annee_etude]}#{data[:level2]}"
+    student_data[:classroom] = [data[:siel_prenom_tit], data[:siel_nom_tit]].join(' ').strip
+    emails = [data[:siel_email_1], data[:siel_email_2]].uniq.join(' ').strip
+    byebug
+    student_data[:student_emails] = buildEmailArray(emails)
+    student_data[:phones] = buildPhoneArray(data)
+
+    # get already existing student for update
+    student = Student.where('siel_id = ? and school_id = ?', student_data[:siel_id].to_s, student_data[:school_id]).first
+
+    if student.nil?
+      # student not found based on siel_id, try to find it by firstname and lastname
+      student = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+      if student.size == 1
+        update_student(student.first, student_data, user_id, emails)
+      elsif student.size > 1
+        write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+      end
+      else
+        update_student(student, student_data, user_id, emails)
+      end
+
+      if student.blank?
+        # student don't exists yet, create a brand new one
+        create_new_student(student_data, school_id)
+      end
   end
 
   def handle_proeco_student(data, school_id, user_id)
@@ -347,6 +384,7 @@ private
   end
 
   def buildPhoneArray(data)
+    byebug
     phonie1 = Phonie::Phone.parse(data[:phone1], country_code: '32') unless data[:phone1].nil?
     phone1 = phonie1.to_s unless phonie1.nil?
     phonie2 = Phonie::Phone.parse(data[:phone2], country_code: '32') unless data[:phone2].nil?

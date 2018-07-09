@@ -223,6 +223,15 @@ class StudentsController < ApplicationController
             :classe => :level2,
             :email_père => :email1,
             :email_mère => :email3,
+            # SIEL
+            "annee_d'etude".to_sym => :siel_annee_etude,
+            "nom_tit".to_sym => :siel_nom_tit,
+            "prénom_tit".to_sym => :siel_prenom_tit,
+            "eleve".to_sym => :siel_id,
+            "email_responsable_1".to_sym => :siel_email_1,
+            "email_responsable_2".to_sym => :siel_email_2,
+            "tel_1_responsable_1".to_sym => :phone1,
+            "tel_2_responsable_1".to_sym => :phone2,
           },
           :remove_unmapped_keys => true,
           :value_converters => {
