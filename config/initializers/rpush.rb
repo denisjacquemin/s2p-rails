@@ -1,6 +1,6 @@
 Rpush.configure do |config|
 
-  # Supported clients are :active_record, :redis and :mongoid
+  # Supported clients are :active_record and :redis
   config.client = :active_record
 
   # Options passed to Redis.new
@@ -56,7 +56,6 @@ Rpush.reflect do |on|
   # end
   #
   # on.notification_enqueued do |notification|
-  #   puts "notification_enqueued #{notification.inspect}"
   # end
 
   # Called when a notification is successfully delivered.
@@ -112,8 +111,9 @@ Rpush.reflect do |on|
   # Called for each recipient which fails to receive a notification. This
   # can occur more than once for the same notification when there are multiple
   # recipients. (do not handle invalid registration IDs here)
-  # on.gcm_failed_to_recipient do |notification, error, registration_id|
-  # end
+  on.gcm_failed_to_recipient do |notification, error, registration_id|
+    Rails.logger.info "[Rpush.reflect gcm_failed_to_recipient] notification: #{notification}, error: #{error}, registration_id: #{registration_id}"
+  end
 
   # Called when the GCM returns a canonical registration ID.
   # You will need to replace old_id with canonical_id in your records.
@@ -156,8 +156,9 @@ Rpush.reflect do |on|
   #
   # If the reason is the string 'Unregistered', you should remove
   # this registration id from your records.
-  # on.adm_failed_to_recipient do |notification, registration_id, reason|
-  # end
+  on.adm_failed_to_recipient do |notification, registration_id, reason|
+    Rails.logger.info "[Rpush.adm_failed_to_recipient] notification: #{notification}, registration_id: #{registration_id}, reason: #{reason}"
+  end
 
   # Called when Failed to deliver to WNS. Check the 'reason' string for further
   # explanations.

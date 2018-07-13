@@ -39,6 +39,7 @@ module Notification extend ActiveSupport::Concern
         logger.info "No IOS notification to send #{devices.inspect} "
       end
 
+      logger.info "Number Android devices found: #{devicesAndroid.inspect}"
       if devicesAndroid.any?
         dataAndroid = {
           "message_id": message.id,
