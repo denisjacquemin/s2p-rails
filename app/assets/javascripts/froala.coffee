@@ -5,7 +5,6 @@ if not Turbolinks.supported
 $(document).on 'turbolinks:load', ->
   ready()
 
-
 ready = () ->
   $('#wysiwyg, #school_send_code_template').froalaEditor(
     key: 'gknlfgqifxyG5hcj1=='
