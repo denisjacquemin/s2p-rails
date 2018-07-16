@@ -2,7 +2,7 @@
 class CreateAttachinaryTables < ActiveRecord::Migration[5.0]
   def change
     create_table :attachinary_files do |t|
-      t.references :attachinariable, polymorphic: true
+      t.references :attachinariable, polymorphic: true, index: {name: 'ndex_attach_files_on_attach_type_and_attach_id'}
       t.string :scope
 
       t.string :public_id
