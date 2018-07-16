@@ -25,9 +25,9 @@ class Student < ApplicationRecord
   # after_save :set_code, if: "code.blank?"
   # after_update :set_code, if: "code.blank?"
   before_create  :set_groups, :generate_uuid
-  before_update :update_level_and_classroom_groups, if: "classroom_changed? or level_changed?"
-  after_update :clean_old_level, if: "level_changed?"
-  after_update :clean_old_classroom, if: "classroom_changed?"
+  before_update :update_level_and_classroom_groups, if: -> {classroom_changed? or level_changed?}
+  after_update :clean_old_level, if: -> {level_changed?}
+  after_update :clean_old_classroom, if: -> {classroom_changed?}
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users

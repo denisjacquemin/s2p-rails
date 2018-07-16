@@ -2,19 +2,19 @@ source 'https://rubygems.org'
 
 ruby "2.4.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0.beta4', '< 5.1'
+gem 'rails', '5.2'
 
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets
-gem 'bootstrap-sass', '~> 3.3.6'
-gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -24,7 +24,7 @@ gem "algoliasearch-rails"
 
 gem 'bootbox-rails'
 
-gem 'google-analytics-rails', '1.1.0'
+gem 'google-analytics-rails'
 
 gem "recaptcha", require: "recaptcha/rails"
 
@@ -39,19 +39,19 @@ gem 'callr'
 gem 'rqrcode'
 
 
-gem "wysiwyg-rails", '>= 2.7.0'
+gem "wysiwyg-rails"
 gem 'kramdown'
 gem 'mail'
 gem 'rpush'#, '< 2.7.0' # https://github.com/rpush/rpush/wiki/Herokuquit
 
-gem 'net-http-persistent', '2.9.4'
+gem 'net-http-persistent'
 gem 'faraday'
 gem 'httparty'
 gem "animate-rails"
-gem 'money-rails', '~>1'
+gem 'money-rails'
 gem 'phonie'
 
-gem 'roadie-rails', '~> 1.0'
+gem 'roadie-rails'
 
 gem 'delayed_job_active_record'
 
@@ -69,7 +69,7 @@ gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 # Action Cable dependencies for the Redis adapter
 #gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

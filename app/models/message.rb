@@ -47,11 +47,11 @@ class Message < ApplicationRecord
   after_initialize :set_default_mtype, :if => :new_record?
 
   validates :title, presence: true
-  validate  :presence_of_recipients, if: "status_changed?"
+  validate  :presence_of_recipients, if: -> {status_changed?}
 
-  before_update :avoid_nil_for_status, if: "status_changed?"
-  before_update :handle_status_changed, if: "status_changed?"
-  before_update :handle_status_republish, if: "status_changed?"
+  before_update :avoid_nil_for_status, if: -> {status_changed?}
+  before_update :handle_status_changed, if: -> {status_changed?}
+  before_update :handle_status_republish, if: -> {status_changed?}
 
   def publish_date
     publish_date = nil
