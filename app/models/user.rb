@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   before_save :createAlgoliaApiKey, if: :algolia_key_needs_update?
-  # after_create :createAlgoliaApiKey
+  after_create :createAlgoliaApiKey
 
   # after_invitation_accepted :set_and_save_all_writers
 
