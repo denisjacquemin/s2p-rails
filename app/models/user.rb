@@ -35,6 +35,7 @@ class User < ApplicationRecord
   end
 
   after_save :createAlgoliaApiKey, if: :algolia_key_needs_update?
+  # after_create :createAlgoliaApiKey
 
   # after_invitation_accepted :set_and_save_all_writers
 
@@ -130,6 +131,7 @@ class User < ApplicationRecord
 
   private
     def createAlgoliaApiKey
+      logger.info "Create new Algolia Api Key for #{self.firstname} #{self.lastname}"
       @create_algolia_api_key_service = CreateAlgoliaApiKeyService.new(self)
       @create_algolia_api_key_service.generate_key
     end
