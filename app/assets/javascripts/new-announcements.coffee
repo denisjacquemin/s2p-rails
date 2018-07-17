@@ -8,7 +8,7 @@ $(document).on 'turbolinks:load', ->
 
 ready = () ->
   current_user_count = parseInt($('#current_user_new_announcement_counter').val())
-  current_value = 19
+  current_value = 20
   if current_user_count < current_value
     setTimeout ( ->
       $('#new_announcement_menu_icon').css('color', 'red')
