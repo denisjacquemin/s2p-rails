@@ -178,9 +178,8 @@ private
     student_data[:level] = "#{data[:siel_annee_etude]}#{data[:level2]}"
     student_data[:classroom] = [data[:siel_prenom_tit], data[:siel_nom_tit]].join(' ').strip
     emails = [data[:siel_email_1], data[:siel_email_2]].uniq.join(' ').strip
-    byebug
     student_data[:student_emails] = buildEmailArray(emails)
-    student_data[:phones] = buildPhoneArray(data) 
+    student_data[:phones] = buildPhoneArray(data)
 
     # get already existing student for update
     student = Student.where('siel_id = ? and school_id = ?', student_data[:siel_id].to_s, student_data[:school_id]).first
@@ -384,7 +383,6 @@ private
   end
 
   def buildPhoneArray(data)
-    byebug
     phonie1 = Phonie::Phone.parse(data[:phone1], country_code: '32') unless data[:phone1].nil?
     phone1 = phonie1.to_s unless phonie1.nil?
     phonie2 = Phonie::Phone.parse(data[:phone2], country_code: '32') unless data[:phone2].nil?
