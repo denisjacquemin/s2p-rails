@@ -34,8 +34,7 @@ class User < ApplicationRecord
     self.code = 'u' + hash[1].last(4 + user_key.length % 4)
   end
 
-  before_save :createAlgoliaApiKey, if: :algolia_key_needs_update?
-  after_create :createAlgoliaApiKey
+  after_save :createAlgoliaApiKey, if: :algolia_key_needs_update?
 
   # after_invitation_accepted :set_and_save_all_writers
 
@@ -137,7 +136,9 @@ class User < ApplicationRecord
     end
 
     def algolia_key_needs_update?
-      logger.info "algolia_key_needs_update? #{schools_changed?} || #{role_changed?}"
-      schools_changed? || role_changed?
+      logger.info "algolia_key_needs_update? #{schools_previously_changed?} || #{role_previously_changed?}  || #{id_previously_changed?}"
+
+      # id_previously_changed? to detect a new creation
+      schools_previously_changed? || role_previously_changed? || id_previously_changed?
     end
 end
