@@ -44,6 +44,9 @@
   .flag {
     visibility: hidden;
     padding: 0 3px;
+    span {
+      margin-right: 3px;
+    }
   }
 }
 
