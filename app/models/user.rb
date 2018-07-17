@@ -137,6 +137,7 @@ class User < ApplicationRecord
     end
 
     def algolia_key_needs_update?
+      logger.info "algolia_key_needs_update? #{schools_changed?} || #{role_changed?}"
       schools_changed? || role_changed?
     end
 end
