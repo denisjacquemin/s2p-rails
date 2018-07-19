@@ -3,25 +3,26 @@ class CreateStudentFromCsvJob < ApplicationJob
   queue_as :default
 
   rescue_from(Exception) do |exception|
-   logger "Exception in CreateStudentFromCsvJob: #{exception.inspect}"
+    puts "[CreateStudentFromCsvJob info] in rescue_from: #{exception.inspect}"
   end
 
   def error(job, exception)
+    puts "[CreateStudentFromCsvJob info] in error: Job: #{job.inspect} Exception: #{exception.inspect}"
     AlertAdminMailer.send_alert(job.inspect + exception.inspect).deliver_later
   end
 
   def failure(job)
+    puts "[CreateStudentFromCsvJob info] in failure: #{job.inspect}"
     AlertAdminMailer.send_alert(job.inspect).deliver_later
   end
 
   def perform(rows, school_id, user)
-
-    logger.info "perform CreateStudentsFromCsvJob"
+    puts "[CreateStudentFromCsvJob info] in perform"
     i = 0
     liste = ""
-    puts "rows #{rows.size}"
+    puts "[CreateStudentFromCsvJob info] rows.size #{rows.size}"
     rows.each do |data|
-      puts "row #{i}: #{data[:winpage_matricule]}"
+      puts "[CreateStudentFromCsvJob info] handle row #{i}: #{data.inspect}"
       if data[:winpage_matricule].present? # Winpage ou Creos
         liste = liste + " #{data[:winpage_matricule]}"
         handle_winpage_student(data, school_id, user.id)
@@ -274,11 +275,14 @@ private
     if studentAlreadyexist # if yes update
       student = Student.where('winpage_matricule = ?', student_data[:winpage_matricule].to_s).or(Student.where('firstname = ? and lastname = ?', student_data[:firstname], student_data[:lastname])).where('school_id = ?', student_data[:school_id]).includes([:student_emails, :phones]).load
       if student.size == 1
+        puts "[CreateStudentFromCsvJob info] Update #{student.inspect}"
         update_student(student.first, student_data, user_id, emails)
       elsif student.size > 1
+        puts "[CreateStudentFromCsvJob info] Homonyme #{student.inspect}"
         write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
       end
     else # if no create
+      puts "[CreateStudentFromCsvJob info] Create #{student_data.inspect} for school_id: #{school_id}"
       create_new_student(student_data, school_id)
     end
 
