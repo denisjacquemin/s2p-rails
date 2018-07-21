@@ -18,13 +18,13 @@ fr:
     students:
       create:
         notice:
-          success: Elève enregistré avec succès
+          success: "%{entity} enregistré avec succès"
       update:
         notice:
-          success: Elève enregistré avec succès
+          success: "%{entity} enregistré avec succès"
       destroy:
         notice:
-          success: Elève(s) effacé
+          success: "%{entity} effacé"
       cvs_upload:
         notice:
           success: Import CSV terminé avec succès

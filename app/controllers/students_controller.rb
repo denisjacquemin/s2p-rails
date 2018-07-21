@@ -70,7 +70,7 @@ class StudentsController < ApplicationController
     if @student.errors.any?
       render :new
     else
-      redirect_to edit_student_path(@student), notice: t('controller.students.create.notice.success')
+      redirect_to edit_student_path(@student), notice: t('controller.students.create.notice.success', entity: current_school.iscity ? "Citoyen" : "Elève")
     end
   end
 
@@ -83,7 +83,7 @@ class StudentsController < ApplicationController
     @student.groups = submitted_groups_ids.map(&:to_i) if submitted_groups_ids.present?
 
     if @student.update(student_params)
-      redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success')
+      redirect_to edit_student_path(@student), notice: t('controller.students.update.notice.success', entity: current_school.iscity ? "Citoyen" : "Elève")
     else
       render :edit
     end
@@ -113,7 +113,7 @@ class StudentsController < ApplicationController
     authorize @student
     @student.destroy
     respond_to do |format|
-      format.html { redirect_to students_url, notice: t('controller.students.destroy.notice.success') }
+      format.html { redirect_to students_url, notice: t('controller.students.destroy.notice.success', entity: current_school.iscity ? "Citoyen" : "Elève") }
       format.json { head :no_content }
     end
   end
