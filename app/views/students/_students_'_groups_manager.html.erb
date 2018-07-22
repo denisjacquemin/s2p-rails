@@ -10,10 +10,12 @@
               </thead>
               <tbody>
                 <% Group.by_school(current_school).each do |group| %>
-                  <tr>
-                    <td><input type="checkbox" value="<%= group.id %>"/></td>
-                    <td><label><%= group.name %></label></td>
-                  </tr>
+                  <% unless current_school.iscity? && group.internal_id == 'all_students' %>
+                    <tr>
+                      <td><input type="checkbox" value="<%= group.id %>"/></td>
+                      <td><label><%= group.name %></label></td>
+                    </tr>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>
@@ -44,13 +46,15 @@
               <% student.groups_obj.each do |g| %>
                 <tr>
                   <%= fields_for g do |g_form| %>
-                    <%= g_form.hidden_field :id, multiple: true%>
-                    <td>
-                      <% if ! g.managed_automaticaly_for_student?(student) %>
-                        <input type="checkbox" id="group[<%= g.id %>]"/>
-                      <% end %>
-                    </td>
-                    <td><%= g_form.label :id, g.name %></td>
+                    <% unless current_school.iscity? && g.internal_id == 'all_students' %>
+                      <%= g_form.hidden_field :id, multiple: true%>
+                      <td>
+                        <% if ! g.managed_automaticaly_for_student?(student) %>
+                          <input type="checkbox" id="group[<%= g.id %>]"/>
+                        <% end %>
+                      </td>
+                      <td><%= g_form.label :id, g.name %></td>
+                    <% end %>
                   <% end %>
                 </tr>
               <% end %>
