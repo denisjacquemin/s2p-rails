@@ -35,7 +35,13 @@
               <% end %>
             </div>
             <div role="tabpanel" class="tab-pane fade in table-filter" id="students">
-              <% if current_user.id != 610 %>
+              <div class="table-responsive" id="student_list">
+                <table id="users-datatable" class="table table-hover" data-source="<%= students_recipients_path(format: :json) %>">
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <% unless current_user.id != 610 %>
                 <% students = current_user.students_by_school(current_school.id).pluck(:id, :firstname, :lastname, :level, :classroom) %>
                 <% if students.present? %>
                   <input type="text" class="filter" data-table="#student_list" placeholder="Rechercher">

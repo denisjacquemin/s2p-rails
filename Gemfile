@@ -50,6 +50,8 @@ gem 'httparty'
 gem "animate-rails"
 gem 'money-rails'
 gem 'phonie'
+gem 'ajax-datatables-rails', :github => 'jbox-web/ajax-datatables-rails', :branch => 'master'
+gem 'jquery-datatables'
 
 gem 'roadie-rails'
 

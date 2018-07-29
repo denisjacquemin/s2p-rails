@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
   get 'messages/billed_students_list', to: 'messages#billed_students_list'
+  post 'students/recipients', to: 'students#students_recipients'
+
 
   get '/amp', to: 'website#amp'
   get '/disclaimer', to: 'website#disclaimer'

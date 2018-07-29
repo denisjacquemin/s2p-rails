@@ -17,6 +17,10 @@ class StudentsController < ApplicationController
     @total_of_students = Student.by_school(@current_school.id).count
   end
 
+  def students_recipients
+    render json: StudentDatatable.new(params, view_context: view_context, current_user: current_user, current_school_id: current_school.id)
+  end
+
   def new_index
     @message = Message.new
   end

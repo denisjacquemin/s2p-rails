@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require datatables
 //= require snackbar
 //= require input_textfield_counter
 //= require froala_editor.min.js
