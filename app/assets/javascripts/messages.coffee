@@ -35,7 +35,7 @@ build_student_row = (student_id, student_name) ->
       type:"checkbox",
       id:"student[" + student_id + "]"
     }).appendTo(td1)
-  td2   = $("<td/>", {class: 'fullwidth'}).appendTo(tr)
+  td2   = $("<td/>", {class: 'fullwidth', colspan: '4'}).appendTo(tr)
   icon  = $("<i/>", {class: "fa fa-user", style: "margin-right: 5px;"}).appendTo(td2)
   label = $("<label/>", {
               for: "student[" + student_id + "]",
@@ -56,7 +56,7 @@ build_group_row = (group_id, group_name) ->
       type:"checkbox",
       id:"group[" + group_id + "]"
     }).appendTo(td1)
-  td2   = $("<td/>", {class: 'fullwidth'}).appendTo(tr)
+  td2   = $("<td/>", {class: 'fullwidth', colspan: '4'}).appendTo(tr)
   icon  = $("<i/>", {class: "fa fa-users", style: "margin-right: 5px;"}).appendTo(td2)
   label = $("<label/>", {
               for: "group[" + group_id + "]",
