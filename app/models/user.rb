@@ -58,7 +58,7 @@ class User < ApplicationRecord
     if self.admin? or self.superadmin?
       return Student.default_order.by_school(school_id)
     else
-      return self.students.select {|g| g.school_id == school_id}
+      return self.students.by_school(school_id)
     end
   end
 
