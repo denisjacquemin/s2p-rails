@@ -119,6 +119,7 @@ private
   end
 
   def handle_simple_csv_student(data, school_id, user_id)
+    number_of_collision = 0
     emails = data.delete(:emails)
     student_data = data
     student_data[:student_emails] = []
