@@ -57,7 +57,7 @@ gem 'roadie-rails'
 
 gem 'delayed_job_active_record'
 
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '2.9.1'
 
 gem 'smarter_csv'
 #gem 'charlock_holmes_bundle_icu', '~> 0.6.9.2'
