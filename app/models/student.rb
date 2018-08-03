@@ -320,13 +320,13 @@ class Student < ApplicationRecord
 
     def find_or_create_group(name, school_id, type='')
       # find it
-      group = Group.where('lower(name) = ? and school_id = ?', name.downcase, school_id).first
+      group = Group.where('lower(name) = ? and school_id = ?', name.downcase.strip, school_id).first
       if group.nil?
         hash = compute_code(school_id, name)
         recordUniqueCount = 0
         begin
           # group not found, needs to be created
-          group = Group.new(name: name, school_id: school_id, updatable: false, group_type: type)
+          group = Group.new(name: name.strip, school_id: school_id, updatable: false, group_type: type)
           #group.code = 'g' + hash[0] + hash[1].last(4 + name.length % 3)
           group.save
         rescue ActiveRecord::RecordNotUnique
