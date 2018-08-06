@@ -1,2 +1,2 @@
-Prenom;Nom;Emails;Annee;Titulaire
-Martin;Dupond;maman.martin@gmail.com papa.martin@gmail.com;5;Jacques
+Prenom;Nom;Emails;Annee;Titulaire;Telephone 1;Telephone 2;Telephone 3;Telephone 4
+Martin;Dupond;maman@example.com papa@example.com;P6A;Charlotte;496123456;0496/123457;0496/12.34.58;+32 496/12.34.59

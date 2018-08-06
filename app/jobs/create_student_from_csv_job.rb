@@ -121,11 +121,12 @@ private
   def handle_simple_csv_student(data, school_id, user_id)
     number_of_collision = 0
     emails = data.delete(:emails)
+    phones_data = data.extract!(:phone1, :phone2, :phone3, :phone4)
     student_data = data
     student_data[:student_emails] = []
     student_data[:student_emails] = buildEmailArray(emails) unless emails.nil?
     student_data['school_id'] = school_id
-    student_data[:phones] = buildPhoneArray(data)
+    student_data[:phones] = buildPhoneArray(phones_data)
     if student_data[:code].nil?
       unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
         student = Student.new student_data

@@ -12,18 +12,28 @@
           <li>Nom</li>
           <li>Emails</li>
           <li>Annee</li>
-          <li>Titulaire</li>
+          <li>Titulaire (facultatif)</li>
+          <li>Telephone 1</li>
+          <li>Telephone 2</li>
+          <li>Telephone 3</li>
+          <li>Telephone 4</li>
         </ol>
+      </div>
+      <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
         <dl>
           <dt>Colonne <i>Emails</i></dt>
           <dd>Contient la liste des emails des parents séparés par un espace.</dd>
           <dt>Colonnes <i>Annee</i> et <i>Titulaire</i></dt>
           <dd>Ces 2 colonnes vous aideront plus tard à communiquer vers les parents d'élèves. A chaque année et titulaire correspondra un groupe de diffusion.</dd>
+          <dt>Telephone n</dt>
+          <dd>Un numéro par colonne, exemple de format du numéro supporté: 0496123456, 0496/123457, 0496/12.34.58, +32 496/12.34.59</dd>
         </dl>
       </div>
-      <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <blockquote>
-          Pour démarrer simplement téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %>
+          Téléchargez le fichier d'exemple <%= link_to 'eleves.csv', '/eleves.csv' %><br/><br/>
           <%= image_tag asset_path("faq/eleves_csv.png"), class: "img-responsive img-thumbnail" %>
         </blockquote>
       </div>
