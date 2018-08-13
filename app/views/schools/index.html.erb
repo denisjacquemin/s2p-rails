@@ -16,13 +16,13 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody id="schools">
           <% @schools.each do |school| %>
             <tr>
               <td><%= school.name %></td>
               <td><%= school.phone %></td>
               <td><%= school.email %></td>
-              <td><%= link_to 'Show', school %></td>
+              <td><a class="this_school" data-school-id="<%= school.id %>" href="#">change</a></td>
               <td><%= link_to t('views.global.edit'), edit_school_path(school) %></td>
               <td><%= link_to t('views.global.destroy'), school, method: :delete, data: { confirm: t('views.global.areyousure') } %></td>
             </tr>
