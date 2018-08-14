@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  get '/monitors', to: 'monitors#index'
   resources :message_categories
   get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm'
 
