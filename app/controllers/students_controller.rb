@@ -220,6 +220,11 @@ class StudentsController < ApplicationController
             "personnes_responsables_informations_de_contact_7".to_sym => :info_contact7,
             "personnes_responsables_informations_de_contact_8".to_sym => :info_contact8,
             "personnes_responsables_informations_de_contact_9".to_sym => :info_contact9,
+            "gsm".to_sym => :info_contact1,
+            "email".to_sym => :info_contact2,
+            "personnes_responsables_gsm".to_sym => :info_contact3,
+            "personnes_responsables_email".to_sym => :info_contact4,
+            "personnes_responsables_telephone".to_sym => :info_contact5,
             # :classe => :level2, # champ Creos mais deja supporté grace à ProEco
             # keys from ProEco
             :matric_info => :proeco_id,
