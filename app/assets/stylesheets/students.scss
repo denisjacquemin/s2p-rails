@@ -29,7 +29,10 @@
 }
 
 .div-column {
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 20px;
 }
 
 .div-column, .div-column-action, .checkbox-column, .selectall-checkbox-column {
