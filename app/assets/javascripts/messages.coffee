@@ -144,9 +144,11 @@ ready = () ->
 
   $('.dataTable').on 'click', '.ctb', (event) ->
     console.info 'click'
-    checkbox = $(this).parent().find('input:checkbox:first')
-    checkbox.prop("checked", !checkbox.prop("checked"))
-    event.preventDefault
+    if event.target.type != 'checkbox'
+      checkbox = $(this).parent().find('input:checkbox:first')
+      # checkbox.prop("checked", !checkbox.prop("checked"))
+      checkbox.click()
+      return event.preventDefault
 
   $('a.tab-link.save-form').click (e) ->
     e.preventDefault()
