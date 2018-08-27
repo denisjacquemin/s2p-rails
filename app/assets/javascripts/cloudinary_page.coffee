@@ -53,6 +53,7 @@ ready = () ->
   $('.attachinary-input').bind 'fileuploadfail', (event, data) ->
     console.log 'fileuploadfail'
     console.log data
+    console.log 'size ' + data.total
     message = data.errorThrown
     numberOfFiles = data.attachinary.files.length + data.originalFiles.length
     if (data.messages.uploadedBytes == 'Uploaded bytes exceed file size')
