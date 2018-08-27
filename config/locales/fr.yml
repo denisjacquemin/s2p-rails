@@ -7,7 +7,7 @@ fr:
           notice: Rédacteur effacé.
       update:
         success:
-          notice: Le rédacteur à bien été mis à jour.
+          notice: Le rédacteur a bien été mis à jour.
     groups:
       update:
         notice:

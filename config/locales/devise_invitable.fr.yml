@@ -8,8 +8,8 @@ fr:
     invitations:
       send_instructions: "Un email d'invitation a été envoyé à %{email}."
       invitation_token_invalid: "Le token d'invitation n'est pas valable."
-      updated: "Votre mot de passe à bien été enregistré, vous êtes maintenant authentifié."
-      updated_not_active: "Votre mot de passe à bien été enregistré."
+      updated: "Votre mot de passe a bien été enregistré, vous êtes maintenant authentifié."
+      updated_not_active: "Votre mot de passe a bien été enregistré."
       no_invitations_remaining: "Aucune invitation restante."
       invitation_removed: "Votre invitation a été supprimée."
       new:
