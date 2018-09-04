@@ -5,6 +5,12 @@
 
 .algolia_messages .hit-content {
   padding: 12px 5px;
+  .content, .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display:block;
+  }
 }
 
 .nav-tabs {

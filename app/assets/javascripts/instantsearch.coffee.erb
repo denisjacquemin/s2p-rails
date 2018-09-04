@@ -16,17 +16,17 @@ ready = () ->
     $('.hits').on 'click', '.dropdown-menu a', (event) ->
       console.log "start progress now"
 
-    $('.algolia').on 'keydown', 'input.ais-search-box--input', (event) ->
-      $('#hits').show()
-      $('#latest_messages').hide()
-
-    $('.algolia').on 'click', '.ais-pagination--item', (event) ->
-      $('#hits').show()
-      $('#latest_messages').hide()
-
-    if window.location.search != ''
-      $('#hits').show()
-      $('#latest_messages').hide()
+    # $('.algolia').on 'keydown', 'input.ais-search-box--input', (event) ->
+    #   $('#hits').show()
+    #   $('#latest_messages').hide()
+    #
+    # $('.algolia').on 'click', '.ais-pagination--item', (event) ->
+    #   $('#hits').show()
+    #   $('#latest_messages').hide()
+    #
+    # if window.location.search != ''
+    #   $('#hits').show()
+    #   $('#latest_messages').hide()
 
     linkAction = (action, message_id) ->
       switch action
@@ -97,6 +97,16 @@ ready = () ->
       appId: '<%= Rails.application.secrets.algolia_app_id %>'
       apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
       indexName: 'Message'
+      searchFunction: (helper)->
+        if helper.state.query == ''
+          $('#hits').hide()
+          $('#latest_messages').show()
+          helper.search();
+        else
+          $('#hits').show()
+          $('#latest_messages').hide()
+          helper.search();
+        return
       searchParameters:
         hitsPerPage: 12
         numericRefinements :

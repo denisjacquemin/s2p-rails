@@ -52,6 +52,7 @@ class Message < ApplicationRecord
   before_update :avoid_nil_for_status, if: -> {status_changed?}
   before_update :handle_status_changed, if: -> {status_changed?}
   before_update :handle_status_republish, if: -> {status_changed?}
+  before_update :set_has_form, if: -> {formdata_changed?}
 
   def publish_date
     publish_date = nil
@@ -71,16 +72,12 @@ class Message < ApplicationRecord
     self.created_at.utc.iso8601
   end
 
-  def has_form
-    not (self.formdata.blank? or self.formdata === "[]")
-  end
+  # def has_form
+  #   not (self.formdata.blank? or self.formdata === "[]")
+  # end
 
   def last_update_meta
-    if self.published?
-      return "Publié le #{I18n.l(self.publish_date.to_datetime().in_time_zone, format: :short)}"
-    else
-      return "Dernière mise à jour le #{I18n.l(self.updated_at.to_datetime().in_time_zone, format: :short)}"
-    end
+    ApplicationController.helpers.build_last_update_meta(self.status, self.updated_at)
   end
 
   def author_fullname
@@ -129,6 +126,10 @@ class Message < ApplicationRecord
           handle_approval_accepted
       end
     end
+  end
+
+  def set_has_form
+    self.has_form = (not (self.formdata.blank? or self.formdata === "[]"))
   end
 
   def handle_status_republish

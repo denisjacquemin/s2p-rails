@@ -40,27 +40,27 @@
             <div class="ais-hits--item">
               <div class="hit row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="hit-content" data-message-id="<%= message.id %>">
+                  <div class="hit-content" data-message-id="<%= message[0] %>">
                     <div class="row">
-                      <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="<%= message.id %>">
+                      <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="<%= message[0] %>">
                           <div class="row">
-                            <div class="col-xs-12"><div><span class="title"><%= message.title %> <% if message.has_form %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
-                            <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
-                            <% if message.content.present? %>
-                            <div class="col-xs-12"><div class="content"><%= strip_tags(message.content.truncate(200)) %></div></div>
+                            <div class="col-xs-12"><div><span class="title"><%= message[1] %> <% if message[2] %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
+                            <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label <%= message[6] %>"> </span></div>
+                            <% if message[3].present? %>
+                            <div class="col-xs-12"><div class="content"><%= strip_tags(message[3]) %></div></div>
                             <% end %>
                             <div class="col-xs-12">
                               <div class="meta">
-                                <i class="fa fa-user-o"></i> <span class="author"><%= message.author.fullname %></span>
-                                - <i class="fa fa-clock-o"></i> <%= message.last_update_meta %>
+                                <i class="fa fa-user-o"></i> <span class="author"><%= message[4] %></span>
+                                - <i class="fa fa-clock-o"></i> <%= build_last_update_meta(message[6], message[5]) %>
                               </div>
                             </div>
                           </div>
                       </div>
                       <div class="label-container hidden-xs col-sm-4 col-md-4 col-lg-2">
-                        <span title="" class="label <%= message.status %>">&nbsp;</span>
+                        <span title="" class="label <%= message[6] %>">&nbsp;</span>
                         <div class="btn-group" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
-                          <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status="<%= message.status %>" data-message-id="<%= message.id %>">
+                          <a href="#" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-status="<%= message[6] %>" data-message-id="<%= message[0] %>">
                             <i class="material-icons">more_vert</i>
                           </a>
                           <ul class="dropdown-menu pull-right">
