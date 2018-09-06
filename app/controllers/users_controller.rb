@@ -11,8 +11,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
-    @users = User.all if current_user.superadmin?
+    if current_user.superadmin?
+      @users = User.all
+    else
+      @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
+    end
   end
 
   def destroy
