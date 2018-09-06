@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @new_announcements_viewed_params = new_announcements_viewed_params
 
     @user.update(new_announcement_counter: @new_announcements_viewed_params[:count])
-    render nothing: true, status: 200
+    render head: :ok
   end
 
   def index
