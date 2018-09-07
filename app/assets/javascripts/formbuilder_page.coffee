@@ -171,8 +171,13 @@ ready = () ->
                 if label.text() == 'Groupe de cases à cocher'
                   label.text('Votre question apparaîtra ici')
               $('.option-selected, .checkbox-group', fld).prop('checked', false).attr("disabled", true)
-              $(fld).on('keyup', '.option-label', (e) ->
-                $(this).next().val(e.target.value)
+              $(fld).on('propertychange change click keyup input paste', '.option-label', (e) ->
+                element = e.target
+                setTimeout (->
+                  text = $(element).val()
+                  $(element).next().val(text)
+                  return
+                ), 100
               )
               fldLabels = $('.fld-label', fld)
               if (fldLabels.length > 0)
@@ -247,8 +252,13 @@ ready = () ->
               if (label.length > 0)
                 if label.text() == 'Sélection'
                   label.text('Votre question apparaîtra ici')
-              $(fld).on('keyup', '.option-label', (e) ->
-                $(this).next().val(e.target.value)
+              $(fld).on('propertychange change click keyup input paste', '.option-label', (e) ->
+                element = e.target
+                setTimeout (->
+                  text = $(element).val()
+                  $(element).next().val(text)
+                  return
+                ), 100
               )
               fldLabels = $('.fld-label', fld)
               if (fldLabels.length > 0)
