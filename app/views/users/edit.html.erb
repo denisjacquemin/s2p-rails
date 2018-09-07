@@ -80,22 +80,15 @@
 
 
 
-          <% unless @user.admin? or current_user.user? %>
+          <% unless current_user.user? %>
             <div class="row groups">
+              <% if @user.user? %>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
                   <div class="panel panel-default">
                     <div class="panel-heading">
                       <h3>Droit d'accès aux groupes</h3>
                       <p>Le rédacteur peut envoyer un message uniquement aux groupes d'élèves sélectionnés ci-dessous.</p>
                     </div>
-<% if false %>
-                    <div class="panel-heading">
-                      <ul class="nav nav-pills">
-                        <li role="presentation" class="active"><a data-toggle="pill" href="#groups"><i class="fa fa-users"></i> Groupes</a></li>
-                        <li role="presentation"><a data-toggle="pill" href="#students"><i class="fa fa-user"></i> Elèves</a></li>
-                      </ul>
-                    </div>
-<% end %>
                     <div class="panel-body">
                       <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active table-filter" id="groups">
@@ -159,6 +152,7 @@
                     </div>
                   </div>
                 </div>
+              <% end %>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                   <% if current_user.admin? and current_user.schools.size > 1 %>
                     <div class="form-group">
