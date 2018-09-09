@@ -291,7 +291,7 @@ class Message < ApplicationRecord
     end
 
     unless emails_data.blank?
-      chunck_size = 50
+      chunck_size = 20
 
       index = 0
       array_to_process = []
