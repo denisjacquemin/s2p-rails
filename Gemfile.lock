@@ -335,6 +335,10 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.3)
       tilt (~> 2.0)
+    skylight (3.0.0)
+      skylight-core (= 3.0.0)
+    skylight-core (3.0.0)
+      activesupport (>= 4.2.0)
     smarter_csv (1.2.3)
     smtpapi (0.1.0)
     snackbarjs-rails (1.0.0)
@@ -427,6 +431,7 @@ DEPENDENCIES
   rpush
   rqrcode
   sass-rails
+  skylight
   smarter_csv
   smtpapi
   snackbarjs-rails

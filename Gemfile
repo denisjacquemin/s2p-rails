@@ -34,7 +34,7 @@ gem 'firebase', '~> 0.2.6'
 
 gem 'cloudinary'
 gem 'attachinary'
-gem 'nexmo'
+gem 'nexmo' # to remove
 gem 'callr'
 gem 'rqrcode'
 
@@ -62,7 +62,7 @@ gem 'aws-sdk', '2.9.1'
 gem 'smarter_csv'
 #gem 'charlock_holmes_bundle_icu', '~> 0.6.9.2'
 
-gem 'houston'
+gem 'houston' # to remove
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -95,6 +95,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 gem "delayed_job_web"
 
 gem 'smtpapi'
+
+gem "skylight"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
