@@ -154,7 +154,7 @@
                 </div>
               <% end %>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                  <% if current_user.admin? and current_user.schools.size > 1 %>
+                  <% if (current_user.admin? or current_user.superadmin?) and current_user.schools.size > 1 %>
                     <div class="form-group">
                       <%= f.label :school, 'Implantation(s)' %>
                       <%= f.collection_check_boxes(:schools, current_user.schools_obj, :id, :name , {class: "form-control"})  do |b| %>
