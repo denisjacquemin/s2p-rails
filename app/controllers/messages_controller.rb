@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    @message = Message.new(custom_author: "#{current_user.firstname} #{current_user.lastname}")
+    @message = Message.new()
     @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
     authorize @message
   end

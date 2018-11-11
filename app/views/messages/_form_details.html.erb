@@ -73,8 +73,9 @@
             La signature d'un message est automatique et contient le nom de l'auteur. Utilisez le champ ci-dessous pour modifier cette signature. Ex: "Les titulaires de 5 et 6"
           </div>
           <div class="form-group">
-            <%= f.label :custom_author, "Auteur du message"%>
-            <%= f.text_field :custom_author, class: 'form-control' %>
+            <%= f.label :custom_author, "Auteur du message" %>
+            <% custom_author_value = @message.custom_author ||= "#{current_user.firstname} #{current_user.lastname}" %>
+            <%= f.text_field :custom_author, class: 'form-control', value: custom_author_value %>
           </div>
         </div>
       </div>
