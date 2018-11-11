@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    @message = Message.new
+    @message = Message.new(custom_author: "#{current_user.firstname} #{current_user.lastname}")
     @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
     authorize @message
   end
@@ -442,7 +442,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, "message_category_ids" => [])
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, "message_category_ids" => [])
     end
 
     # def set_s3_direct_post

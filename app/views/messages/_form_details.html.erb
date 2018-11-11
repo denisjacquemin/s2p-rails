@@ -36,31 +36,50 @@
 </div>
 
 <div class="row">
-  <% unless current_user.user? %>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 30px;">
+    <a href="#options" data-toggle="collapse" id="options-toggle" class="collapsed">Plus d'options</a>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 collapse" id="options">
+    <% unless current_user.user? %>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">Mode d'envoi</div>
+          <div class="panel-body">
+            <div class="form-group">
+              <%= f.check_box :send_by_email %>
+              <%= f.label :send_by_email%>
+            </div>
+            <div class="form-group">
+              <%= f.check_box :send_to_app %>
+              <%= f.label :send_to_app %>
+            </div>
+            <div class="form-group send_by_sms_container" style=<%= "#{'display:none' if message.mtype != 'rappel'}" %>>
+              <%= f.check_box :send_by_sms, disabled: !current_school.has_sms_provision? %>
+              <%= f.label :send_by_sms %>
+              <p>
+                Votre provision SMS est de <%= current_school.sms_provision %>.
+                <a href="/help/message_sms">Comment réapprovisionner?</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="panel panel-default">
-        <div class="panel-heading">Mode d'envoi</div>
+        <div class="panel-heading">Signature du message</div>
         <div class="panel-body">
-          <div class="form-group">
-            <%= f.check_box :send_by_email %>
-            <%= f.label :send_by_email%>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            La signature d'un message est automatique et contient le nom de l'auteur. Utilisez le champ ci-dessous pour modifier cette signature. Ex: "Les titulaires de 5 et 6"
           </div>
           <div class="form-group">
-            <%= f.check_box :send_to_app %>
-            <%= f.label :send_to_app %>
-          </div>
-          <div class="form-group send_by_sms_container" style=<%= "#{'display:none' if message.mtype != 'rappel'}" %>>
-            <%= f.check_box :send_by_sms, disabled: !current_school.has_sms_provision? %>
-            <%= f.label :send_by_sms %>
-            <p>
-              Votre provision SMS est de <%= current_school.sms_provision %>.
-              <a href="/help/message_sms">Comment réapprovisionner?</a>.
-            </p>
+            <%= f.label :custom_author, "Auteur du message"%>
+            <%= f.text_field :custom_author, class: 'form-control' %>
           </div>
         </div>
       </div>
     </div>
-  <% end %>
+  </div>
   <% if current_school.iscity %>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="panel panel-default">
