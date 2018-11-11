@@ -74,7 +74,7 @@
           </div>
           <div class="form-group">
             <%= f.label :custom_author, "Auteur du message" %>
-            <% custom_author_value = @message.custom_author ||= "#{current_user.firstname} #{current_user.lastname}" %>
+            <% custom_author_value = @message.custom_author || @message&.author&.fullname || "#{current_user.firstname} #{current_user.lastname}" %>
             <%= f.text_field :custom_author, class: 'form-control', value: custom_author_value %>
           </div>
         </div>
