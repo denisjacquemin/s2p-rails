@@ -33,7 +33,18 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-3 col-md-3 col-xs-12 pull-right">
+          <div class="col-lg-9 col-md-9 col-xs-12">
+            <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+              <b>Quelques conseils pour un formulaire efficace:</b>
+              <ul>
+               <li>Pensez à une question permettant d'identifier l'auteur de la réponse, ex: "Nom et prénom de l'élève".</li>
+               <li>Pour trier les réponses par classe, demandez la "Classe" en utilisant une question de type "Sélection".</li>
+               <li>Une question est obligatoire, n'utilisez pas "texte sans question" pour poser une question. </li>
+               <li>Il ne peut y avoir 2 questions identiques</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-xs-12">
             <%= label_tag "Date limite" %>
             <div class='input-group date' id='datetimepickerformduedate'>
                 <%= text_field_tag 'form_due_date', @message.form_due_date.try(:strftime,"%d/%m/%y"), class: 'form-control' %>
