@@ -1,7 +1,10 @@
-@import "froala_editor.min";
+// @import "froala_editor.min";
 @import "plugins/table.min";
 @import "plugins/emoticons.min";
-@import "froala_style.min";
+// @import "froala_style.min";
+@import "trumbowyg.min";
+@import "trumbowyg.table.min";
+@import "trumbowyg.emoji.min";
 @import "cloudinary_page";
 @import "jquery-ui/sortable";
 @import "form-builder";
