@@ -8,7 +8,6 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
    $('#wysiwyg, #school_send_code_template').trumbowyg({
        lang: 'fr',
-       svgPath: '/assets/icons.svg',
        btns: [
         ['undo', 'redo'],
         ['emoji'],
