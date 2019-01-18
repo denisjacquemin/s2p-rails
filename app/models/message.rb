@@ -23,7 +23,7 @@ class Message < ApplicationRecord
     customRanking ['desc(created_at_ISO8601)']
   end
 
-  has_attachments :photos, accept: [:jpg, :png, :gif, :pdf, :ai], maximum: 7
+  has_attachments :photos, accept: [:jpg, :png, :gif, :pdf], maximum: 7
 
   before_create :generate_uuid
 
