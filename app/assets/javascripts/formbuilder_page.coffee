@@ -183,12 +183,22 @@ ready = () ->
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
                 counterInputClass = 'counter-input'
-                counterClass = 'counter-' + fld.id.slice(-1)
+                counterClass = 'counter'
                 $(fldLabel).addClass('counter-input')
                 $(fldLabel).attr('maxlength','50')
                 $(fldLabel).attr('data-target', '.' + counterClass)
                 $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
                 InputFieldCounter.update_counter(fldLabel)
+              true
+            onclone: (fld, event) ->
+              $(fld).on('propertychange change click keyup input paste', '.option-label', (e) ->
+                element = e.target
+                setTimeout (->
+                  text = $(element).val()
+                  $(element).next().val(text)
+                  return
+                ), 100
+              )
               true
           },
           'checkbox': {
@@ -210,13 +220,15 @@ ready = () ->
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
                 counterInputClass = 'counter-input'
-                counterClass = 'counter-' + fld.id.slice(-1)
+                counterClass = 'counter'
                 $(fldLabel).addClass('counter-input')
                 $(fldLabel).attr('maxlength','50')
                 $(fldLabel).attr('data-target', '.' + counterClass)
                 $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
                 InputFieldCounter.update_counter(fldLabel)
               true
+            # onclone: (fld) ->
+            #   console.log('cloning');
           }
           'textarea': {
             onadd: (fld, event) ->
@@ -233,7 +245,7 @@ ready = () ->
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
                 counterInputClass = 'counter-input'
-                counterClass = 'counter-' + fld.id.slice(-1)
+                counterClass = 'counter'
                 $(fldLabel).addClass('counter-input')
                 $(fldLabel).attr('maxlength','50')
                 $(fldLabel).attr('data-target', '.' + counterClass)
@@ -264,13 +276,22 @@ ready = () ->
               if (fldLabels.length > 0)
                 fldLabel = fldLabels[0]
                 counterInputClass = 'counter-input'
-                counterClass = 'counter-' + fld.id.slice(-1)
+                counterClass = 'counter'
                 $(fldLabel).addClass('counter-input')
                 $(fldLabel).attr('maxlength','50')
                 $(fldLabel).attr('data-target', '.' + counterClass)
                 $( '<span class="help-block">Maximum 50 caractères, reste <span class="' + counterClass + '"></span>.</span>').insertAfter($(fldLabel))
                 InputFieldCounter.update_counter(fldLabel)
               true
+            onclone: (fld, event) ->
+              $(fld).on('propertychange change click keyup input paste', '.option-label', (e) ->
+                element = e.target
+                setTimeout (->
+                  text = $(element).val()
+                  $(element).next().val(text)
+                  return
+                ), 100
+              )
           }
       },
       formData: $('#formdata').val()
@@ -294,3 +315,4 @@ ready = () ->
       url: form.attr('action'),
       data:  form.serialize()
     });
+  
