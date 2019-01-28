@@ -21,3 +21,6 @@
 .byebug_history
 
 .env
+
+.ruby-gemset
+.ruby-version
