@@ -40,10 +40,7 @@ ready = () ->
         </div>
       """
   # $('.attachinary-input').bind 'fileuploaddone', (event, data) ->
-  #   console.log 'fileuploaddone : ' + data
-  #   fileInput = $(this)
-  #   form = $(fileInput.parents('form:first'))
-  #   save_photos(form)
+  #   console.log('fileuploaddone : ', data)
   $('.attachinary-input').bind 'attachinary:fileadded', (event, data) ->
     console.log 'fileadded'
   $('.attachinary-input').bind 'attachinary:fileremoved', (event, data) ->

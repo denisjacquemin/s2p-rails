@@ -8,4 +8,6 @@ task :delete_classroom_for_a_given_school, [:school_id] => :environment do |task
 
   students = school.students
   students.update_all(classroom: '')
+  puts "Reindex! students to remove classrom form algolia's index"
+  puts "and also destroy Groups"
 end
