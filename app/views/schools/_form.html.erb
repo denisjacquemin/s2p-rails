@@ -77,6 +77,11 @@
                <%= f.label :validation_workflow_active, 'Validation par l\'administrateur avant envoi' %>
                <%= f.check_box :validation_workflow_active %>
               </div>
+              
+              <div class="form-group">
+               <%= f.label :allow_translation, "Activer l'option de traduction des messages" %>
+               <%= f.check_box :allow_translation %>
+              </div>
 
               <div class="form-group">
                <%= f.label :send_code_title_template, "Titre d'email d'envoi des codes" %>

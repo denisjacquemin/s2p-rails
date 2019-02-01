@@ -22,7 +22,7 @@ ready = () ->
     formData: $('#formdata').val(),
     notify:
       success: (message) ->
-        $('select').prepend("<option value='' selected='selected'></option>")
+        $('#formrender-wrap select').prepend("<option value='' selected='selected'></option>")
         $('input[required], textarea[required], select[required]').removeAttr('required').removeAttr('aria-required')
   })
 

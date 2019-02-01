@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   get 'help/payments', to: 'faq#payments'
   get 'help/payconiq', to: 'faq#payconiq'
   get 'help/form_template', to: 'faq#form_template'
+  get 'help/traduction_des_messages', to: 'faq#traduction_des_messages'
   get 'gts', to: 'faq#gts'
 
 

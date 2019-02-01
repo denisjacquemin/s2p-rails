@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_21_164150) do
+ActiveRecord::Schema.define(version: 2019_01_31_134559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_164150) do
     t.boolean "billing_enable", default: false
     t.boolean "payconiq_enable", default: false
     t.boolean "iscity", default: false
+    t.boolean "allow_translation", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
