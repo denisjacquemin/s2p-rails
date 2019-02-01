@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
       translate = Google::Cloud::Translate.new project: project_id
       @languages = translate.languages('fr')
       @translate = Translate.new
-      @translate.code = "fr"
+      @translate.code = ""
       if (params[:translate]) 
         @title = translate.translate @message.title, to: params[:translate][:code]
         @content = translate.translate @message.content, to: params[:translate][:code]
@@ -62,7 +62,6 @@ class MessagesController < ApplicationController
     # end
     render layout: "show"
   end
-
   def save_form
     j = JSON.parse params[:message_form_formdata]
 
