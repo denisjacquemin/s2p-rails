@@ -1,4 +1,4 @@
-<% if current_school.allow_translation %>
+<% if @message.school.allow_translation %>
   <div class="row" style="background-color: #f8f8f8; padding:20px 0">
       <div class="col-lg-12">
         <%= form_for @message, method: :get, url: message_form_url(@message.muuid), html: { class: 'form-inline'} do |f|  %>
