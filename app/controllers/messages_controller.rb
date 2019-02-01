@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
     @title = @message.title
     @content = @message.content
 
-    if current_school.allow_translation
+    if @message.school.allow_translation
       project_id = ENV["CLOUD_PROJECT_ID"]
       translate = Google::Cloud::Translate.new project: project_id
       @languages = translate.languages('fr')
