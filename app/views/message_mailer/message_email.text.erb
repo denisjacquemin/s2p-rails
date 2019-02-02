@@ -6,10 +6,16 @@
   <%= @message.title %>
 <% end %>
 
+<% if @message.school.allow_translation %>
+  Suivez le lien ci-dessous pour traduire ce message
+  <%= message_form_url(@message.muuid) %>
+<% end %>
+
 <% if @message.formdata.present? and @message.formdata != "[]"%>
   Suivez le lien ci-dessous pour remplir le formulaire
   <%= message_form_url(@message.muuid) %>
 <% end %>
+
 
 <% if @message.photos.any? %>
 ++++++++
