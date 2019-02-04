@@ -297,6 +297,7 @@ ready = () ->
       formData: $('#formdata').val()
     }).data('formBuilder')
     $(".edit_form_template, #message_update_form").submit () ->
+      formBuilder.actions.save()
       $('#formdata').val(formBuilder.formData)
       console.log '#form_due_date val: ' + $('#form_due_date').val()
       $('#formduedate').val($('#form_due_date').val())

@@ -56,7 +56,7 @@
 //= require cloudinary/jquery.cloudinary
 //= require attachinary
 //= require cloudinary_page
-//= require form-builder
+//= require form-builder-1.24.7
 //= require formbuilder_page
 //= require jsgrid.min
 //= require instantsearch
