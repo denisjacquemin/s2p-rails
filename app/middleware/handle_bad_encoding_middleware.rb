@@ -12,7 +12,6 @@ class HandleBadEncodingMiddleware
             env['QUERY_STRING'] = ''
         end
       end
-  
       @app.call(env)
     end
 end
