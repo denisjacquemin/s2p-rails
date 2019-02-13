@@ -26,7 +26,9 @@ ready = () ->
         $('input[required], textarea[required], select[required]').removeAttr('required').removeAttr('aria-required')
   })
 
-  $('#s').val(getParameterByName('s'))
+  try
+    $('#s').val(getParameterByName('s'))
+  
 
   $('#message_form').submit (e) ->
     checkRequiredFields()
