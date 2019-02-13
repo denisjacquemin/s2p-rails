@@ -326,11 +326,10 @@ class Message < ApplicationRecord
 
     code = codeTag
     code = "#{hash[email][:code]}#{codeTag}" if hash.key?(email)
-
     hash[email] = {
       email: email,
       email_encrypted: email, #"ed", #Student.email_encrypt(email)
-      student_id: student_id,
+      student_id: student_id&.to_s,
       code: code
     }
     hash
