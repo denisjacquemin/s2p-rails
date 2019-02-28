@@ -11,6 +11,7 @@ ready = () ->
        btns: [
         ['undo', 'redo'],
         ['emoji'],
+        ['foreColor', 'backColor'],
         ['strong', 'em', 'del'],
         ['superscript', 'subscript'],
         ['justifyLeft', 'justifyRight'],

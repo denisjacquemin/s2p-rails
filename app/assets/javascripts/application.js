@@ -32,6 +32,7 @@
 //= require trumbowyg.emoji.min
 //= require trumbowyg.cleanpaste.min
 //= require trumbowyg.allowtagsfrompaste.min
+//= require trumbowyg.colors.min
 //= require jquery.ui.widget
 //= require jquery-ui/widgets/sortable
 //= require jquery.fileupload
