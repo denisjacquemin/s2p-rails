@@ -69,4 +69,5 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require moment/fr
+//= require vanilla-emoji-picker/emojiPicker.min
 // require_tree .

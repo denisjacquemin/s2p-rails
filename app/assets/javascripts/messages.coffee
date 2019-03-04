@@ -160,6 +160,8 @@ ready = () ->
     }).appendTo($('#new_message'))
     $('#new_message').submit()
 
+  if $('*[data-emoji-picker="true"]').length > 0
+    new EmojiPicker();
 
   $('#datetimepickerduedate, #datetimepickerformduedate').datetimepicker
     locale: 'fr'
