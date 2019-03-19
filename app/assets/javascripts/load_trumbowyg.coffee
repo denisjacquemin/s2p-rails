@@ -8,6 +8,7 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
    $('#wysiwyg, #school_send_code_template').trumbowyg({
        lang: 'fr',
+       minimalLinks: true,
        btns: [
         ['undo', 'redo'],
         ['emoji'],
@@ -15,7 +16,7 @@ ready = () ->
         ['strong', 'em', 'del'],
         ['superscript', 'subscript'],
         ['justifyLeft', 'justifyRight'],
-        ['table'],
+        ['table', 'link'],
         ['unorderedList', 'orderedList'],
         ['removeformat']
        ],
