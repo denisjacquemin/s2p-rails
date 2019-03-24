@@ -34,6 +34,7 @@ class Message < ApplicationRecord
   has_many :billed_students
   accepts_nested_attributes_for :billed_students
   belongs_to :account
+  has_many :translations, dependent: :destroy
 
   has_many :succeeded_payments, -> { succeeded }, class_name: "Payment"
 

@@ -32,13 +32,11 @@ class MessagesController < ApplicationController
     if @message.school.allow_translation
       project_id = ENV["CLOUD_PROJECT_ID"]
       translate = Google::Cloud::Translate.new project: project_id
+      @translation_code = ""
       @languages = translate.languages('fr')
-      @translate = Translate.new
-      @translate.code = ""
-      if (params[:translate] and params[:translate][:code] != "")
-        @title = translate.translate @message.title, to: params[:translate][:code]
-        @content = translate.translate @message.content, to: params[:translate][:code]
-        @translate.code = params[:translate][:code]
+      if params[:translate] and params[:translate][:code] != ""
+        @title, @content = getTranslations(params[:translate][:code], @title, @content, @message.id, @message.updated_at, current_school.id, translate)
+        @translation_code = params[:translate][:code]
       end
     end
 
@@ -475,5 +473,22 @@ class MessagesController < ApplicationController
       transactionId = message.pq_create_transaction(message.amount_to_pay_cents, message.billing_description, access_token)
       logger.debug "$build_payconiq_transaction_id$ #{transactionId.inspect()} with description : #{message.billing_description}"
       return transactionId
+    end
+
+    def getTranslations(language_code, title, content, message_id, message_updated_at, school_id, translate)
+      # get the translation for by message.id and params[:translate][:code]
+      translation = Translation.where("message_id = ? and language_code = ? and school_id = ?", message_id, language_code, current_school.id).first_or_initialize
+      if (translation.new_record? or translation.updated_at < message_updated_at)
+        translation.title = translate.translate title, to: language_code
+        translation.content = translate.translate content, to: language_code
+        translation.message_id = message_id
+        translation.language_code = language_code
+        translation.school_id = school_id
+        translation.save
+        return translation.title, translation.content
+      end
+      
+      return translation.title, translation.content
+
     end
 end

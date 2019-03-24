@@ -5,6 +5,8 @@ class School < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :accounts, dependent: :destroy
   accepts_nested_attributes_for :accounts, allow_destroy: true
+  has_many :translations, dependent: :destroy
+
 
   scope :by_ids, ->(ids) { where(id: ids) }
 

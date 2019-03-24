@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_134559) do
+ActiveRecord::Schema.define(version: 2019_03_24_064401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -368,6 +368,16 @@ ActiveRecord::Schema.define(version: 2019_01_31_134559) do
     t.integer "user_id"
     t.index ["student_id"], name: "index_students_users_on_student_id"
     t.index ["user_id"], name: "index_students_users_on_user_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
+    t.integer "message_id"
+    t.string "title"
+    t.text "content"
+    t.string "language_code"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
