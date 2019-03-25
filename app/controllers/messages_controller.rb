@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
       @translation_code = ""
       @languages = translate.languages('fr')
       if params[:translate] and params[:translate][:code] != ""
-        @title, @content = getTranslations(params[:translate][:code], @title, @content, @message.id, @message.updated_at, current_school.id, translate)
+        @title, @content = getTranslations(params[:translate][:code], @title, @content, @message.id, @message.updated_at, @message.school_id, translate)
         @translation_code = params[:translate][:code]
       end
     end
