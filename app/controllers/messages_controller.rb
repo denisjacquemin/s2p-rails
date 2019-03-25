@@ -477,7 +477,7 @@ class MessagesController < ApplicationController
 
     def getTranslations(language_code, title, content, message_id, message_updated_at, school_id, translate)
       # get the translation for by message.id and params[:translate][:code]
-      translation = Translation.where("message_id = ? and language_code = ? and school_id = ?", message_id, language_code, current_school.id).first_or_initialize
+      translation = Translation.where("message_id = ? and language_code = ? and school_id = ?", message_id, language_code, school_id).first_or_initialize
       if (translation.new_record? or translation.updated_at < message_updated_at)
         translation.title = translate.translate title, to: language_code
         translation.content = translate.translate content, to: language_code
