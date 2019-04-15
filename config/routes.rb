@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   get 'help/whatsnew', to: 'faq#whatsnew'
   get 'help/import_winpage', to: 'faq#import_winpage'
   get 'help/export_winpage', to: 'faq#export_winpage'
+  get 'help/export_gestscol', to: 'faq#export_gestscol'
+  get 'help/export_siel', to: 'faq#export_siel'
   get 'help/export_proeco', to: 'faq#export_proeco'
   get 'help/export_creos', to: 'faq#export_creos'
   get 'help/import_excel', to: 'faq#import_excel'

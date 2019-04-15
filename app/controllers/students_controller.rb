@@ -193,7 +193,7 @@ class StudentsController < ApplicationController
             :code => :code,
             # keys from WinPage ou Creos
             "classe_(libellé)".to_sym  => :level,
-            "prénom".to_sym  => :firstname,
+             "prénom".to_sym  => :firstname,
             :nom_du_titulaire => :classroom,
             "prénom_du_titulaire".to_sym => :firstname_classroom,
             "courriel_de_l'élève".to_sym  => :emails,
@@ -202,11 +202,11 @@ class StudentsController < ApplicationController
             "telephone_1".to_sym => :phone1,
             "telephone_2".to_sym => :phone2,
             "telephone_3".to_sym => :phone3,
-            "telephone_4".to_sym => :phone4,
+             "telephone_4".to_sym => :phone4,
             "téléphone_1".to_sym => :phone1,
             "téléphone_2".to_sym => :phone2,
             "téléphone_3".to_sym => :phone3,
-            "gsm".to_sym => :phone4,
+            # "gsm".to_sym => :phone4,
             "Implantation".to_sym => :implantation,
             "titulaire_nom".to_sym => :classroom,
             "titulaire_prénom".to_sym => :firstname_classroom,
@@ -233,6 +233,7 @@ class StudentsController < ApplicationController
             :gsm_père => :phone1,
             :gsm_mère => :phone2,
             :année => :level1,
+            :annee => :level1,
             :classe => :level2,
             :email_père => :email1,
             :email_mère => :email3,
@@ -245,6 +246,16 @@ class StudentsController < ApplicationController
             "email_responsable_2".to_sym => :siel_email_2,
             "tel_1_responsable_1".to_sym => :phone1,
             "tel_2_responsable_1".to_sym => :phone2,
+            # gestscol
+            #             :nom => :lastname,
+            #             "prénom".to_sym  => :firstname,
+            #             :année => :level1,
+            #             :annee => :level,
+            #             :classe => :level2,
+            "mèl_resp_1".to_sym => :email1,
+            "mèl_resp_2".to_sym => :email3,
+            "tél.1_resp.1".to_sym => :phone1,
+            "tél.1_resp.2".to_sym => :phone2,
           },
           :remove_unmapped_keys => true,
           :value_converters => {
@@ -257,7 +268,7 @@ class StudentsController < ApplicationController
         # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
         current_school_id = current_school.id
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-          CreateStudentFromCsvJob.perform_later(r, current_school.id, current_user)
+          CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user)
           # r.each do |data|
           #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           #   groups = []

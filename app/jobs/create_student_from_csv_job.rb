@@ -118,15 +118,22 @@ private
     end
   end
 
+  
+
   def handle_simple_csv_student(data, school_id, user_id)
+    
     number_of_collision = 0
     emails = data.delete(:emails)
+    emails = "#{data[:email1]} #{data[:email3]}"
     phones_data = data.extract!(:phone1, :phone2, :phone3, :phone4)
-    student_data = data
+    student_data = {}
+    student_data[:lastname] = data[:lastname]
+    student_data[:firstname] = data[:firstname]
     student_data[:student_emails] = []
     student_data[:student_emails] = buildEmailArray(emails) unless emails.nil?
     student_data['school_id'] = school_id
     student_data[:phones] = buildPhoneArray(phones_data)
+    student_data[:level] = "#{data[:level1]}#{data[:level2]}"
     if student_data[:code].nil?
       unless Student.exists?(['firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data['school_id']])
         student = Student.new student_data
@@ -240,16 +247,21 @@ private
   end
 
   def handle_winpage_student(data, school_id, user_id)
+    
     number_of_collision = 0
     student_data = {}
     student_data[:school_id] = school_id
     student_data[:firstname] =  data[:firstname]
     student_data[:lastname] = data[:lastname]
     student_data[:level] = data[:level] if data[:level] # WinPage
-    student_data[:level] = data[:level2] if data[:level2] # Creos
+    # student_data[:level] = data[:level2] if data[:level2] # Creos
+    student_data[:level] = "#{data[:level1]}#{data[:level2]}" #Gestscol et Creos
+
     student_data[:classroom] = [data[:firstname_classroom], data[:classroom]].join(' ').strip
-    emails = [data[:emails], data[:emails2]].uniq.join(' ').strip
+    emails = [data[:emails], data[:emails2], data[:emails1], data[:emails3]].uniq.join(' ').strip
     student_data[:winpage_matricule] = data[:winpage_matricule].to_s
+    phones_data = data.extract!(:phone1, :phone2, :phone3, :phone4)
+    student_data[:phones] = buildPhoneArray(phones_data)
 
     # handle Creos info_contact, build an array of emails and an array of phones
     emailsArray = []
