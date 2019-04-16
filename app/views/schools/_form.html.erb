@@ -41,11 +41,6 @@
               </div>
 
               <div class="form-group">
-                <%= f.label :email, 'Email' %>
-                <%= f.text_field :email, class: 'form-control' %>
-              </div>
-
-              <div class="form-group">
                 <%= f.label :url, 'Site Internet' %>
                 <%= f.text_field :url, class: 'form-control' %>
               </div>
@@ -70,6 +65,10 @@
                 <div class="form-group">
                  <%= f.label :iscity, 'Est une entité?' %>
                  <%= f.check_box :iscity %>
+                </div>
+                <div class="form-group">
+                 <%= f.label :bulletin_enable, 'Bulletin Enable' %>
+                 <%= f.check_box :bulletin_enable %>
                 </div>
               <% end %>
 
