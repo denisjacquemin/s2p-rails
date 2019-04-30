@@ -220,9 +220,9 @@ class MessagesController < ApplicationController
           column_name_title = 'Pas de titre' if column_name_title.blank?
           if column_name_title == column_name
             if row[index] === ""
-              row[index] = column['value']
+              row[index] = column['value'].to_s
             else
-              row[index] += ', ' + column['value']
+              row[index] += ', ' + column['value'].to_s
             end
           end
         end
