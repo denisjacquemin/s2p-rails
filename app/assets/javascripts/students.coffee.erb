@@ -177,7 +177,7 @@ ready = () ->
          e.preventDefault();
 
 
-  $('#export_csv').click (e) ->
+  $('#export_csv, #codes_to_pdf').click (e) ->
     if $('input.scb:checked').size() == 0
       alert 'Selectionnez au moins un élève'
       e.preventDefault()

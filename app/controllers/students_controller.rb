@@ -330,6 +330,30 @@ class StudentsController < ApplicationController
       filename: "#{file_name}#{current_school.name.parameterize}-#{Date.today}.csv")
   end
 
+  def codes_to_pdf
+    @students = Student.default_order.includes([:phones, :student_emails]).where(school_id: current_school.id) unless params[:all_students].nil?
+    @students = Student.default_order.includes([:phones, :student_emails]).where(id: params[:student][:id], school_id: current_school.id) unless params[:student].nil?
+    file_name = current_school.iscity ? "citoyens" : "eleves"
+    # pdf_html = ActionController::Base.new.render_to_string(page_size: 'A4', template: "students/codes_in_pdf", layout: "pdf", lowquality: true, zoom: 1, dpi: 75)
+    # pdf = WickedPdf.new.pdf_from_string(pdf_html)
+    # send_data pdf, filename: "#{file_name}-codes-#{current_school.name.parameterize}-#{Date.today}.pdf"
+
+    respond_to do |format|
+      format.pdf do
+          render pdf: "#{file_name}-codes-#{current_school.name.parameterize}-#{Date.today}",
+          page_size: 'A4',
+          template: "students/codes_in_pdf.html.erb",
+          layout: "pdf.html",
+          orientation: "Portrait",
+          lowquality: true,
+          zoom: 1,
+          dpi: 75,
+          encoding: "UTF-8",
+          show_as_html: params.key?('debug')
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
