@@ -78,6 +78,9 @@ class MessageMailer < ApplicationMailer
     reply_to = 'konecto@konectoapp.com'
     if @message.author.display_email_address
       reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || 'konecto@konectoapp.com'
+      if [10, 67].include? @message.school_id 
+        reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || no_reply
+      end
     end
 
     
