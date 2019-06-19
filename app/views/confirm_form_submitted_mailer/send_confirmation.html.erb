@@ -1,9 +1,17 @@
+<style>
+.highlight {
+  color: #FF0000;
+  background-color: yellow;
+}
+</style>
+<span class="highlight">Ceci est un E-mail envoyé automatiquement. Merci ne pas y répondre.</span>
+
 <p>Votre réponse a bien été envoyée</p>
 <p>Voici un recapitulatif de vos réponses</p>
 <%
   obj = JSON.parse(@form.formdata)
 %>
-<ul>
+<ol>
 <%
   obj.each do |question|
 %>
@@ -11,6 +19,5 @@
 <%
   end
 %>
-</ul>
+</ol>
 
-<p>PS: Ceci est un E-mail envoyé automatiquement.</p>

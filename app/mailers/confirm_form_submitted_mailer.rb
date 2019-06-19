@@ -13,7 +13,7 @@ class ConfirmFormSubmittedMailer < ApplicationMailer
       x_smptapi_hash['to'] = to if to.kind_of?(Array) # if to argument is an array build 'to' X-SMTPAPI list
       x_smptapi_hash['to'] = [to] if to.kind_of?(String)
       headers "X-SMTPAPI" => x_smptapi_hash.to_json
-      mail(from: "#{school_name}<konecto@konectoapp.com>", to: 'konecto@konectoapp.com', subject: "Confirmation: #{message.title}" )
+      mail(from: "#{school_name}<no-reply@konectoapp.com>", to: 'konecto@konectoapp.com', subject: "Confirmation: #{message.title}" )
     end
 
 
