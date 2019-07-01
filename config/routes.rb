@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  resources :school_years
+
+  post 'periods/update_orders', to: 'periods#update_orders'
+  resources :periods
+  
+  post 'ratings/students', to: 'ratings#students', as: 'ratings_students'
+  resources :ratings
+
+  patch 'users/update_competency_groups/:id', to: 'users#update_competency_groups', as: 'update_competency_groups'
+  get 'competencies/writers_access', to: 'competencies#writers_access', as: 'writers_access'
+  get 'users/edit_competency_groups/:id', to:'users#edit_competency_groups', as: 'edit_competency_groups'
+  resources :competencies
+  post 'competencies/update_orders', to: 'competencies#update_orders'
+
   get '/monitors', to: 'monitors#index'
   resources :message_categories
   get 'webhook/pq_confirm/:pqid', to: 'webhook#pq_confirm'

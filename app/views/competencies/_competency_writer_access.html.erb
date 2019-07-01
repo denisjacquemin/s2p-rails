@@ -1,0 +1,2 @@
+<li class="level<%= competency_writer_access.level %>" data-id="<%= competency_writer_access.id %>">
+<%= link_to "#{competency_writer_access.name} <small>#{competency_writer_access.comment}</small>".html_safe, edit_competency_groups_path(id: @user_selected_id, competency_id: competency_writer_access.id), class: 'edit-competency', remote: true %></li>

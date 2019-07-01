@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_16_091825) do
+ActiveRecord::Schema.define(version: 2019_06_27_120131) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "accounts", id: :serial, force: :cascade do |t|
@@ -69,6 +70,46 @@ ActiveRecord::Schema.define(version: 2019_04_16_091825) do
     t.string "comment"
     t.integer "amount_to_pay_cents", default: 0
     t.string "amount_to_pay_currency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "competencies", force: :cascade do |t|
+    t.string "name"
+    t.integer "school_id"
+    t.integer "level"
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "comment"
+  end
+
+  create_table "competencies_groups", id: false, force: :cascade do |t|
+    t.bigint "competency_id"
+    t.bigint "group_id"
+    t.index ["competency_id"], name: "index_competencies_groups_on_competency_id"
+    t.index ["group_id"], name: "index_competencies_groups_on_group_id"
+  end
+
+  create_table "competency_group_users", force: :cascade do |t|
+    t.integer "competency_group_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "competency_groups", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "competency_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "competency_writer_accesses", force: :cascade do |t|
+    t.integer "competency_id"
+    t.integer "group_id"
+    t.integer "user_id"
+    t.integer "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -230,10 +271,30 @@ ActiveRecord::Schema.define(version: 2019_04_16_091825) do
     t.string "communication"
   end
 
+  create_table "periods", force: :cascade do |t|
+    t.string "name"
+    t.integer "year_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "school_id"
+    t.integer "order"
+  end
+
   create_table "phones", id: :serial, force: :cascade do |t|
     t.string "owner_name"
     t.string "number"
     t.integer "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.string "rating"
+    t.string "comment"
+    t.integer "student_id"
+    t.integer "school_id"
+    t.integer "competency_id"
+    t.integer "period_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -303,6 +364,14 @@ ActiveRecord::Schema.define(version: 2019_04_16_091825) do
     t.index ["delivered", "failed", "processing", "deliver_after", "created_at"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))"
   end
 
+  create_table "school_years", force: :cascade do |t|
+    t.string "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "schools", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -329,7 +398,6 @@ ActiveRecord::Schema.define(version: 2019_04_16_091825) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_student_emails_on_email"
     t.index ["student_id"], name: "index_student_emails_on_student_id"
   end
 
@@ -369,6 +437,13 @@ ActiveRecord::Schema.define(version: 2019_04_16_091825) do
     t.integer "user_id"
     t.index ["student_id"], name: "index_students_users_on_student_id"
     t.index ["user_id"], name: "index_students_users_on_user_id"
+  end
+
+  create_table "transactions", id: :serial, force: :cascade do |t|
+    t.string "pq_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "translations", force: :cascade do |t|

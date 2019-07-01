@@ -1,0 +1,4 @@
+<li class="level<%= competency.level %>" data-id="<%= competency.id %>">
+  <i class="fa fa-arrows-alt handle"></i>&nbsp;
+  <%= link_to "#{competency.name} <small>#{competency.comment}</small>".html_safe, edit_competency_path(competency), class: 'edit-competency', remote: true %>
+</li>

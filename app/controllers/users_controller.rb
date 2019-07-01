@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools]
+  before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools, :edit_competency_groups, :update_competency_groups]
 
   def new_announcements_viewed
     @user = current_user
@@ -30,6 +30,14 @@ class UsersController < ApplicationController
     authorize @user
   end
 
+  def edit_competency_groups
+    authorize @user
+    
+    @competency_groups = CompetencyGroup.includes(:group).where(competency_id: params[:competency_id]).order('groups.name')
+    # @competency_write_accesses = CompetencyWriterAccess.where(user_id: params[:user_id], competency_id: params[:competency_id], school_id: current_school.id)
+
+  end 
+
   def update
     authorize @user
 
@@ -38,6 +46,19 @@ class UsersController < ApplicationController
 
     # for each group_id, get all students_ids and assign them to @user.students_ids
     @user_params[:student_ids] = Group.where(id: @user_params[:group_ids]).collect {|g| g.students.pluck(:id)}.flatten.compact.uniq
+
+    if @user.update(@user_params)
+      redirect_to edit_user_path, :notice => t('controller.user.update.success.notice')
+    else
+      redirect_to edit_user_path
+    end
+  end
+
+  def update_competency_groups
+    authorize @user
+
+    @user_params = competency_groups_params
+    byebug
 
     if @user.update(@user_params)
       redirect_to edit_user_path, :notice => t('controller.user.update.success.notice')
@@ -83,7 +104,11 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:firstname, :lastname, :email, :role, :phone, :function, :email_reply_to, :display_email_address, :send_email_to_author, :send_notification_by_email, :send_email_to_admin, :schools => [], :group_ids => [], :student_ids => [])
+      params.require(:user).permit(:firstname, :lastname, :email, :role, :phone, :function, :email_reply_to, :display_email_address, :send_email_to_author, :send_notification_by_email, :send_email_to_admin, :schools => [], :competency_groups_ids => [], :group_ids => [], :student_ids => [])
+    end    
+    
+    def competency_groups_params
+      params.require(:user).permit(:competency_group_ids => [])
     end
 
     def new_announcements_viewed_params

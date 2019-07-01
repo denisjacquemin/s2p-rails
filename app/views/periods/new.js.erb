@@ -1,0 +1,3 @@
+$('#newCompetencyModal .modal-body').html("<%= escape_javascript(render 'form', competency: @period) %>");
+$('#newCompetencyModal #modalTitle').html("Nouvelle période");
+$("#newCompetencyModal").modal('show');

@@ -1,0 +1,11 @@
+<% students.each do |student| %>
+    <tr>
+        <td><%= student.firstname %></td>
+        <td><%= student.lastname %></td>
+        <% @periods.each do |period| %>
+            <td>
+                <%= text_field_tag period.id, student.ratings.by_competency(competency_id).by_period(period.id).first, class: 'rating', data: {s_id: student.id, p_id: period.id } %>
+            </td>
+        <% end %>
+    </tr>
+<% end %>

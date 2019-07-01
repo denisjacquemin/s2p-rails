@@ -7,6 +7,7 @@ class Message < ApplicationRecord
 
   monetize :amount_to_pay_cents
 
+  #todo https://github.com/algolia/algoliasearch-rails#restrict-indexing-to-a-subset-of-your-data
   algoliasearch sanitize: true do
     attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
 
@@ -267,7 +268,6 @@ class Message < ApplicationRecord
     emails_data = {}
 
     students = Student.joins(:student_emails).where(id: student_ids).pluck( :sent_message_by_email, :firstname, :lastname, :code, :"student_emails.email", :id)
-
     students.each do |student|
       if (student[0] or message.skip_send_by_email)
         emails_data = add_to_hash_and_merge_code(emails_data, student[4], "<li>#{student[1]} #{student[2]}: #{student[3]}</li>", student[5])
@@ -290,7 +290,7 @@ class Message < ApplicationRecord
         emails_data = add_to_hash_and_merge_code(emails_data, email)
       }
     end
-
+    
     unless emails_data.blank?
       chunck_size = 20
 

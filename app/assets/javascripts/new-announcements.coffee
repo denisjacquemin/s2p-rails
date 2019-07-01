@@ -23,8 +23,8 @@ ready = () ->
   $('#whatsnew').click (e) ->
     e.preventDefault
     $('#modal').modal('show')
-    $('.modal-title').text('Quoi de neuf?')
-    $('.modal-body').load('/help/whatsnew')
+    $('#modal .modal-title').text('Quoi de neuf?')
+    $('#modal .modal-body').load('/help/whatsnew')
     if $('#new_announcements_menu_item').hasClass('new-announcements')
       $.ajax {
         type: "POST",

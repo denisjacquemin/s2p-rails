@@ -21,24 +21,46 @@ class UserPolicy < ApplicationPolicy
 
   def edit?
     # if user is admin then can edit only user with the same school
-    return false if @user.admin? and not (@user.schools & @record.schools).any?
+    return true if @user.admin? and (@user.schools & @record.schools).any?
 
     # if user is a user then can edit only his own accout
-    return false if @user.user? and not (@user.id == @record.id)
+    return true if @user.user? and (@user.id == @record.id)
 
-    return true
+    return @user.superadmin?
 
+    return false
   end
+
+  def edit_competency_groups?
+    # if user is admin then can edit only user with the same school
+    return true if @user.admin? and (@user.schools & @record.schools).any?
+
+    return @user.superadmin?
+
+    return false
+  end
+
+
 
   def update?
     # if user is admin then can edit only user with the same school
-    return false if @user.admin? and not (@user.schools & @record.schools).any?
+    return true if @user.admin? and (@user.schools & @record.schools).any?
 
     # if user is a user then can edit only his own accout
-    return false if @user.user? and not (@user.id == @record.id)
+    return true if @user.user? and (@user.id == @record.id)
 
-    return true
+    return @user.superadmin?
 
+    return false
+
+  end
+
+  def update_competency_groups?
+    return true if @user.admin? and (@user.schools & @record.schools).any?
+    
+    return @user.superadmin?
+
+    return false
   end
 
   def update_schools?

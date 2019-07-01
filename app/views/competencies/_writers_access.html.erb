@@ -1,0 +1,53 @@
+<%
+=begin%>
+ Permettre de choisir pour prof spec le cours de neerlandais pour toutes les classes
+ PErmettre pour un titulaire de choisir toutes les matieres pour une classe 
+<%
+=end%>
+
+<div class="row">
+    <div class="col-sm-12 ">
+        <%= form_tag(writers_access_path, id: 'load_write_accesses', method: "get", remote: true, class: 'form-inline') do %>
+            <label>Rédacteur:</label>
+            <%= select_tag "selected_user", options_from_collection_for_select(@users, "id", "fullname", @user_selected_id), class: 'form-control' %>
+            <%= submit_tag 'changer', class: 'btn btn-primary'%>
+        <% end %>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+    <ul id="competencies">
+        <%= render partial: 'competency_writer_access', collection: @competencies %>
+    </ul>
+    </div>
+</div>
+<%
+=begin%>
+ <div class="row">
+    <% @competencies.each do |c| %>
+        <%= form_with(model: c, local: false) do |form| %>
+            <div class="level<%= c.level %> col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <%= c.name %>
+            </div>
+            <div class="level<%= c.level %> col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <% groups = c.groups %>
+                <%= form.collection_select(:group_ids, groups, :id, :name, {}, {class:'selectpicker', multiple: 'multiple', 'data-style': 'btn-primary', 'data-width': '70%', title: 'Sélectionnez une classe'}) %> 
+            </div> 
+<%
+=end%>
+                                       <%
+=begin%>
+ <select class="selectpicker" data-style="btn-primary" multiple="multiple" title="Choose one of the following..." data-width="fit">
+                        <option>Mustard</option>
+                        <option>Ketchup</option>
+                        <option>Barbecue</option>
+                    </select> 
+<%
+=end%>
+        <%
+=begin%>
+ <% end %>
+    <% end %> 
+<%
+=end%>
+</div>

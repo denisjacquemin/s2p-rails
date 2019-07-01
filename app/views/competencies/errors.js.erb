@@ -1,0 +1,6 @@
+<% if @competency.errors.any? %>
+    $("#error_explanation li").remove()
+    <% @competency.errors.full_messages.each do |message| %>
+        $('<li>' + '<%= message %>' + '</li>').appendTo("#error_explanation ul")
+    <% end %>
+<% end %>

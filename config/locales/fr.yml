@@ -75,7 +75,8 @@ fr:
         code: Code
         school: Ecole
         sent_message_by_email: 'Envoi des messages via email'
-
+      competency:
+        name: Nom de la matière
   views:
     global:
       areyousure: 'Êtes-vous sûr'
