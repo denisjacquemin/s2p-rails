@@ -237,6 +237,7 @@ class StudentsController < ApplicationController
             :classe => :level2,
             :email_père => :email1,
             :email_mère => :email3,
+            :email_responsable => :email_responsable,
             :grpel => :classroom,
             # SIEL
             "annee_d'etude".to_sym => :siel_annee_etude,
