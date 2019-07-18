@@ -7,7 +7,7 @@ class CompetenciesController < ApplicationController
   # GET /competencies
   # GET /competencies.json
   def index
-    @competencies = Competency.where(school_id: current_school.id).order(:order)
+    @competencies = Competency.where(school_id: current_school.id).ordered
   end
 
   def writers_access

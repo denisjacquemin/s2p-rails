@@ -199,6 +199,8 @@ class StudentsController < ApplicationController
             "courriel_de_l'élève".to_sym  => :emails,
             "courriel_signataire".to_sym => :emails2,
             "matricule".to_sym => :winpage_matricule,
+            "mobile".to_sym => :phone1, # update Creos 2019
+            "telephone_2".to_sym => :phone2,
             "telephone_1".to_sym => :phone1,
             "telephone_2".to_sym => :phone2,
             "telephone_3".to_sym => :phone3,

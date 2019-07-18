@@ -57,11 +57,11 @@ ready = () ->
       return
     return
 
-    saveOrder = (idsOrdered) ->
-      console.log idsOrdered
-      Rails.ajax
-      type: "POST"
-      url: '/competencies/update_orders'
-      data: jQuery.param(idsOrdered)
+saveOrder = (idsOrdered) ->
+  console.log idsOrdered
+  Rails.ajax
+    type: "POST"
+    url: '/competencies/update_orders'
+    data: jQuery.param(idsOrdered)
 
   

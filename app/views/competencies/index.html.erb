@@ -29,13 +29,35 @@
                 </div> 
               </div>
             </div>
+
             <div class="row">
+              <div class="table-responsive">
+                <table class="table-striped table table-hover">
+                  <thead>
+                    <tr>
+                      <th width="20px">&nbsp;</th>
+                      <th data-data="name">Nom de la matière</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="competencies">
+                    <%= render partial: 'competency', collection: @competencies %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <%
+=begin%>
+ <div class="row">
               <div class="col-sm-12">
                 <ul id="competencies">
                   <%= render partial: 'competency', collection: @competencies %>
                 </ul>
               </div>
-            </div>
+            </div> 
+<%
+=end%>
           </div>
           <div role="tabpanel" class="tab-pane" id="writers_access">...</div>
           <div role="tabpanel" class="tab-pane" id="periods_tab" style="padding-top:20px;">
@@ -52,7 +74,7 @@
                     <table class="table-striped table table-hover">
                       <thead>
                         <tr>
-                          <td width="20px"></td>
+                          <th width="20px">&nbsp;</th>
                           <th data-data="name">Nom de la période</th>
                           <th></th>
                         </tr>

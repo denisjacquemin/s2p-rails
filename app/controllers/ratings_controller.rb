@@ -6,27 +6,27 @@ class RatingsController < ApplicationController
   # GET /ratings
   # GET /ratings.json
   def index
+
+    authorize Rating
+
     # @levels = Student.where(school_id: @current_school.id).pluck(:level).uniq
     # @classrooms =  Student.where(school_id: @current_school.id).pluck(:classroom).uniq
     @groups = Group.only_level.by_school(current_school.id)
-    @competencies = Competency.by_school(current_school.id)
     @current_group_selected_id = @groups&.first&.id
-    @current_competency_selected_id = @competencies&.first&.id
 
-    @periods = Period.by_school(current_school.id).ordered
-    @current_year_selected_id = 1
-
-    @students = Student.by_school(current_school.id).by_group(@current_group_selected_id)
+    set_ratings
   end
 
   def students
     @current_group_selected_id = params[:current_group_selected_id]
-    @students = Student.by_school(current_school.id).by_group(@current_group_selected_id)
+
+    set_ratings
   end
 
   # GET /ratings/1
   # GET /ratings/1.json
   def show
+
   end
 
   # GET /ratings/new
@@ -36,6 +36,19 @@ class RatingsController < ApplicationController
 
   # GET /ratings/1/edit
   def edit
+  end
+
+  def save 
+    current_group_selected_id = params[:current_group_selected_id]
+    competency_id = params[:current_competency_selected_id]
+    value = params[:value]
+    student_id = params[:"s-id"]
+    period_id = params[:"p-id"]
+
+    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
+    rating.rating = value
+    # rating.comment = comment
+    rating.save
   end
 
   # POST /ratings
@@ -82,6 +95,21 @@ class RatingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
       @rating = Rating.find(params[:id])
+    end
+
+    def set_ratings
+      @periods = Period.by_school(current_school.id).ordered
+      @competencies = Group.find(@current_group_selected_id).competencies.ordered
+      @competency_selected_id = params[:current_competency_selected_id]
+      @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
+      @ratings = {}
+      @students.each{ |s| 
+        student_ratings = {}
+        s.ratings.each { |r|
+          student_ratings[r.period_id] = r.rating if r.competency_id.to_s == @competency_selected_id
+        }
+        @ratings[s.id] = student_ratings
+      }
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

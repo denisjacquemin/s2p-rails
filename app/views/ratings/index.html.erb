@@ -12,7 +12,7 @@
 
   <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: 'form-inline') do %>
       <label>Matières</label>
-      <%= select_tag "selected_group", options_from_collection_for_select(@competencies, "id", "name", @competency_selected_id), class: 'form-control' %>
+      <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id), class: 'form-control' %>
   <% end %>
   <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: 'form-inline') do %>
       <label>Classe:</label>
@@ -31,7 +31,7 @@
       </tr>
     </thead>
     <tbody>
-      <%= render 'students', students: @students, competency_id: @current_competency_selected_id, periods: @periods %>
+      <%= render 'students' %>
     </tbody>
   </table>
 

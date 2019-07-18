@@ -14,6 +14,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
     def perform(rows, school_id, user)
         rows.each do |data|
+            byebug
             if data[:firstname].present? and data[:lastname].present? # check if mandatory fields are presents
                 create_or_update_student(data, school_id, user.id)
             end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_27_120131) do
+ActiveRecord::Schema.define(version: 2019_07_15_080408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 2019_06_27_120131) do
     t.integer "period_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["student_id", "school_id", "competency_id", "period_id"], name: "index_ratings_uniqueness", unique: true
   end
 
   create_table "rpush_apps", id: :serial, force: :cascade do |t|
