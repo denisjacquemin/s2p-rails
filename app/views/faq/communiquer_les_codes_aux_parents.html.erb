@@ -5,10 +5,19 @@
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h2>Communiquer les codes aux parents</h2>
     <p>A chaque élève correspond un code unique. Ces codes doivent être communiqués aux parents qui souhaitent reçevoir les messages grâce à l'application mobile.<br/>Ces codes peuvent être transmis simplement par email.</p>
+    <p>
+      3 façons différentes:
+      <ol>
+        <li>Envoyer le code par e-mail aux parents</li>
+        <li>Imprimer des étiquettes avec le code et, par exemple, les coller dans les journaux de classes</li>
+        <li>Le code est rappelé à la fin de chaque e-mail.</li>
+      </ol>
+    </p>
+    <h3>1. Envoyer le code par e-mail aux parents</h3>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <ol>
-          <li>Sur l'écran <em>Elèves</em>, sélectionnez les élèves pour qui vous voulez envoyer le code.</li>
+          <li>Sur l'écran <em>Elèves</em>, sélectionnez les élèves pour qui vous voulez envoyer le code (par exemple avec la case à cocher "Tous les élèves").</li>
           <li>Cliquez sur le bouton <em>Envoyer code</em>. Un message sera créé automatiquement</li>
         </ol>
       </div>
@@ -43,6 +52,27 @@
         <%= image_tag asset_path("faq/menu_configuration.png"), class: "img-responsive img-thumbnail" %>
         <br/><br/>
         <%= image_tag asset_path("faq/modele_demail.png"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <h3>2. Imprimer des étiquettes avec le code</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <ol>
+          <li>Sur l'écran <em>Elèves</em>, sélectionnez les élèves (par exemple avec la case à cocher "Tous les élèves").</li>
+          <li>Cliquez sur le bouton <em>Export Codes PDF</em>. Un PDF sera créé avec des étiquettes.</li>
+        </ol>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <%= image_tag asset_path("faq/ExportCodesPdf.png"), class: "img-responsive img-thumbnail" %>
+      </div>
+    </div>
+    <h3>3. Code rappelé à la fin de chaque e-mail</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        Le code est rappelé à la fin de chaque e-mail provenant de Konecto.
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <%= image_tag asset_path("faq/code_email.png"), class: "img-responsive img-thumbnail" %>
       </div>
     </div>
   </div>
