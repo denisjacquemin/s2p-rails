@@ -83,12 +83,12 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
             student_data[:level] = data[:level] if data[:level] # WinPage
             student_data[:classroom] = [data[:firstname_classroom], data[:classroom]].join(' ').strip
-            emails = [data[:emails], data[:emails2], data[:emails1], data[:emails3]].uniq.join(' ').strip
+            # emails = [data[:emails], data[:emails2], data[:emails1], data[:emails3]].uniq.join(' ').strip
             student_data[:winpage_matricule] = data[:winpage_matricule].to_s
             phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:info_contact1]]
             # handle Creos info_contact, build an array of emails and an array of phones
             
-            contactArray = [data[:info_contact], data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
+            contactArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4], data[:email2], data[:info_contact], data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
             if contactArray.any?
                 emailsArray = []
                 phonesArray = []
@@ -118,9 +118,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         # common for Winpage Creos and ProEco
         student_data[:phones] = buildArrayOfPhone(phonesArray) if phonesArray.any?
         student_data[:student_emails] = buildArrayOfStudentEmail(emailsArray) if emailsArray.any?
-
-
-
         return student_data
         
     end
@@ -187,7 +184,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
     
     def buildArrayOfPhone(numbers)
-        numbers.compact.uniq.map do |number|
+        numbers.map{|n| n.gsub(/\D/, '')}.compact.uniq.map do |number|
             Phone.new number: number
         end
     end

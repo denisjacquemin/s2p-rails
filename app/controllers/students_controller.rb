@@ -193,16 +193,21 @@ class StudentsController < ApplicationController
             :code => :code,
             # keys from WinPage ou Creos
             "classe_(libellé)".to_sym  => :level,
-             "prénom".to_sym  => :firstname,
+            "prénom".to_sym  => :firstname,
             :nom_du_titulaire => :classroom,
             "prénom_du_titulaire".to_sym => :firstname_classroom,
             "courriel_de_l'élève".to_sym  => :emails,
             "courriel_signataire".to_sym => :emails2,
             "matricule".to_sym => :winpage_matricule,
+            "mobile".to_sym => :phone1, # update Creos 2019
+            "téléphone".to_sym => :phone2, # update Creos 2019
+            "mobilepr".to_sym => :phone3, # update Creos 2019
+            "téléphonepr".to_sym => :phone4, # update Creos 2019
+            "emailpr".to_sym => :email2, # update Creos 2019
             "telephone_1".to_sym => :phone1,
             "telephone_2".to_sym => :phone2,
             "telephone_3".to_sym => :phone3,
-             "telephone_4".to_sym => :phone4,
+            "telephone_4".to_sym => :phone4,
             "téléphone_1".to_sym => :phone1,
             "téléphone_2".to_sym => :phone2,
             "téléphone_3".to_sym => :phone3,
