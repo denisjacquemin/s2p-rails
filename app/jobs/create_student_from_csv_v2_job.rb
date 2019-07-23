@@ -184,7 +184,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
     
     def buildArrayOfPhone(numbers)
-        numbers.map{|n| n.gsub(/\D/, '')}.compact.uniq.map do |number|
+        numbers.map{|n| n.to_s.gsub(/\D/, '')}.compact.uniq.map do |number|
             Phone.new number: number
         end
     end
