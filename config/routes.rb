@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   
   post 'ratings/students', to: 'ratings#students', as: 'ratings_students'
   post 'ratings/save', to: 'ratings#save'
+  post 'ratings/save_comment', to: 'ratings#save_comment'
+
   resources :ratings
 
   patch 'users/update_competency_groups/:id', to: 'users#update_competency_groups', as: 'update_competency_groups'

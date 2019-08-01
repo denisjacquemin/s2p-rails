@@ -8,4 +8,8 @@ class Competency < ApplicationRecord
     scope :by_school, ->(school_id) { where(school_id: school_id) }
     scope :ordered, -> { order(order: :asc) }
 
+
+    def name_with_indent
+        ("-" * (level-1) * 2) + " " + name
+    end
 end

@@ -1,3 +1,59 @@
 // Place all the styles related to the ratings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#ratings_table th.firstname, #ratings_table td.firstname, #ratings_table th.lastname, #ratings_table td.lastname {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 85px;
+    min-width: 85px;
+    z-index: 100;
+    background-color: white;
+    
+
+}
+
+.input-group-addon .fa-comment {
+    color: #999999;
+}
+
+#ratings_table table tbody>tr:hover td {
+    background-color: #f5f5f5;
+}
+
+#ratings_table th.firstname, #ratings_table td.firstname {
+    position: sticky;
+    left:0px;
+}
+#ratings_table th.lastname, #ratings_table td.lastname {
+    position: sticky;
+    left:85px;
+}
+
+#ratings_table .comment[data-r-comment] {
+    color: red;
+}
+
+#ratings_table input {
+    max-width: 70px;
+    min-width: 40px;
+}
+
+#ratings_table .input-group {
+    width: max-content;
+}
+
+
+// #ratings_table th.fixed-column, #ratings_table td.fixed-column {
+//     position: absolute;
+//     display: inline-block;
+//     width: auto;
+//     border-right: 1px solid #ddd;
+// }
+
+// @media(min-width:768px) {
+//     #ratings_table th.fixed-column, #ratings_table td.fixed-column {
+//         display: none;
+//     }
+// }

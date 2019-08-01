@@ -1,41 +1,74 @@
-<div class="row" id="rating_screen">
+<div id="rating_screen">
 
 
   <h1>Ratings</h1>
-  <p>But de l'ecran, permettre l'encodage et la visu des ratings pour des eleves par matiere</p>
+  <%
+=begin%>
+ <p>But de l'ecran, permettre l'encodage et la visu des ratings pour des eleves par matiere</p>
   <p>Un prof de flamand veut encoder les points pour ses classes, donc il doit choissir la classe</p>
   <p>Un titulaire encode pour sa classe les points de toutes les matieres, donc il doit choisir une matiere</p>
   <p>Un titulaire ou un prof ou un directeur peut choisir un eleve et voir les points pour toutes les matieres</p>
   <p>Montrer les eleves pour une classe et </p>
   <p>Montrer les ratings pour une matiere (via le filtre matiere car un enseignant peut avoir plusieurs matieres)</p>
-  <p>Pour chaque eleve montrer les cotes de chaque periode pour la matiere courante + commentaires</p>
-
-  <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: 'form-inline') do %>
-      <label>Matières</label>
-      <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id), class: 'form-control' %>
-  <% end %>
-  <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: 'form-inline') do %>
-      <label>Classe:</label>
-      <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
-  <% end %>
-
-
-  <table class="responsive nowrap table table-hover" id="ratings_table">
-    <thead>
-      <tr>
-        <th data-data="student_id">Nom</th>
-        <th data-data="competency_id">Prénom</th>
-        <% @periods.each do |period| %>
-          <th><%= period.name %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render 'students' %>
-    </tbody>
-  </table>
-
-  <br>
-
-  <%= link_to 'New Rating', new_rating_path %>
+  <p>Pour chaque eleve montrer les cotes de chaque periode pour la matiere courante + commentaires</p> 
+<%
+=end%>
+  <div class="row">
+    <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: '') do %>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>Matières</label>
+          <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id), class: 'form-control' %>
+          <span id="emptyCompetenciesMsg" class="help-block">
+          <% if @competencies.empty? %>
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  Ajoutez des matières pour cette classe via l'écran <em>Gestions des paramètres > Liste des matières</em> (uniquement accessible à un Admin).
+          <% end %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+    <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>Classes</label>
+          <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div id="ratings_table">
+    <%= render 'students' unless @competencies.empty? %>
+  </div>
+  <div class="modal right fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalTitle">Edition Commentaire</h4>
+				</div>
+				<div class="modal-body">
+          <form id="comment_form" action="/">
+            <input type="hidden" id="target-r-id">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="row">
+                <div class="pull-right"><%= submit_tag "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="row">
+                <div class="form-group">
+                  <%=  %>
+                  <%= label_tag :comment, 'Commentaire' %>
+                  <%= text_area_tag :comment, nil, class: 'form-control', rows: 12 %>
+                </div>
+              </div>
+            </div>
+          </form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+

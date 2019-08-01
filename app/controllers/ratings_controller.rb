@@ -47,8 +47,26 @@ class RatingsController < ApplicationController
 
     rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
     rating.rating = value
-    # rating.comment = comment
+    rating.comment = params[:comment]
     rating.save
+
+    @el_id = params[:el_id]
+    @rating_comment = params[:comment]
+  end
+
+  def save_comment 
+    current_group_selected_id = params[:current_group_selected_id]
+    competency_id = params[:current_competency_selected_id]
+    comment = params[:comment]
+    student_id = params[:"s-id"]
+    period_id = params[:"p-id"]
+
+    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
+    rating.comment = params[:comment]
+    rating.save
+
+    @el_id = params[:el_id]
+    @rating_comment = params[:comment]
   end
 
   # POST /ratings
@@ -106,7 +124,7 @@ class RatingsController < ApplicationController
       @students.each{ |s| 
         student_ratings = {}
         s.ratings.each { |r|
-          student_ratings[r.period_id] = r.rating if r.competency_id.to_s == @competency_selected_id
+          student_ratings[r.period_id] = {value: r.rating, comment: r.comment} if r.competency_id.to_s == @competency_selected_id
         }
         @ratings[s.id] = student_ratings
       }

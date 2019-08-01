@@ -1,0 +1,19 @@
+<tr>
+    <td class="firstname" title="<%= student.firstname %>"><%= student.firstname %></td>
+    <td class="lastname" title="<%= student.lastname %>"><%= student.lastname %></td>
+    <%
+        student_ratings = @ratings[student.id] || {} 
+    %>
+    <% @periods.each do |period| %>
+        <td>
+           
+            <% rating_id = "#{student_counter}-#{period.id}" if defined?(student_counter) %>
+            <% rating_id = el_id  unless defined?(student_counter) %>
+
+            <div class="input-group input-group-sm">
+                <%= text_field_tag rating_id, student_ratings.dig(period.id, :value), class: 'rating form-control', data: {"s-id": student.id, "p-id": period.id, "r-comment": student_ratings.dig(period.id, :comment) }%>
+                <div class="input-group-addon comment" data-r-id="<%= rating_id %>"><i class="fa fa-comment"></i></div>
+            </div>
+        </td>
+    <% end %>
+</tr>
