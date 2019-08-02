@@ -25,7 +25,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data = build_student_data(data, school_id)
 
         student = get_already_existing_student_for_update(student_data)
-                
         if student.blank?
             create_new_student(student_data, school_id)
         else
@@ -62,8 +61,8 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
     def build_student_data(data, school_id)
         student_data = {}
-
         student_data[:school_id] = school_id
+        student_data[:code] = data[:code] unless data[:code].nil?
 
         # common
         student_data[:firstname] = data[:firstname]
@@ -76,7 +75,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         ### data from proeco with or without proecoid
         student_data[:proeco_id] = data[:proeco_id].to_s
         emailsArray = [data[:email1], data[:email2], data[:email3], data[:email4], data[:email_responsable]] if data[:email1].present? or data[:email2].present? or data[:email3].present? or data[:email4].present? or data[:email_responsable].present?
-        phonesArray = [data[:phone1], data[:phone2]]
+        phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
 
         ### data from WinPage or Creos
         if data[:winpage_matricule].present? # Winpage ou Creos
@@ -123,7 +122,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
 
     def get_already_existing_student_for_update(student_data)
-        
         student = nil
 
         if student_data[:proeco_id].present?
@@ -134,6 +132,9 @@ class CreateStudentFromCsvV2Job < ApplicationJob
             student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
         end
 
+        if student_data[:code].present?
+            student = Student.where('code = ? and school_id = ?', student_data[:code].to_s, student_data[:school_id]).first
+        end
 
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
         if student.nil?
@@ -184,6 +185,8 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
     
     def buildArrayOfPhone(numbers)
+        # n.to_s.gsub(/\D/, '') keep only numbers, remove letters
+
         numbers.map{|n| n.to_s.gsub(/\D/, '')}.compact.uniq.map do |number|
             Phone.new number: number
         end
@@ -199,9 +202,15 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         return nil if old_phones.nil? and new_phones.nil?
         return old_phones if new_phones.nil?
         return new_phones if old_phones.nil?
-
+        
         mergedPhones = old_phones + new_phones
-        return mergedPhones.flatten.compact.uniq{|p| p.number }
+        mergedPhonesNumbers = mergedPhones.map do |phone|
+            phonieObj = Phonie::Phone.parse(phone.number, country_code: '32')&.to_s
+        end.flatten.compact.uniq
+
+        return mergedPhonesNumbers.flatten.compact.uniq.map do |number|
+            Phone.new number: number unless number.nil?
+        end
     end
 
 end
