@@ -7,10 +7,15 @@
       <% end %>
       </ul>
     </div>
-
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="row">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+    </div>
+  </div>
+  <div class="row top-buffer">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+        Sélectionnez les classes pour lesquels <em><%= @user.firstname %></em> peut encoder des côtes pour la matière      </div>
     </div>
   </div>
 

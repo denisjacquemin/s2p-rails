@@ -58,7 +58,6 @@ class UsersController < ApplicationController
     authorize @user
 
     @user_params = competency_groups_params
-    byebug
 
     if @user.update(@user_params)
       redirect_to edit_user_path, :notice => t('controller.user.update.success.notice')

@@ -1,8 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
 
-  layout 'reports'
-
   # GET /ratings
   # GET /ratings.json
   def index
@@ -13,13 +11,12 @@ class RatingsController < ApplicationController
     # @classrooms =  Student.where(school_id: @current_school.id).pluck(:classroom).uniq
     @groups = Group.only_level.by_school(current_school.id)
     @current_group_selected_id = @groups&.first&.id
-
+    byebug
     set_ratings
   end
 
   def students
     @current_group_selected_id = params[:current_group_selected_id]
-
     set_ratings
   end
 
