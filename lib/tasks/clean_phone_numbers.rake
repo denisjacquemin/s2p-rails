@@ -2,7 +2,7 @@ desc "Clean Phones Numbers"
 task :clean_phone_numbers => :environment do
     ActiveRecord::Base.logger = Logger.new(STDOUT)
     
-    school = School.find 143
+    school = School.find 166
     
     school.students.each do |s|
     
