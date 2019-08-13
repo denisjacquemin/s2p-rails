@@ -1,0 +1,29 @@
+<div class="table-responsive" id="ratings_table">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="firstname">Matière</th>
+            <% @periods.each do |period| %>
+            <th><%= period.name %></th>
+            <% end %>
+        </tr>
+        </thead>
+        <tbody>
+            <% @competencies.each do |competence| %>
+                <tr>
+                    <td class="firstname"><%= competence.name %></td>
+                    <% @periods.each do |period| %>
+                        <td>
+                            <% rating_id = "#{competence.id}-#{period.id}"  %>
+
+                            <div class="input-group input-group-sm">
+                                <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), class: 'rating form-control'%>
+                                <div class="input-group-addon comment" data-r-id="<%= rating_id %>"><i class="fa fa-comment"></i></div>
+                            </div>
+                        </td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

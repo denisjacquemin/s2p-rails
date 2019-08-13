@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   post 'periods/update_orders', to: 'periods#update_orders'
   resources :periods
   
+  post 'ratings/change_group', to: 'ratings#change_group'
+  post 'ratings/change_student', to: 'ratings#change_student'
+
+  get 'ratings/by_student', to: 'ratings#by_student', as: 'by_student'
   post 'ratings/students', to: 'ratings#students', as: 'ratings_students'
   post 'ratings/save', to: 'ratings#save'
   post 'ratings/save_comment', to: 'ratings#save_comment'

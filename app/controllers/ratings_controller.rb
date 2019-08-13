@@ -11,13 +11,36 @@ class RatingsController < ApplicationController
     # @classrooms =  Student.where(school_id: @current_school.id).pluck(:classroom).uniq
     @groups = Group.only_level.by_school(current_school.id)
     @current_group_selected_id = @groups&.first&.id
-    byebug
     set_ratings
   end
 
   def students
     @current_group_selected_id = params[:current_group_selected_id]
     set_ratings
+  end
+
+  def by_student
+    @groups = Group.only_level.by_school(current_school.id)
+    @group_selected_id = @groups&.first&.id
+    @students = Student.by_group(@group_selected_id)
+    @student_selected_id = @students&.first&.id
+    @student_ratings = {}
+    set_ratings_for_one_students()
+  end
+
+  def change_group
+    @group_selected_id = params[:group_selected_id]
+    @students = Student.by_group(@group_selected_id)
+    @student_selected_id = @students&.first&.id
+    @student_ratings = {}
+    set_ratings_for_one_students()
+  end
+
+  def change_student
+    @group_selected_id = params[:group_selected_id]
+    @student_selected_id = params[:student_selected_id]
+    @student_ratings = {}
+    set_ratings_for_one_students()
   end
 
   # GET /ratings/1
@@ -115,7 +138,7 @@ class RatingsController < ApplicationController
     def set_ratings
       @periods = Period.by_school(current_school.id).ordered
       @competencies = Group.find(@current_group_selected_id).competencies.ordered
-      @competency_selected_id = params[:current_competency_selected_id]
+      @competency_selected_id = params[:current_competency_selected_id] || @competencies&.first&.id&.to_s
       @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
       @ratings = {}
       @students.each{ |s| 
@@ -125,6 +148,17 @@ class RatingsController < ApplicationController
         }
         @ratings[s.id] = student_ratings
       }
+    end
+
+    def set_ratings_for_one_students()
+      @current_student = Student.find @student_selected_id
+      @current_student.ratings.each { |r|
+        @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
+        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
+      }
+    
+      @periods = Period.by_school(current_school.id).ordered
+      @competencies = Group.find(@group_selected_id).competencies.ordered
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,7 +1,10 @@
 <div id="rating_screen">
-
-
-  <h1>Ratings</h1>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Ratings</h1>
+      <hr />
+    </div>
+  </div>
   <%
 =begin%>
  <p>But de l'ecran, permettre l'encodage et la visu des ratings pour des eleves par matiere</p>
@@ -14,8 +17,8 @@
 <%
 =end%>
   <div class="row">
-    <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: '') do %>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-sm-12 col-md-6">
+      <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: '') do %>
         <div class="form-group">
           <label>Matières</label>
           <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id), class: 'form-control' %>
@@ -25,19 +28,23 @@
           <% end %>
           </span>
         </div>
-      </div>
-    <% end %>
-    <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <% end %>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
         <div class="form-group">
           <label>Classes</label>
           <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-  <div id="ratings_table">
-    <%= render 'students' unless @competencies.empty? %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="ratings_table">
+        <%= render 'students' unless @competencies.empty? %>
+      </div>
+    </div>
   </div>
   <div class="modal right fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
 		<div class="modal-dialog" role="document">

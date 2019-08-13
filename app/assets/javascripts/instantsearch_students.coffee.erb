@@ -8,7 +8,7 @@ $(document).on 'turbolinks:load', ->
   ready()
 
 ready = () ->
-  if $('.algolia_students').length
+  if $('.algolia_students').length      
     $('.students_toolbar').on 'click', '.sendcodetoall', (e) ->
       if $('input.scb:checked').size() == 0
         alert 'Selectionnez au moins un élève'
