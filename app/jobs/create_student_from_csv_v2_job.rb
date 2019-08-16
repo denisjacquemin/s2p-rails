@@ -70,6 +70,13 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:level] = "#{data[:level1]}#{data[:level2]}"
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
+        # build new groups if required and gets all group ids
+        student_data[:groups] = []
+        [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
+            group_id = Group.find_or_create_group(group_name, student_data[:school_id]).id
+            student_data[:groups].push(group_id)
+        end
+
         emailsArray =  data[:emails].present? ?data[:emails]&.split(' ') : []
 
         ### data from proeco with or without proecoid

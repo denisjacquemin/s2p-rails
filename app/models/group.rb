@@ -67,6 +67,13 @@ class Group < ApplicationRecord
 
   end
 
+  # class methods
+  def self.find_or_create_group(name, school_id, type='')
+    group = Group.where('lower(name) = ? and school_id = ?', name.downcase.strip, school_id).first
+    group = Group.create(name: name.strip, school_id: school_id, updatable: false, group_type: type) if group.nil?
+    group
+  end
+
   private
     def clean_students
       students_to_clean = Student.by_group(self.id)

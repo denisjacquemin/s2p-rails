@@ -322,7 +322,7 @@ class Student < ApplicationRecord
       # find it
       group = Group.where('lower(name) = ? and school_id = ?', name.downcase.strip, school_id).first
       if group.nil?
-        hash = compute_code(school_id, name)
+        # hash = compute_code(school_id, name)
         recordUniqueCount = 0
         begin
           # group not found, needs to be created

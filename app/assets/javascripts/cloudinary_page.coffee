@@ -117,4 +117,4 @@ save_photos = (form) ->
       format: 'js',
       _method: form.find( "input[name='_method']" ).val()
     }
-  });
+  })

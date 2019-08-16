@@ -263,6 +263,18 @@ class StudentsController < ApplicationController
             "mèl_resp_2".to_sym => :email3,
             "tél.1_resp.1".to_sym => :phone1,
             "tél.1_resp.2".to_sym => :phone2,
+            # allow 10 groupes
+            :groupe1 => :group1,
+            :groupe2 => :group2,
+            :groupe3 => :group3,
+            :groupe4 => :group4,
+            :groupe5 => :group5,
+            :groupe6 => :group6,
+            :groupe7 => :group7,
+            :groupe8 => :group8,
+            :groupe9 => :group9,
+            :groupe10 => :group10,
+
           },
           :remove_unmapped_keys => true,
           :value_converters => {
