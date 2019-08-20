@@ -1,2 +1,3 @@
-$('#<%=@el_id%>').attr('data-r-comment', '<%= @rating_comment %>')
+$('#<%=@el_id%>').attr('data-toggle', 'popover').attr('data-content', '<%= @rating_comment %>').popover({placement: 'top', title: 'Commentaire', trigger: 'hover'})
+
 $("#editCommentModal").modal('hide');

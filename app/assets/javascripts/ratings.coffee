@@ -21,7 +21,11 @@ ready = () ->
         return
       else
         console.log("saveRating pending")
-
+    $('[data-toggle="popover"]').popover({
+      placement: 'top'
+      title: 'Commentaire'
+      trigger: 'hover'
+    })
 
   if $('#rating_screen').length
     $('#rating_screen').on 'change', '#selected_group, #selected_competency', ->
@@ -34,8 +38,9 @@ ready = () ->
     
 
     $('#ratings_table').on 'click', '.comment', (e) ->
-      $('#editCommentModal .modal-body #comment').val($(rid).data('r-comment'))
-      $('#editCommentModal #target-r-id').val($(event.target).closest('.comment').data('r-id'))
+      commentEL = $(e.target).closest('.comment')
+      $('#editCommentModal .modal-body #comment').val(commentEL.data('r-comment'))
+      $('#editCommentModal #target-r-id').val($(e.target).closest('.comment').data('r-id'))
       $('#editCommentModal').modal('show')
     $('#rating_screen').on 'submit', '#comment_form', (e) ->
       e.preventDefault()
