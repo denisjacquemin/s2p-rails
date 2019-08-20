@@ -14,6 +14,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
     def perform(rows, school_id, user)
         rows.each do |data|
+            puts "[CreateStudentFromCsvV2Job info] processing: #{data[:firstname]} #{data[:lastname]}"
             if data[:firstname].present? and data[:lastname].present? # check if mandatory fields are presents
                 create_or_update_student(data, school_id, user.id)
             end
@@ -24,7 +25,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
         student_data = build_student_data(data, school_id)
 
-        student = get_already_existing_student_for_update(student_data)
+        student = get_already_existing_student_for_update(student_data, user_id)
         if student.blank?
             create_new_student(student_data, school_id)
         else
@@ -44,7 +45,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         recordUniqueCount = 0
         begin
           unless new_student.save
-            write_error_to_firebase(data, new_student.errors, school_id, user_id)
+            write_error_to_firebase(data, new_student.errors, data[:school_id], user_id)
           end
         rescue ActiveRecord::RecordNotUnique => e
           number_of_collision = number_of_collision + 1
@@ -128,7 +129,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         
     end
 
-    def get_already_existing_student_for_update(student_data)
+    def get_already_existing_student_for_update(student_data, user_id)
         student = nil
 
         if student_data[:proeco_id].present?
@@ -142,14 +143,13 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         if student_data[:code].present?
             student = Student.where('code = ? and school_id = ?', student_data[:code].to_s, student_data[:school_id]).first
         end
-
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
         if student.nil?
             students = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
             if students.size == 1
               student = students.first
             elsif students.size > 1
-              write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+              write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", student_data[:school_id], user_id)
             end
         end
 
@@ -219,5 +219,25 @@ class CreateStudentFromCsvV2Job < ApplicationJob
             Phone.new number: number unless number.nil?
         end
     end
+
+    private
+  def write_error_to_firebase(data, errors, school_id, user_id)
+    begin
+      logger.debug "write_error_to_firebase"
+      base_uri = Rails.application.secrets.firebase_base_uri
+      secret_key = Rails.application.secrets.firebase_secret_key
+      firebase = Firebase::Client.new(base_uri, secret_key)
+      errorsMessage = errors if errors.is_a? String
+      errorsMessage = errors.full_messages.join(', ') if errors.is_a? ActiveModel::Errors
+
+      response = firebase.push("csv/#{school_id}/#{user_id}", { :data => data.select { |key, value| /firstname|lastname|emails|sent_message_by_email|level|classroom/.match(key.to_s) }.values().join(', '),
+                                                                :errors => errorsMessage,
+                                                                :created_at => I18n.l(Time.now.to_datetime().in_time_zone, format: :short)
+                                                              })
+      logger.debug "Firebase response: #{response.inspect}"
+    rescue Exception => e
+      logger.debug e
+    end
+  end
 
 end
