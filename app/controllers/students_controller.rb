@@ -213,6 +213,7 @@ class StudentsController < ApplicationController
             "téléphone_3".to_sym => :phone3,
             # "gsm".to_sym => :phone4,
             "Implantation".to_sym => :implantation,
+            "implantation".to_sym => :implantation,
             "titulaire_nom".to_sym => :classroom,
             "titulaire_prénom".to_sym => :firstname_classroom,
             "informations_de_contact".to_sym => :info_contact,

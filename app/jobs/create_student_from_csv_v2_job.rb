@@ -69,6 +69,8 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:firstname] = data[:firstname]
         student_data[:lastname] = data[:lastname]
         student_data[:level] = "#{data[:level1]}#{data[:level2]}"
+        student_data[:level] = student_data[:level] + " (#{data[:implantation]})"if data[:implantation].present? # proeco (Auvelais)
+
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
         # build new groups if required and gets all group ids
@@ -145,7 +147,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         end
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
         if student.nil?
-            students = Student.where('firstname = ? and lastname = ? and school_id = ?', student_data[:firstname], student_data[:lastname], student_data[:school_id])
+            students = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, student_data[:school_id])
             if students.size == 1
               student = students.first
             elsif students.size > 1
