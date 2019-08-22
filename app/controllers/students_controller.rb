@@ -255,7 +255,9 @@ class StudentsController < ApplicationController
             "email_responsable_1".to_sym => :siel_email_1,
             "email_responsable_2".to_sym => :siel_email_2,
             "tel_1_responsable_1".to_sym => :phone1,
-            "tel_2_responsable_1".to_sym => :phone2,
+            "tel_1_responsable_2".to_sym => :phone2,
+            "tel_2_responsable_1".to_sym => :phone3,
+            "tel_2_responsable_2".to_sym => :phone4,
             # gestscol
             #             :nom => :lastname,
             #             "prénom".to_sym  => :firstname,
