@@ -86,7 +86,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:proeco_id] = data[:proeco_id].to_s
         emailsArray = [data[:email1], data[:email2], data[:email3], data[:email4], data[:email_responsable]] if data[:email1].present? or data[:email2].present? or data[:email3].present? or data[:email4].present? or data[:email_responsable].present?
         phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
-
         ### data from WinPage or Creos
         if data[:winpage_matricule].present? # Winpage ou Creos
 
@@ -195,8 +194,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     
     def buildArrayOfPhone(numbers)
         # n.to_s.gsub(/\D/, '') keep only numbers, remove letters
-
-        numbers.map{|n| n.to_s.gsub(/\D/, '')}.compact.uniq.map do |number|
+        numbers.compact.map{|n| n.to_s.gsub(/\D/, '')}.uniq.map do |number|
             Phone.new number: number
         end
     end
