@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_22_163111) do
+ActiveRecord::Schema.define(version: 2019_08_23_041738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -394,6 +394,7 @@ ActiveRecord::Schema.define(version: 2019_08_22_163111) do
     t.boolean "bulletin_enable", default: false
     t.integer "message_day_limit", default: 30
     t.integer "message_month_limit", default: 6
+    t.boolean "activate_message_date_limit", default: true
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

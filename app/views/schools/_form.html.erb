@@ -55,6 +55,11 @@
 
               <% if current_user.superadmin? %>
                 <div class="form-group">
+                 <%= f.label :activate_message_date_limit, 'Activer message date limit' %>
+                 <%= f.check_box :activate_message_date_limit %>
+                </div>
+                <div class="form-group">
+
                  <%= f.label :message_day_limit, 'Jour' %>
                  <%= f.text_field :message_day_limit, class: 'form-control' %>
                  <%= f.label :message_month_limit, 'Mois' %>
