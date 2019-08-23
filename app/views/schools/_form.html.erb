@@ -55,6 +55,12 @@
 
               <% if current_user.superadmin? %>
                 <div class="form-group">
+                 <%= f.label :message_day_limit, 'Jour' %>
+                 <%= f.text_field :message_day_limit, class: 'form-control' %>
+                 <%= f.label :message_month_limit, 'Mois' %>
+                 <%= f.text_field :message_month_limit, class: 'form-control' %>
+                </div>
+                <div class="form-group">
                  <%= f.label :billing_enable, 'Facturation Enable' %>
                  <%= f.check_box :billing_enable %>
                 </div>
