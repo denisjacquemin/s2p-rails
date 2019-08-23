@@ -114,10 +114,10 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
         ### data from siel
         student_data[:siel_id] = data[:siel_id].to_s
-        student_data[:level] = "#{data[:siel_annee_etude]}#{data[:level2]}"
-        student_data[:classroom] = [data[:siel_prenom_tit], data[:siel_nom_tit]].join(' ').strip
-        emailsArray = [data[:siel_email_1], data[:siel_email_2]]
-        phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
+        # student_data[:level] = "#{data[:siel_annee_etude]}#{data[:level2]}" 
+        student_data[:classroom] = [data[:siel_prenom_tit], data[:siel_nom_tit]].join(' ').strip if data[:siel_prenom_tit].present? or data[:siel_nom_tit].present?
+        # emailsArray = [data[:siel_email_1], data[:siel_email_2]]
+        # phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
 
 
         # common for Winpage Creos and ProEco
