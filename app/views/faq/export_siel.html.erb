@@ -7,48 +7,22 @@
     <p>Les utilisateurs de Siel peuvent utiliser la procédure ci-dessous pour créer un fichier CSV contenant la liste des élèves.</p>
     <ol>
       <li>Création d'un fichier excel(.xlsx) contenant la liste des élèves</li>
-      <li>Convertir le fichier excel(.xlsx) Siel en .CSV</li>
       <li>Importer le fichier .CSV dans Konecto App</li>
     </ol>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
     <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-            <%
-=begin%>
- <p>Via le menu <em>Elèves: Liste personnalisées et semi-personnalisées</em>.</p> 
-<%
-=end%>
-            <p>Voici la liste des colonnes à exporter:</p>
-            <ol>
-                <li>Nom</li>
-                <li>Prénom</li>
-                <li>Classe</li>
-                <li>Nom tit (optionnel)</li>
-                <li>Prénom tit (optionnel)</li>
-                <li>E-mail responsable 1</li>
-                <li>E-mail responsable 2</li>
-                <li>Tel 1 responsable 1</li>
-                <li>Tel 2 responsable 1</li>
-                <li>Tel 1 responsable 2</li>
-                <li>Tel 2 responsable 2</li>
-            </ol>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p>Exportez les élèves dans Siel via Gestion (1) Listes (2), choississez la bonne date de comptage et ensuite cliquez sur l'icone (3)</p>
         </div>
-        <%
-=begin%>
- <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-            <%= image_tag asset_path("faq/gestscol_colonnes.PNG"), class: "img-responsive img-thumbnail" %>
-        </div> 
-<%
-=end%>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <%= image_tag asset_path("faq/capturesiel.PNG"), class: "img-responsive img-thumbnail" %>
+        </div>
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
-    <h3>1. Convertir le fichier excel(.xlsx) Siel en .CSV</h3>
-    <p>Ouvrez le fichier excel(.xlsx) dans excel, gardez uniquement le titre des colonnes et la liste des élèves.</p>
-    <p>Ensuite enregistez le fichier en .CSV, dans le menu <em>Fichier > Enregistrer Sous</em>. Dans type de fichier, choisir <em style="background-color: #FFFF00;">CSV (séparateur: point-virgule)</em>
-    <h3>3. Importer le fichier .CSV dans Konecto App</h3>
+    <h3>2. Importer le fichier .CSV dans Konecto App</h3>
     <%= render 'import_csv_file' %>
   </div>
 
