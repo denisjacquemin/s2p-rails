@@ -73,16 +73,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
-        # build new groups if required and gets all group ids
-        student_data[:groups] = []
-        # get all_students group
-        group_all_students = Group.all_students_by_school(school_id).first
-        student_data[:groups].push(group_all_students.id) unless group_all_students.nil?
-        [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
-            group_id = Group.find_or_create_group(group_name, student_data[:school_id]).id
-            student_data[:groups].push(group_id)
-        end
-
         emailsArray =  data[:emails].present? ?data[:emails]&.split(' ') : []
 
         ### data from proeco with or without proecoid
@@ -126,6 +116,15 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         # common for Winpage Creos and ProEco
         student_data[:phones] = buildArrayOfPhone(phonesArray) if phonesArray.any?
         student_data[:student_emails] = buildArrayOfStudentEmail(emailsArray) if emailsArray.any?
+        # build new groups if required and gets all group ids
+        student_data[:groups] = []
+        # get all_students group
+        group_all_students = Group.all_students_by_school(school_id).first
+        student_data[:groups].push(group_all_students.id) unless group_all_students.nil?
+        [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
+            group_id = Group.find_or_create_group(group_name, student_data[:school_id]).id
+            student_data[:groups].push(group_id)
+        end
         return student_data
         
     end
