@@ -78,7 +78,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         ### data from proeco with or without proecoid
         student_data[:proeco_id] = data[:proeco_id].to_s
         emailsArray = [data[:email1], data[:email2], data[:email3], data[:email4], data[:email_responsable]] if data[:email1].present? or data[:email2].present? or data[:email3].present? or data[:email4].present? or data[:email_responsable].present?
-        phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
+        phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4], data[:phone5], data[:phone6]]
         ### data from WinPage or Creos
         if data[:winpage_matricule].present? # Winpage ou Creos
 

@@ -258,6 +258,19 @@ class StudentsController < ApplicationController
             "tel_1_responsable_2".to_sym => :phone2,
             "tel_2_responsable_1".to_sym => :phone3,
             "tel_2_responsable_2".to_sym => :phone4,
+            # SIEL SPECIALISE
+            "te_nom".to_sym => :lastname,
+            "te_prenom".to_sym => :firstname,
+            "co_aa_etude".to_sym => :level1,
+            "te_resp1_tel1".to_sym => :phone1,
+            "te_resp1_tel2".to_sym => :phone2,
+            "te_resp1_tel3".to_sym => :phone3,
+            "te_resp1_email".to_sym => :email1,
+            "te_resp2_email".to_sym => :email2,
+            "te_resp2_tel1".to_sym => :phone4,
+            "te_resp2_tel2".to_sym => :phone5,
+            "te_resp2_tel3".to_sym => :phone6,
+
             # gestscol
             #             :nom => :lastname,
             #             "prénom".to_sym  => :firstname,
@@ -279,7 +292,6 @@ class StudentsController < ApplicationController
             :groupe8 => :group8,
             :groupe9 => :group9,
             :groupe10 => :group10,
-
           },
           :remove_unmapped_keys => true,
           :value_converters => {
