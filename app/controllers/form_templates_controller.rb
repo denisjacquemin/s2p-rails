@@ -1,5 +1,8 @@
 class FormTemplatesController < ApplicationController
   before_action :authenticate_user!
+  before_action do
+    helpers.authorize_current_school(current_user, current_school.id)
+  end
   before_action :set_form_template, only: [:show, :edit, :update, :destroy]
 
   # GET /form_templates
