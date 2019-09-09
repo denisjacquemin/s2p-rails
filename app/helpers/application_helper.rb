@@ -7,4 +7,12 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
   end
+
+  # check if current user can access current_school
+  def authorize_current_school(current_user, current_school_id)
+    unless current_user.schools.include?(current_school_id)
+      session[:current_school]  = current_user.schools[0]
+      raise Pundit::NotAuthorizedError, "Pas autorisé" 
+    end
+  end
 end

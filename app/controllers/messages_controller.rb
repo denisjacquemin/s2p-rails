@@ -1,6 +1,10 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
+  before_action do
+    helpers.authorize_current_school(current_user, current_school.id)
+  end
   before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
+
   # before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   # GET /messages

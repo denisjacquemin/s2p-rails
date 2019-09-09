@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action do
+    helpers.authorize_current_school(current_user, current_school.id)
+  end
   before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools]
 
   def new_announcements_viewed

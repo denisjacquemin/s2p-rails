@@ -1,6 +1,9 @@
 class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  before_action do
+    helpers.authorize_current_school(current_user, current_school.id)
+  end
   before_action :set_s3_direct_post, only: [:new, :edit]
 
 
