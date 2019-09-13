@@ -33,11 +33,11 @@ ready = () ->
         when 'edit'
           return '<a data-disable-with="Edition..." href="/messages/' + message_id + '/edit"><i class="glyphicon glyphicon-pencil"></i>Editer</a>'
         when 'publish'
-          return '<a data-disable-with="Publication..." href="/messages/publish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-send"></i>Publier</a>'
+          return '<a data-confirmbootbox="Etes vous sûr de vouloir publier?" data-disable-with="Publication..." href="/messages/publish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-send"></i>Publier</a>'
         when 'unpublish'
           return '<a data-disable-with="Dépublication..." href="/messages/unpublish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-remove"></i>Dépublier</a>'
         when 'republished'
-          return '<a data-disable-with="Réenvoie..." href="/messages/republish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-send"></i>Réenvoyer</a>'
+          return '<a data-confirmbootbox="Etes vous sûr de vouloir réenvoyer?" data-disable-with="Réenvoie..." href="/messages/republish/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-send"></i>Réenvoyer</a>'
         when 'approbation'
           return '<a data-disable-with="Envoi pour approbation..." href="/messages/send_for_approval/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-ok"></i>Demander l\'approbation</a>'
         when 'accept'
@@ -45,7 +45,7 @@ ready = () ->
         when 'reject'
           return '<a data-disable-with="Rejet..." href="/messages/reject/' + message_id + '" data-method="patch"><i class="glyphicon glyphicon-thumbs-down"></i>Rejeter</a>'
         when 'delete'
-          return '<a data-confirmbootbox="Etes vous sûr?" data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
+          return '<a data-confirmbootbox="Etes vous sûr de vouloir supprimer?" data-disable-with="Suppression..." href="/messages/' + message_id + '" data-method="delete"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>'
 
 
     $('.hits').on 'click', '.dropdown-toggle', (event) ->
@@ -85,8 +85,9 @@ ready = () ->
             when 'draft'
               ul.append('<li>' + linkAction('publish', message_id) + '</li>')
             when 'published'
-              ul.append('<li><a href="#"><i class="glyphicon glyphicon-send"></i>Dépublier</li>')
-          ul.append('<li><a href="#"><i class="glyphicon glyphicon-trash"></i>InaSupprimer</li>')
+              ul.append('<li>' + linkAction('republished', message_id) + '</li>')
+              #ul.append('<li><a href="#"><i class="glyphicon glyphicon-send"></i>Dépublier</li>')
+          ul.append('<li>' + linkAction('delete', message_id) + '</li>')
       event.preventDefault()
 
     isDraft = (status) ->
