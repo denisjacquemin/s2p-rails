@@ -13,7 +13,7 @@
       <% save_form_with_tab = message.new_record? and @message.mtype == 'message' %>
       <% if @message.mtype == 'message' %>
         <li role="presentation">
-          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF</a>
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF (<%= message.photos.count %>)</a>
         </li>
       <% end %>
       <% if @message.mtype == 'message' %>
