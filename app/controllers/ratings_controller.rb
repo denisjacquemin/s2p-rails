@@ -67,26 +67,23 @@ class RatingsController < ApplicationController
 
     rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
     rating.rating = value
-    rating.comment = params[:comment]
     rating.save
 
     @el_id = params[:el_id]
     @rating_comment = params[:comment]
   end
 
+  def edit_comment
+    @rating = Rating.find_or_create_by(student_id: params[:student_id], school_id: current_school.id, competency_id: params[:competency_id], period_id: params[:period_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def save_comment 
-    current_group_selected_id = params[:current_group_selected_id]
-    competency_id = params[:current_competency_selected_id]
-    comment = params[:comment]
-    student_id = params[:"s-id"]
-    period_id = params[:"p-id"]
-
-    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
-    rating.comment = params[:comment]
+    rating = Rating.find_or_create_by(student_id: params[:rating][:student_id], school_id: current_school.id, competency_id: params[:rating][:competency_id], period_id: params[:rating][:period_id])
+    rating.comment = params[:rating][:comment]
     rating.save
-
-    @el_id = params[:el_id]
-    @rating_comment = params[:comment]
   end
 
   # POST /ratings

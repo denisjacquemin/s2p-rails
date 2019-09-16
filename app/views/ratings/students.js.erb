@@ -4,5 +4,5 @@ $( "#emptyCompetenciesMsg" ).html('<i class="fa fa-exclamation-triangle" aria-hi
 $('#ratings_table').empty();
 <% else %>
 $('#emptyCompetenciesMsg').empty();
-$('#ratings_table').html("<%= escape_javascript(render 'students', students: @students) %>");
+$('#ratings_table').html("<%= escape_javascript(render 'students', students: @students, competency_selected_id: @competency_selected_id) %>");
 <% end %>

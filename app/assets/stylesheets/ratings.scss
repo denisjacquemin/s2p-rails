@@ -12,12 +12,23 @@
     background-color: white;
 }
 
+
 .input-group-addon .fa-comment {
     color: #999999;
 }
 
 .input-group-addon.commented .fa-comment {
     color: #333333;
+}
+
+#editCommentModal, #newCompetencyModal {
+
+
+    /* media query for mobile devices */
+        &.modal .modal-body {
+            max-height: inherit;
+        }
+
 }
 
 
@@ -41,7 +52,7 @@
 
 #ratings_table input {
     max-width: 70px;
-    min-width: 40px;
+    min-width: 65px;
 }
 
 #ratings_table .input-group {

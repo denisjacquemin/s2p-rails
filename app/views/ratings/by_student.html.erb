@@ -25,7 +25,8 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings %>
+            <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, student_selected_id: @student_selected_id %>
         </div>
     </div>
+    <%= render 'edit_comment_modal' %>
 </div>

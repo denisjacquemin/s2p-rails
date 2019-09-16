@@ -46,35 +46,7 @@
       </div>
     </div>
   </div>
-  <div class="modal right fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalTitle">Edition Commentaire</h4>
-				</div>
-				<div class="modal-body">
-          <form id="comment_form" action="/">
-            <input type="hidden" id="target-r-id">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="row">
-                <div class="pull-right"><%= submit_tag "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="row">
-                <div class="form-group">
-                  <%=  %>
-                  <%= label_tag :comment, 'Commentaire' %>
-                  <%= text_area_tag :comment, nil, class: 'form-control', rows: 12 %>
-                </div>
-              </div>
-            </div>
-          </form>
-				</div>
-			</div>
-		</div>
-	</div>
+  <%= render 'edit_comment_modal' %>
 </div>
 
 

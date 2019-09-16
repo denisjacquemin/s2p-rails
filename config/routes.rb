@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   get 'ratings/by_student', to: 'ratings#by_student', as: 'by_student'
   post 'ratings/students', to: 'ratings#students', as: 'ratings_students'
   post 'ratings/save', to: 'ratings#save'
-  post 'ratings/save_comment', to: 'ratings#save_comment'
+  patch 'ratings/save_comment', to: 'ratings#save_comment', as: 'save_comment'
+  get 'ratings/edit_comment/:competency_id/:student_id/:period_id', to: 'ratings#edit_comment', as: 'rating_edit_comment'
+
 
   resources :ratings
 
