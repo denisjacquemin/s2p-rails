@@ -97,7 +97,7 @@ fr:
         writers_list: 'Liste des rédacteurs'
         no_members: 'Ce groupe ne contient aucun membre!'
         not_editable_group_title: 'Groupe non éditable'
-        not_editable_group_help: 'Ce groupe ne peut pas être modifié car il est géré automatiquement.'
+        not_editable_group_help: "Ce groupe ne peut pas être modifié car il est géré automatiquement. Il sera supprimé automatiquement dès qu'il ne contiendra plus d'élève. Cette suppression des groupes vides est effectuée une fois jour, la nuit."
     students:
       edit:
         submit: "Enregistrer"
