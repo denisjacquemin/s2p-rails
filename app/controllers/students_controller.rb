@@ -295,6 +295,13 @@ class StudentsController < ApplicationController
             :groupe8 => :group8,
             :groupe9 => :group9,
             :groupe10 => :group10,
+            #ifapme
+            :nom_apprenant => :lastname,
+            :prénom_apprenant => :firstname,
+            :téléphone => :phone3,
+            :gsm => :phone2,
+            :email => :email1
+
           },
           :remove_unmapped_keys => true,
           :value_converters => {
@@ -308,6 +315,7 @@ class StudentsController < ApplicationController
         current_school_id = current_school.id
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
           CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user)
+          
           # r.each do |data|
           #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           #   groups = []
