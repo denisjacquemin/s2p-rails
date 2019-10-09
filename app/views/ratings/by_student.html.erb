@@ -1,8 +1,13 @@
 <div id="by_student">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
             <h1>Encodage par élèves</h1>
-            <hr />
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+            <%= link_to content_tag(:i, nil, class: "fa fa-file-pdf", aria_hidden: true) + ' Génération du bulletin', new_message_path, class: 'btn btn-primary fab visible-xs' %>
+            <div class="pull-right hidden-xs">
+            <%= link_to content_tag(:i, nil, class: "fa fa-file-pdf", aria_hidden: true) + ' Génération du bulletin', new_message_path, class: 'btn btn-primary' %>
+            </div>
         </div>
     </div>
     <div class="row">
