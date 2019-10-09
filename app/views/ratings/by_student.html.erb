@@ -25,7 +25,19 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, student_selected_id: @student_selected_id %>
+            <div class="table-responsive" id="ratings_table">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="firstname">Matière</th>
+                        <% @periods.each do |period| %>
+                        <th><%= period.name %></th>
+                        <% end %>
+                    </tr>
+                    </thead>
+                    <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, student_selected_id: @student_selected_id %>
+                </table>
+            </div>
         </div>
     </div>
     <%= render 'edit_comment_modal' %>

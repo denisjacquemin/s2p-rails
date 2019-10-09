@@ -62,7 +62,7 @@ saveRating = (e) ->
       type: "POST"
       url: '/ratings/save',
       data: 'current_group_selected_id=' + $('#selected_group').val() \
-        + '&current_competency_selected_id=' + $('#selected_competency').val() \
+        + '&current_competency_selected_id=' + e.target.getAttribute('data-c-id') \
         + '&value=' + e.target.value \
         + '&s-id=' + e.target.getAttribute('data-s-id') \
         + '&p-id=' + e.target.getAttribute('data-p-id') \

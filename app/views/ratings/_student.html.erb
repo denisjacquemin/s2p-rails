@@ -13,7 +13,7 @@
             <div class="input-group input-group-sm">
 
                 <div class="input-group input-group-sm">
-                    <%= text_field_tag rating_id, student_ratings.dig(period.id, :value), class: 'rating form-control', data: {"s-id": student.id, "p-id": period.id }%>
+                    <%= text_field_tag rating_id, student_ratings.dig(period.id, :value), class: 'rating form-control', data: {"s-id": student.id, "p-id": period.id, "c-id": @competency_selected_id }%>
                     <div class="input-group-addon">
                         <%= link_to rating_edit_comment_path(competency_id: @competency_selected_id, student_id: student.id, period_id: period.id), remote: true do%>
                             <i class="fa fa-comment"></i>
