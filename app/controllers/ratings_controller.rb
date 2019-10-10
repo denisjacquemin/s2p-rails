@@ -24,7 +24,6 @@ class RatingsController < ApplicationController
     @group_selected_id = @groups&.first&.id
     @students = Student.by_group(@group_selected_id)
     @student_selected_id = @students&.first&.id
-    @student_ratings = {}
     set_ratings_for_one_students()
   end
 
@@ -32,7 +31,6 @@ class RatingsController < ApplicationController
     @group_selected_id = params[:group_selected_id]
     @students = Student.by_group(@group_selected_id)
     @student_selected_id = @students&.first&.id
-    @student_ratings = {}
     set_ratings_for_one_students()
   end
 
@@ -48,6 +46,8 @@ class RatingsController < ApplicationController
     byebug
 
     @student_selected_id = params[:student_id]
+    @group_selected_id = params[:group_selected_id]
+
     set_ratings_for_one_students()
 
 
@@ -56,6 +56,13 @@ class RatingsController < ApplicationController
           render pdf: "bulletin_milo_jacquemin_#{Date.today}",
           page_size: 'A4',
           template: "/ratings/report_pdf.html.erb",
+          # header:  {   
+          #   html: {            
+          #     template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
+          #     layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
+          #     url:      'www.example.com',
+          #     locals:   { foo: @bar }
+          # },
           layout: "pdf.html",
           orientation: "Portrait",
           lowquality: true,
@@ -162,6 +169,7 @@ class RatingsController < ApplicationController
       @competency_selected_id = params[:current_competency_selected_id] || @competencies&.first&.id&.to_s
       @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
       @ratings = {}
+      @student_ratings = {}
       @students.each{ |s| 
         student_ratings = {}
         s.ratings.each { |r|
@@ -173,6 +181,7 @@ class RatingsController < ApplicationController
 
     def set_ratings_for_one_students()
       @current_student = Student.find @student_selected_id
+      @student_ratings = {}
       @current_student.ratings.each { |r|
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
         @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}

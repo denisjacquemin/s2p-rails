@@ -41,6 +41,7 @@ ready = () ->
         type: "POST"
         url: '/ratings/report_to_pdf',
         data: 'student_id=' + $('#selected_student').val() \
+          + '&group_selected_id=' + $('#selected_group').val() \
           + '&current_competency_selected_id=' + $('#selected_competency').val()
       }
     # $('#ratings_table').on 'click', '.comment', (e) ->
