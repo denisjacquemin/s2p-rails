@@ -43,6 +43,30 @@ class RatingsController < ApplicationController
     set_ratings_for_one_students()
   end
 
+  def report_to_pdf
+
+    byebug
+
+    @student_selected_id = params[:student_id]
+    set_ratings_for_one_students()
+
+
+    respond_to do |format|
+      format.pdf do
+          render pdf: "bulletin_milo_jacquemin_#{Date.today}",
+          page_size: 'A4',
+          template: "/ratings/report_pdf.html.erb",
+          layout: "pdf.html",
+          orientation: "Portrait",
+          lowquality: true,
+          zoom: 1,
+          dpi: 75,
+          encoding: "UTF-8",
+          show_as_html: params.key?('debug')
+      end
+    end
+  end
+
   # GET /ratings/1
   # GET /ratings/1.json
   def show

@@ -87,6 +87,9 @@ gem 'snackbarjs-rails'
 
 gem "pundit"
 
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 gem 'hashids'
 
 gem 'momentjs-rails', '>= 2.9.0'
