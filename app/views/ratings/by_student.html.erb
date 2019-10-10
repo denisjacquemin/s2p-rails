@@ -1,0 +1,49 @@
+<div id="by_student">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+            <h1>Encodage par élèves</h1>
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+            <%= link_to content_tag(:i, nil, class: "fa fa-file-pdf", aria_hidden: true) + ' Génération du bulletin', '#', class: 'report_to_pdf btn btn-primary fab visible-xs', target: '_blank' %>
+            <div class="pull-right hidden-xs">
+            <%= link_to content_tag(:i, nil, class: "fa fa-file-pdf", aria_hidden: true) + ' Génération du bulletin', '#', class: 'report_to_pdf btn btn-primary', target: '_blank' %>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+                <div class="form-group">
+                    <label>Classes</label>
+                    <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
+                </div>
+            <% end %>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+                <div class="form-group">
+                    <label>Elèves</label>
+                    <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control' %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive" id="ratings_table">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="firstname">Matière</th>
+                        <% @periods.each do |period| %>
+                        <th><%= period.name %></th>
+                        <% end %>
+                    </tr>
+                    </thead>
+                    <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, student_selected_id: @student_selected_id %>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%= render 'edit_comment_modal' %>
+</div>

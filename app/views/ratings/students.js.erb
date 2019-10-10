@@ -1,0 +1,8 @@
+$('#selected_competency').html("<%= escape_javascript(render 'competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id) %>");
+<% if @competencies.empty? %>
+$( "#emptyCompetenciesMsg" ).html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ajoutez des matières pour cette classe via l\'écran <em>Gestions des paramètres > Liste des matières</em> (uniquement accessible à un Admin).');
+$('#ratings_table').empty();
+<% else %>
+$('#emptyCompetenciesMsg').empty();
+$('#ratings_table').html("<%= escape_javascript(render 'students', students: @students, competency_selected_id: @competency_selected_id) %>");
+<% end %>

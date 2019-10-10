@@ -77,7 +77,7 @@ body {
   position: fixed;
   bottom: 15px;
   right: 10px;
-  z-index: 2000;
+  z-index: 1040;
   box-shadow: 2px 2px 5px grey;;
 }
 
@@ -100,3 +100,6 @@ body {
   overflow: visible;
   zoom: 1;
 }
+
+.row.top-buffer { margin-top:20px; }
+.row.bottom-buffer { margin-top:20px; }

@@ -1,0 +1,2 @@
+$('#selected_student').html("<%= escape_javascript(render 'students_options', students: @students, student_selected_id: @student_selected_id) %>");
+$('#ratings_table').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings) %>");

@@ -45,6 +45,10 @@ class Student < ApplicationRecord
     self.student_emails.pluck(:email).join(' ')
   end
 
+  has_many :ratings
+  # scope :ratings_by_competency_id, ->(competency_id) joins(:ratings).{ where("ratings.competency_id = ?",competency_id) }
+
+
   # def emails=(emails)
   #   unless emails.nil?
   #     submitted_emails = emails.split(' ')

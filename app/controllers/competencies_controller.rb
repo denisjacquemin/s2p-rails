@@ -1,14 +1,23 @@
 class CompetenciesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_competency, only: [:show, :edit, :update, :destroy]
+  before_action :set_competency, only: [:show, :edit, :update, :destroy, :edit_competency_writer_accesses]
 
   layout 'reports'
+
 
   # GET /competencies
   # GET /competencies.json
   def index
-    @competency = Competency.new
+    @competencies = Competency.where(school_id: current_school.id).ordered
+    @periods = Period.by_school(current_school.id).ordered
+  end
+
+  def writers_access
+    @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
+    @user_selected_id = params[:selected_user] || @users&.first&.id
+    # @competency_write_accesses = CompetencyWriterAccess.where(user_id: @user_selected_id, school_id: current_school.id)
     @competencies = Competency.where(school_id: current_school.id).order(:order)
+    render layout: false
   end
 
   # GET /competencies/1
@@ -19,6 +28,10 @@ class CompetenciesController < ApplicationController
   # GET /competencies/new
   def new
     @competency = Competency.new
+    respond_to do |format|
+      format.html 
+      format.js
+    end
   end
 
   # GET /competencies/1/edit
@@ -26,7 +39,7 @@ class CompetenciesController < ApplicationController
     respond_to do |format|
       format.html 
       format.js
-    end 
+    end
   end
 
   # POST /competencies
@@ -34,15 +47,18 @@ class CompetenciesController < ApplicationController
   def create
     @competency = Competency.new(competency_params)
     @competency.school_id = current_school.id
-    @competencies = Competency.where(school_id: current_school.id).order(:order)
+    @competency.order = 0
+
 
     respond_to do |format|
       if @competency.save
+        @competencies = Competency.where(school_id: current_school.id).order(:order)
         format.html { redirect_to @competency, notice: 'Competency was successfully created.' }
         format.js
         format.json { render :show, status: :created, location: @competency }
       else
         format.html { render :new }
+        format.js { render :errors, competency: @competency }
         format.json { render json: @competency.errors, status: :unprocessable_entity }
       end
     end
@@ -53,6 +69,7 @@ class CompetenciesController < ApplicationController
   def update
     respond_to do |format|
       if @competency.update(competency_params)
+        @competencies = Competency.where(school_id: current_school.id).order(:order)
         format.html { redirect_to @competency, notice: 'Competency was successfully updated.' }
         format.js
         format.json { render :show, status: :ok, location: @competency }
@@ -90,6 +107,6 @@ class CompetenciesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competency_params
-      params.require(:competency).permit(:name, :level, :order)
+      params.require(:competency).permit(:name, :level, :order, :comment, group_ids: [] )
     end
 end

@@ -5,8 +5,8 @@ class School < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :accounts, dependent: :destroy
   accepts_nested_attributes_for :accounts, allow_destroy: true
+  has_many :competencies, dependent: :destroy
   has_many :translations, dependent: :destroy
-
 
   scope :by_ids, ->(ids) { where(id: ids) }
 
@@ -46,5 +46,6 @@ class School < ApplicationRecord
     Group.create({name: I18n.t('model.group.all_writers'), internal_id: 'all_writers', school_id: self.id, updatable: false})
     User.superadmin.update_all(['schools = array_append(schools, ?)', self.id])
   end
+
 
 end

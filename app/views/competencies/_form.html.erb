@@ -1,0 +1,63 @@
+<%= form_with(model: competency, local: false) do |form| %>
+  
+    <div id="error_explanation">
+      <ul>
+      <% competency.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="form-group">
+        <%= form.label :name, 'Nom de la matière' %>
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= form.label :comment, 'Commentaire' %>
+        <%= form.text_field :comment, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= form.label :level, 'Niveau' %>
+        <%= form.select(:level, [['Niveau 1', 1], ['Niveau 2', 2], ['Niveau 3', 3]],  {}, {class: "form-control"}) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <label>Classes</label><br/>
+    </div>
+    <div class="row">
+      Sélectionner <a href="#" id="select_all" data-target="category_groups">Tout</a> - <a href="#" id="unselect_all" data-target="category_groups">Aucun</a>
+    </div>
+    <div class="row" id="category_groups">
+      <% groups = Group.where(school_id: current_school.id, group_type: 'level') %>
+      <%= form.collection_check_boxes(:group_ids, groups, :id, :name) do |g| %>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <%= g.label(class: "check_box") { g.check_box(class: "add_margin") + ' ' + g.text } %> 
+
+          <%
+=begin%>
+ <%= g.label(class: "check_box") { g.check_box(checked: true, class: "add_margin") + g.text } %> 
+<%
+=end%>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+  <% unless competency.new_record? %>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="row align-bottom">
+        <div class="pull-right"><%= link_to 'Supprimer', competency, class: 'btn btn-default btn-danger',method: :delete, data: { confirm: 'Etes vous sûr' } %></div>
+      </div>
+    </div>
+  <% end %>
+
+<% end %>

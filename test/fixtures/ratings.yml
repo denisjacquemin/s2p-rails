@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_id: 1
+  competency_id: 
+  rating: MyString
+  period: 1
+  comment: MyString
+
+two:
+  student_id: 1
+  competency_id: 
+  rating: MyString
+  period: 1
+  comment: MyString

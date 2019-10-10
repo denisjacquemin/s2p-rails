@@ -1,0 +1,9 @@
+<tr data-id="<%= competency.id %>">
+    <td><i class="fa fa-arrows-alt handle"></i></td>
+    <td class="level<%= competency.level %>"><%= link_to "#{competency.name} <small>#{competency.comment}</small>".html_safe, edit_competency_path(competency), class: 'edit-competency', remote: true %></td>
+    <td align="right">
+        <%= link_to 'Edit', edit_competency_path(competency), class: 'btn btn-default btn-xs', remote: true %>
+        &nbsp;
+        <%= link_to 'Supprimer',  competency, method: :delete, data: { confirm: 'Etes vous sûr' }, class: 'btn btn-danger btn-xs', remote: true %>
+    </td>
+</tr>

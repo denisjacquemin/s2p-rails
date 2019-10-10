@@ -1,0 +1,34 @@
+<%= form_with(model: @user, url: update_competency_groups_path, method: :patch, local: false) do |form| %>
+  
+    <div id="error_explanation">
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+    </div>
+  </div>
+  <div class="row top-buffer">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+        Sélectionnez les classes pour lesquels <em><%= @user.firstname %></em> peut encoder des côtes pour la matière      </div>
+    </div>
+  </div>
+
+  <div class="row" id="category_groups">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+      <%= form.collection_check_boxes(:competency_group_ids, @competency_groups, :id, :group_name) do |g| %>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <%= g.label(class: "check_box") { g.check_box(class: "add_margin") + ' ' + g.text } %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+
+  <% end %>

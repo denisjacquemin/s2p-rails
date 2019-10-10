@@ -1,0 +1,28 @@
+<%= form_with(model: rating, url: save_comment_path, local: false) do |form| %>
+    <%= form.hidden_field :student_id %>
+    <%= form.hidden_field :competency_id %>
+    <%= form.hidden_field :period_id %>
+    <div id="error_explanation">
+        <ul>
+        <% rating.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+        </ul>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="form-group">
+                <%= form.label :comment, 'Commentaire' %>
+                <%= form.text_area :comment, class: 'form-control', rows: 12 %>
+            </div>
+        </div>
+    </div>
+
+<% end %>
+        

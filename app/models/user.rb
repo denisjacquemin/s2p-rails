@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :students
 
+  has_many :competency_group_users
+  has_many :competency_groups, through: :competency_group_users
 
   validates :firstname, presence: true
   validates :lastname, presence: true

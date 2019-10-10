@@ -1,0 +1,16 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="firstname">Nom</th>
+            <th class="lastname">Prénom</th>
+            <% @periods.each do |period| %>
+            <th><%= period.name %></th>
+            <% end %>
+        </tr>
+        </thead>
+        <tbody>
+        <%= render partial: 'student', collection: @students %>
+        </tbody>
+    </table>
+</div>

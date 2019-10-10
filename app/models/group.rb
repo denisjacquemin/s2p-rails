@@ -16,6 +16,9 @@ class Group < ApplicationRecord
   belongs_to :school, required: false
   has_and_belongs_to_many :users
 
+  has_many :competency_groups
+  has_many :competencies, through: :competency_groups
+
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_student_id, ->(student_id) { where("? = ANY(students)", student_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }

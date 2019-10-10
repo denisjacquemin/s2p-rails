@@ -1,0 +1,52 @@
+
+  body.dragging, body.dragging * {
+    cursor: move !important;
+  }
+  
+  .dragged {
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
+  }
+  
+  ol {
+    list-style-type: none;
+  }
+
+  ol.competencies li.placeholder {
+    position: relative;
+    /** More li styles **/
+  }
+  ol.competencies li.placeholder:before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: -5px;
+    left: -5px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left-color: #2780E3;
+    border-right: none;
+  }
+
+  li.level1 {
+    border: none;
+    font-size: 26px;
+  }
+  li.level2 {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+
+    font-size: 19px;
+    margin-left: 30px;
+  }
+  li.level3 {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+
+    font-size: 15px;
+    margin-left: 50px;
+  }

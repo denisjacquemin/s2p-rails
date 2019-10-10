@@ -1,0 +1,17 @@
+<h1>School Years</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-school_years" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="name">Name</th>
+      <th data-data="start_date">Start date</th>
+      <th data-data="end_date">End date</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New School Year', new_school_year_path %>

@@ -37,6 +37,7 @@
     <% if user_signed_in? %>
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.0.0/dist/instantsearch.min.css">
       <%= stylesheet_link_tag    'application_login', media: 'all', 'data-turbolinks-track' => true %>
+      <%= stylesheet_link_tag    'reports', media: 'all', 'data-turbolinks-track' => true %>
 
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/v4-shims.css">
@@ -53,6 +54,10 @@
     <![endif]-->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'communication', 'data-turbolinks-track' => true %>
+    <% if user_signed_in? %>
+      <%= javascript_include_tag 'reports', 'data-turbolinks-track' => true %> 
+    <% end %>
     <% if not current_user.blank? and (current_user.superadmin? or current_user.admin?) %>
       <%= javascript_include_tag 'application_admin', 'data-turbolinks-track' => true %>
     <% end %>

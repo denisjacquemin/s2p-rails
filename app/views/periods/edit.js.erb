@@ -1,0 +1,3 @@
+$('#newCompetencyModal .modal-body').html("<%= escape_javascript(render 'form', period: @period) %>");
+$('#newCompetencyModal #modalTitle').html("Edition période");
+$("#newCompetencyModal").modal('show');

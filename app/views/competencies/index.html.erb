@@ -5,22 +5,23 @@
   - Attribuer une matiere a une Annee
 <%
 =end%>
-    <div class="row">
-            <h1>Gestion Paramètres</h1>
-            <hr />
-    </div>
+<div class="row">
+  <div class="col-md-12">
+    <h1>Gestion Paramètres</h1>
+    <hr />
+  </div>
+</div>
 
-    <div class="row" id="reports-param-screen">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a data-target="#home" aria-controls="home" role="tab" data-toggle="tab" >Liste des Matières</a></li>
-          <li role="presentation"><a data-target="#writers_access" aria-controls="writers_access" role="tab" data-toggle="tab" data-url="<%= writers_access_path %>">Accès rédacteurs</a></li>
-          <li role="presentation"><a data-target="#periods_tab" aria-controls="messages" role="tab" data-toggle="tab" data-url="<%= periods_path %>">Périodes</a></li>
-          <li role="presentation"><a data-target="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-url="<%= periods_path %>">Settings</a></li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="home">
+<div class="row" id="reports-param-screen">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a data-target="#home" aria-controls="home" role="tab" data-toggle="tab" >Liste des Matières et périodes</a></li>
+      <li role="presentation"><a data-target="#writers_access" aria-controls="writers_access" role="tab" data-toggle="tab" data-url="<%= writers_access_path %>">Accès rédacteurs</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 top-buffer">
             <div class="row">
               <div class="col-sm-12">
                 <div><%= link_to 'Nouvelle matière', new_competency_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
@@ -29,78 +30,71 @@
                 </div> 
               </div>
             </div>
-
             <div class="row">
-              <div class="table-responsive">
-                <table class="table-striped table table-hover">
-                  <thead>
-                    <tr>
-                      <th width="20px">&nbsp;</th>
-                      <th data-data="name">Nom de la matière</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="competencies">
-                    <%= render partial: 'competency', collection: @competencies %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <%
-=begin%>
- <div class="row">
               <div class="col-sm-12">
-                <ul id="competencies">
-                  <%= render partial: 'competency', collection: @competencies %>
-                </ul>
-              </div>
-            </div> 
-<%
-=end%>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="writers_access">...</div>
-          <div role="tabpanel" class="tab-pane" id="periods_tab" style="padding-top:20px;">
-            <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="row">
-                  <div><%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
-                  <div class="pull-right hidden-xs">
-                    <%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary', remote: true %>
-                  </div>
+                <div class="table-responsive">
+                  <table class="table-striped table table-hover">
+                    <thead>
+                      <tr>
+                        <th width="20px">&nbsp;</th>
+                        <th data-data="name">Nom de la matière</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="competencies">
+                      <%= render partial: 'competency', collection: @competencies %>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table-striped table table-hover">
-                      <thead>
-                        <tr>
-                          <th width="20px">&nbsp;</th>
-                          <th data-data="name">Nom de la période</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody id="periods_rows"></tbody>
-                    </table>
-                  </div>
+              </div>
+            </div>   
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="periods_tab">
+            <div class="row">
+              <div class="col-sm-12">
+                <div><%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                <div class="pull-right hidden-xs">
+                  <%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary', remote: true %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table-striped table table-hover">
+                    <thead>
+                      <tr>
+                        <th width="20px">&nbsp;</th>
+                        <th data-data="name">Nom de la période</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="periods_rows">
+                      <%= render partial: '/periods/period', collection: @periods %>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="settings">...</div>
         </div>
+
+      </div>
+      <div role="tabpanel" class="tab-pane" id="writers_access">...</div>
     </div>
   </div>
+</div>
 
 
-  <div class="modal right fade" id="newCompetencyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalTitle"></h4>
-				</div>
-				<div class="modal-body">
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="modal right fade" id="newCompetencyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalTitle"></h4>
+      </div>  
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>

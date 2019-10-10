@@ -1,0 +1,14 @@
+<h1>Periods</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-periods" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="name">Nom</th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Period', new_period_path %>  
