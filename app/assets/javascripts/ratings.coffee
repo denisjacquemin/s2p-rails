@@ -36,7 +36,7 @@ ready = () ->
           + '&current_competency_selected_id=' + $('#selected_competency').val()
       }
     $('#by_student').on 'click', '.report_to_pdf', (e) ->
-      e.preventDefault()
+      # e.preventDefault()
       Rails.ajax {
         type: "POST"
         url: '/ratings/report_to_pdf',

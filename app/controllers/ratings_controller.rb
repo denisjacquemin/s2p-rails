@@ -43,7 +43,6 @@ class RatingsController < ApplicationController
 
   def report_to_pdf
 
-    byebug
 
     @student_selected_id = params[:student_id]
     @group_selected_id = params[:group_selected_id]
