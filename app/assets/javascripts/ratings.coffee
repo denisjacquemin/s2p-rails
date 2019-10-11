@@ -35,15 +35,9 @@ ready = () ->
         data: 'current_group_selected_id=' + $('#selected_group').val() \
           + '&current_competency_selected_id=' + $('#selected_competency').val()
       }
-    $('#by_student').on 'click', '.report_to_pdf', (e) ->
-      # e.preventDefault()
-      Rails.ajax {
-        type: "POST"
-        url: '/ratings/report_to_pdf',
-        data: 'student_id=' + $('#selected_student').val() \
-          + '&group_selected_id=' + $('#selected_group').val() \
-          + '&current_competency_selected_id=' + $('#selected_competency').val()
-      }
+    $('#by_student').on 'submit', '.report_to_pdf_form', (e) ->
+      $('#selected_student_id').val($('#selected_student').val())
+      $('#selected_group_id').val($('#selected_group').val())
     # $('#ratings_table').on 'click', '.comment', (e) ->
     #   commentEL = $(e.target).closest('.comment')
     #   $('#editCommentModal .modal-body #comment').val(commentEL.data('r-comment'))

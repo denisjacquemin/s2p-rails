@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   
   post 'ratings/change_group', to: 'ratings#change_group'
   post 'ratings/change_student', to: 'ratings#change_student'
-  post 'ratings/report_to_pdf', to: 'ratings#report_to_pdf', as: 'report_to_pdf'
+  post 'ratings/report_to_pdf', to: 'ratings#report_to_pdf'
 
 
   get 'ratings/by_student', to: 'ratings#by_student', as: 'by_student'

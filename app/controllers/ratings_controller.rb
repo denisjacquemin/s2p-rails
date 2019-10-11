@@ -43,26 +43,34 @@ class RatingsController < ApplicationController
 
   def report_to_pdf
 
-
-    @student_selected_id = params[:student_id]
-    @group_selected_id = params[:group_selected_id]
+    @student_selected_id = params[:selected_student_id]
+    @group_selected_id = params[:selected_group_id]
 
     set_ratings_for_one_students()
 
+    @school = @current_student.school
 
     respond_to do |format|
       format.pdf do
           render pdf: "bulletin_milo_jacquemin_#{Date.today}",
+          viewport_size: '1280x1024',
           page_size: 'A4',
           template: "/ratings/report_pdf.html.erb",
-          # header:  {   
-          #   html: {            
-          #     template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
-          #     layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
-          #     url:      'www.example.com',
-          #     locals:   { foo: @bar }
-          # },
-          layout: "pdf.html",
+          header:  {   
+            html: {            
+              template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
+              # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
+              url:      'www.example.com',
+              locals:   { foo: @bar }
+            }
+          },
+          margin: {   
+            top:               20,                     # default 10 (mm)
+            bottom:            20,
+            left:              10,
+            right:             10 
+          },
+          layout: "report_pdf.html",
           orientation: "Portrait",
           lowquality: true,
           zoom: 1,
