@@ -36,8 +36,8 @@ ready = () ->
           + '&current_competency_selected_id=' + $('#selected_competency').val()
       }
     $('#by_student').on 'submit', '.report_to_pdf_form', (e) ->
-      $('#selected_student_id').val($('#selected_student').val())
-      $('#selected_group_id').val($('#selected_group').val())
+      $(e.target .selected_student_id).val($('#selected_student').val())
+      $(e.target .selected_group_id).val($('#selected_group').val())
     # $('#ratings_table').on 'click', '.comment', (e) ->
     #   commentEL = $(e.target).closest('.comment')
     #   $('#editCommentModal .modal-body #comment').val(commentEL.data('r-comment'))

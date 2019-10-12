@@ -15,9 +15,85 @@ div.nobreak { page-break-inside: avoid; }
     height:100%;
     line-height: 100%;
     background-color: yellow;
+    .school-name {
+        font-size: 16px;
+    }
+    .align-right {
+        float: right;
+        text-align: right;
+    }
+    .align-left {
+        float: left;
+        text-align: left;
+    }
 }
 
 #body {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 150px;
+    padding-bottom: 20px;
+
+    .competency {
+        font-size: 26px; 
+        font-weight: 800;
+    }
+
+    .competency {
+        width: 600px;
+        padding-right: 20px;
+    }
+
+    #ratings_table {
+        td, th {
+            text-align: center;
+        }
+        td.competency, th.competency {
+            text-align: left;
+        }
+    }
+
+    .level1 {
+        td {
+            font-size: 20px; 
+            padding-top: 40px;
+            line-height:100%;
+            height:100%;
+        }
+        td.competency {
+            font-size: 24px; 
+            font-weight: 800;
+        }
+    }
+
+    .level2 {
+        td {
+            font-size: 20px; 
+        }
+        td.competency {
+            font-size: 22px; 
+            font-weight: 400;
+            padding-left: 30px;
+        }
+    }
+
+    .level2 {
+        td {
+            font-size: 20px; 
+        }
+        td.competency {
+            font-size: 20px; 
+            font-weight: 400;
+            padding-left: 55px;
+        }
+    }
+
+    .level3 {
+        td {
+            font-size: 20px; 
+        }
+        td.competency {
+            font-size: 20px; 
+            font-weight: 400;
+            padding-left: 100px;
+        }
+    }
 }

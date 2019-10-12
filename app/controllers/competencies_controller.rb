@@ -2,8 +2,6 @@ class CompetenciesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_competency, only: [:show, :edit, :update, :destroy, :edit_competency_writer_accesses]
 
-  layout 'reports'
-
 
   # GET /competencies
   # GET /competencies.json

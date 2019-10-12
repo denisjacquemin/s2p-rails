@@ -45,6 +45,8 @@ class RatingsController < ApplicationController
 
     @student_selected_id = params[:selected_student_id]
     @group_selected_id = params[:selected_group_id]
+    @group = Group.find @group_selected_id
+    @period_selected = Period.find params[:selected_period_id]
 
     set_ratings_for_one_students()
 
@@ -65,7 +67,7 @@ class RatingsController < ApplicationController
             }
           },
           margin: {   
-            top:               20,                     # default 10 (mm)
+            top:               10,                     # default 10 (mm)
             bottom:            20,
             left:              10,
             right:             10 

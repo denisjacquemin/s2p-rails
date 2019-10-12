@@ -1,3 +1,15 @@
-<div id="header">
-header1<br>header2<br>header3<br>header4<br>header5<br>header6<br>header7
-</div>
+<!doctype html>
+<html>
+  <body>
+    <div id="header">
+        <div class="align-left"><img src="http:<%= @school.file_url.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %>" height="80px" /></div>
+        <div class="align-right">
+            <div class="school-name"><%= @school.name.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %></div>
+            <div><%= "#{@current_student.firstname.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace)} #{@current_student.lastname.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace)}"%> - <%= @group.name.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %></div>
+            <div><%= "Année 2019-2020".encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace)%> - <%= @period_selected.name.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %></div>
+        </div>
+        
+    </div>
+  </body>
+</html>
+
