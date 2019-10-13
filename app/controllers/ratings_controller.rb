@@ -59,6 +59,7 @@ class RatingsController < ApplicationController
           page_size: 'A4',
           template: "/ratings/report_pdf.html.erb",
           header:  {   
+            spacing: 30,
             html: {            
               template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
               # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
@@ -67,8 +68,8 @@ class RatingsController < ApplicationController
             }
           },
           margin: {   
-            top:               10,                     # default 10 (mm)
-            bottom:            20,
+            top:               40,                     # default 10 (mm)
+            bottom:            30,
             left:              10,
             right:             10 
           },

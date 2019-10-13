@@ -1,8 +1,8 @@
-@import 'bootstrap';
+// @import 'bootstrap';
 
-div.alwaysbreak { page-break-before: always; }
-div.nobreak:before { clear:both; }
-div.nobreak { page-break-inside: avoid; }
+.alwaysbreak { page-break-before: always; }
+.nobreak:before { clear:both; }
+.nobreak { page-break-inside: avoid; }
 
 * { 
     font-family: 'Arial';
@@ -12,15 +12,20 @@ div.nobreak { page-break-inside: avoid; }
 } 
 
 #header {
-    height:100%;
-    line-height: 100%;
-    background-color: yellow;
+    height:100px;
+    // line-height: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    height: 20px;
     .school-name {
         font-size: 16px;
+        line-height: 20px;
+        height: 20px;
     }
     .align-right {
         float: right;
         text-align: right;
+        width: 50%;
     }
     .align-left {
         float: left;
@@ -29,71 +34,144 @@ div.nobreak { page-break-inside: avoid; }
 }
 
 #body {
-    padding-top: 150px;
-    padding-bottom: 20px;
 
-    .competency {
-        font-size: 26px; 
-        font-weight: 800;
+    #ratings {
+        &.tbl {
+            padding-bottom: 70px; 
+            display: table;
+            width: 100%;
+            .row {
+                display: table-row;
+                
+            }
+            .cell {
+                display: table-cell;
+                border-bottom: 1px solid #eee;
+                padding: 5px 0;          
+                &.center {
+                    text-align: center;
+                }
+                &.left {
+                    text-align: left;
+                }
+                &.active {
+                    background: #eee;
+                }
+
+                &.competency {
+                    min-width: 200px;
+                    max-width: 200px;
+                    width: 200px;
+                }
+
+                &.comment {
+                    min-width: 200px;
+                    max-width: 200px;
+                    width: 200px;
+                    padding: 0 5px;
+                    font-size: 12px;
+                }
+
+                &.level1 {
+                    font-size: 16px;
+                    font-weight: 800;
+                    min-width: 200px;
+                    max-width: 200px;
+                    width: 200px;
+                }
+
+                &.level2 {
+                    padding-left: 30px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    min-width: 170px;
+                    max-width: 170px;
+                    width: 170px;
+                }
+
+                &.level3 {
+                    font-size: 16px;
+                    font-weight: 400;
+                    padding-left: 60px;
+                    min-width: 140px;
+                    max-width: 140px;
+                    width: 140px;
+                }
+            } 
+        }
+        
     }
 
-    .competency {
-        width: 600px;
-        padding-right: 20px;
-    }
 
-    #ratings_table {
-        td, th {
-            text-align: center;
-        }
-        td.competency, th.competency {
-            text-align: left;
-        }
-    }
+    // .competency {
+    //     font-size: 26px; 
+    //     font-weight: 800;
+    // }
 
-    .level1 {
-        td {
-            font-size: 20px; 
-            padding-top: 40px;
-            line-height:100%;
-            height:100%;
-        }
-        td.competency {
-            font-size: 24px; 
-            font-weight: 800;
-        }
-    }
+    // .competency {
+    //     width: 550px;
+    //     padding-right: 20px;
+    // }
 
-    .level2 {
-        td {
-            font-size: 20px; 
-        }
-        td.competency {
-            font-size: 22px; 
-            font-weight: 400;
-            padding-left: 30px;
-        }
-    }
+    // #ratings_table {
+    //     th {
+    //         font-size: 16px; 
+    //     }
+    //     td, th {
+    //         text-align: center;
+    //     }
+    //     td.comment, td.competency, th.competency {
+    //         text-align: left;
+    //         font-size: 14px;
+    //     }
 
-    .level2 {
-        td {
-            font-size: 20px; 
-        }
-        td.competency {
-            font-size: 20px; 
-            font-weight: 400;
-            padding-left: 55px;
-        }
-    }
 
-    .level3 {
-        td {
-            font-size: 20px; 
-        }
-        td.competency {
-            font-size: 20px; 
-            font-weight: 400;
-            padding-left: 100px;
-        }
-    }
+
+    // }
+
+    // .level1 {
+    //     td {
+    //         font-size: 20px; 
+    //         padding-top: 40px;
+    //         line-height:100%;
+    //         height:100%;
+    //     }
+    //     td.competency {
+    //         font-size: 24px; 
+    //         font-weight: 800;
+    //     }
+    // }
+
+    // .level2 {
+    //     td {
+    //         font-size: 20px; 
+    //     }
+    //     td.competency {
+    //         font-size: 22px; 
+    //         font-weight: 400;
+    //         padding-left: 30px;
+    //     }
+    // }
+
+    // .level2 {
+    //     td {
+    //         font-size: 20px; 
+    //     }
+    //     td.competency {
+    //         font-size: 20px; 
+    //         font-weight: 400;
+    //         padding-left: 55px;
+    //     }
+    // }
+
+    // .level3 {
+    //     td {
+    //         font-size: 20px; 
+    //     }
+    //     td.competency {
+    //         font-size: 20px; 
+    //         font-weight: 400;
+    //         padding-left: 100px;
+    //     }
+    // }
 }

@@ -2,7 +2,7 @@
 <html>
   <body>
     <div id="header">
-        <div class="align-left"><img src="http:<%= @school.file_url.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %>" height="80px" /></div>
+        <div class="align-left"><img src="http:<%= @school.file_url.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %>" height="100px" /></div>
         <div class="align-right">
             <div class="school-name"><%= @school.name.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %></div>
             <div><%= "#{@current_student.firstname.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace)} #{@current_student.lastname.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace)}"%> - <%= @group.name.encode("iso-8859-1").encode!('UTF-8', 'UTF-8', :invalid => :replace) %></div>

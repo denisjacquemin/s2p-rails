@@ -1,30 +1,76 @@
 <div id="body" class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="table-responsive" id="ratings_table">
+            <% 
+                i = 0 
+                competence = @competencies[0]
+            %>
+                <% while i < @competencies.size %>
+                    <% if competence.level == 1 %>
+                        <div id="ratings" class="tbl nobreak">
+                            <div class="thead row">
+                                <div class="cell left competency"></div>
+                                <% @periods.each do |period| %>
+                                    <% current_period = period.id == @period_selected.id %>
+                                    <div class="cell center <%= 'active' if current_period %>"><%= period.name %></div>
+                                <% end %>
+                                <div class="comment cell center">Commentaire de la période</div>
+                            </div>
+                    <% end %>
+                    <div class="tbody row">
+                        <div class="competency cell level<%= competence.level %>"><%= competence.name %></div>
+                        <% @periods.each_with_index do |period, index| %>
+                            <% current_period = period.id == @period_selected.id %>
+
+                            <div class="cell center <%= 'active' if current_period %>">
+                                <% if index <= @period_selected.order %>
+                                    <% rating_id = "#{competence.id}-#{period.id}"  %>
+                                    <%
+                                        has_a_comment = @student_ratings.dig(competence.id, period.id, :comment) 
+                                    %>
+                                    <%= @student_ratings.dig(competence.id, period.id, :value) %>
+                                <% end %>
+                            </div>
+                        <% end %>
+                        <div class="comment cell left"><%= @student_ratings.dig(competence.id, @period_selected.id, :comment) %></div>
+                    </div>
+                    <% 
+                        i = i + 1  
+                        competence = @competencies[i]
+                        if competence and competence.level == 1 
+                    %>
+                        </div>
+                    <%  end %>
+                <% end %>
+            <%
+=begin%>
+ <div class="table-responsive" id="ratings_table">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="competency">Matière</th>
+                            <th class="competency"><div></div></th>
                             <% @periods.each do |period| %>
                                 <% current_period = period.id == @period_selected.id %>
-                                <th class="<%= 'active' if current_period %>"><%= period.name %></th>
+                                <th class="<%= 'active' if current_period %>"><div><%= period.name %></div></th>
                             <% end %>
-                            <th>Commentaire de la période</th>
-
+                            <th><div>Commentaire de la période</div></th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <% @competencies.each do |competence| %>
-                            <tr class="level<%= competence.level %>">
+                            <%
+ <div class="<%= 'alwaysbreak' if competence.level == 1 %>"> 
+
+                            <tr class="level<%= competence.level %> ">
                                 <td class="competency">
-                                    <%= competence.name %>
+                                    <div><%= competence.name %></div>
                                 </td>
                                 <% @periods.each_with_index do |period, index| %>
                                     <% current_period = period.id == @period_selected.id %>
 
                                     <td class="<%= 'active' if current_period %>">
+                                        <div>
                                         <% if index <= @period_selected.order %>
                                             <% rating_id = "#{competence.id}-#{period.id}"  %>
                                             <%
@@ -32,14 +78,17 @@
                                             %>
                                             <%= @student_ratings.dig(competence.id, period.id, :value) %>
                                         <% end %>
+                                        </div>
                                     </td>
                                 <% end %>
-                                <td></td>
-                            </tr>
+                                <td class="comment"><div><%= @student_ratings.dig(competence.id, @period_selected.id, :comment) %></div></td>
+                            </tr>                            
                         <% end %>
                     </tbody>
                 </table>
-            </div>
+            </div> 
+<%
+=end%>
         </div>
     </div>
 </div>
