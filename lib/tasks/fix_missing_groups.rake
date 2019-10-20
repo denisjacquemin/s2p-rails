@@ -29,12 +29,9 @@ task :fix_missing_groups => :environment do |task, args|
         classroom_group = Group.where('lower(name) = ? and school_id = ?', classroom.downcase.strip, school.id).first
         student.groups.delete(classroom_group.id)
         student.groups.push(classroom_group.id)
-
-        byebug if classroom_group.nil?
       end
       unless level.blank?
         level_group = Group.where('lower(name) = ? and school_id = ?', level.downcase.strip, school.id).first
-        byebug if level_group.nil?
         student.groups.delete(level_group.id)
         student.groups.push(level_group.id)
       end

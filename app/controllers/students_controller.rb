@@ -189,7 +189,6 @@ class StudentsController < ApplicationController
             :nom => :lastname,
             :emails => :emails,
             :envoi_des_messages_via_email => :sent_message_by_email,
-            :annee => :level,
             :entite => :level,
             :titulaire => :classroom,
             :rue => :classroom,

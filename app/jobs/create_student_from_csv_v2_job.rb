@@ -73,7 +73,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
-        emailsArray =  data[:emails].present? ?data[:emails]&.split(' ') : []
+        emailsArray =  data[:emails].present? ? data[:emails]&.split(' ') : []
 
         ### data from proeco with or without proecoid
         student_data[:proeco_id] = data[:proeco_id].to_s

@@ -13,6 +13,31 @@ ready = () ->
   # set the focus to the first input in modal
   $('#newCompetencyModal').on 'shown.bs.modal', () ->
     $('#newCompetencyModal input[type=text]').filter(':visible:first').focus()
+  
+  $('#newCompetencyModal').on 'change', '#title_only', () ->
+    console.log 'title_only'
+    if $('#title_only:checked').length > 0
+      $('.show_all_periods_checkbox, .show_all_groups_checkbox, .select_periods, .select_groups').hide()
+    else
+      $('#all_periods, #all_groups, .show_all_groups, .show_all_periods').show()
+      if $('#all_groups:checked').length == 0
+        $('.select_groups').show()
+      if $('#all_periods:checked').length == 0
+        $('.select_periods').show()
+  $('#newCompetencyModal').on 'change', '#all_groups', () ->
+    console.log 'changed'
+    if $('#all_groups:checked').length > 0
+      $('.select_groups').hide()
+    else
+      $('.select_groups').show()
+    return
+  $('#newCompetencyModal').on 'change', '#all_periods', () ->
+    console.log 'changed'
+    if $('#all_periods:checked').length > 0
+      $('.select_periods').hide()
+    else
+      $('.select_periods').show()
+    return
 
   $('#reports-param-screen').on 'shown.bs.tab', '[data-toggle="tab"]', (e) ->
     console.log 'tab change'
@@ -61,6 +86,7 @@ ready = () ->
         .prop('checked', e.target.id == 'select_all')
       return
     return
+    
 
 saveOrder = (idsOrdered) ->
   console.log idsOrdered

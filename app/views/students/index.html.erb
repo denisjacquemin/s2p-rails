@@ -32,11 +32,6 @@
         </span>
         <span>
 
-        <button type="button" class="btn btn-default sendcodetoall" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Envoyer code">
-          <i class="fa fa-id-badge" aria-hidden="true"></i>
-        </button>
-        </span>
-        
         <% unless current_school.iscity %>
            <% if policy(Group).index? %>
             <a type="button" href="<%= groups_path %>" class="btn btn-default" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Liste des groupes d'élèves">
@@ -44,6 +39,11 @@
             </a>
            <% end %>
         <% end %>
+
+        <button type="button" class="btn btn-default sendcodetoall" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Envoyer code">
+          <i class="fa fa-id-badge" aria-hidden="true"></i>
+        </button>
+        </span>
 
 
       </div>

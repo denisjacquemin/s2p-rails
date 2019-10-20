@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_23_041738) do
+ActiveRecord::Schema.define(version: 2019_10_14_115231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -82,6 +82,9 @@ ActiveRecord::Schema.define(version: 2019_08_23_041738) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "comment"
+    t.boolean "title_only", default: false
+    t.boolean "all_periods", default: true
+    t.boolean "all_groups", default: true
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
@@ -101,6 +104,13 @@ ActiveRecord::Schema.define(version: 2019_08_23_041738) do
   create_table "competency_groups", force: :cascade do |t|
     t.integer "group_id"
     t.integer "competency_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "competency_periods", force: :cascade do |t|
+    t.integer "competency_id"
+    t.integer "period_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -179,6 +189,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_041738) do
     t.boolean "updatable", default: true
     t.string "internal_id"
     t.string "group_type", default: ""
+    t.string "upload_id"
     t.index ["code"], name: "index_groups_on_code", unique: true
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true
   end
@@ -395,6 +406,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_041738) do
     t.integer "message_day_limit", default: 30
     t.integer "message_month_limit", default: 6
     t.boolean "activate_message_date_limit", default: true
+    t.boolean "acaweb", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

@@ -19,10 +19,14 @@
         <%= form.label :name, 'Nom de la matière' %>
         <%= form.text_field :name, class: 'form-control' %>
       </div>
-      <div class="form-group">
+      <%
+=begin%>
+ <div class="form-group">
         <%= form.label :comment, 'Commentaire' %>
         <%= form.text_field :comment, class: 'form-control' %>
-      </div>
+      </div> 
+<%
+=end%>
       <div class="form-group">
         <%= form.label :level, 'Niveau' %>
         <%= form.select(:level, [['Niveau 1', 1], ['Niveau 2', 2], ['Niveau 3', 3]],  {}, {class: "form-control"}) %>
@@ -31,16 +35,49 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
+        <div class="form-group">
+        <%= form.check_box :title_only, id: 'title_only' %>
+        <%= form.label :title_only, 'Matière sans cotation' %>
+      </div>
+    </div>
+    <div class="row show_all_groups_checkbox" style="<%= "#{'display:none' if competency.title_only}" %>">
+      <div class="form-group">  
+        <%= form.check_box :all_groups, id: 'all_groups', class: 'show_all_groups' %>
+        <%= form.label :all_groups, 'Toutes les classes', for: 'all_groups', class: 'show_all_groups' %>
+      </div>
+    </div>
+    <div class="row select_groups" style="<%= "#{'display:none' if competency.all_groups or competency.title_only}" %>">
         <label>Classes</label><br/>
     </div>
-    <div class="row">
-      Sélectionner <a href="#" id="select_all" data-target="category_groups">Tout</a> - <a href="#" id="unselect_all" data-target="category_groups">Aucun</a>
+    <div class="row select_groups" style="<%= "#{'display:none' if competency.all_groups or competency.title_only}" %>">
+      Sélectionner <a href="#" id="select_all" data-target="competency_groups">Tout</a> - <a href="#" id="unselect_all" data-target="competency_groups">Aucun</a>
     </div>
-    <div class="row" id="category_groups">
+    <div class="row select_groups" id="competency_groups" style="<%= "#{'display:none' if competency.all_groups or competency.title_only}" %>">
       <% groups = Group.where(school_id: current_school.id, group_type: 'level') %>
       <%= form.collection_check_boxes(:group_ids, groups, :id, :name) do |g| %>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <%= g.label(class: "check_box") { g.check_box(class: "add_margin") + ' ' + g.text } %> 
+        </div>
+      <% end %>
+
+    </div>
+    <div class="row show_all_periods_checkbox" style="<%= "#{'display:none' if competency.title_only}" %>">
+      <div class="form-group">
+        <%= form.check_box :all_periods, id: 'all_periods', class: 'show_all_periods' %>
+        <%= form.label :all_periods, 'Toutes les périodes', for: 'all_periods', class: 'show_all_periods' %>
+      </div>
+    </div>
+    <div class="row select_periods" style="<%= "#{'display:none' if competency.all_periods or competency.title_only}" %>">
+        <label>Périodes</label><br/>
+    </div>
+    <div class="row select_periods" style="<%= "#{'display:none' if competency.all_periods or competency.title_only}" %>">
+      Sélectionner <a href="#" id="select_all" data-target="competency_periods">Tout</a> - <a href="#" id="unselect_all" data-target="competency_periods">Aucun</a>
+    </div>
+    <div class="row select_periods" id="competency_periods" style="<%= "#{'display:none' if competency.all_periods or competency.title_only}" %>">
+      <% periods = Period.where(school_id: current_school.id) %>
+      <%= form.collection_check_boxes(:period_ids, periods, :id, :name) do |p| %>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <%= p.label(class: "check_box") { p.check_box(class: "add_margin") + ' ' + p.text } %> 
 
           <%
 =begin%>
@@ -52,12 +89,4 @@
 
     </div>
   </div>
-  <% unless competency.new_record? %>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="row align-bottom">
-        <div class="pull-right"><%= link_to 'Supprimer', competency, class: 'btn btn-default btn-danger',method: :delete, data: { confirm: 'Etes vous sûr' } %></div>
-      </div>
-    </div>
-  <% end %>
-
 <% end %>
