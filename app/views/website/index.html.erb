@@ -43,7 +43,9 @@
         </div>
     </header>
 
-    <section class="content-section-b">
+    <%
+=begin%>
+ <section class="content-section-b">
         <div class="container">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -56,7 +58,9 @@
               </div>
             </div>
         </div>
-    </section>
+    </section> 
+<%
+=end%>
 
 
     <section class="content-section-b" id="why">
@@ -384,6 +388,10 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <h3><strong>L'avenir</strong> - 25 septembre 2019 - Une appli pour connecter écoles et parents</h3>
+              <p>L'application permet aux écoles de communiquer plus facilement avec les parents. Plus de 200 établissements de Walllonie et Bruxelles l'utilisent déjà.</p>
+              <%= image_tag("lavenir_sept2019_konecto.jpg" , border: 0, class: 'img-responsive', alt: "Ces applis qui cartonnent sur les bancs de l'école - Konecto App") %>
+              <br/><hr/><br/>
               <h3><strong>Le Vif l'Express</strong> - 23 août 2018 - Ces applis qui cartonnent sur les bancs de l'école</h3>
               <p>Konecto, pour relier efficacement école et parents ... Plutôt que de communiquer au quotidien par papier, et si l'école et les familles optaient pour le numérique ... Toutes ces informations relevant de l'urgence ou du quotidien parviennent directement aux parents des élèves concernés. En plus d'être économique, Konecto se veut écologique.</p>
               <%= image_tag("levif_konecto.jpg" , border: 0, class: 'img-responsive', alt: "Ces applis qui cartonnent sur les bancs de l'école - Konecto App") %>
