@@ -12,25 +12,27 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         AlertAdminMailer.send_alert(job.inspect).deliver_later
     end
 
-    def perform(rows, school_id, user)
+    def perform(rows, school_id, user, upload_uniq_id)
         rows.each do |data|
             puts "[CreateStudentFromCsvV2Job info] processing: #{data[:firstname]} #{data[:lastname]}"
             if data[:firstname].present? and data[:lastname].present? # check if mandatory fields are presents
-                create_or_update_student(data, school_id, user.id)
+                create_or_update_student(data, school_id, user.id, upload_uniq_id)
             end
         end
     end
 
-    def create_or_update_student(data, school_id, user_id)
+    def create_or_update_student(data, school_id, user_id, upload_uniq_id)
 
-        student_data = build_student_data(data, school_id)
+      student = get_already_existing_student_for_update(data, school_id, user_id)
+      
+      current_groups = student[:groups] if student
+      student_data = build_student_data(data, school_id, upload_uniq_id, current_groups)
 
-        student = get_already_existing_student_for_update(student_data, user_id)
-        if student.blank?
-            create_new_student(student_data, school_id)
-        else
-            update_student(student, student_data, user_id)
-        end
+      if student.blank?
+          create_new_student(student_data, school_id)
+      else
+          update_student(student, student_data, user_id)
+      end
     end
     
 
@@ -60,7 +62,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         end
     end
 
-    def build_student_data(data, school_id)
+    def build_student_data(data, school_id, upload_uniq_id, current_student_groups = nil)
         student_data = {}
         student_data[:school_id] = school_id
         student_data[:code] = data[:code] unless data[:code].nil?
@@ -77,7 +79,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
         ### data from proeco with or without proecoid
         student_data[:proeco_id] = data[:proeco_id].to_s
-        emailsArray = [data[:email1], data[:email2], data[:email3], data[:email4], data[:email_responsable]] if data[:email1].present? or data[:email2].present? or data[:email3].present? or data[:email4].present? or data[:email_responsable].present?
+        emailsArray = [data[:email1], data[:email2], data[:email3], data[:email4], data[:email5], data[:email_responsable]] if data[:email1].present? or data[:email2].present? or data[:email3].present? or data[:email4].present? or data[:email_responsable].present?
         phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4], data[:phone5], data[:phone6]]
         ### data from WinPage or Creos
         if data[:winpage_matricule].present? # Winpage ou Creos
@@ -112,44 +114,37 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         # emailsArray = [data[:siel_email_1], data[:siel_email_2]]
         # phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4]]
 
-
         # common for Winpage Creos and ProEco
         student_data[:phones] = buildArrayOfPhone(phonesArray) if phonesArray.any?
         student_data[:student_emails] = buildArrayOfStudentEmail(emailsArray) if emailsArray.any?
         # build new groups if required and gets all group ids
-        student_data[:groups] = []
-        # get all_students group
-        group_all_students = Group.all_students_by_school(school_id).first
-        student_data[:groups].push(group_all_students.id) unless group_all_students.nil?
-        [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
-            group_id = Group.find_or_create_group(group_name, student_data[:school_id]).id
-            student_data[:groups].push(group_id)
-        end
+        student_data[:groups] = build_student_groups(student_data, data, school_id, upload_uniq_id, current_student_groups)
+
         return student_data
         
     end
 
-    def get_already_existing_student_for_update(student_data, user_id)
+    def get_already_existing_student_for_update(student_data, school_id, user_id)
         student = nil
 
         if student_data[:proeco_id].present?
-            student = Student.where('proeco_id = ? and school_id = ?', student_data[:proeco_id].to_s, student_data[:school_id]).first
+            student = Student.where('proeco_id = ? and school_id = ?', student_data[:proeco_id].to_s, school_id).first
         end
 
         if student_data[:winpage_matricule].present?
-            student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, student_data[:school_id]).first
+            student = Student.where('winpage_matricule = ? and school_id = ?', student_data[:winpage_matricule].to_s, school_id).first
         end
 
         if student_data[:code].present?
-            student = Student.where('code = ? and school_id = ?', student_data[:code].to_s, student_data[:school_id]).first
+            student = Student.where('code = ? and school_id = ?', student_data[:code].to_s, school_id).first
         end
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
         if student.nil?
-            students = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, student_data[:school_id])
+            students = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, school_id)
             if students.size == 1
               student = students.first
             elsif students.size > 1
-              write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", student_data[:school_id], user_id)
+              write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
             end
         end
 
@@ -237,6 +232,32 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     rescue Exception => e
       logger.debug e
     end
+  end
+
+  def build_student_groups(student_data, data, school_id, upload_uniq_id, current_student_groups)
+    
+    current_school = School.find(school_id)
+    student_groups = []
+    if current_school.acaweb
+      group_name = [data[:classroom_acaweb1], data[:classroom_acaweb2], data[:classroom_acaweb3], data[:classroom_acaweb4], data[:classroom_acaweb5], data[:classroom_acaweb6]].join(' ').strip
+      student_groups = current_student_groups.reject { |g_id| Group.find(g_id)&.upload_id != upload_uniq_id } if current_student_groups
+      group_id = Group.find_or_create_group(group_name, school_id, upload_uniq_id).id
+      student_groups.push(group_id)      
+    elsif current_school.is_ifapme
+      student_groups = current_student_groups.reject { |g_id| Group.find(g_id)&.upload_id != upload_uniq_id } if current_student_groups
+      group_id = Group.find_or_create_group(data[:group1], school_id, upload_uniq_id).id
+      student_groups.push(group_id)  
+    else
+      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
+          group_id = Group.find_or_create_group(group_name, school_id, nil).id
+          student_groups.push(group_id)
+      end
+    end
+    # get all_students group
+    group_all_students = Group.all_students_by_school(school_id).first
+    student_groups.push(group_all_students.id) unless group_all_students.nil?
+
+    return student_groups
   end
 
 end

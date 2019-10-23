@@ -71,9 +71,10 @@ class Group < ApplicationRecord
   end
 
   # class methods
-  def self.find_or_create_group(name, school_id, type='')
+  def self.find_or_create_group(name, school_id, type='', upload_id)
     group = Group.where('lower(name) = ? and school_id = ?', name.downcase.strip, school_id).first
-    group = Group.create(name: name.strip, school_id: school_id, updatable: false, group_type: type) if group.nil?
+    group.update_column(:upload_id, upload_id) if group and upload_id and group&.upload_id != upload_id # for acaweb and ifapme
+    group = Group.create(name: name.strip, school_id: school_id, updatable: false, group_type: type, upload_id: upload_id) if group.nil?
     group
   end
 

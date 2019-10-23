@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_115231) do
+ActiveRecord::Schema.define(version: 2019_10_22_164524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 2019_10_14_115231) do
     t.integer "message_month_limit", default: 6
     t.boolean "activate_message_date_limit", default: true
     t.boolean "acaweb", default: false
+    t.boolean "is_ifapme", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
