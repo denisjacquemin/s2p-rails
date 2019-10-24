@@ -484,8 +484,7 @@ class StudentsController < ApplicationController
         current_school_id = current_school.id
         upload_uniq_id = Digest::MD5.hexdigest(DateTime.now.to_s)
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-          CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)
-          byebug
+          CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)          
           # r.each do |data|
           #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           #   groups = []
