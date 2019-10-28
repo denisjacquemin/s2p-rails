@@ -1,64 +1,88 @@
 <p>Pour faciliter l'importation de la liste des élèves il est conseillé de passer par un fichier de type Excel (CSV (séparateur: point-virgule)).</p>
 <blockquote>Un fichier CSV est un type de fichier très simple souvent utilisé pour importer ou exporter des données, le logiciel le plus courant pour manipuler ce type de fichier est Microsoft Excel.</blockquote>
 <div class="row">
-  <div class="col-xs-4">
-      <div class="thumbnail" height="150px">
-        <%= image_tag asset_path("faq/creos.png") %>
-        <div class="caption">
-          <h3>Creos</h3>
-          <p>Si vous utilisez Creos, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/export_creos" class="btn btn-primary" role="button">Guide Creos</a></p>
+  <% unless current_school.is_ifapme %>
+
+    <div class="col-xs-4">
+        <div class="thumbnail" height="150px">
+          <%= image_tag asset_path("faq/creos.png") %>
+          <div class="caption">
+            <h3>Creos</h3>
+            <p>Si vous utilisez Creos, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/export_creos" class="btn btn-primary" role="button">Guide Creos</a></p>
+          </div>
         </div>
-      </div>
-  </div>
-  <div class="col-xs-4">
-      <div class="thumbnail" height="150px">
-        <%= image_tag asset_path("faq/proeco_logo.png") %>
-        <div class="caption">
-          <h3>Pro Eco</h3>
-          <p>Si vous utilisez ProEco, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/export_proeco" class="btn btn-primary" role="button">Guide ProEco</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="thumbnail" height="150px">
+          <%= image_tag asset_path("faq/proeco_logo.png") %>
+          <div class="caption">
+            <h3>Pro Eco</h3>
+            <p>Si vous utilisez ProEco, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/export_proeco" class="btn btn-primary" role="button">Guide ProEco</a></p>
+          </div>
         </div>
-      </div>
-  </div>
-  <div class="col-xs-4">
-      <div class="thumbnail">
-        <%= image_tag asset_path("faq/winpage_logo.png") %>
-        <div class="caption">
-          <h3>Win Page</h3>
-          <p>Si vous utilisez Winpage, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/export_winpage" class="btn btn-primary" role="button">Guide Winpage</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="thumbnail">
+          <%= image_tag asset_path("faq/winpage_logo.png") %>
+          <div class="caption">
+            <h3>Win Page</h3>
+            <p>Si vous utilisez Winpage, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/export_winpage" class="btn btn-primary" role="button">Guide Winpage</a></p>
+          </div>
         </div>
-      </div>
-  </div>
-  <div class="col-xs-4">
-      <div class="thumbnail">
-        <%= image_tag asset_path("faq/fwb.png") %>
-        <div class="caption">
-          <h3>Gestscol</h3>
-          <p>Si vous utilisez Gestscol, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/export_gestscol" class="btn btn-primary" role="button">Guide Gestscol</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="thumbnail">
+          <%= image_tag asset_path("faq/fwb.png") %>
+          <div class="caption">
+            <h3>Gestscol</h3>
+            <p>Si vous utilisez Gestscol, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/export_gestscol" class="btn btn-primary" role="button">Guide Gestscol</a></p>
+          </div>
         </div>
-      </div>
-  </div>
-  <div class="col-xs-4">
-      <div class="thumbnail">
-        <%= image_tag asset_path("faq/fwb.png") %>
-        <div class="caption">
-          <h3>Siel</h3>
-          <p>Si vous utilisez Siel, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/export_siel" class="btn btn-primary" role="button">Guide Siel</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="thumbnail">
+          <%= image_tag asset_path("faq/fwb.png") %>
+          <div class="caption">
+            <h3>Siel</h3>
+            <p>Si vous utilisez Siel, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/export_siel" class="btn btn-primary" role="button">Guide Siel</a></p>
+          </div>
         </div>
-      </div>
-  </div>
-  <div class="col-xs-4">
-      <div class="thumbnail" height="150px">
-        <div class="caption">
-          <h3>Excel manuel</h3>
-          <p>Si vous n'utilisez ni ProEco, ni Winpage, ni Creos, suivez ce guide pour importer vos élèves</p>
-          <p><a href="/help/import_excel" class="btn btn-primary" role="button">Guide Import Excel</a></p>
+    </div>
+    <div class="col-xs-4">
+        <div class="thumbnail" height="150px">
+          <div class="caption">
+            <h3>Excel manuel</h3>
+            <p>Si vous n'utilisez ni ProEco, ni Winpage, ni Creos, suivez ce guide pour importer vos élèves</p>
+            <p><a href="/help/import_excel" class="btn btn-primary" role="button">Guide Import Excel</a></p>
+          </div>
         </div>
+    </div>
+  <% else %>
+    <h2>Importer les élèves Ifapme</h2>
+    <p>La procédure ci-dessous décrit comment créer un fichier CSV contenant la liste des élèves.</p>
+    <ol>
+      <li>Création d'un fichier excel(.xlsx) contenant la liste des élèves</li>
+      <li>Convertir le fichier excel(.xlsx) en .CSV</li>
+      <li>Importer le fichier .CSV dans Konecto App</li>
+    </ol>
+    <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>Grace à l'application Walter, exportez les apprenants par classes.</p>
+        <%= image_tag asset_path("faq/walterifapme.jpg"), class: "img-responsive img-thumbnail" %>
       </div>
-  </div>
+    </div>
+
+    <h3>2. Convertir le fichier excel(.xlsx) Creos en .CSV</h3>
+    <p>Ouvrez le fichier excel(.xlsx) dans excel, dans le menu <em>Fichier > Enregistrer Sous</em>. Dans type de fichier, choisir <em style="background-color: #FFFF00;">CSV (séparateur: point-virgule)</em>
+    <h3>3. Importer le fichier .CSV dans Konecto App</h3>
+    <p>Une fois ce fichier constitué, utilisez le bouton ci-contre pour sélectionner votre fichier CSV et cliquer sur Envoyer.</p>
+    <p>Naviguez sur l'écran élèves pour vérifier que tout a été importé correctement. En fonction du nombre d'élèves, cette étape peut prendre jusqu'à une trentaine de secondes. Rafraichissez l'écran jusqu'à ce que la totalité des élèves soit importée.</p>
+  <% end %>
 
 </div>
