@@ -14,12 +14,12 @@ ready = () ->
   $('#newCompetencyModal').on 'shown.bs.modal', () ->
     $('#newCompetencyModal input[type=text]').filter(':visible:first').focus()
   
-  $('#newCompetencyModal').on 'change', '#title_only', () ->
+  $('#newCompetencyModal').on 'change', '#title_only', () -> 
     console.log 'title_only'
     if $('#title_only:checked').length > 0
       $('.show_all_periods_checkbox, .show_all_groups_checkbox, .select_periods, .select_groups').hide()
     else
-      $('#all_periods, #all_groups, .show_all_groups, .show_all_periods').show()
+      $('.show_all_periods_checkbox, .show_all_groups_checkbox, .show_all_groups, .show_all_periods').show()
       if $('#all_groups:checked').length == 0
         $('.select_groups').show()
       if $('#all_periods:checked').length == 0
