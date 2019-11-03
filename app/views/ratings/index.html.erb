@@ -1,7 +1,14 @@
 <div id="rating_screen">
+  <%= hidden_field_tag 'current_school_id', current_school.id %>
+  <%= hidden_field_tag 'current_rating_year', @current_rating_year&.id %>
+
   <div class="row">
     <div class="col-sm-12">
-      <h1>Ratings</h1>
+      <h1>Bulletins
+        <div class="pull-right hidden-xs">
+          Année: <span id="current_rating_year"><%= @current_rating_year&.name %></span>
+        </div>
+      </h1>
       <hr />
     </div>
   </div>
@@ -17,6 +24,14 @@
 <%
 =end%>
   <div class="row">
+  <div class="col-sm-12 col-md-6">
+      <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+        <div class="form-group">
+          <label>Classes</label>
+          <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
+        </div>
+      <% end %>
+    </div>
     <div class="col-sm-12 col-md-6">
       <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: '') do %>
         <div class="form-group">
@@ -27,14 +42,6 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  Ajoutez des matières pour cette classe via l'écran <em>Gestions des paramètres > Liste des matières</em> (uniquement accessible à un Admin).
           <% end %>
           </span>
-        </div>
-      <% end %>
-    </div>
-    <div class="col-sm-12 col-md-6">
-      <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
-        <div class="form-group">
-          <label>Classes</label>
-          <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
         </div>
       <% end %>
     </div>

@@ -2,7 +2,7 @@
         <tbody>
             <% @competencies.each do |competence| %>
                 <tr>
-                    <td class="firstname"><%= competence.name %></td>
+                    <td class="firstname level<%= competence.level %>"><%= competence.name %></td>
                     <%
                         periodsList = @periods
                         periodsList = competence.periods.ordered unless competence.all_periods

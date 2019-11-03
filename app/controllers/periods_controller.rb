@@ -97,6 +97,7 @@ class PeriodsController < ApplicationController
   end
 
   private
+
     def clean_order(current_periods)
       periods = {}
       
@@ -113,6 +114,6 @@ class PeriodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def period_params
-      params.require(:period).permit(:name, :year_id)
+      params.require(:period).permit(:name)
     end
 end

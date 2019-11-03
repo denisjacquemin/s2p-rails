@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :school_years
-
+  resources :rating_years
   post 'periods/update_orders', to: 'periods#update_orders'
   resources :periods
   

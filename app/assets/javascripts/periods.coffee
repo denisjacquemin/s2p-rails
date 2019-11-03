@@ -8,7 +8,7 @@ if not Turbolinks.supported
 $(document).on 'turbolinks:load', ->
   ready()
 ready = () ->
-  if $('#periods_tab').length
+  if $('#periods').length
     el = document.getElementById('periods_rows')
     sortable = Sortable.create(el, 
       dataIdAttr: 'data-id'

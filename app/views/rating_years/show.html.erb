@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @rating_year.name %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @rating_year.order %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @rating_year.active %>
+</p>
+
+<%= link_to 'Edit', edit_rating_year_path(@rating_year) %> |
+<%= link_to 'Back', rating_years_path %>

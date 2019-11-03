@@ -1,4 +1,5 @@
 $('#selected_competency').html("<%= escape_javascript(render 'competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id) %>");
+$('#current_rating_year').html("<%= @current_rating_year&.name %>")
 <% if @competencies.empty? %>
 $( "#emptyCompetenciesMsg" ).html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ajoutez des matières pour cette classe via l\'écran <em>Gestions des paramètres > Liste des matières</em> (uniquement accessible à un Admin).');
 $('#ratings_table').empty();

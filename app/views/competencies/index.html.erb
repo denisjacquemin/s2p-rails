@@ -49,7 +49,7 @@
               </div>
             </div>   
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="periods_tab">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 periods" >
             <div class="row">
               <div class="col-sm-12">
                 <div><%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
@@ -58,7 +58,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" id="periods">
               <div class="col-sm-12">
                 <div class="table-responsive">
                   <table class="table-striped table table-hover">
@@ -76,6 +76,35 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div><%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                <div class="pull-right hidden-xs">
+                  <%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary', remote: true %>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="rating_years">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table-striped table table-hover">
+                    <thead>
+                      <tr>
+                        <th width="20px">&nbsp;</th>
+                        <th data-data="name">Nom de l'année</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="rating_years_rows">
+                      <%= render partial: '/rating_years/rating_year', collection: @rating_years %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
           </div>
         </div>
 

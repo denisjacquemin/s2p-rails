@@ -40,15 +40,15 @@
         <%= form.label :title_only, 'Matière sans cotation' %>
       </div>
     </div>
-    <div class="row show_all_groups_checkbox" style="<%= "#{'display:none' if competency.title_only}" %>">
+    <div class="row show_all_groups_checkbox">
         <label>Classes</label><br/>
         <%= form.check_box :all_groups, id: 'all_groups', class: 'show_all_groups' %>
         <%= form.label :all_groups, 'Toutes les classes', for: 'all_groups', class: 'show_all_groups' %>
     </div>
-    <div class="row select_groups" style="<%= "#{'display:none' if competency.all_groups or competency.title_only}" %>">
+    <div class="row select_groups" style="<%= "#{'display:none' if competency.all_groups}" %>">
       Sélectionner <a href="#" id="select_all" data-target="competency_groups">Tout</a> - <a href="#" id="unselect_all" data-target="competency_groups">Aucun</a>
     </div>
-    <div class="row select_groups" id="competency_groups" style="<%= "#{'display:none' if competency.all_groups or competency.title_only}" %>">
+    <div class="row select_groups" id="competency_groups" style="<%= "#{'display:none' if competency.all_groups}" %>">
       <% groups = Group.where(school_id: current_school.id, group_type: 'level') %>
       <%= form.collection_check_boxes(:group_ids, groups, :id, :name) do |g| %>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -56,15 +56,15 @@
         </div>
       <% end %>
     </div>
-    <div class="row show_all_periods_checkbox" style="margin-top:20px;<%= "#{'display:none' if competency.title_only}" %>">
+    <div class="row show_all_periods_checkbox" style="margin-top:20px;">
         <label>Périodes</label><br/>
         <%= form.check_box :all_periods, id: 'all_periods', class: 'show_all_periods' %>
         <%= form.label :all_periods, 'Toutes les périodes', for: 'all_periods', class: 'show_all_periods' %>
     </div>
-    <div class="row select_periods" style="<%= "#{'display:none' if competency.all_periods or competency.title_only}" %>">
+    <div class="row select_periods" style="<%= "#{'display:none' if competency.all_periods}" %>">
       Sélectionner <a href="#" id="select_all" data-target="competency_periods">Tout</a> - <a href="#" id="unselect_all" data-target="competency_periods">Aucun</a>
     </div>
-    <div class="row select_periods" id="competency_periods" style="<%= "#{'display:none' if competency.all_periods or competency.title_only}" %>">
+    <div class="row select_periods" id="competency_periods" style="<%= "#{'display:none' if competency.all_periods}" %>">
       <% periods = Period.where(school_id: current_school.id) %>
       <%= form.collection_check_boxes(:period_ids, periods, :id, :name) do |p| %>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

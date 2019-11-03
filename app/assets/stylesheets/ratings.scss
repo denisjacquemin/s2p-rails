@@ -2,12 +2,44 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#rating_screen h1 .rating_years {
+    font-size:  14px 
+}
+
 #ratings_table th.firstname, #ratings_table td.firstname, #ratings_table th.lastname, #ratings_table td.lastname {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 85px;
-    min-width: 85px;
+    @media (min-width: 1200px) {
+        max-width: 300px;
+        min-width: 300px;
+        &.level2 {
+            padding-left: 20px;
+        }
+        &.level3 {
+            padding-left: 40px;
+        }
+    }
+    @media (max-width: 1200px) {
+        max-width: 200px;
+        min-width: 200px;
+        &.level2 {
+            padding-left: 15px;
+        }
+        &.level3 {
+            padding-left: 30px;
+        }
+    }
+    @media (max-width: 990px) {
+        max-width: 90px;
+        min-width: 90px;
+        &.level2 {
+            padding-left: 8px;
+        }
+        &.level3 {
+            padding-left: 8px;
+        }
+    }
     z-index: 100;
     background-color: white;
 }

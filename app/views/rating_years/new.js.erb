@@ -1,0 +1,3 @@
+$('#newCompetencyModal .modal-body').html("<%= escape_javascript(render 'form', competency: @rating_year) %>");
+$('#newCompetencyModal #modalTitle').html("Nouvelle année");
+$("#newCompetencyModal").modal('show');

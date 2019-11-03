@@ -1,9 +1,16 @@
 <div id="by_student">
     <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-            <h1>Encodage par élèves</h1>
+        <div class="col-sm-12">
+        <h1>Encodage par élèves
+            <div class="pull-right hidden-xs">
+            Année: <span id="current_rating_year"><%= @current_rating_year&.name %></span>
+            </div>
+        </h1>
+        <hr />
         </div>
     </div>
+    <%= hidden_field_tag 'current_school_id', current_school.id %>
+    <%= hidden_field_tag 'current_rating_year', @current_rating_year&.id %>
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>

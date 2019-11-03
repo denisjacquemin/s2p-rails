@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_22_164524) do
+ActiveRecord::Schema.define(version: 2019_10_30_133025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -299,6 +299,22 @@ ActiveRecord::Schema.define(version: 2019_10_22_164524) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rating_year_groups", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "rating_year_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rating_years", force: :cascade do |t|
+    t.string "name"
+    t.integer "order"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "all_groups", default: true
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.string "rating"
     t.string "comment"
@@ -308,6 +324,7 @@ ActiveRecord::Schema.define(version: 2019_10_22_164524) do
     t.integer "period_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating_year_id"
     t.index ["student_id", "school_id", "competency_id", "period_id"], name: "index_ratings_uniqueness", unique: true
   end
 
@@ -374,14 +391,6 @@ ActiveRecord::Schema.define(version: 2019_10_22_164524) do
     t.boolean "mutable_content", default: false, null: false
     t.string "external_device_id"
     t.index ["delivered", "failed", "processing", "deliver_after", "created_at"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))"
-  end
-
-  create_table "school_years", force: :cascade do |t|
-    t.string "name"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "schools", id: :serial, force: :cascade do |t|

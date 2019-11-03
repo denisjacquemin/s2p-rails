@@ -1,4 +1,5 @@
 class RatingsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
 
   # GET /ratings
@@ -11,11 +12,19 @@ class RatingsController < ApplicationController
     # @classrooms =  Student.where(school_id: @current_school.id).pluck(:classroom).uniq
     @groups = Group.only_level.by_school(current_school.id)
     @current_group_selected_id = @groups&.first&.id
+    @rating_years = RatingYear.by_school(current_school.id).ordered
+
+    # default behaviour, most of the time only one RatingYear for the school
+    # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
+    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year_id.nil?
     set_ratings
   end
 
   def students
     @current_group_selected_id = params[:current_group_selected_id]
+    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year_id.nil?
     set_ratings
   end
 
@@ -24,6 +33,12 @@ class RatingsController < ApplicationController
     @group_selected_id = @groups&.first&.id
     @students = Student.by_group(@group_selected_id)
     @student_selected_id = @students&.first&.id
+    # default behaviour, most of the time only one RatingYear for the school
+    # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
+    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if @current_rating_year_id.nil?
+
+
     set_ratings_for_one_students()
   end
 
@@ -105,8 +120,9 @@ class RatingsController < ApplicationController
     value = params[:value]
     student_id = params[:"s-id"]
     period_id = params[:"p-id"]
+    rating_year_id = params[:"ry-id"]
 
-    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
+    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id, rating_year_id: rating_year_id)
     rating.rating = value
     rating.save
 
@@ -180,12 +196,12 @@ class RatingsController < ApplicationController
       @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
       @ratings = {}
       @student_ratings = {}
-      @students.each{ |s| 
+      @students.each{ |student| 
         student_ratings = {}
-        s.ratings.each { |r|
+        student.ratings.by_rating_year(@current_rating_year_id).each { |r|
           student_ratings[r.period_id] = {value: r.rating, comment: r.comment} if r.competency_id.to_s == @competency_selected_id
         }
-        @ratings[s.id] = student_ratings
+        @ratings[student.id] = student_ratings
       }
     end
 
@@ -196,8 +212,9 @@ class RatingsController < ApplicationController
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
         @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
       }
-    
+
       @periods = Period.by_school(current_school.id).ordered
+      
       @competencies = Group.find(@group_selected_id).competencies.ordered
     end
 

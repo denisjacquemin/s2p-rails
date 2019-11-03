@@ -8,6 +8,8 @@ class CompetenciesController < ApplicationController
   def index
     @competencies = Competency.where(school_id: current_school.id).ordered
     @periods = Period.by_school(current_school.id).ordered
+    @rating_years = RatingYear.by_school(current_school.id).ordered
+
   end
 
   def writers_access
@@ -26,6 +28,8 @@ class CompetenciesController < ApplicationController
   # GET /competencies/new
   def new
     @competency = Competency.new
+    @competency.groups = Group.by_school(current_school.id)
+    @competency.periods = Period.by_school(current_school.id)
     respond_to do |format|
       format.html 
       format.js
@@ -45,7 +49,7 @@ class CompetenciesController < ApplicationController
   def create
     @competency = Competency.new(competency_params)
     @competency.school_id = current_school.id
-    @competency.order = 0
+    @competency.order = Competency.where(school_id: current_school.id).count + 1
 
 
     respond_to do |format|
