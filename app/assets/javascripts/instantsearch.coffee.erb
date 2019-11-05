@@ -77,7 +77,11 @@ ready = () ->
                 if role == 'user'
                   ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
             when 'published'
-              ul.append('<li>' + linkAction('republished', message_id) + '</li>')
+              if role == 'admin'
+                ul.append('<li>' + linkAction('republished', message_id) + '</li>')
+              else
+                if role == 'user'
+                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
               # ul.append('<li>' + linkAction('unpublish', message_id) + '</li>')
           ul.append('<li>' + linkAction('delete', message_id) + '</li>')
         else
