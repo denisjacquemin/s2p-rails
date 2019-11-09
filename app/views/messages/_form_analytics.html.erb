@@ -161,7 +161,7 @@
     <ul class="nav nav-tabs" role="tablist">
       <% if current_user.superadmin? %>
         <% email_delivered = EmailRecipient.where(message_id: @message.id, status: 'delivered').order(created_at: :desc) %>
-        <li role="presentation" class="active"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered"><%= email_delivered.count %></span>)</a></li>
+        <li role="presentation"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered"><%= email_delivered.count %></span>)</a></li>
       <% end %>
       <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
 
