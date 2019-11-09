@@ -218,7 +218,7 @@
             </tr>
           </thead>
           <tbody id="">
-            <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open') %>
+            <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
             <% email_recipients.each do |er| %>
               <tr>
                 <td><i class="material-icons">drafts</i></td>
