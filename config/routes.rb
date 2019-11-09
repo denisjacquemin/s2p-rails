@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  authenticated :user, -> user { user.superadmin? } do
+    mount Delayed::Web::Engine, at: '/jobs'
+  end
+
+  resources :rating_comments
+  post 'rating_comments/update_orders', to: 'rating_comments#update_orders'
+
   resources :rating_years
   post 'periods/update_orders', to: 'periods#update_orders'
   resources :periods

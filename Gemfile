@@ -38,6 +38,7 @@ gem 'nexmo' # to remove
 gem 'callr'
 gem 'rqrcode'
 
+gem 'delayed-web'
 
 gem "wysiwyg-rails", "2.7.1"
 gem 'kramdown'
