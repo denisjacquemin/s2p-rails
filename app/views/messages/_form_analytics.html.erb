@@ -218,10 +218,10 @@
             </tr>
           </thead>
           <tbody id="">
-            <% email_recipients = EmailRecipient.where(message_id: @message.id) %>
+            <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open') %>
             <% email_recipients.each do |er| %>
               <tr>
-                <td><i class="material-icons">mail</i></td>
+                <td><i class="material-icons">drafts</i></td>
                 <td><%= er.students %></td>
                 <td>Email ouvert</td>
                 <td><%= er.dateandtime %></td>
