@@ -13,7 +13,7 @@ ready = () ->
         ['undo', 'redo'],
         ['emoji'],
         ['foreColor', 'backColor'],
-        ['strong', 'em', 'del'],
+        ['strong', 'em', 'underline', 'del'],
         ['superscript', 'subscript'],
         ['justifyLeft', 'justifyRight'],
         ['table', 'link'],
