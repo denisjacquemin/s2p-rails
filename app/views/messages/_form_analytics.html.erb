@@ -165,7 +165,7 @@
         <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
         <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= email_recipients.count %>)</a></li>
         <% email_errors = EmailRecipient.where(message_id: @message.id, status: ['dropped', 'bounce']).order(created_at: :desc) %>
-        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (0)</a></li>
+        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= email_errors.count %>)</a></li>
       <% end %>
       <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
 
@@ -350,7 +350,7 @@
           
             <% email_errors.each do |ee| %>
               <tr>
-                <td></td>
+                <td><i class="fa fa-warning"></td>
                 <td><%= ee.students %></td>
                 <td>Email non envoyé</td>
                 <td><%= ee.dateandtime %></td>
