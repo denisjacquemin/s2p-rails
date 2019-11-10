@@ -140,12 +140,12 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         end
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
         if student.nil?
-            students = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, school_id)
-            if students.size == 1
-              student = students.first
-            elsif students.size > 1
-              write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
-            end
+            student = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, school_id).first
+            # if students.size == 1
+            # student = students.first
+            # elsif students.size > 1
+            #   write_error_to_firebase(student_data, "Les homonymes doivent être traité manuellement.", school_id, user_id)
+            # end
         end
 
         return student

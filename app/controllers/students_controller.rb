@@ -192,12 +192,15 @@ class StudentsController < ApplicationController
 
         upload_csv_ifapme_key_mapping = {
           :key_mapping => {
+            :nom_formateur => :lastname,
+            :prénom_formateur => :firstname,
             :nom_apprenant => :lastname,
             :prénom_apprenant => :firstname,
             :téléphone => :phone3,
             :gsm => :phone2,
             :email => :email1,
-            :classe => :group1
+            :courriel => :email1,
+            :classe => :group1,
           }
         }
     
