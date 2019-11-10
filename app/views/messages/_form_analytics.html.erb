@@ -162,50 +162,20 @@
       <% if current_user.superadmin? %>
         <% email_delivered = EmailRecipient.where(message_id: @message.id, status: 'delivered').order(created_at: :desc) %>
         <li role="presentation"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= email_delivered.count %>)</a></li>
+        <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
+        <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= email_recipients.count %>)</a></li>
+        <% email_errors = EmailRecipient.where(message_id: @message.id, status: ['dropped', 'bounce']).order(created_at: :desc) %>
+        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (0)</a></li>
       <% end %>
       <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
 
       <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
-      <% if current_user.superadmin? %>
-        <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
-
-        <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= email_recipients.count %>)</a></li>
-      <% end %>
       <li role="presentation"><a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
       <li role="presentation"><a href="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
       <li role="presentation"><a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur (<span id="counter_dropped">0</span>)</a></li>
     </ul>
     <div class="tab-content">
 
-      <% if current_user.superadmin? %>
-      
-      <div role="tabpanel" class="tab-pane active table-responsive" id="email_delivered_list">
-        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-          Ci-dessous la liste des emails envoyés. Si l'email est classé dans le dossier SPAM, conseillez d'ajouter l'adresse konecto@konectoapp.com à leur carnet d'adresses.
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% email_delivered.each do |ed| %>
-              <tr>
-                <td><i class="material-icons">mail</i></td>
-                <td><%= ed.students %></td>
-                <td>Email Envoyé</td>
-                <td><%= ed.dateandtime %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-
-      <% end %>
 
 
 
@@ -242,34 +212,7 @@
         </table>
       </div>
 
-      <% if current_user.superadmin? %>
 
-      <div role="tabpanel" class="tab-pane table-responsive" id="email_open_list">
-        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-          Ci-dessous la liste des accusés de lecture des emails. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet. D'autres raisons techniques peuvent empêcher l'accusé d'apparaître sur cet écran.
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Source</th>
-              <th>Commentaire</th>
-              <th>Date/heure</th>
-            </tr>
-          </thead>
-          <tbody id="">
-            <% email_recipients.each do |er| %>
-              <tr>
-                <td><i class="material-icons">drafts</i></td>
-                <td><%= er.students %></td>
-                <td>Email ouvert</td>
-                <td><%= er.dateandtime %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <% end %>
 
       <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
         <% if @message.mtype == "rappel" %>
@@ -313,6 +256,11 @@
         </table>
       </div>
 
+
+
+
+
+
       <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
         <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
           Ci-dessous la liste des emails qui n'ont pu être envoyés. Vérifiez que les emails sont corrects.
@@ -329,6 +277,94 @@
           <tbody id="dropped_rows"></tbody>
         </table>
       </div>
+
+
+      <% if current_user.superadmin? %>
+
+      <div role="tabpanel" class="tab-pane active table-responsive" id="email_delivered_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails envoyés. Si l'email est classé dans le dossier SPAM, conseillez d'ajouter l'adresse konecto@konectoapp.com à leur carnet d'adresses.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% email_delivered.each do |ed| %>
+              <tr>
+                <td><i class="material-icons">mail</i></td>
+                <td><%= ed.students %></td>
+                <td>Email Envoyé</td>
+                <td><%= ed.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="email_open_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des accusés de lecture des emails. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet. D'autres raisons techniques peuvent empêcher l'accusé d'apparaître sur cet écran.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="">
+            <% email_recipients.each do |er| %>
+              <tr>
+                <td><i class="material-icons">drafts</i></td>
+                <td><%= er.students %></td>
+                <td>Email ouvert</td>
+                <td><%= er.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails qui n'ont pu être envoyés. Vérifiez que les emails sont corrects.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <% email_errors.each do |ee| %>
+              <tr>
+                <td></td>
+                <td><%= ee.students %></td>
+                <td>Email non envoyé</td>
+                <td><%= ee.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <% end %>
+
+
+
+
     </div>
   </div>
 </div>
