@@ -165,7 +165,7 @@
         <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
         <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= email_recipients.count %>)</a></li>
         <% opens_by_mobile = EmailRecipient.where(message_id: @message.id, status: 'open_by_mobile').order(created_at: :desc) %>
-        <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
+        <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= opens_by_mobile.count %>)</a></li>
         <% email_errors = EmailRecipient.where(message_id: @message.id, status: ['dropped', 'bounce']).order(created_at: :desc) %>
         <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= email_errors.count %>)</a></li>
       <% end %>
@@ -356,7 +356,7 @@
               <% opens_by_mobile.each do |om| %>
                 <tr>
                   <td><i class="fa fa-mobile-phone fa-2x"></i></td>
-                  <td><%= om.students %></td>
+                  <td><%= om.students.join(', ') %></td>
                   <td>Email ouvert</td>
                   <td><%= om.dateandtime %></td>
                 </tr>
