@@ -296,7 +296,7 @@
             </tr>
           </thead>
           <tbody>
-            <% email_delivered.each do |ed| %>
+            <% email_delivered.uniq{|ed| ed.students }.each do |ed| %>
               <tr>
                 <td><i class="material-icons">mail</i></td>
                 <td><%= ed.students %></td>
@@ -322,7 +322,7 @@
             </tr>
           </thead>
           <tbody id="">
-            <% email_recipients.each do |er| %>
+            <% email_recipients.uniq{|er| er.students }.each do |er| %>
               <tr>
                 <td><i class="material-icons">drafts</i></td>
                 <td><%= er.students %></td>
