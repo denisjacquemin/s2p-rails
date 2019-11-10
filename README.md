@@ -1,6 +1,7 @@
 #How To
 
-## Restore locally a dump from herokupg_restore --verbose --clean --no-acl --no-owner -h localhost -U denisjacquemin -d s2p_development /Users/denisjacquemin/Downloads/d1833039-7a83-4637-bd64-ff1cf157e60e
+## Restore locally a dump from heroku 
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U denisjacquemin -d s2p_development '/Users/denisjacquemin/Documents/Konecto App/Backups/...'
 
 
 Extract Saint Vincent from Bellefontaine

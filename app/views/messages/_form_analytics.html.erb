@@ -145,13 +145,16 @@
 
   </script>
 <% end %>
+
+
+
 <div class="row">
   <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
     <h2><%= message.title %></h2>
     <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3  col-lg-2 total_counter_container">
-    <h1 class="total_counter">0</h1>
+    <h1 class="total_counter"><%= @total_views %></h1>
     <p>Vues total</p>
   </div>
 </div>
@@ -160,14 +163,11 @@
   <div class="col-xs-12">
     <ul class="nav nav-tabs" role="tablist">
       <% if current_user.superadmin? %>
-        <% email_delivered = EmailRecipient.where(message_id: @message.id, status: 'delivered').order(created_at: :desc) %>
-        <li role="presentation"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= email_delivered.count %>)</a></li>
-        <% email_recipients = EmailRecipient.where(message_id: @message.id, status: 'open').order(created_at: :desc) %>
-        <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= email_recipients.count %>)</a></li>
-        <% opens_by_mobile = EmailRecipient.where(message_id: @message.id, status: 'open_by_mobile').order(created_at: :desc) %>
-        <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= opens_by_mobile.count %>)</a></li>
-        <% email_errors = EmailRecipient.where(message_id: @message.id, status: ['dropped', 'bounce']).order(created_at: :desc) %>
-        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= email_errors.count %>)</a></li>
+        
+        <li role="presentation"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= @email_delivered.count %>)</a></li>
+        <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= @email_recipients.count %>)</a></li>
+        <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= @opens_by_mobile.count %>)</a></li>
+        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= @email_errors.count %>)</a></li>
       <% end %>
       <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
       <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
@@ -296,7 +296,7 @@
             </tr>
           </thead>
           <tbody>
-            <% email_delivered.uniq{|ed| ed.students }.each do |ed| %>
+            <% @email_delivered.each do |ed| %>
               <tr>
                 <td><i class="material-icons">mail</i></td>
                 <td><%= ed.students %></td>
@@ -322,7 +322,7 @@
             </tr>
           </thead>
           <tbody id="">
-            <% email_recipients.uniq{|er| er.students }.each do |er| %>
+            <% @email_recipients.each do |er| %>
               <tr>
                 <td><i class="material-icons">drafts</i></td>
                 <td><%= er.students %></td>
@@ -353,7 +353,7 @@
               </tr>
             </thead>
             <tbody id="">
-              <% opens_by_mobile.each do |om| %>
+              <% @opens_by_mobile.each do |om| %>
                 <tr>
                   <td><i class="fa fa-mobile-phone fa-2x"></i></td>
                   <td><%= om.students %></td>
@@ -381,7 +381,7 @@
           </thead>
           <tbody>
           
-            <% email_errors.each do |ee| %>
+            <% @email_errors.each do |ee| %>
               <tr>
                 <td><i class="fa fa-warning"></td>
                 <td><%= ee.students %></td>
