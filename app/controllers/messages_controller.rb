@@ -102,7 +102,9 @@ class MessagesController < ApplicationController
     @opens_by_mobile = all_email_recipients.select{|aer| aer.status == 'open_by_mobile'}.uniq{|ed| ed.students }
     @email_errors = all_email_recipients.select{|aer| ['dropped', 'bounce'].include?(aer.status) }.uniq{|ed| ed.students }
     @sms_recipients = all_email_recipients.select{|aer| ['RECEIVED'].include?(aer.status) }.uniq{|sr| sr.students }
-    @total_views = @email_recipients.count + @opens_by_mobile.count
+    @total_views = @email_recipients.count + @opens_by_mobile.count + @sms_recipients.count
+    @showStatsFromEmailRecipients =  @message.updated_at > DateTime.parse('Sun, 10 Nov 2019 13:42:50 +0100')
+
   end
 
   def create_sendcode_message

@@ -28,12 +28,7 @@
       <% end %>
       <% if not message.publish_date.nil? %>
         <li role="presentation">
-          <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<span class="total_counter">0</span>)</a> 
-          <%
-=begin%>
- <%= @total_views %> 
-<%
-=end%>
+          <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<% if @showStatsFromEmailRecipients %><%= @total_views %><% else %><span class="total_counter">0</span><% end %>)</a>
         </li>
       <% end %>
       <% unless message.new_record? %>
