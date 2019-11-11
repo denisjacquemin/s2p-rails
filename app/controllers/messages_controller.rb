@@ -95,13 +95,14 @@ class MessagesController < ApplicationController
     @message = Message.includes([:author, :school, :photo_files, :succeeded_payments, school: :accounts]).find(params[:id])
     authorize @message
 
-      all_email_recipients = EmailRecipient.where(message_id: @message.id).order(created_at: :desc)
-      
-      @email_delivered = all_email_recipients.select{|aer| aer.status == 'delivered'}.uniq{|ed| ed.students }
-      @email_recipients = all_email_recipients.select{|aer| aer.status == 'open'}.uniq{|ed| ed.students }
-      @opens_by_mobile = all_email_recipients.select{|aer| aer.status == 'open_by_mobile'}.uniq{|ed| ed.students }
-      @email_errors = all_email_recipients.select{|aer| ['dropped', 'bounce'].include?(aer.status) }.uniq{|ed| ed.students }
-      @total_views = @email_recipients.count + @opens_by_mobile.count
+    all_email_recipients = EmailRecipient.where(message_id: @message.id).order(created_at: :desc)
+    
+    @email_delivered = all_email_recipients.select{|aer| aer.status == 'delivered'}.uniq{|ed| ed.students }
+    @email_recipients = all_email_recipients.select{|aer| aer.status == 'open'}.uniq{|ed| ed.students }
+    @opens_by_mobile = all_email_recipients.select{|aer| aer.status == 'open_by_mobile'}.uniq{|ed| ed.students }
+    @email_errors = all_email_recipients.select{|aer| ['dropped', 'bounce'].include?(aer.status) }.uniq{|ed| ed.students }
+    @sms_recipients = all_email_recipients.select{|aer| ['RECEIVED'].include?(aer.status) }.uniq{|sr| sr.students }
+    @total_views = @email_recipients.count + @opens_by_mobile.count
   end
 
   def create_sendcode_message

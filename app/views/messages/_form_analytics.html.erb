@@ -154,7 +154,7 @@
     <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3  col-lg-2 total_counter_container">
-    <h1 class="total_counter"><%= @total_views %></h1>
+    <h1 class="total_counter"><%= email_recipients.count + opens_by_mobile.count %></h1>
     <p>Vues total</p>
   </div>
 </div>
@@ -162,11 +162,13 @@
 <div class="row">
   <div class="col-xs-12">
     <ul class="nav nav-tabs" role="tablist">
+    
       <% if current_user.superadmin? %>
         
         <li role="presentation"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= @email_delivered.count %>)</a></li>
         <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= @email_recipients.count %>)</a></li>
         <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= @opens_by_mobile.count %>)</a></li>
+        <li role="presentation"><a href="#sms_recipients" aria-controls="sms_recipients" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
         <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= @email_errors.count %>)</a></li>
       <% end %>
       <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
@@ -364,6 +366,35 @@
             </tbody>
           </table>
         <% end %>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="sms_recipients">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des numéros de téléphones auquels un SMS a été envoyé. 2 statuts possibles: <em>Envoyé</em> et <em>Reçu</em>.
+        </div>
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Pour envoyer des SMS, créez un message de type court et sélectionnez <em>Envoyer par SMS</em>.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Numéro</th>
+              <th>Statut</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @sms_recipients.each do |sr| %>
+                <tr>
+                  <td><i class="fa fa-mobile-phone fa-2x"></i></td>
+                  <td><%= sr.students %></td>
+                  <td><%= sr.status %></td>
+                  <td><%= sr.dateandtime %></td>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
       </div>
 
       <div role="tabpanel" class="tab-pane table-responsive" id="email_dropped_list">
