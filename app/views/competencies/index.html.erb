@@ -91,7 +91,6 @@
                   <table class="table-striped table table-hover">
                     <thead>
                       <tr>
-                        <th width="20px">&nbsp;</th>
                         <th data-data="name">Nom de l'année</th>
                         <th></th>
                       </tr>
@@ -103,7 +102,32 @@
                 </div>
               </div>
             </div>
-
+            <div class="row">
+              <div class="col-sm-12">
+                <div><%= link_to 'Nouveau commentaire', new_rating_comment_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                <div class="pull-right hidden-xs">
+                  <%= link_to 'Nouveau commentaire', new_rating_comment_path, class: 'btn btn-primary', remote: true %>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="rating_comments">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table-striped table table-hover">
+                    <thead>
+                      <tr>
+                        <th width="20px">&nbsp;</th>
+                        <th data-data="name">Commentaires</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="rating_comments_rows">
+                      <%= render partial: '/rating_comments/rating_comment', collection: @rating_comments %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
             
           </div>
         </div>

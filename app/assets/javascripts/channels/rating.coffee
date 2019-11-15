@@ -25,7 +25,7 @@ $(document).on 'input', '.rating', (e) ->
       's-id': e.target.getAttribute('data-s-id')
       'sc-id': $('#current_school_id').val()
       'p-id': e.target.getAttribute('data-p-id')
-      'ry-id': $('#selected_rating_year').val()
+      'ry-id': $('#selected_current_rating_year').val()
       'el_id': e.target.id
     }
     App.rating.save rating

@@ -56,7 +56,7 @@ class MessagePolicy < ApplicationPolicy
     return true if @user.admin? and @user.schools.include?(@record.school_id)
 
     # only author can publish a message
-    return true if @record.author === @user
+    # return true if @record.author === @user
 
     return true if @user.superadmin?
 

@@ -1,0 +1,25 @@
+<%= form_with(model: @rating_comment, local: false) do |form| %>
+  
+  <div id="error_explanation">
+    <ul>
+      <% @rating_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="form-group">
+        <%= form.label :name, 'Nom du commentaire' %>
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  
+<% end %>

@@ -1,0 +1,9 @@
+<tr data-id="<%= rating_comment.id %>">
+    <td><i class="fa fa-arrows-alt handle"></i></td>
+    <td><%= link_to rating_comment.name, edit_rating_comment_path(rating_comment), remote: true %></td>
+    <td align="right">
+        <%= link_to 'Edit', edit_rating_comment_path(rating_comment), class: 'btn btn-default btn-xs', remote: true %>
+        &nbsp;
+        <%= link_to 'Supprimer', rating_comment, method: :delete, data: { confirm: 'Etes vous sûr' }, class: 'btn btn-danger btn-xs', remote: true %>
+    </td>
+</tr>

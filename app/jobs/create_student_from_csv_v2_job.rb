@@ -28,6 +28,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
       current_groups = student[:groups] if student
       student_data = build_student_data(data, school_id, upload_uniq_id, current_groups)
 
+      student_data[:upload_uniq_id] = upload_uniq_id
       if student.blank?
           create_new_student(student_data, school_id)
       else

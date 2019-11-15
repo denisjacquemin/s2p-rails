@@ -36,7 +36,7 @@
       <%= form_tag(writers_access_path, id: 'load_ratings_by_competency', method: "get", remote: true, class: '') do %>
         <div class="form-group">
           <label>Matières</label>
-          <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies, competency_selected_id: @competency_selected_id), class: 'form-control' %>
+          <%= select_tag "selected_competency", render('competencies_options', competencies: @competencies.reject{|c| c.title_only}, competency_selected_id: @competency_selected_id), class: 'form-control' %>
           <span id="emptyCompetenciesMsg" class="help-block">
           <% if @competencies.empty? %>
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  Ajoutez des matières pour cette classe via l'écran <em>Gestions des paramètres > Liste des matières</em> (uniquement accessible à un Admin).

@@ -10,7 +10,7 @@
         </div>
     </div>
     <%= hidden_field_tag 'current_school_id', current_school.id %>
-    <%= hidden_field_tag 'current_rating_year', @current_rating_year&.id %>
+    <%= hidden_field_tag 'selected_current_rating_year', @current_rating_year&.id %>
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
@@ -29,6 +29,44 @@
             <% end %>
         </div>
     </div>
+    <%
+=begin%>
+ <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive" id="ratings_table">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="firstname">Commentaire</th>
+                            <% @periods.each do |period| %>
+                                <th><%= period.name %></th>
+                            <% end %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @rating_comments.each do |rc| %>
+                            <tr>
+                                <th class="firstname"><%= rc.name %></th>
+                                <% @periods.each do |period| %>
+                                    <th>
+                                    <div class="input-group input-group-sm">
+                                        <%= text_field_tag '#', rc.comment, class: 'rating form-control'%>
+                                        <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
+                                            <%= link_to rating_comment_path(rc), remote: true do %>
+                                                <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+<%
+=end%>
     <div class="row">
         <div class="col-sm-12">
             <div class="table-responsive" id="ratings_table">

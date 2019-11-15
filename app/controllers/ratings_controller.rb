@@ -37,7 +37,7 @@ class RatingsController < ApplicationController
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
     @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
     @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if @current_rating_year_id.nil?
-
+    @rating_comments = RatingComment.by_school(current_school.id)
 
     set_ratings_for_one_students()
   end
@@ -198,7 +198,7 @@ class RatingsController < ApplicationController
       @student_ratings = {}
       @students.each{ |student| 
         student_ratings = {}
-        student.ratings.by_rating_year(@current_rating_year_id).each { |r|
+        student.ratings.by_rating_year(@current_rating_year.id).each { |r|
           student_ratings[r.period_id] = {value: r.rating, comment: r.comment} if r.competency_id.to_s == @competency_selected_id
         }
         @ratings[student.id] = student_ratings

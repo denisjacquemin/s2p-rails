@@ -14,6 +14,7 @@ require "google/cloud/translate"
 
 module School2parents
   class Application < Rails::Application
+    config.assets.precompile << 'delayed/web/application.css'
 
     config.middleware.use HandleBadEncodingMiddleware
     # Settings in config/environments/* take precedence over those specified here.

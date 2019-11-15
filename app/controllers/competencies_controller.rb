@@ -9,7 +9,7 @@ class CompetenciesController < ApplicationController
     @competencies = Competency.where(school_id: current_school.id).ordered
     @periods = Period.by_school(current_school.id).ordered
     @rating_years = RatingYear.by_school(current_school.id).ordered
-
+    @rating_comments = RatingComment.by_school(current_school.id).ordered
   end
 
   def writers_access

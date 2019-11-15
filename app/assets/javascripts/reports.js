@@ -2,6 +2,7 @@
 //= require competencies
 //= require ratings
 //= require periods
+//= require rating_comments
 //= require by_student
 //= require bootstrap-select/bootstrap-select.min
 //= require cable
