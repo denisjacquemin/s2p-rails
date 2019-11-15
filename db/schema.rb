@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_133025) do
+ActiveRecord::Schema.define(version: 2019_11_09_111232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_133025) do
     t.string "dateandtime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "students"
   end
 
   create_table "form_templates", id: :serial, force: :cascade do |t|
@@ -295,6 +296,14 @@ ActiveRecord::Schema.define(version: 2019_10_30_133025) do
     t.string "owner_name"
     t.string "number"
     t.integer "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rating_comments", force: :cascade do |t|
+    t.string "name"
+    t.integer "school_id"
+    t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
