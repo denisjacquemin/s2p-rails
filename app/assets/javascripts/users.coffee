@@ -46,3 +46,10 @@ $(document).on 'turbolinks:load', ->
 
     $('#intlphonenumber').change () ->
       $("#user_phone").val($(this).intlTelInput("getNumber"))
+
+    $('#groups').on 'click', '#select_all, #unselect_all', (e) ->
+      e.preventDefault()
+      $('#' + $(e.target).data('target') + ' input:checkbox') \
+        .prop('checked', e.target.id == 'select_all')
+      return
+    return
