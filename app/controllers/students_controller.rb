@@ -191,6 +191,17 @@ class StudentsController < ApplicationController
         }
 
         upload_csv_ifapme_key_mapping = {
+          :unwanted_row => nil,
+          :force_simple_split => false,
+          :strip_chars_from_headers => /[\-"]/,
+          :quote_char => '"',
+          :chunk_size => 3000,
+          :remove_unmapped_keys => true,
+          :value_converters => {
+            :sent_message_by_email => SentMessageByEmailConverter
+          },
+          :col_sep => sniff(params[:csv].tempfile.path, [',',";"], encoding), 
+          :file_encoding => encoding,
           :key_mapping => {
             :nom_formateur => :lastname,
             :prénom_formateur => :firstname,
@@ -332,7 +343,7 @@ class StudentsController < ApplicationController
         }
         options = {}
         if current_school.is_ifapme
-          options = upload_csv_defaults_options.merge(upload_csv_ifapme_key_mapping)
+          options = upload_csv_ifapme_key_mapping
         else
           options = upload_csv_defaults_options.merge(upload_csv_general_key_mapping)
         end
@@ -486,8 +497,24 @@ class StudentsController < ApplicationController
         # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
         current_school_id = current_school.id
         upload_uniq_id = Digest::MD5.hexdigest(DateTime.now.to_s)
+        
+        students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-          CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)          
+          # if current_school.delete_students_on_import
+            # DeleteStudentsOnImportJob.perform_later(r, current_school.id)
+          # end
+          if params[:delete_students] and current_school.delete_students_on_csv_import
+            r.each do |data|
+              students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
+            end
+          end
+
+          if current_school.is_ifapme
+            CreateStudentFromCsvV3Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
+          else 
+            CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
+          end
+
           # r.each do |data|
           #   #CreateStudentFromCsvJob.perform_later(data, current_school.id, current_user)
           #   groups = []
@@ -523,6 +550,9 @@ class StudentsController < ApplicationController
           #     end
           #   end
           # end
+        end
+        if params[:delete_students] and current_school.delete_students_on_csv_import
+          DeleteStudentsOnImportJob.perform_later(students_not_to_delete.to_a, current_school.id)
         end
       rescue Exception => e
         render :csv, :locals => { :error_message => e.message, message: '' } and return

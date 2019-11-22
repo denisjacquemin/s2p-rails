@@ -11,7 +11,14 @@
      <%= form_tag({action: :csv_upload}, multipart: true) do %>
        <div class="form-group">
          <%= file_field_tag 'csv' %>
-       </div>
+      </div>
+      <% if current_school.delete_students_on_csv_import %>
+      <div class="form-group">
+        <%= check_box_tag 'delete_students', nil, true %>
+        <label for="delete_students">Supprimer les élèves ne faisant pas partie de l'import</label>
+      </div>
+      <% end %>
+
        <%= submit_tag 'Envoyer', class: 'btn btn-primary' %>
      <% end %>
      <br/>

@@ -82,6 +82,10 @@
                  <%= f.check_box :is_ifapme %>
                 </div>
                 <div class="form-group">
+                 <%= f.label :delete_students_on_csv_import, "Activer l'option effacer les élèves à l'import CSV" %>
+                 <%= f.check_box :delete_students_on_csv_import %>
+                </div>
+                <div class="form-group">
                  <%= f.label :iscity, 'Est une entité?' %>
                  <%= f.check_box :iscity %>
                 </div>

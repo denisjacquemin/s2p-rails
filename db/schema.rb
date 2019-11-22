@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_09_111232) do
+ActiveRecord::Schema.define(version: 2019_11_22_091836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -426,6 +426,7 @@ ActiveRecord::Schema.define(version: 2019_11_09_111232) do
     t.boolean "activate_message_date_limit", default: true
     t.boolean "acaweb", default: false
     t.boolean "is_ifapme", default: false
+    t.boolean "delete_students_on_csv_import", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
@@ -464,6 +465,7 @@ ActiveRecord::Schema.define(version: 2019_11_09_111232) do
     t.string "winpage_matricule"
     t.string "proeco_id"
     t.string "siel_id"
+    t.string "upload_uniq_id"
     t.index ["code"], name: "index_students_on_code", unique: true
   end
 
