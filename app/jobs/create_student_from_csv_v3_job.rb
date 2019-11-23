@@ -26,6 +26,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
     student[:lastname] = data[:lastname]&.strip&.capitalize
     student[:phones] = add_new_phones(student[:phones], [data[:phone3]&.to_s&.strip, data[:phone2]&.to_s&.strip].compact.uniq)
     student[:student_emails] = add_new_email(student[:student_emails], [data[:email1]&.to_s&.strip])
+    student[:idifapme] = data[:idifapme]
     student[:school_id] = school_id
     student
   end
@@ -38,6 +39,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       new_student[:firstname] = data[:firstname]
       new_student[:lastname] = data[:lastname]
       new_student[:school_id] = data[:school_id]
+      new_student[:idifapme] = data[:idifapme]
       new_student[:phones] = buildArrayOfPhone(data[:phones])
       new_student[:student_emails] =  buildArrayOfStudentEmail(data[:student_emails])
       new_student[:groups] = buildGroupAndGetgroupsIds(data[:groups], school_id)
@@ -47,6 +49,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       student_data = {}
       student_data[:firstname] = data[:firstname]
       student_data[:lastname] = data[:lastname]
+      student_data[:idifapme] = data[:idifapme]
       student_data[:phones] = updateArrayOfPhone(student.phones, data[:phones])
       student_data[:student_emails] =  updateArrayOfStudentEmail(student.student_emails, data[:student_emails])
       student_data[:groups] = buildGroupAndGetgroupsIds(data[:groups], school_id)

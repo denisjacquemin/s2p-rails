@@ -212,6 +212,7 @@ class StudentsController < ApplicationController
             :email => :email1,
             :courriel => :email1,
             :classe => :group1,
+            "n.app.".to_sym => :idifapme,
           }
         }
     
@@ -500,9 +501,7 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-          # if current_school.delete_students_on_import
-            # DeleteStudentsOnImportJob.perform_later(r, current_school.id)
-          # end
+          
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
@@ -572,7 +571,7 @@ class StudentsController < ApplicationController
     students = Student.default_order.includes([:phones, :student_emails]).where(school_id: current_school.id) unless params[:all_students].nil?
     students = Student.default_order.includes([:phones, :student_emails]).where(id: params[:student][:id], school_id: current_school.id) unless params[:student].nil?
     file_name = current_school.iscity ? "citoyens-" : "eleves-"
-    send_data(students.to_csv_file(current_school.iscity).encode("cp1252"),
+    send_data(students.to_csv_file(current_school.iscity, current_school.is_ifapme).encode("cp1252"),
       type: 'text/csv; charset=iso-8859-1; header=present',
       disposition: 'attachment',
       filename: "#{file_name}#{current_school.name.parameterize}-#{Date.today}.csv")

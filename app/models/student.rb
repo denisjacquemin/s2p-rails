@@ -145,17 +145,20 @@ class Student < ApplicationRecord
     crypt.decrypt_and_verify(email_encrypted)
   end
 
-  def self.to_csv_file(iscity = false)
+  def self.to_csv_file(iscity = false, isifapme = false)
     attributes = []
     if iscity
       attributes = ['Prenom', 'Nom', 'Emails', 'Entite', 'Rue', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
+    elsif isifapme
+      attributes = ['IDIfapme', 'Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code', 'Suivi Smartphone']
     else
       attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
     end
     CSV.generate(headers: true, :col_sep => ";") do |csv|
       csv << attributes
-
       all.each do |student|
+        idifapme = student.idifapme
+        followed = student.followers > 0
         firstname = (student.firstname == nil or student.firstname.strip == "")? nil : student.firstname
         lastname = (student.lastname == nil or student.lastname.strip == "")? nil : student.lastname
         emails = (student.emails == nil or student.emails.strip == "")? nil : student.emails
@@ -175,17 +178,33 @@ class Student < ApplicationRecord
           phone4 = phones[3] if phones.size >= 4
         end
 
-        csv << [firstname,
-                lastname,
-                emails,
-                level,
-                classroom,
-                phone1,
-                phone2,
-                phone3,
-                phone4,
-                code
-              ]
+        if isifapme
+          csv << [idifapme,
+                  firstname,
+                  lastname,
+                  emails,
+                  level,
+                  classroom,
+                  phone1,
+                  phone2,
+                  phone3,
+                  phone4,
+                  code,
+                  followed ? 'Oui': 'Non'
+                ]
+        else
+          csv << [firstname,
+            lastname,
+            emails,
+            level,
+            classroom,
+            phone1,
+            phone2,
+            phone3,
+            phone4,
+            code
+          ]
+        end
       end
     end
   end
