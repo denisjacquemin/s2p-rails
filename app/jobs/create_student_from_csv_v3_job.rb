@@ -24,8 +24,8 @@ class CreateStudentFromCsvV3Job < ApplicationJob
     student[:groups] = add_new_group(student[:groups], data[:group1])
     student[:firstname] = data[:firstname]&.strip&.capitalize
     student[:lastname] = data[:lastname]&.strip&.capitalize
-    student[:phones] = add_new_phones(student[:phones], [data[:phone3]&.to_s&.strip, data[:phone2]&.to_s&.strip].compact.uniq)
-    student[:student_emails] = add_new_email(student[:student_emails], [data[:email1]&.to_s&.strip])
+    student[:student_emails] = add_new_email(student[:student_emails], [data[:email1]&.to_s&.strip, data[:email2]&.to_s&.strip, data[:email3]&.to_s&.strip, data[:email4]&.to_s&.strip, data[:email5]&.to_s&.strip]&.compact&.uniq)
+    student[:phones] = add_new_phones(student[:phones], [data[:phone1]&.to_s&.strip, data[:phone2]&.to_s&.strip, data[:phone3]&.to_s&.strip, data[:phone4]&.to_s&.strip, data[:phone5]&.to_s&.strip]&.compact&.uniq)
     student[:idifapme] = data[:idifapme]
     student[:school_id] = school_id
     student
@@ -41,7 +41,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       new_student[:school_id] = data[:school_id]
       new_student[:idifapme] = data[:idifapme]
       new_student[:phones] = buildArrayOfPhone(data[:phones])
-      new_student[:student_emails] =  buildArrayOfStudentEmail(data[:student_emails])
+      new_student[:student_emails] =  buildArrayOfStudentEmail(data[:student_emails]) unless data[:student_emails].blank?
       new_student[:groups] = buildGroupAndGetgroupsIds(data[:groups], school_id)
 
       create_new_student(new_student, school_id)
@@ -110,7 +110,8 @@ class CreateStudentFromCsvV3Job < ApplicationJob
   def buildArrayOfPhone(numbers)
     # n.to_s.gsub(/\D/, '') keep only numbers, remove letters
     numbers.compact.map{|n| n.to_s.gsub(/\D/, '')}.uniq.map do |number|
-        Phone.new number: number
+        phonieObj = Phonie::Phone.parse(number, country_code: '32')&.to_s
+        Phone.new number: phonieObj
     end
   end
 
@@ -129,7 +130,8 @@ class CreateStudentFromCsvV3Job < ApplicationJob
 
     new_array_of_phones + new_numbers.map do |number|
       unless already_existing_numbers.include?(number)
-        Phone.new(number: number)
+        phonieObj = Phonie::Phone.parse(number, country_code: '32')&.to_s
+        Phone.new(number: phonieObj)
       end
     end.compact
   end
