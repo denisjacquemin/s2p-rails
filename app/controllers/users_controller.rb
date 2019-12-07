@@ -45,7 +45,15 @@ class UsersController < ApplicationController
     authorize @user
 
     @user_params = user_params
-    @user_params['schools'] = user_params[:schools].reject { |c| c.empty? } unless user_params[:schools].nil?
+
+    # handle schools update
+    # identifier les écoles à retirer, garder les écoles pour lesquels le @user à accès et pour lesquels le current_user n'a pas de droits   
+    
+    # identifier les écoles qui ne sont pas dans user_params[:schools] et qui sont dans current_user.schools
+    schools_to_remove = current_user.schools - user_params[:schools].map(&:to_i) || []
+    schhols_to_add = user_params[:schools].map(&:to_i) - @user.schools - [0]
+    @user_params['schools'] = @user.schools - schools_to_remove + schhols_to_add
+    # @user_params['schools'] = user_params[:schools].reject { |c| c.empty? } unless user_params[:schools].nil?
 
     # for each group_id, get all students_ids and assign them to @user.students_ids
     @user_params[:student_ids] = Group.where(id: @user_params[:group_ids]).collect {|g| g.students.pluck(:id)}.flatten.compact.uniq
