@@ -152,7 +152,7 @@ class Student < ApplicationRecord
     elsif isifapme
       attributes = ['IDIfapme', 'Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code', 'Suivi Smartphone']
     else
-      attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
+      attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code''Suivi Smartphone']
     end
     CSV.generate(headers: true, :col_sep => ";") do |csv|
       csv << attributes
@@ -202,7 +202,8 @@ class Student < ApplicationRecord
             phone2,
             phone3,
             phone4,
-            code
+            code,
+            followed ? 'Oui': 'Non'
           ]
         end
       end
