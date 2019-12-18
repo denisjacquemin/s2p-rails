@@ -190,6 +190,41 @@ class StudentsController < ApplicationController
           :file_encoding => encoding,
         }
 
+        upload_csv_acaweb_key_mapping = {
+          :unwanted_row => nil,
+          :force_simple_split => false,
+          :strip_chars_from_headers => /[\-"]/,
+          :quote_char => '"',
+          :chunk_size => 3000,
+          :remove_unmapped_keys => true,
+          :value_converters => {
+            :sent_message_by_email => SentMessageByEmailConverter
+          },
+          :col_sep => sniff(params[:csv].tempfile.path, [',',";"], encoding), 
+          :file_encoding => encoding,
+          :key_mapping => {
+            :nom => :lastname,
+            :prénom => :firstname,
+            :téléphone_1 => :phone1,
+            :téléphone_2 => :phone2,
+            :téléphone_3 => :phone3,
+            :téléphone_4 => :phone4,
+            :téléphone_5 => :phone5,
+            :email_1 => :email1,
+            :email_2 => :email2,
+            :email_3 => :email3,
+            :email_4 => :email4,
+            :email_5  => :email5,
+            :cours => :classroom_acaweb1,
+            :professeur => :classroom_acaweb2,
+            :degré => :classroom_acaweb3,
+            :classe => :classroom_acaweb4,
+            :jour => :classroom_acaweb5,
+            :heure => :classroom_acaweb6
+          }
+        }
+
+
         upload_csv_ifapme_key_mapping = {
           :unwanted_row => nil,
           :force_simple_split => false,
@@ -213,6 +248,7 @@ class StudentsController < ApplicationController
             :courriel => :email1,
             :classe => :group1,
             "n.app.".to_sym => :idifapme,
+            :centre => :centre,
           }
         }
     
@@ -345,6 +381,8 @@ class StudentsController < ApplicationController
         options = {}
         if current_school.is_ifapme
           options = upload_csv_ifapme_key_mapping
+        elsif current_school.acaweb
+          options = upload_csv_acaweb_key_mapping
         else
           options = upload_csv_defaults_options.merge(upload_csv_general_key_mapping)
         end
@@ -508,7 +546,7 @@ class StudentsController < ApplicationController
             end
           end
 
-          if current_school.is_ifapme
+          if current_school.is_ifapme or current_school.acaweb
             CreateStudentFromCsvV3Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
           else 
             CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
