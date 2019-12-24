@@ -1,3 +1,14 @@
+<% unless @message.scheduled_publish.blank? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-warning" role="alert">
+        <p>
+        Ce message sera envoyé le <strong><%= @message.scheduled_publish.utc.strftime("%d/%m/%Y %H:%M") %></strong> - <a href="#" class="schedule_sending" style="color:#fff;text-decoration:underline">Modifier</a> - <a href="#" class="cancel_schedule_sending" style="color:#fff;text-decoration:underline">Annuler</a>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
 <div class="row">
   <div class="col-xs-12">
     <ul class="nav nav-tabs" role="tablist" id="message_tabs">
@@ -58,6 +69,7 @@
               <div class="pull-right hidden-xs"><%= f.submit submit_label, class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
             </div>
           </div>
+          <%= hidden_field_tag 'scheduled_datetime', @message.scheduled_publish %>
           <%= render 'form_details', f: f, message: @message %>
           <%= render 'form_groups', f: f, message: @message %>
         <% end %>

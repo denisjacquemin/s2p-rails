@@ -8,4 +8,46 @@
     </span>
   </small></h1>
 <hr />
-<%= render 'form', {message: @message, mfile: @mfile} %>
+<%= render 'form', {message: @message } %>
+<div class="modal fade" id="schedule_sending" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Planifier l'envoi du message</h4>
+      </div>
+      <div class="modal-body" >
+        <div style="overflow:hidden;">
+          <div class="form-group">
+              <div class="row">
+                  <div class="col-md-12">
+                    <div>
+                      <div id="datetimepicker12"></div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <script type="text/javascript">
+              $(function () {
+                  $('#datetimepicker12').datetimepicker({
+                      inline: true,
+                      sideBySide: true,
+                      stepping: 10,
+                      minDate: moment(),
+                      showTodayButton: true,
+                      locale: 'fr',
+                      <% unless @message.scheduled_publish.blank? %>
+                      defaultDate: '<%= @message.scheduled_publish.utc.strftime('%m/%d/%Y %H:%M') %>'
+                      <% end %>
+                  });
+              });
+          </script>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary" id="save_scheduled_date">Enregistrer</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

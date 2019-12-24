@@ -84,7 +84,7 @@ $(document).on 'turbolinks:load', ->
   ready()
 
 load_billing_students = () ->
-  $.ajax
+  $.ajax 
     url: '/messages/billed_students_list'
     data: { id: $('#message_id').val()}
     success: (html) ->
@@ -211,6 +211,16 @@ ready = () ->
       $('.message_mtype').hide()
       $('.save-form').hide()
       $('.send_by_sms_container').show()
+  $('.schedule_sending').click (e) ->
+    e.preventDefault()
+    $('#schedule_sending').modal({})
+  $('.cancel_schedule_sending').click (e) ->
+    e.preventDefault()
+    $('#scheduled_datetime').val('')
+    $('.edit_message')[0].submit()
+  $('#save_scheduled_date').click (e) ->
+    e.preventDefault()
+    $('.edit_message')[0].submit()
   $('.submit_with_status').click (e) ->
     e.preventDefault()
     anchor = $(this).closest('a')
@@ -233,5 +243,7 @@ ready = () ->
     else
       submit_with_status(status)
 
+  $('#datetimepicker12').on 'dp.change', (event) ->
+    $('#scheduled_datetime').val(event.date.format("YYYY-MM-DD HH:mm"))
 
   $('[data-toggle="popover"]').popover()
