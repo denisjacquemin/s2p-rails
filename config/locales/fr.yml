@@ -152,6 +152,7 @@ fr:
       default: "%d/%m/%Y"
       short: "%e %b"
       long: "%e %B %Y"
+      excel: "%d/%m/%y %H:%M"
     month_names:
     -
     - janvier

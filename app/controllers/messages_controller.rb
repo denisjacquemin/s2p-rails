@@ -68,7 +68,7 @@ class MessagesController < ApplicationController
     j = JSON.parse params[:message_form_formdata]
 
 
-    j.prepend({label: 'horodateur', value: I18n.l(Time.now.to_datetime().in_time_zone, format: :short)})
+    j.prepend({label: 'horodateur', value: I18n.l(Time.now.to_datetime().in_time_zone, format: :excel)})
     @form = Form.new(muuid: params[:muuid], formdata: JSON.generate(j))
 
     @form.save
@@ -279,6 +279,9 @@ class MessagesController < ApplicationController
     # end
     @message_params = message_params
 
+    # handle scheduled_date
+    @message.scheduled_publish = DateTime.parse(params[:scheduled_datetime]) unless params[:scheduled_datetime].blank?
+    @message.scheduled_publish = '' if params[:scheduled_datetime].blank?
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     if submitted_groups_ids.present?
       @message.groups = submitted_groups_ids.map(&:to_i)
@@ -292,7 +295,6 @@ class MessagesController < ApplicationController
     unless params[:change_status] == 'true'
       @message_params[:status] = @message.status
     end
-
     if @message.update(@message_params)
       redirect_to edit_message_path(@message), notice: 'Le message a été mis à jour.'
     else
@@ -471,7 +473,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, "message_category_ids" => [])
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, :scheduled_datetime, "message_category_ids" => [])
     end
 
     # def set_s3_direct_post
