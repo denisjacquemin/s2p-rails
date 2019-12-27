@@ -44,7 +44,7 @@
                     <div class="row">
                       <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="<%= message[0] %>">
                           <div class="row">
-                            <div class="col-xs-12"><div><span class="title"><%= message[1] %> <% if message[2] %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
+                            <div class="col-xs-12"><div><span class="title"><%= message[1] %> <% if message[7] %><i class="glyphicon glyphicon-hourglass"></i> <% end %> <% if message[2] %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
                             <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label <%= message[6] %>"> </span></div>
                             <% if message[3].present? %>
                             <div class="col-xs-12"><div class="content"><%= strip_tags(message[3]) %></div></div>
@@ -83,7 +83,7 @@
                 <div class="row">
                   <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="{{{objectID}}}">
                       <div class="row">
-                        <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}} {{#has_form}}<i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i>{{/has_form}}</span></div></div>
+                        <div class="col-xs-12"><div><span class="title">{{{_highlightResult.title.value}}} {{#scheduled_publish}}<i class="glyphicon glyphicon-hourglass"></i>{{/scheduled_publish}}  {{#has_form}}<i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i>{{/has_form}}</span></div></div>
                         <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label {{{status}}}"> </span></div>
                         {{#content}}
                         <div class="col-xs-12"><div class="content">{{{_snippetResult.content.value}}}...</div></div>

@@ -9,7 +9,7 @@ class Message < ApplicationRecord
 
   #todo https://github.com/algolia/algoliasearch-rails#restrict-indexing-to-a-subset-of-your-data
   algoliasearch sanitize: true do
-    attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta
+    attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta, :scheduled_publish
 
     attribute :content do
       content.truncate(5000)

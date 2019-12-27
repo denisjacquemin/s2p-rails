@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <div class="alert alert-warning" role="alert">
         <p>
-        Ce message sera envoyé le <strong><%= @message.scheduled_publish.utc.strftime("%d/%m/%Y %H:%M") %></strong> - <a href="#" class="schedule_sending" style="color:#fff;text-decoration:underline">Modifier</a> - <a href="#" class="cancel_schedule_sending" style="color:#fff;text-decoration:underline">Annuler</a>
+        <i class="glyphicon glyphicon-hourglass"></i> Ce message sera envoyé le <strong><%= @message.scheduled_publish.utc.strftime("%d/%m/%Y %H:%M") %></strong> - <a href="#" class="schedule_sending" style="color:#fff;text-decoration:underline">Modifier</a> - <a href="#" class="cancel_schedule_sending" style="color:#fff;text-decoration:underline">Annuler</a>
         </p>
       </div>
     </div>
