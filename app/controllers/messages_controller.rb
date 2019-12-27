@@ -280,7 +280,7 @@ class MessagesController < ApplicationController
     @message_params = message_params
 
     # handle scheduled_date
-    @message.scheduled_publish = DateTime.parse(params[:scheduled_datetime]) unless params[:scheduled_datetime].blank?
+    @message.scheduled_publish = Time.zone.parse(params[:scheduled_datetime]).utc unless params[:scheduled_datetime].blank?
     @message.scheduled_publish = '' if params[:scheduled_datetime].blank?
     submitted_groups_ids = params[:group][:id] unless params[:group].nil?
     if submitted_groups_ids.present?

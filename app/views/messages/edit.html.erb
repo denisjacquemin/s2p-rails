@@ -37,7 +37,7 @@
                       showTodayButton: true,
                       locale: 'fr',
                       <% unless @message.scheduled_publish.blank? %>
-                      defaultDate: '<%= @message.scheduled_publish.utc.strftime('%m/%d/%Y %H:%M') %>'
+                      defaultDate: '<%= @message.scheduled_publish.strftime('%m/%d/%Y %H:%M') %>'
                       <% end %>
                   });
               });
