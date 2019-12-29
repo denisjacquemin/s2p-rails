@@ -211,6 +211,7 @@ ready = () ->
       $('.message_mtype').hide()
       $('.save-form').hide()
       $('.send_by_sms_container').show()
+
   $('.schedule_sending').click (e) ->
     e.preventDefault()
     $('#schedule_sending').modal({})
@@ -220,7 +221,9 @@ ready = () ->
     $('.edit_message')[0].submit()
   $('#save_scheduled_date').click (e) ->
     e.preventDefault()
+    $('#scheduled_datetime').val($('#theDate').val())
     $('.edit_message')[0].submit()
+
   $('.submit_with_status').click (e) ->
     e.preventDefault()
     anchor = $(this).closest('a')
@@ -242,8 +245,5 @@ ready = () ->
           return
     else
       submit_with_status(status)
-
-  $('#datetimepicker12').on 'dp.change', (event) ->
-    $('#scheduled_datetime').val(event.date.format("YYYY-MM-DD HH:mm"))
 
   $('[data-toggle="popover"]').popover()

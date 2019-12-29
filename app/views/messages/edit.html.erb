@@ -22,7 +22,9 @@
               <div class="row">
                   <div class="col-md-12">
                     <div>
-                      <div id="datetimepicker12"></div>
+                      <div id="datetimepicker12">
+                        <input type='hidden' id="theDate" />
+                      </div>
                     </div>
                   </div>
               </div>
@@ -36,8 +38,9 @@
                       minDate: moment(),
                       showTodayButton: true,
                       locale: 'fr',
+                      format: 'YYYY-MM-DD HH:mm',
                       <% unless @message.scheduled_publish.blank? %>
-                      defaultDate: '<%= @message.scheduled_publish.strftime('%m/%d/%Y %H:%M') %>'
+                      defaultDate: '<%= @message.scheduled_publish.strftime('%Y/%m/%d %H:%M') %>'
                       <% end %>
                   });
               });
