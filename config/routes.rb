@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   get 'help/payconiq', to: 'faq#payconiq'
   get 'help/form_template', to: 'faq#form_template'
   get 'help/traduction_des_messages', to: 'faq#traduction_des_messages'
+  get 'help/bug_android_chrome', to: 'faq#bug_android_chrome.html'
   get 'gts', to: 'faq#gts'
 
 
