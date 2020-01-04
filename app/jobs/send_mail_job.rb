@@ -1,5 +1,5 @@
 class SendMailJob < ApplicationJob
-  queue_as :SendMailJob
+  queue_as :default
 
   def perform(message_id)
     puts "[SendMailJob info: #{message_id}]"
