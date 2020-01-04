@@ -6,4 +6,5 @@ task :send_scheduled_messages => :environment do
 
   @message_to_send.each do |message|
     SendMailJob.perfom_later(message.id)
+  end
 end
