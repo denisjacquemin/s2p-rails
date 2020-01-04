@@ -2,7 +2,7 @@ class SendMailJob < ApplicationJob
   queue_as :default
 
   def perform(message_id)
-    logger.info "[SendMailJob info: #{message_id}]"
+    puts "[SendMailJob info: #{message_id}]"
     message = Message.find message_id
     ret = true
     unless message.nil?
@@ -14,6 +14,6 @@ class SendMailJob < ApplicationJob
   end
 
   rescue_from(Exception) do |exception|
-    logger.info "Exception in SendMailJob: #{exception.inspect}"
+    puts "Exception in SendMailJob: #{exception.inspect}"
    end
 end
