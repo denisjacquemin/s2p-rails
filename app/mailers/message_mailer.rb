@@ -75,7 +75,6 @@ class MessageMailer < ApplicationMailer
     if @message.author.display_email_address
       reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || no_reply
     end
-
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
     logger.info "message_email response: #{resp.inspect}"
   end
