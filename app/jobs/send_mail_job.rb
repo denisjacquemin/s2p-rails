@@ -1,10 +1,10 @@
 class SendMailJob < ApplicationJob
-  queue_as :default
+  queue_as :SendMailJob
 
   def perform(message_id)
     puts "[SendMailJob info: #{message_id}]"
     message = Message.find message_id
-
+    byebug
     unless message.nil?
       message.status = message.status == 'published' ? 'republished' : 'published'
       message.scheduled_publish = nil
