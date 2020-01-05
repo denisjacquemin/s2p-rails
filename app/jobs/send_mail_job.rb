@@ -7,8 +7,9 @@ class SendMailJob < ApplicationJob
 
   def perform(message_id)
     puts "[SendMailJob info: #{message_id}]"
-    
-    # message = Message.find message_id
+
+    message = Message.find message_id
+    puts "[SendMailJob message: #{message.inspect}"
     # ret = true
     # unless message.nil?
     #   message.status = message.status == 'published' ? 'republished' : 'published'
