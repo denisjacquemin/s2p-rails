@@ -1,6 +1,6 @@
 desc "Send Scheduled Messages"
 task :send_scheduled_messages => :environment do
-  AlertAdminMailer.send_alert("Send Scheduled Messages Running #{10.minutes.ago} <> #{Time.current} #{ Message.where("scheduled_publish between ? and ?", 10.minutes.ago, Time.current).count}").deliver_later
+  AlertAdminMailer.send_alert("Send Scheduled Messages Running #{10.minutes.ago} <> #{Time.current} #{ Message.last.title}").deliver_later
 
   # Rails.logger = Logger.new(STDOUT)
   
