@@ -7,6 +7,7 @@ class SendMailJob < ApplicationJob
 
   def perform(message_id)
     puts "[SendMailJob info: #{message_id}]"
+    
     # message = Message.find message_id
     # ret = true
     # unless message.nil?
