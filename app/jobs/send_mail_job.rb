@@ -10,13 +10,13 @@ class SendMailJob < ApplicationJob
 
     message = Message.find message_id
     puts "[SendMailJob message: #{message.inspect}"
-    # ret = true
-    # unless message.nil?
-    #   message.status = message.status == 'published' ? 'republished' : 'published'
-    #   message.scheduled_publish = nil
-    #   ret =  message.save
-    # end
-    # return ret
+    ret = true
+    unless message.nil?
+      message.status = message.status == 'published' ? 'republished' : 'published'
+      message.scheduled_publish = nil
+      ret =  message.save
+    end
+    return ret
   end
 
   
