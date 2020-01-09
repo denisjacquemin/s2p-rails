@@ -150,7 +150,7 @@ class Student < ApplicationRecord
     if iscity
       attributes = ['Prenom', 'Nom', 'Emails', 'Entite', 'Rue', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code']
     elsif isifapme
-      attributes = ['IDIfapme', 'Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code', 'Suivi Smartphone']
+      attributes = ['IDIfapme', 'Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code', 'Suivi Smartphone', 'Groupes']
     else
       attributes = ['Prenom', 'Nom', 'Emails', 'Annee', 'Titulaire', 'Telephone 1', 'Telephone 2', 'Telephone 3', 'Telephone 4', 'Code', 'Suivi Smartphone']
     end
@@ -165,6 +165,8 @@ class Student < ApplicationRecord
         level = (student.level == nil or student.level.strip == "")? nil : student.level
         classroom = (student.classroom == nil or student.classroom.strip == "")? nil : student.classroom
         code = (student.code == nil or student.code.strip == "")? nil : student.code
+        groupes = Group.find(student.groups).pluck(:name).join(', ')
+
 
         phone1 = ""
         phone2 = ""
@@ -190,7 +192,8 @@ class Student < ApplicationRecord
                   phone3,
                   phone4,
                   code,
-                  followed ? 'Oui': 'Non'
+                  followed ? 'Oui': 'Non',
+                  groupes
                 ]
         else
           csv << [firstname,
