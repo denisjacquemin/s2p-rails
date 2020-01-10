@@ -22,7 +22,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
   def build_student(already_existing_student, data, school_id)
     student = already_existing_student || {}
     student[:groups] = add_new_group(student[:groups], data[:group1])
-    if (data[:group1].downcase.include?('marche'))
+    if (data[:group1]&.downcase&.include?('marche'))
       student[:groups] = add_new_group(student[:groups], "Centre Y2")
     else
       student[:groups] = add_new_group(student[:groups], "Centre #{data[:centre]}") unless data[:centre].blank?
@@ -32,6 +32,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
     student[:student_emails] = add_new_email(student[:student_emails], [data[:email1]&.to_s&.strip, data[:email2]&.to_s&.strip, data[:email3]&.to_s&.strip, data[:email4]&.to_s&.strip, data[:email5]&.to_s&.strip]&.compact&.uniq)
     student[:phones] = add_new_phones(student[:phones], [data[:phone1]&.to_s&.strip, data[:phone2]&.to_s&.strip, data[:phone3]&.to_s&.strip, data[:phone4]&.to_s&.strip, data[:phone5]&.to_s&.strip]&.compact&.uniq)
     student[:idifapme] = data[:idifapme]
+    student[:level] = data[:level]
     student[:school_id] = school_id
     student
   end
@@ -48,6 +49,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       new_student[:phones] = buildArrayOfPhone(data[:phones])
       new_student[:student_emails] =  buildArrayOfStudentEmail(data[:student_emails]) unless data[:student_emails].blank?
       new_student[:groups] = buildGroupAndGetgroupsIds(data[:groups], school_id)
+      new_student[:level] = data[:level]
 
       create_new_student(new_student, school_id)
     else
@@ -58,6 +60,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       student_data[:phones] = updateArrayOfPhone(student.phones, data[:phones])
       student_data[:student_emails] =  updateArrayOfStudentEmail(student.student_emails, data[:student_emails])
       student_data[:groups] = buildGroupAndGetgroupsIds(data[:groups], school_id)
+      student_data[:level] = data[:level]
 
       update_student(student, student_data, school_id)
     end
