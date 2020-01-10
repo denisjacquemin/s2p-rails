@@ -52,7 +52,7 @@
                     <div class="row">
                       <div class="title-and-content col-xs-12 col-sm-8 col-md-8 col-lg-10" data-message-id="<%= message[0] %>">
                           <div class="row">
-                            <div class="col-xs-12"><div><span class="title"><%= message[1] %> <% if message[7] %><i class="glyphicon glyphicon-hourglass"></i> <% end %> <% if message[2] %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
+                            <div class="col-xs-12"><div><span class="title"><%= message[1] %> <% if message[7] %><i class="glyphicon glyphicon-hourglass" rel="tooltip" data-toggle="tooltip" data-placement="top" title="<%= "Ce message sera envoyé le " + message[7].strftime("%d/%m/%Y %H:%M")%>"></i> <% end %> <% if message[2] %><i class="material-icons" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Contient un formulaire">rate_review</i><% end %></span></div></div>
                             <div class="visible-xs col-xs-4 col-xs-offset-8"><span title="" class="pull-right label <%= message[6] %>"> </span></div>
                             <% if message[3].present? %>
                             <div class="col-xs-12"><div class="content"><%= strip_tags(message[3]) %></div></div>
