@@ -57,7 +57,7 @@ class MessageMailer < ApplicationMailer
     end
 
 
-    logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash)}"
+    # logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash)}"
 
 
     # unless codes.blank?
@@ -75,8 +75,9 @@ class MessageMailer < ApplicationMailer
     if @message.author.display_email_address
       reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || no_reply
     end
+    logger.info "Sending #{@message.title} to #{to.inspect}"
     resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
-    logger.info "message_email response: #{resp.inspect}"
+    # logger.info "message_email response: #{resp.inspect}"
   end
 
   rescue_from(StandardError) do |exception|
