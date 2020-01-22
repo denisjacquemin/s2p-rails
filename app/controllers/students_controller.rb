@@ -248,7 +248,7 @@ class StudentsController < ApplicationController
             :courriel => :email1,
             :classe => :group1,
             "n.app.".to_sym => :idifapme,
-            :centre => :centre,
+            :centre => :centre
           }
         }
     
@@ -546,9 +546,11 @@ class StudentsController < ApplicationController
             end
           end
 
-          if current_school.is_ifapme or current_school.acaweb
+          if current_school.is_ifapme 
             CreateStudentFromCsvV3Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
-          else 
+          elsif current_school.acaweb
+            CreateStudentFromCsvAcawebJob.perform_later(r, current_school.id, current_user, upload_uniq_id) 
+          else
             CreateStudentFromCsvV2Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
           end
 

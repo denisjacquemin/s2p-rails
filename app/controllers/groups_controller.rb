@@ -70,7 +70,6 @@ class GroupsController < ApplicationController
     submitted_members_ids = [] if submitted_members_ids.nil?
 
     actual_members_to_delete = actual_members_ids - submitted_members_ids.map(&:to_i)
-
     Student.add_group(submitted_members_ids, params[:id]) if submitted_members_ids.any?
     Student.remove_group(actual_members_to_delete, params[:id]) if actual_members_to_delete.any?
     redirect_to edit_group_path(@group), notice: t('controller.groups.update.notice.success')
