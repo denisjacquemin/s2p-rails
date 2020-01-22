@@ -3,14 +3,18 @@
 <%= hidden_field_tag 'worflow_active', @workflow_active %>
 <%= hidden_field_tag 'role', @current_user_role %>
 
-<div class="row">
+<%
+=begin%>
+ <div class="row">
   <div class="col-xs-12">
     <div class="alert alert-info" role="alert" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;">
       <p>
         Certains parents utilisant l'app smartphone doivent rentrer à nouveau leur code, ce n'est pas normal, <a href="/help/bug_android_chrome.html" target="_blank" style="text-decoration:underline">voici l'explication</a></p>
     </div>
   </div>
-</div>
+</div> 
+<%
+=end%>
 <div class="row algolia_js algolia algolia_messages">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
