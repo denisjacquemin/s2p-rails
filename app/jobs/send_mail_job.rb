@@ -1,5 +1,5 @@
 class SendMailJob < ApplicationJob
-  queue_as :default
+  queue_as :SendMailJob
 
   rescue_from(Exception) do |exception|
     # puts "Exception in SendMailJob: #{exception.inspect}"
