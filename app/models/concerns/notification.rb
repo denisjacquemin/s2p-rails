@@ -125,7 +125,7 @@ module Notification extend ActiveSupport::Concern
           }
           n.content_available = true
           expiry_value = Time.now + 2.day
-          n.expiry = expiry_value.to_i
+          # n.expiry = expiry_value.to_i
           n.badge = 1
           n.sound = true
           n.data = data
