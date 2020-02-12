@@ -22,9 +22,5 @@ class SendMailJob < ApplicationJob
     AlertAdminMailer.send_alert("Exception in SendMailJob: #{exception.inspect}").deliver_later
   end
 
-  def destroy_failed_jobs?
-    false
-  end
-
   
 end
