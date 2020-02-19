@@ -71,7 +71,7 @@ class Message < ApplicationRecord
   end
 
   def created_at_ISO8601
-    self.created_at.utc.iso8601
+    self.updated_at.utc.iso8601
   end
 
   # def has_form
