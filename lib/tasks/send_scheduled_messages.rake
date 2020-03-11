@@ -12,8 +12,8 @@ task :send_scheduled_messages => :environment do
 
   @message_to_send.each do |message|
     # AlertAdminMailer.send_alert("Message to send: #{message.id}").deliver_later
-    # logger.info "    SendMailJob.perform_later(message.id) #{message.id}"
-    SendMailJob.perform_later(message.id)
+    puts "    SendMailJob.perform_later(message.id) #{message.id}"
+    res = SendMailJob.perform_later(message.id)
     # message.status = message.status == 'published' ? 'republished' : 'published'
     # message.scheduled_publish = nil
     # ret =  message.save
