@@ -341,7 +341,17 @@ class StudentsController < ApplicationController
             "te_resp2_tel1".to_sym => :phone4,
             "te_resp2_tel2".to_sym => :phone5,
             "te_resp2_tel3".to_sym => :phone6,
-    
+            # SIEL SECONDAIRE
+            "resp1_email".to_sym => :email1,
+            "resp2_email".to_sym => :email2,
+            "co_annee_etude".to_sym => :level1,
+            "te_classe".to_sym => :level2,
+            "resp1_tel1".to_sym => :phone1,
+            "resp1_tel2".to_sym => :phone2,
+            "resp1_tel3".to_sym => :phone3,
+            "resp2_tel1".to_sym => :phone4,
+            "resp2_tel2".to_sym => :phone5,
+            "resp2_tel3".to_sym => :phone6,
             # gestscol
             #             :nom => :lastname,
             #             "prénom".to_sym  => :firstname,
@@ -538,13 +548,15 @@ class StudentsController < ApplicationController
         upload_uniq_id = Digest::MD5.hexdigest(DateTime.now.to_s)
         
         students_not_to_delete = Set[]
+        grades = []
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-          
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
             end
-          end
+          end 
+
+
 
           if current_school.is_ifapme 
             CreateStudentFromCsvV3Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
@@ -593,6 +605,9 @@ class StudentsController < ApplicationController
         if params[:delete_students] and current_school.delete_students_on_csv_import
           DeleteStudentsOnImportJob.perform_later(students_not_to_delete.to_a, current_school.id)
         end
+
+        # UpdateGradesJob.perform_later(current_school.id)
+
       rescue Exception => e
         render :csv, :locals => { :error_message => e.message, message: '' } and return
       end
