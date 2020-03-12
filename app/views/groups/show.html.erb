@@ -17,7 +17,7 @@
             <td><%= s.firstname %></td>
             <td>
               <% if s.followers > 0 %><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><% if s.followers > 1 %><sup><%= s.followers %></sup><% end %><% end %>
-              <% if s.sent_message_by_email %><i class="fa fa-envelope"></i><% end %>
+              <% if s.sent_message_by_email and s.student_emails.count > 0 %><i class="fa fa-envelope"></i><% end %>
             </td>
           </tr>
         <% end %>
