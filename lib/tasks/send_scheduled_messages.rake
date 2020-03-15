@@ -4,7 +4,7 @@ task :send_scheduled_messages => :environment do
   # AlertAdminMailer.send_alert("Send Scheduled Messages Running #{10.minutes.ago} <> #{Time.current}").deliver_later
 
   Rails.logger = Logger.new(STDOUT)
-  logger.info "Running send_scheduled_messages, output form logger"
+  Rails.logger.info "Running send_scheduled_messages, output form logger"
   puts "Running send_scheduled_messages, output form puts"
 
 
