@@ -6,11 +6,12 @@ task :send_scheduled_messages => :environment do
   # Rails.logger = Logger.new(STDOUT)
   
 
-  @message_to_send = Message.where("scheduled_publish between ? and ?", 10.minutes.ago, Time.current)  
+  @messages_to_send = Message.where("scheduled_publish between ? and ?", 10.minutes.ago, Time.current)  
   
   # AlertAdminMailer.send_alert("message_to_send: #{@message_to_send.inspect}").deliver_later
+  puts " SendScheduledMessages #{@messages_to_send.count}"
 
-  @message_to_send.each do |message|
+  @messages_to_send.each do |message|
     # AlertAdminMailer.send_alert("Message to send: #{message.id}").deliver_later
     puts "    SendMailJob.perform_later(message.id) #{message.id}"
     res = SendMailJob.perform_later(message.id)
