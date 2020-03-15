@@ -1,6 +1,6 @@
 class RatingChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "rating_channel"
+    # stream_from "rating_channel"
   end
 
   def unsubscribed
@@ -8,9 +8,13 @@ class RatingChannel < ApplicationCable::Channel
   end
 
   def save(data)
+    # validates_uniqueness_of :student_id, :scope => [:school_id, :competency_id, :period_id, :rating_year_id]
+
     rating = Rating.find_or_create_by(student_id: data['rating']['s-id'], school_id: data['rating']['sc-id'], competency_id: data['rating']['current_competency_selected_id'], period_id: data['rating']['p-id'], rating_year_id: data['rating']['ry-id'])
     rating.rating = data['rating']['value']
-    rating.save
+    
+    ret = rating.save
+    
 
 
     # ActionCable.server.broadcast "rating_channel", rating: data['rating']
