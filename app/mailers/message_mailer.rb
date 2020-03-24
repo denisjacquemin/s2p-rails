@@ -75,14 +75,12 @@ class MessageMailer < ApplicationMailer
     if @message.author.display_email_address
       reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || no_reply
     end
-    logger.info "Sending #{@message.title} to #{to.inspect}"
-    resp = mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
-    # logger.info "message_email response: #{resp.inspect}"
+    mail(from: from, to: 'konecto@konectoapp.com', subject: title, reply_to: reply_to )
   end
 
   rescue_from(StandardError) do |exception|
-   logger.info "error raised in message_email: #{exception}"
-   logger.info exception.backtrace
+    logger.info "error raised in message_email: #{exception}"
+    logger.info exception.backtrace
   end
 
   private

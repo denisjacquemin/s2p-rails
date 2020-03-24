@@ -10,7 +10,6 @@ module Notification extend ActiveSupport::Concern
       else
         devices = getDevicesByGroupsAndStudents(groups_ids, students_ids)
       end
-      logger.error "[PW] devices: #{devices.inspect}"
 
       devicesAndroid = devices.android
       devicesIOS = devices.ios
