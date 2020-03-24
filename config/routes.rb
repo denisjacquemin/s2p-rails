@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post 'ratings/change_group', to: 'ratings#change_group'
   post 'ratings/change_student', to: 'ratings#change_student'
   post 'ratings/report_to_pdf', to: 'ratings#report_to_pdf'
+  get 'ratings/choose_report_period', to: 'ratings#choose_report_period'
+  post 'ratings/reports_to_pdf', to: 'ratings#reports_to_pdf'
 
 
   get 'ratings/by_student', to: 'ratings#by_student', as: 'by_student'
@@ -87,7 +89,8 @@ Rails.application.routes.draw do
   get 'help/payconiq', to: 'faq#payconiq'
   get 'help/form_template', to: 'faq#form_template'
   get 'help/traduction_des_messages', to: 'faq#traduction_des_messages'
-  get 'help/bug_android_chrome', to: 'faq#bug_android_chrome.html'
+  get 'help/bug_android_chrome', to: 'faq#bug_android_chrome'
+  get 'help/wetransfer', to: 'faq#wetransfer'
   get 'gts', to: 'faq#gts'
 
 
