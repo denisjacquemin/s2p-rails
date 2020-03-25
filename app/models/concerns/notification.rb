@@ -15,7 +15,7 @@ module Notification extend ActiveSupport::Concern
       devicesIOS = devices.ios
       if devicesIOS.any?
         dataIOS = {
-          "title": truncate(message.title, :length => 200),
+          "title": message.title&.slice(0, 200),
           "message_id": message.id,
           "content-available": 1,
           "notId": message.id
@@ -44,8 +44,8 @@ module Notification extend ActiveSupport::Concern
           "message_id": message.id,
           "notId": message.id,
           "priority": 2,
-          "title": truncate(message.title, :length => 200),
-          "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
+          "title": message.title&.slice(0, 200),
+          "message": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
           "badge": 1,
           "content-available": "1",
           "visibility": 1 # public
@@ -179,7 +179,7 @@ module Notification extend ActiveSupport::Concern
           n.device_token = device.registration_id # 64-character hex string
           n.alert = message.title
           n.data = {
-            "title": truncate(message.title, :length => 200),
+            "title": message.title&.slice(0, 200),
             "message_id": message.id,
             "content-available": 1
           }
@@ -207,8 +207,8 @@ module Notification extend ActiveSupport::Concern
             "message_id": message.id,
             "notId": message.id,
             "priority": 2,
-            "title": truncate(message.title, :length => 200),
-            "message": truncate(ActionController::Base.helpers.strip_tags(message.content), :length => 250),
+            "title": message.title&.slice(0, 200),
+            "message": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
             "content-available": "1",
             "visibility": 1 # public
           }
