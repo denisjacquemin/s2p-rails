@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def noalgolia_index
-    @messages = policy_scope(Message).where(school_id: current_school.id).order(created_at: :desc)
+    @messages = policy_scope(Message).where(school_id: current_school.id).order(updated_at: :desc)
     authorize @messages
     @school_id = current_school
   end
