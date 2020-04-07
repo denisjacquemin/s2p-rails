@@ -306,6 +306,8 @@ class StudentsController < ApplicationController
             # keys from ProEco
             :matric_info => :proeco_id,
             :nom_elève => :lastname,
+            :nom_élève => :lastname, # APSchool
+            :prénom_élève => :firstname, # APSchool
             :prénom_elève => :firstname,
             :gsm_père => :phone1,
             :gsm_mère => :phone2,
