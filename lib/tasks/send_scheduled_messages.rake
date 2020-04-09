@@ -14,10 +14,10 @@ task :send_scheduled_messages => :environment do
 
   @messages_to_send.each do |message|
     # AlertAdminMailer.send_alert("Message to send: #{message.id}").deliver_later
-    Rails.logger.debug "SendMailJob.perform_now(message.id) #{message.id}"
+    Rails.logger.debug "SendMessageob.perform_now(message.id) #{message.id}"
 
     if message.groups.present? or message.students.present?
-      res = SendMailJob.perform_now(message.id)
+      res = SendMessageJob.perform_now(message.id)
     end
     # message.status = message.status == 'published' ? 'republished' : 'published'
     # message.scheduled_publish = nil

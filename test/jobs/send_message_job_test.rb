@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SendMailJobTest < ActiveJob::TestCase
+class SendMessageJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end
