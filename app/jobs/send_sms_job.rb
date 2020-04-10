@@ -8,7 +8,7 @@ class SendSmsJob < ApplicationJob
   end
 
   rescue_from(Exception) do |exception|
-   logger "Exception in SendSmsJob: #{exception.inspect}"
+    AlertAdminMailer.send_alert("Exception in SendSmsJob: #{exception.inspect}").deliver_now
   end
 
 private
@@ -58,6 +58,7 @@ private
       end
       return nbr_sms_sent
     rescue CALLR::CallrException, CALLR::CallrLocalException => e
+      AlertAdminMailer.send_alert("Exception in SendSmsJob: #{e.inspect}").deliver_now
       puts "[SMS] CALLR ERROR SMS: #{e.inspect()}"
       puts "[SMS] CALLR ERROR SMS MESSAGE: #{e.msg}"
       puts "[SMS] CALLR ERROR SMS DATA: ", e.data
