@@ -2,6 +2,8 @@ class SendSmsJob < ApplicationJob
   queue_as :default
 
   def perform(message, phones)
+    AlertAdminMailer.send_alert("In SendSmsJob.perform: #{message}").deliver_now
+
     logger.info "[SMS] In SendSmsJob #{message.title} #{phones.inspect}"
     nbr_sms_sent = sendMessageSMS(message, phones)
     message.school.decrement!(:sms_provision, nbr_sms_sent) if nbr_sms_sent > 0
@@ -39,6 +41,8 @@ private
   end
 
   def sendMessageCallr(message, phones)
+    AlertAdminMailer.send_alert("In sendMessageCallr: #{message}").deliver_now
+
     begin
       puts "[SMS] CALLR sending #{message.title} to #{phones}"
       api = CALLR::Api.new(ENV["CALLR_LOGIN"], ENV["CALLR_PASSWORD"])
