@@ -22,6 +22,8 @@ class SendMessageJob < ApplicationJob
        send_message_notifications(message) if message.send_to_app
 
        if message.send_by_sms and message.school.has_sms_provision?
+        AlertAdminMailer.send_alert("SendMessageJob begin sending: #{message.title}").deliver_now
+
         student_ids = find_student_ids(message.groups, message.students, message.school.iscity, message.message_categories)
 
         phones = Student.joins(:phones).where(id: student_ids).pluck( :id, :"phones.number")
