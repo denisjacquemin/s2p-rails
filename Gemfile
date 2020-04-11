@@ -30,6 +30,8 @@ gem "recaptcha", require: "recaptcha/rails"
 
 gem "mimemagic"
 
+gem 'rinku'
+
 gem 'firebase', '~> 0.2.6'
 
 gem 'cloudinary'

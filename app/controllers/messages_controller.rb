@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+
+  
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
   before_action except: [:show, :save_form, :refresh_qr] do
     helpers.authorize_current_school(current_user, current_school.id)
@@ -156,6 +158,8 @@ class MessagesController < ApplicationController
     @message.author = current_user
     @message.school_id = current_school.id
 
+    @message.content = Rinku.auto_link(@message.content)
+
 
     anchor = params[:active_tab][1..-1] unless params[:active_tab].nil?
     if @message.save
@@ -291,6 +295,8 @@ class MessagesController < ApplicationController
 
     submitted_students_ids = params[:student][:id] unless params[:student].nil?
     @message.students = submitted_students_ids
+
+    @message_params[:content] = Rinku.auto_link(@message_params[:content])
 
     unless params[:change_status] == 'true'
       @message_params[:status] = @message.status

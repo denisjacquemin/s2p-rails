@@ -307,6 +307,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rinku (2.0.6)
     roadie (3.4.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.5)
@@ -438,6 +439,7 @@ DEPENDENCIES
   rails (= 5.2)
   rails_12factor
   recaptcha
+  rinku
   roadie-rails
   rpush
   rqrcode
