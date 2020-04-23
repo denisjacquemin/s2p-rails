@@ -10,7 +10,7 @@ class SendSmsJob < ApplicationJob
   end
 
   rescue_from(Exception) do |exception|
-    AlertAdminMailer.send_alert("Exception in SendSmsJob: #{exception.inspect}").deliver_now
+    AlertAdminMailer.send_alert("Exception in SendSmsJob: #{exception.message}").deliver_now
   end
 
 private
