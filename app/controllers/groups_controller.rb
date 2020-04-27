@@ -56,6 +56,13 @@ class GroupsController < ApplicationController
   end
 
   def update
+    actual_members_ids = @group.students.pluck(:id)
+    submitted_members_ids = params[:student][:id] unless params[:student].nil?
+    submitted_members_ids = [] if submitted_members_ids.nil?
+    actual_members_to_delete = actual_members_ids - submitted_members_ids.map(&:to_i)
+    members_to_add = submitted_members_ids.map(&:to_i) - actual_members_ids
+    Student.add_group(members_to_add, params[:id]) if members_to_add.any?
+    Student.remove_group(actual_members_to_delete, params[:id]) if actual_members_to_delete.any?
     if @group.update(group_params)
       redirect_to edit_group_path(@group), notice: t('controller.groups.update.notice.success')
     else

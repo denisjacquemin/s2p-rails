@@ -30,6 +30,7 @@ class Student < ApplicationRecord
   after_update :clean_old_classroom, if: -> {classroom_changed?}
 
   belongs_to :school, required: false
+  belongs_to :grade, required: false
   has_and_belongs_to_many :users
   has_and_belongs_to_many :message_categories
   has_many :phones, inverse_of: :student
@@ -98,8 +99,8 @@ class Student < ApplicationRecord
   # http://www.postgresql.org/docs/current/static/functions-array.html
   #http://blog.arkency.com/2014/10/how-to-start-using-arrays-in-rails-with-postgresql/
   def self.add_group(student_ids, group_id)
-    Student.by_ids(student_ids).without_group(group_id).update_all(['groups = array_append(groups, ?)', group_id])
-    #uniq(sort('{1,2,3,2,1}'::int[]))
+    Student.by_ids(student_ids).update_all(['groups = array_append(groups, ?)', group_id])
+    #uniq(sort('{1,2,3,2,1}'::int[])) 
   end
 
   # def self.add_groups(student_ids, group_ids)

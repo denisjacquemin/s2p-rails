@@ -4,7 +4,9 @@
 
 add = (student) ->
   student_id = $(student).find( "input:checkbox").val()
-  student_fullname = $(student).find(".fullname").text()
+  student_fullname = ""
+  $(student).find('.n').map (i, el) ->
+    student_fullname += $(el).text() + ' '
   classroom = $(student).find(".classroom").text()
   $('#in_group').prepend(build_student_row(student_id, student_fullname, classroom))
 
@@ -38,9 +40,9 @@ build_student_row = (student_id, student_fullname, classroom) ->
   return tr
 
 $(document).on 'turbolinks:load', ->
-  $('#group_manage_students #add').click ->
+  $('.buttons #add').click ->
     add student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#student_list input:checkbox:checked").attr('checked', false)
-  $('#group_manage_students #remove').click ->
+  $('.buttons #remove').click ->
     remove student for student in $("#in_group input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)

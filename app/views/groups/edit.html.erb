@@ -1,16 +1,91 @@
 <h1><%= t('views.groups.edit.title') %></h1>
 <hr />
+<%= form_for(@group) do |f| %>
+
+<% if @group.updatable %>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <% if @group.updatable %>
-      <%= render 'form', group: @group %>
-    <% elsif %>
-      <%= render 'form_readonly', group: @group %>
-    <% end %>
-  </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= render 'layouts/errors', object: @group %>
+    </div>
 </div>
-<div class="row" id="group_manage_students">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <%= render 'group_s_students_manager', group: @group %>
-  </div>
+
+<%
+    submit_label = t('views.groups.new.submit')
+    submit_label = t('views.groups.edit.submit') unless @group.new_record?
+  %>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span class="pull-right">
+            <%= f.submit submit_label, class: 'btn btn-primary' %>
+            <% unless @group.new_record? %>
+            <%= link_to t('views.global.destroy'), @group, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
+            <% end %>
+        </span>
+    </div>
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: 'form-control' %>
+        </div>
+    </div>
+</div>
+<% elsif %>
+<%= render 'form_readonly', group: @group %>
+<% end %>
+
+<div class="row groups">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading"><%= t('views.groups.listofstudents') %></div>
+            <div class="panel-body table-responsive" id="student_list">
+                <table id="users-datatable" class="table table-hover" data-source="<%= students_recipients_path(format: :json) %>">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 buttons ">
+        <%= button_tag(type: 'button', class: 'btn btn-primary', id: 'add') do
+            concat 'Ajouter'
+            concat content_tag(:span, nil, class: 'glyphicon glyphicon-chevron-right')
+          end %>
+        <%= button_tag(type: 'button', class: 'btn btn-primary', id: 'remove') do
+            concat content_tag(:span, nil, class: 'glyphicon glyphicon-chevron-left')
+            concat 'Enlever'
+          end %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">Elèves du groupe</div>
+            <div class="panel-body table-responsive">
+                <table class="table table-hover table-condensed" id="in_group">
+                    <thead>
+                        <th><input type="checkbox" /></th>
+                        <th>Nom - prenom</th>
+                        <th>Année - titulaire</th>
+                    </thead>
+                    <tbody>
+                        <%= form_for(@group, url: {action: "update_students"}) do |s_form| %>
+
+                        <% @group.students.each do |s| %>
+                        <tr>
+                            <%= fields_for s do |s_form| %>
+                            <%= s_form.hidden_field :id, multiple: true%>
+                            <td><input type="checkbox" id="student[<%= s.id %>]" /></td>
+                            <td><%= s_form.label :id, "#{s.lastname} #{s.firstname}" %></td>
+                            <td><%= "#{s.level} - #{s.classroom}" %></td>
+                            <% end %>
+                        </tr>
+                        <% end %>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>

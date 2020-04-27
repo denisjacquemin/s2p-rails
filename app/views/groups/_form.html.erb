@@ -1,30 +1,38 @@
-<%= form_for(group) do |f| %>
-  <%= render 'layouts/errors', object: group %>
-
-
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
+  <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <%= render 'layouts/errors', object: group %>
+      </div>
   </div>
-
-
-
-  <% if current_user.superadmin? %>
-    <div class="form-group">
-      <%= f.label :school %>
-      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
-    </div>
-  <% end %>
 
   <%
     submit_label = t('views.groups.new.submit')
     submit_label = t('views.groups.edit.submit') unless @group.new_record?
   %>
 
-  <%= f.submit submit_label, class: 'btn btn-primary' %>
-  <% unless @group.new_record? %>
-    <%= link_to t('views.global.destroy'), @group, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
+  <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span class="pull-right">
+              <%= f.submit submit_label, class: 'btn btn-primary' %>
+              <% unless @group.new_record? %>
+              <%= link_to t('views.global.destroy'), @group, method: :delete, data: { confirm: t('views.global.areyousure') }, class: 'btn btn-danger' %>
+              <% end %>
+          </span>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+              <%= f.label :name %>
+              <%= f.text_field :name, class: 'form-control' %>
+          </div>
+      </div>
+  </div>
+
+
+
+  <% if current_user.superadmin? %>
+  <div class="form-group">
+      <%= f.label :school %>
+      <%= f.select(:school_id, School.all.map {|s| [s.name,s.id]}, {}, {class: "form-control"})  %>
+  </div>
   <% end %>
-
-
-<% end %>
