@@ -1,25 +1,25 @@
 // Place all the styles related to the messages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-
 #options-toggle:before {
-  font-family: FontAwesome;
-  content: "\f107";
-  padding-right: 5px;
+    font-family: FontAwesome;
+    content: "\f107";
+    padding-right: 5px;
 }
+
 #options-toggle.collapsed:before {
-  content: "\f105";
+    content: "\f105";
 }
 
 .algolia_messages .hit-content {
-  padding: 12px 5px;
-  .content, .title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display:block;
-  }
+    padding: 12px 5px;
+    .content,
+    .title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
 }
 
 .nav-tabs {
@@ -31,31 +31,36 @@
 }
 
 .total_counter_container {
-  padding: 10px 30px;
-  background: #ddd;
-  text-align: right;
+    padding: 10px 30px;
+    background: #ddd;
+    text-align: right;
 }
 
 .recipient-item {
-  min-height: 40px;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0;
-  div.content-checkbox {
-    text-align: center;
-    width: 50px;
-    float:left;
-  }
-  div.content {
-    width: auto;
-    float:left;
-  }
+    min-height: 40px;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+    div.content-checkbox {
+        text-align: center;
+        width: 50px;
+        float: left;
+    }
+    div.content {
+        width: auto;
+        float: left;
+    }
 }
 
-#messages-groups-manager  {
-  .fa-users {
-    color: black;
-  }
-  .fa-user {
-    color: orange;
-  }
+#messages-groups-manager {
+    .fa-users {
+        color: black;
+    }
+    .fa-user {
+        color: orange;
+    }
+}
+
+.trumbowyg-box,
+.trumbowyg-editor {
+    min-height: 550px;
 }
