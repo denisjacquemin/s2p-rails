@@ -224,6 +224,13 @@ ready = () ->
     $('#scheduled_datetime').val($('#theDate').val())
     $('.edit_message')[0].submit()
 
+  $('#submit_copy_message').click (e) ->
+    console.log 'copy message'
+    e.preventDefault()
+    $('.copy_message')[0].submit()
+
+
+
   $('.submit_with_status').click (e) ->
     e.preventDefault()
     anchor = $(this).closest('a')
