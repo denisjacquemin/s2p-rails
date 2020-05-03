@@ -310,6 +310,24 @@ class MessagesController < ApplicationController
     end
   end
 
+  def copy
+    @message_to_copy = Message.find(params[:id])   
+
+    @message = Message.new()
+    @message.title = @message_to_copy.title
+    @message.content = @message_to_copy.content
+    @message.formdata = @message_to_copy.formdata 
+    @message.photos = @message_to_copy.photos
+    @message.school_id = @message_to_copy.school_id
+    @message.author = current_user
+
+    if @message.save
+      redirect_to edit_message_path(@message), notice: 'Le copie du message a été créé avec succès.'
+    else
+      redirect_to edit_message_path(@message_to_copy), notice: 'Erreur durant la création de la copie.'
+    end
+  end
+
   def update_groups
     authorize @message
     # before update, compares the actual groups for the message against the submitted list

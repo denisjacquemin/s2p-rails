@@ -109,6 +109,7 @@ Rails.application.routes.draw do
   post 'm/save_form', to: 'messages#save_form'
   resources :messages
   patch '/messages/update_groups/:id', to: 'messages#update_groups'
+  post  '/messages/copy/:id', to: 'messages#copy'
   patch '/messages/publish/:id', to: 'messages#publish', as: 'publish_message'
   patch '/messages/unpublish/:id', to: 'messages#unpublish', as: 'unpublish_message'
   patch '/messages/republish/:id', to: 'messages#republish', as: 'republish_message'
