@@ -2,8 +2,6 @@ class SendSmsJob < ApplicationJob
   queue_as :default
 
   def perform(message, phones)
-    AlertAdminMailer.send_alert("In SendSmsJob.perform: #{message}").deliver_now
-
     logger.info "[SMS] In SendSmsJob #{message.title} #{phones.inspect}"
     nbr_sms_sent = sendMessageSMS(message, phones)
     message.school.decrement!(:sms_provision, nbr_sms_sent) if nbr_sms_sent > 0

@@ -110,7 +110,7 @@ ready = () ->
         type: 'POST'
       pagingType: 'numbers'
       columns: [
-        {data: 'id', className: 'ctb', width: "20px"}
+        {data: 'id', className: 'ctb checkboxwidth'}
         {data: 'lastname', className: 'ctb nowrap n'}
         {data: 'firstname', className: 'ctb nowrap n'}
         {data: 'classroom', className: 'ctb nowrap n'}
@@ -143,7 +143,6 @@ ready = () ->
       # available options.
 
   $('.dataTable').on 'click', '.ctb', (event) ->
-    console.info 'click'
     if event.target.type != 'checkbox'
       checkbox = $(this).parent().find('input:checkbox:first')
       # checkbox.prop("checked", !checkbox.prop("checked"))
@@ -196,6 +195,7 @@ ready = () ->
     add_student student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#group_list input:checkbox:checked, #city_list input:checkbox:checked, #classroom_list input:checkbox:checked").attr('checked', false)
     $("#student_list input:checkbox:checked").attr('checked', false)
+    return
   $('#message_manage_group #remove').click ->
     remove group for group in $("#in_groups input:checkbox:checked").closest('tr')
     remove student for student in $("#in_groups input:checkbox:checked").closest('tr')
@@ -247,3 +247,8 @@ ready = () ->
       submit_with_status(status)
 
   $('[data-toggle="popover"]').popover()
+
+  # $('.dataTable').on 'change', 'input:checkbox', () ->
+  #   console.log('click on input:checkbox')
+  #   console.trace()
+

@@ -40,9 +40,9 @@ build_student_row = (student_id, student_fullname, classroom) ->
   return tr
 
 $(document).on 'turbolinks:load', ->
-  $('.buttons #add').click ->
+  $('#groups-manager .buttons #add').click ->
     add student for student in $("#student_list input:checkbox:checked").closest('tr')
     $("#student_list input:checkbox:checked").attr('checked', false)
-  $('.buttons #remove').click ->
+  $('#groups-manager #remove').click ->
     remove student for student in $("#in_group input:checkbox:checked").closest('tr')
     $("#in_group input:checkbox:checked").attr('checked', false)

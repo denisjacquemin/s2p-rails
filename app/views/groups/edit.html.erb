@@ -12,7 +12,7 @@
 <%
     submit_label = t('views.groups.new.submit')
     submit_label = t('views.groups.edit.submit') unless @group.new_record?
-  %>
+%>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -33,10 +33,10 @@
     </div>
 </div>
 <% elsif %>
-<%= render 'form_readonly', group: @group %>
+  <%= render 'form_readonly', group: @group %>
 <% end %>
 
-<div class="row groups">
+<div class="row groups" id="groups-manager">
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         <div class="panel panel-default">
             <div class="panel-heading"><%= t('views.groups.listofstudents') %></div>
@@ -61,29 +61,23 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         <div class="panel panel-default">
             <div class="panel-heading">Elèves du groupe</div>
-            <div class="panel-body table-responsive">
-                <table class="table table-hover table-condensed" id="in_group">
-                    <thead>
-                        <th><input type="checkbox" /></th>
-                        <th>Nom - prenom</th>
-                        <th>Année - titulaire</th>
-                    </thead>
-                    <tbody>
-                        <%= form_for(@group, url: {action: "update_students"}) do |s_form| %>
-
-                        <% @group.students.each do |s| %>
+            <div class="panel-body table-filter" id="in_groups_list">
+            <input type="text" class="filter" data-table="#destinataires" placeholder="Rechercher">
+            <div class="scroll-area">
+              <table class="table table-hover table-condensed" id="in_group">
+                <tbody class="list" id="destinataires">
+                    <% @group.students.each do |s| %>
                         <tr>
                             <%= fields_for s do |s_form| %>
-                            <%= s_form.hidden_field :id, multiple: true%>
-                            <td><input type="checkbox" id="student[<%= s.id %>]" /></td>
-                            <td><%= s_form.label :id, "#{s.lastname} #{s.firstname}" %></td>
-                            <td><%= "#{s.level} - #{s.classroom}" %></td>
+                                <%= s_form.hidden_field :id, multiple: true %>
+                                <td class="nowrap"><input type="checkbox" id="student[<%= s.id %>]" /></td>
+                                <td><%= s_form.label :id, "#{s.lastname} #{s.firstname}" %></td>
+                                <td><%= "#{s.level} #{s.classroom}" %></td>
                             <% end %>
                         </tr>
-                        <% end %>
-                        <% end %>
-                    </tbody>
-                </table>
+                    <% end %>
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
