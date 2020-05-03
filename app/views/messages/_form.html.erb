@@ -1,3 +1,6 @@
+<%= form_for(@message, method: 'post', url: { action: "copy"}, html: {class: 'copy_message'} ) do |f| %>
+  <%= hidden_field_tag 'id', @message.id %>
+<% end %>
 <% unless @message.scheduled_publish.blank? %>
   <div class="row">
     <div class="col-xs-12">
