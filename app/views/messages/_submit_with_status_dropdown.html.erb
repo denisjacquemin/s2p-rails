@@ -39,6 +39,7 @@
         <% end %>
       <% end %>
       <% if policy(message).destroy? %>
+        <li><%= render 'messages/status_items/copy' %></li>
         <li role="separator" class="divider"></li>
         <li><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-trash", aria_hidden: true) + 'Supprimer', message, method: :delete, data: { confirm: t('views.global.areyousure') }, class: "icon" %></li>
       <% end %>
