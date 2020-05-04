@@ -2,4 +2,3 @@
 <% if [10,1, 230, 229, 228].include?(current_school.id) %>
     <%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-hourglass", aria_hidden: true) + "Planifier l'envoi", "", 'data-status': 'scheduled', class: "schedule_sending icon", data: {'before-submit-confirm': true,message: "Ce message va être envoyé, êtes vous sûr?", title: 'Publication du message'} %>
 <% end %>
-<%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-duplicate", aria_hidden: true) + "Copier ce message", "", id: "submit_copy_message", class: "icon" %>
