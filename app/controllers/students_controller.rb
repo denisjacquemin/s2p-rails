@@ -313,6 +313,8 @@ class StudentsController < ApplicationController
             :gsm_mère => :phone2,
             :année => :level1,
             :annee => :level1,
+            :anff  => :anff,
+            :orientation => :orientation,
             "année_[déf]".to_sym => :level1,
             :classe => :level2,
             "classe_[déf]".to_sym => :level2,

@@ -71,8 +71,9 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:firstname] = data[:firstname]
         student_data[:lastname] = data[:lastname]
         student_data[:level] = "#{data[:level1]}#{data[:level2]}"
-        student_data[:level] = student_data[:level] + " (#{data[:implantation]})"if data[:implantation].present? # proeco (Auvelais)
-
+        student_data[:level] = student_data[:level] + " (#{data[:implantation]})" if data[:implantation].present? # proeco (Auvelais)
+        student_data[:level] = '' + data[:anff].to_s  + data[:level2].to_s + ' ' + data[:orientation].to_s if data[:anff].present?
+        #student_data[:grade] = data[:level1]
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
         emailsArray =  data[:emails].present? ? data[:emails]&.split(' ') : []
