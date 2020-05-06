@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
     @current_school_id = @current_school.id
     # @current_user = current_user
     @workflow_active = @current_school.validation_workflow_active
-    @latest_messages = policy_scope(Message).includes(:author).where(school_id: current_school.id).order(created_at: :desc).limit(12).pluck(:id, :title, :has_form, :content, "CONCAT_WS(' ', users.firstname, users.lastname)", :updated_at, :status, :scheduled_publish)
+    @latest_messages = policy_scope(Message).includes(:author).where(school_id: current_school.id).order(updated_at: :desc).limit(12).pluck(:id, :title, :has_form, :content, "CONCAT_WS(' ', users.firstname, users.lastname)", :updated_at, :status, :scheduled_publish)
   end
 
   # GET /messages/1
