@@ -6,18 +6,30 @@ task :send_sms_notifications => :environment do
 
   nbr_sms_sent = 0
 
-  # find message with status waiting_for_approval and not older than 1 day and wfa_sms_sent to false
-  wfa_messages = Message.where('status = ? and updated_at > ? and wfa_sms_sent = ?', 2, 1.day.ago, false)
-  
-  number_of_messages_found = wfa_messages.count
-  
-  if number_of_messages_found > 0
-    sms_message = "Vous avez #{number_of_messages_found} en attente d'approbation."
-    phone_numbers = message.school.admins.map{|u| u.phone}
+  schools_to_alert = Message.where('status = ? and updated_at > ? and wfa_sms_sent = ?', 2, 1.day.ago, false).pluck(:school_id)
+
+  schools_to_alert.compact.uniq.each do |school_id|
+    wfa_messages = Message.where('status = ? and updated_at > ? and wfa_sms_sent = ? and school_id = ?', 2, 1.day.ago, false, school_id)
+    number_of_messages_found = wfa_messages.count
+    school = School.find(school_id)
+    phone_numbers = school.admins.map{|u| u.phone}
+    sms_message = "Vous avez #{number_of_messages_found} message(s) en attente d'approbation."
     wfa_nbr_sms_sent = sendMessageSMS(sms_message, phone_numbers)
-    message.update_column('wfa_sms_sent', true) # skip updated_at automatic update
+    wfa_messages.update_all(wfa_sms_sent: true) # skip updated_at automatic update
     nbr_sms_sent = nbr_sms_sent + wfa_nbr_sms_sent
   end
+
+  # find message with status waiting_for_approval and not older than 1 day and wfa_sms_sent to false
+  
+
+  
+  # if number_of_messages_found > 0
+  #   sms_message = "Vous avez #{number_of_messages_found} en attente d'approbation."
+  #   phone_numbers = message.school.admins.map{|u| u.phone}
+  #   wfa_nbr_sms_sent = sendMessageSMS(sms_message, phone_numbers)
+  #   message.update_column('wfa_sms_sent', true) # skip updated_at automatic update
+  #   nbr_sms_sent = nbr_sms_sent + wfa_nbr_sms_sent
+  # end
 
   # wfa_messages.each do |message|
   #   sms_message = "#{message.author.firstname} demande une approbation: #{message.title}"
