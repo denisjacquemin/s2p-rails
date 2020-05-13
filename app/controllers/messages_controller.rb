@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
 
-  
+  # skip_before_filter :verify_authenticity_token, only: [:save_form]
   before_action :authenticate_user!, except: [:show, :save_form, :refresh_qr]
   before_action except: [:show, :save_form, :refresh_qr] do
     helpers.authorize_current_school(current_user, current_school.id)
@@ -31,39 +31,40 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @message = Message.find_by_muuid(params[:uuid])
+    if @message
+      @title = @message.title
+      @content = @message.content
 
-    @title = @message.title
-    @content = @message.content
-
-    if @message.school.allow_translation
-      project_id = ENV["CLOUD_PROJECT_ID"]
-      translate = Google::Cloud::Translate.new project: project_id
-      @translation_code = ""
-      @languages = translate.languages('fr')
-      if params[:translate] and params[:translate][:code] != ""
-        @title, @content = getTranslations(params[:translate][:code], @title, @content, @message.id, @message.updated_at, @message.school_id, translate)
-        @translation_code = params[:translate][:code]
+      if @message.school.allow_translation
+        project_id = ENV["CLOUD_PROJECT_ID"]
+        translate = Google::Cloud::Translate.new project: project_id
+        @translation_code = ""
+        @languages = translate.languages('fr')
+        if params[:translate] and params[:translate][:code] != ""
+          @title, @content = getTranslations(params[:translate][:code], @title, @content, @message.id, @message.updated_at, @message.school_id, translate)
+          @translation_code = params[:translate][:code]
+        end
       end
-    end
 
-    students_names = ""
-    # params[:e] is the email encrypted
-    if (params[:e].present?) # if not, it should still works
-      #@email_encrypted = params[:e]
-      @email = params[:e] #Student.email_decrypt(@email_encrypted)
-      students_names_array = @message.get_students_names_by_email(@email) if @email.present?
-      students_names = students_names_array.flatten.uniq.compact.join ', ' if students_names_array.any?
-    end
-    # params[:s] is the list of students names encrypted
-    if (params[:s].present?)
-      students_names = params[:s]
-    end
+      students_names = ""
+      # params[:e] is the email encrypted
+      if (params[:e].present?) # if not, it should still works
+        #@email_encrypted = params[:e]
+        @email = params[:e] #Student.email_decrypt(@email_encrypted)
+        students_names_array = @message.get_students_names_by_email(@email) if @email.present?
+        students_names = students_names_array.flatten.uniq.compact.join ', ' if students_names_array.any?
+      end
+      # params[:s] is the list of students names encrypted
+      if (params[:s].present?)
+        students_names = params[:s]
+      end
 
-    # build transaction only if message.amount is present
-    # if @message.amount_to_pay_cents > 0
-    #   @transactionId = build_payconiq_transaction_id(@message)
-    #   Payment.create(school_id: @message.school_id, message_id: @message.id, pq_transaction_id: @transactionId, price_cents_cents: @message.amount_to_pay_cents, pq_status: 'INITIATED', students_names: students_names, communication: @message.billing_description)
-    # end
+      # build transaction only if message.amount is present
+      # if @message.amount_to_pay_cents > 0
+      #   @transactionId = build_payconiq_transaction_id(@message)
+      #   Payment.create(school_id: @message.school_id, message_id: @message.id, pq_transaction_id: @transactionId, price_cents_cents: @message.amount_to_pay_cents, pq_status: 'INITIATED', students_names: students_names, communication: @message.billing_description)
+      # end
+  end
     render layout: "show"
   end
   def save_form
