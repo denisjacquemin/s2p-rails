@@ -1,4 +1,5 @@
 <% if @message.nil? %>
+  <br/><br/><br/>
   <p>Le message que vous tentez de visualiser n'existe pas, ou a été supprimé. Contactez le support si nécessaire <a href="mailto:support@konectoapp.com">support@konectoapp.com</a></p>
 <% else %>
   <% if @message.school.allow_translation %>
