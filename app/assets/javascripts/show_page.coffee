@@ -48,12 +48,14 @@ ready = () ->
       )
       $('#message_form_formdata').val(JSON.stringify(serializedWithLabel))
       valuesToSubmit = $(this).serialize()
-      $.ajax(
+      $.ajax (
         type: 'POST'
         url: $(this).attr('action')
+        beforeSend: (xhr) ->
+          xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
         data: valuesToSubmit
-        dataType: 'script')
-
+        dataType: 'script'
+      )
       return false
 
 
