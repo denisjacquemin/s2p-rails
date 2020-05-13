@@ -1,5 +1,5 @@
 <% if @message.nil? %>
-  <p>Le message que vous tentez de visualiser n'existe pas, ou a été supprimé. Contactez le support si nécessaire <a href="mailto:support@konectoapp.com">support@konectoapp.com</a>.</p> %>
+  <p>Le message que vous tentez de visualiser n'existe pas, ou a été supprimé. Contactez le support si nécessaire <a href="mailto:support@konectoapp.com">support@konectoapp.com</a></p> %>
 <% else %>
   <% if @message.school.allow_translation %>
     <div class="row" style="background-color: #f8f8f8; padding:20px 0">
@@ -82,87 +82,6 @@
         <% if ((@message.formdata.present? and @message.formdata != "[]") or @message.photos.any?) and @message.include_payment %>
           <hr>
         <% end %>
-
-        <%
-  =begin%>
-  <% if @message.include_payment %>
-          <table cellpadding="0" cellspacing="0" border="0" align="left" style="border-collapse:separate;border:1px solid #1791c8;width:100%">
-            <tbody>
-              <tr>
-                <td height="15" colspan="3"> </td>
-              </tr>
-              <tr>
-                <td width="30"> </td>
-                <td>
-                  <% account_number = @message.account.account_number unless @message.account.nil? or @message.account.account_number.blank? %>
-                  <p style="margin-bottom:0px;text-align:left;margin:0px;padding:0px;color:#000;font-family:Verdana,Geneva,sans-serif;font-size:14px;line-height:22px">
-                    Le montant de <strong style="color:#1d92c4"><%=  humanized_money @message.amount_to_pay %> EUR</strong> est à payer
-                    <% unless @message.billing_due_date.blank? %>
-                      avant le <strong style="color:#1d92c4"> <%= @message.billing_due_date %></strong>
-                    <% end %>
-                    <% unless account_number.blank? %>
-                      <br>sur le compte <strong style="color:#1d92c4"><%= account_number %></strong>
-                    <% end %>
-                    <% unless @message.billing_description.blank? %>
-                      <br>avec la communication <strong style="color:#1d92c4"><%= @message.billing_description %></strong>.
-                    <% end %>
-                    <% unless @message.billing_comment.blank? %>
-                      <br><br>
-                      <%= @message.billing_comment %>
-                    <% end %>
-                  </p>
-                </td>
-                <td width="30"> </td>
-              </tr>
-              <tr>
-                <td height="15" colspan="3"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <% unless @message.account.payconiq_access_token.blank? %>
-            <div id="pq-ids">
-              <input type="hidden" value="<%= @transactionId %>">
-            </div>
-            <div class="row pq" id="paysection">
-                <%= hidden_field_tag 'muuid', @message.muuid %>
-                <%= hidden_field_tag 'email', @email %>
-                <div class="col-xs-12 pq-banner">
-                  <%= image_tag asset_path("logo_payconiq.png") %>
-                  <br/>
-                </div>
-                <div class="col-xs-12" id="pq-notification">
-                  <div class="pq_amount">Montant: <%= @message.amount_to_pay %> EUR</div>
-                  <span class="pq-button">
-                    <%= render 'pq_button', transactionId: @transactionId %>
-                  </span>
-                  <div class="col-xs-12 pq_steps hidden-xs">
-                    <ol>
-                      <li>Ouvrez l'app payconiq</li>
-                      <li>Pointez la caméra du téléphone sur le QR code</li>
-                      <li>Entrez votre code PIN pour payer</li>
-                    </ol>
-                  </div>
-                  <div class="qr pq-qr hidden-xs">
-                    <%= render 'qr', transactionId: @transactionId %>
-                  </div>
-                  <div>
-                    <p><a href="#" id="show_pq_help">Besoin d'aide?</a></p>
-                  </div>
-                </div>
-                <div class="col-xs-12" id="pq_help" style="display:none">
-                  <p><a href="https://www.payconiq.com">Payconiq</a> est une app gratuite : elle vous permet d'effectuer des paiements via votre smartphone, facilement et en toute sécurité. Téléchargez l'app sur <a href="https://play.google.com/store/apps/details?id=com.payconiq.customers&hl=fr">Android Google Play</a> ou <a href="https://itunes.apple.com/be/app/payconiq/id966172246?l=fr">Apple App Store</a></p>
-                  <p>+32 119 884 89 - <a href="mailto:hello@payconiq.be">hello@payconiq.be</a></p>
-                  <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="hidden-xs" src="https://player.vimeo.com/video/213843344" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                    <iframe class="hidden-sm hidden-md hidden-lg" src="https://player.vimeo.com/video/213843274" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-        <% end %> 
-  <%
-  =end%>
       </div>
   </div>
 <% end %>
