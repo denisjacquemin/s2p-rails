@@ -55,6 +55,13 @@ class Message < ApplicationRecord
   before_update :handle_status_changed, if: -> {status_changed?}
   before_update :handle_status_republish, if: -> {status_changed?}
   before_update :set_has_form, if: -> {formdata_changed?}
+  after_save :sync_firebase
+
+  def sync_firebase
+    if [16, 10].include?(self.school_id) && self.status == 'published'
+      SyncS2pFirebaseJob.perform_later(self)
+    end
+  end
 
   def publish_date
     publish_date = nil
@@ -108,6 +115,24 @@ class Message < ApplicationRecord
 
   def self.remove_group(message_ids, group_id)
     Message.by_ids(message_ids).update_all(['groups = array_remove(groups, ?)', group_id])
+  end
+
+  def self.find_student_ids(groups, students, iscity, message_categories)
+      
+      ids = []
+      ids = students if students.present?
+      ids = ids + Student.by_groups(groups).pluck(:id) if groups.present?
+
+      # if iscity then filter on categories
+      if iscity
+          ids_filtered = ids.select do |id|
+          student_categories = Student.where(id: id).joins(:message_categories).pluck("message_categories.id")
+          (student_categories & message_categories).any?
+          end
+          return ids_filtered.uniq
+      else
+          return ids.uniq
+      end
   end
 
   def handle_status_changed
