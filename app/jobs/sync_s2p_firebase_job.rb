@@ -8,7 +8,7 @@ class SyncS2pFirebaseJob < ApplicationJob
     if !studend_ids.empty?
 
       files = message.photos.map do |photo|
-        { format: photo.format, path: photo.path }
+        { format: photo.format, path: photo.fullpath }
       end
 
       data = { 
