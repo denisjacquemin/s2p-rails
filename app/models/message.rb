@@ -55,7 +55,7 @@ class Message < ApplicationRecord
   before_update :handle_status_changed, if: -> {status_changed?}
   before_update :handle_status_republish, if: -> {status_changed?}
   before_update :set_has_form, if: -> {formdata_changed?}
-  after_save :sync_firebase
+  # after_save :sync_firebase
 
   def sync_firebase
     if [16, 10].include?(self.school_id) && self.status == 'published'
@@ -168,6 +168,10 @@ class Message < ApplicationRecord
   end
 
   def handle_publish
+    if ([10].include?(self.school_id))
+      S2pFirebaseSendMessageJob.perform_later(self)
+    end
+
     groups = self.groups
     if groups.present? or self.students.present?
 
