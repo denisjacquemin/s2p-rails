@@ -323,7 +323,7 @@ class MessagesController < ApplicationController
     @message.author = current_user
 
     if @message.save
-      redirect_to edit_message_path(@message), notice: 'Le copie du message a été créé avec succès.'
+      redirect_to edit_message_path(@message), notice: 'La copie du message a été créé avec succès.'
     else
       redirect_to edit_message_path(@message_to_copy), notice: 'Erreur durant la création de la copie.'
     end
