@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_22_163740) do
+ActiveRecord::Schema.define(version: 2020_03_10_122458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2019_11_22_163740) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "students"
+    t.string "reason"
+    t.index ["message_id", "status", "email"], name: "index_email_recipients_for_exists_query"
   end
 
   create_table "form_templates", id: :serial, force: :cascade do |t|
@@ -179,6 +181,13 @@ ActiveRecord::Schema.define(version: 2019_11_22_163740) do
     t.string "duuid"
     t.index ["duuid"], name: "index_forms_on_duuid"
     t.index ["muuid"], name: "index_forms_on_muuid"
+  end
+
+  create_table "grades", force: :cascade do |t|
+    t.string "name"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "groups", id: :serial, force: :cascade do |t|
@@ -252,6 +261,7 @@ ActiveRecord::Schema.define(version: 2019_11_22_163740) do
     t.datetime "form_due_date"
     t.boolean "has_form", default: false
     t.string "custom_author"
+    t.datetime "scheduled_publish"
   end
 
   create_table "mfiles", id: :serial, force: :cascade do |t|
@@ -467,6 +477,7 @@ ActiveRecord::Schema.define(version: 2019_11_22_163740) do
     t.string "siel_id"
     t.string "upload_uniq_id"
     t.string "idifapme"
+    t.string "grade"
     t.index ["code"], name: "index_students_on_code", unique: true
   end
 

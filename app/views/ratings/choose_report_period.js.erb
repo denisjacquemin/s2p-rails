@@ -1,0 +1,12 @@
+$('#modal .modal-body').html("<%= escape_javascript(render 'choose_period_form', competency: @competency) %>");
+$('#modal .modal-title').html("Choisir la période");
+$('#modal .submit').html("Générer les bulletins");
+$('#modal .submit').click( function(e) {
+        
+    Rails.ajax ({
+        type: "POST",
+        url: '/ratings/reports_to_pdf',
+        data: $.param($('input.scb:checked')) + '&period=' + $('#selected_period_id').val()
+    });
+});
+$("#modal").modal('show');

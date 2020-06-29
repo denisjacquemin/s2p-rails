@@ -158,6 +158,7 @@ ready = () ->
               console.log 'request sent'
           })
 
+
   $('#send_code').click (e) ->
     if $('input.scb:checked').size() == 0
       alert 'Selectionnez au moins un élève'
@@ -175,6 +176,12 @@ ready = () ->
       #   input = $("<input>", {type: 'hidden', name: "student[" + s.value + "]"}).appendTo(form)
       form.submit (e) ->
          e.preventDefault();
+
+  $('#choose_report_period').click (e) ->
+    if $('input.scb:checked').size() == 0
+      alert 'Selectionnez au moins un élève'
+      e.preventDefault()
+    return
 
 
   $('#export_csv, #codes_to_pdf').click (e) ->

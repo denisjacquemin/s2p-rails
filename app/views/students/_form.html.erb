@@ -41,13 +41,19 @@
     <% end %>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <div class="form-group">
-        <%= f.label :level, level_label %>
+        <%= f.label :grade, 'Année' %>
+        <%= f.text_field :grade, class: 'form-control ac' %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <div class="form-group">
+        <%= f.label :level, 'Classe' %>
         <%= f.text_field :level, class: 'form-control ac' %>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <div class="form-group">
         <%= f.label :classroom, classroom_label %>
         <%= f.text_field :classroom, class: 'form-control ac' %>

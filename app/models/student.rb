@@ -90,6 +90,7 @@ class Student < ApplicationRecord
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_groups, ->(ids) { where("groups && ARRAY[?]::integer[]", ids) }
+  scope :contains_any_groups, -> (ids) { where("groups @> ARRAY[?]::integer[]", ids) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :by_code, ->(code) { where(code: code) }
   scope :without_group, ->(id) { where.not("? = ANY(groups)", id) }

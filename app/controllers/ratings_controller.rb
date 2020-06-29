@@ -17,14 +17,14 @@ class RatingsController < ApplicationController
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
     @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year_id.nil?
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
     set_ratings
   end
 
   def students
     @current_group_selected_id = params[:current_group_selected_id]
     @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year_id.nil?
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
     set_ratings
   end
 
@@ -36,7 +36,7 @@ class RatingsController < ApplicationController
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
     @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if @current_rating_year_id.nil?
+    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if @current_rating_year.nil?
     @rating_comments = RatingComment.by_school(current_school.id)
 
     set_ratings_for_one_students()
@@ -54,6 +54,41 @@ class RatingsController < ApplicationController
     @student_selected_id = params[:student_selected_id]
     @student_ratings = {}
     set_ratings_for_one_students()
+  end
+
+  def choose_report_period
+    respond_to do |format|
+      format.html 
+      format.js
+    end
+  end
+
+  def reports_to_pdf
+    params[:student][:id]
+    params[:period]
+
+    @students = params[:student][:id].map do |student_id| 
+
+      @current_student = Student.find student_id
+      @student_ratings = {}
+      @current_student.ratings.each { |r|
+        @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
+        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
+      }
+
+      @periods = Period.by_school(current_school.id).ordered
+      
+      @competencies = Group.find(@group_selected_id).competencies.ordered
+      
+       {
+        current_student: @current_student,
+        student_ratings: @student_ratings,
+        periods: @periods,
+        competencies: @competencies
+      }
+
+      
+    end
   end
 
   def report_to_pdf
@@ -192,7 +227,7 @@ class RatingsController < ApplicationController
     def set_ratings
       @periods = Period.by_school(current_school.id).ordered
       @competencies = Group.find(@current_group_selected_id).competencies.ordered
-      @competency_selected_id = params[:current_competency_selected_id] || @competencies&.first&.id&.to_s
+      @competency_selected_id = params[:current_competency_selected_id] || @competencies&.reject{|c| c.title_only}&.first&.id&.to_s
       @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
       @ratings = {}
       @student_ratings = {}

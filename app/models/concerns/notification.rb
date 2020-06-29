@@ -112,7 +112,7 @@ module Notification extend ActiveSupport::Concern
 
 
     def send_ios_notifications(alert, content, devices, data = {})
-      logger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
+      # slogger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
       begin
         devices.each { |device|
           n = Rpush::Apns::Notification.new
@@ -140,7 +140,7 @@ module Notification extend ActiveSupport::Concern
 #   "content-available":1}
 
           begin
-            logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect} + payload: #{n.payload}"
+            # logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect} + payload: #{n.payload}"
             n.save!
           rescue ActiveRecord::RecordInvalid
             logger.info "[NOTIFICATION IOS FAILED] Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
@@ -152,7 +152,7 @@ module Notification extend ActiveSupport::Concern
     end
 
     def send_android_notifications(alert, devices, data = {})
-      logger.info "[NOTIFICATION ANDROID] message(#{alert}) devices(#{devices.inspect})"
+      # logger.info "[NOTIFICATION ANDROID] message(#{alert}) devices(#{devices.inspect})"
       begin
         registration_ids = devices.map{|device| device.registration_id}
         unless registration_ids.nil?
@@ -171,7 +171,7 @@ module Notification extend ActiveSupport::Concern
 
 
     def build_ios_notifications(message, devices)
-      logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
+      # logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
       begin
         devices.each { |device|
           n = Rpush::Apns::Notification.new
@@ -195,7 +195,7 @@ module Notification extend ActiveSupport::Concern
     end
 
     def build_android_notifications(message, devices)
-      logger.info "[NOTIFICATION ANDROID] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
+      # logger.info "[NOTIFICATION ANDROID] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
       begin
         registration_ids = devices.map{|device| device.registration_id}
         unless registration_ids.nil?
