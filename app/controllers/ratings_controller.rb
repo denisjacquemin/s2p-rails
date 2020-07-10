@@ -10,22 +10,25 @@ class RatingsController < ApplicationController
 
     # @levels = Student.where(school_id: @current_school.id).pluck(:level).uniq
     # @classrooms =  Student.where(school_id: @current_school.id).pluck(:classroom).uniq
-    @groups = Group.only_level.by_school(current_school.id)
-    @current_group_selected_id = @groups&.first&.id
     @rating_years = RatingYear.by_school(current_school.id).ordered
 
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
-    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
-    set_ratings
+    @current_rating_year = RatingYear.by_school(current_school.id)&.first
+    # @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
+
+    @groups = @current_rating_year&.filtered_groups
+    # @current_group_selected_id = @groups&.first&.id
+
   end
 
   def students
+    @current_rating_year = params[:current_selected_rating_year]
     @current_group_selected_id = params[:current_group_selected_id]
-    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
-    set_ratings
+    @current_competency_selected_id = params[:current_competency_selected_id]
+    # @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @current_group_selected_id)&.first if @current_rating_year.nil?
+    @current_competency = Competency.find @current_competency_selected_id 
+    set_ratings unless @current_competency.title_only
   end
 
   def by_student
@@ -42,11 +45,27 @@ class RatingsController < ApplicationController
     set_ratings_for_one_students()
   end
 
+  def change_year
+    @rating_years = RatingYear.by_school(current_school.id).ordered
+    @current_selected_rating_year_id = params[:current_selected_rating_year]
+    @current_rating_year = RatingYear.find(@current_selected_rating_year_id)
+
+    @groups = @current_rating_year&.filtered_groups
+
+  end
+
+
   def change_group
-    @group_selected_id = params[:group_selected_id]
-    @students = Student.by_group(@group_selected_id)
-    @student_selected_id = @students&.first&.id
-    set_ratings_for_one_students()
+    @rating_years = RatingYear.by_school(current_school.id).ordered
+    @current_selected_rating_year_id = params[:current_selected_rating_year]
+    @current_rating_year = RatingYear.find(@current_selected_rating_year_id)
+
+    @groups = @current_rating_year&.filtered_groups
+    @group_selected_id = params[:current_group_selected_id]
+    @current_group = Group.find @group_selected_id
+    
+    @competencies = @current_group.filtered_competencies
+
   end
 
   def change_student
@@ -226,15 +245,15 @@ class RatingsController < ApplicationController
 
     def set_ratings
       @periods = Period.by_school(current_school.id).ordered
-      @competencies = Group.find(@current_group_selected_id).competencies.ordered
-      @competency_selected_id = params[:current_competency_selected_id] || @competencies&.reject{|c| c.title_only}&.first&.id&.to_s
+        # @competencies = Group.find(@current_group_selected_id).competencies.ordered
+      # @competency_selected_id = @current_competency_selected_id
       @students = Student.includes(:ratings).by_school(current_school.id).by_group(@current_group_selected_id)
       @ratings = {}
       @student_ratings = {}
       @students.each{ |student| 
         student_ratings = {}
-        student.ratings.by_rating_year(@current_rating_year.id).each { |r|
-          student_ratings[r.period_id] = {value: r.rating, comment: r.comment} if r.competency_id.to_s == @competency_selected_id
+        student.ratings.by_rating_year(@current_rating_year).each { |r|
+          student_ratings[r.period_id] = {value: r.rating, comment: r.comment} if r.competency_id.to_s == @current_competency_selected_id
         }
         @ratings[student.id] = student_ratings
       }

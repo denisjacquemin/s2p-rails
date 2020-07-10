@@ -1,0 +1,2 @@
+$('#selected_year').replaceWith("<%= escape_javascript(render 'years_options', years: @rating_years, current_selected_rating_year_id: @current_selected_rating_year_id) %>")
+$('#selected_group').replaceWith("<%= escape_javascript(render 'groups_options', groups: @groups, current_groups_id: nil) %>")

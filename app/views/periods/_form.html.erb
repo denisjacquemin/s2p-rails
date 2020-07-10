@@ -1,26 +1,50 @@
 <%= form_with(model: @period, local: false) do |form| %>
-  
-    <div id="error_explanation">
-      <ul>
-      <% @period.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
 
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div id="error_explanation">
+    <ul>
+        <% @period.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+    </ul>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
-      <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+        <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
     </div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
-      <div class="form-group">
-        <%= form.label :name, 'Nom de la période' %>
-        <%= form.text_field :name, class: 'form-control' %>
-      </div>
+        <div class="form-group">
+            <%= form.label :name, 'Nom de la période' %>
+            <%= form.text_field :name, class: 'form-control' %>
+        </div>
     </div>
-  </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="row show_all_groups_checkbox">
+        <label>Classes</label><br />
+        <%= form.check_box :all_groups, id: 'all_groups', class: 'show_all_groups' %>
+        <%= form.label :all_groups, 'Toutes les classes', for: 'all_groups', class: 'show_all_groups' %>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="row select_groups" style="<%= "#{'display:none' if @period.all_groups}" %>">
+        Sélectionner <a href="#" id="select_all" data-target="period_groups">Tout</a> - <a href="#" id="unselect_all" data-target="period_groups">Aucun</a>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row select_groups" id="period_groups" style="<%= "#{'display:none' if @period.all_groups}" %>">
+        <% groups = Group.where(school_id: current_school.id, group_type: 'level') %>
+        <%= form.collection_check_boxes(:group_ids, groups, :id, :name) do |g| %>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <%= g.label(class: "check_box") { g.check_box(class: "add_margin") + ' ' + g.text } %>
+        </div>
+        <% end %>
+    </div>
+</div>
 
 <% end %>
-

@@ -30,7 +30,6 @@ class Student < ApplicationRecord
   after_update :clean_old_classroom, if: -> {classroom_changed?}
 
   belongs_to :school, required: false
-  belongs_to :grade, required: false
   has_and_belongs_to_many :users
   has_and_belongs_to_many :message_categories
   has_many :phones, inverse_of: :student

@@ -1,5 +1,7 @@
 class Competency < ApplicationRecord
     
+    include SoftDeletable
+
     has_many :competency_groups
     has_many :groups, through: :competency_groups
 
@@ -13,6 +15,6 @@ class Competency < ApplicationRecord
 
 
     def name_with_indent
-        ("-" * (level-1) * 2) + " " + name
+        ("-" * (level-1) * 2) + " " + (self.title_only ? name.upcase : name)
     end
 end

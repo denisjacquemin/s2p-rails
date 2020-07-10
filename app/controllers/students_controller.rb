@@ -552,7 +552,6 @@ class StudentsController < ApplicationController
         upload_uniq_id = Digest::MD5.hexdigest(DateTime.now.to_s)
         
         students_not_to_delete = Set[]
-        grades = []
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
@@ -610,7 +609,6 @@ class StudentsController < ApplicationController
           DeleteStudentsOnImportJob.perform_later(students_not_to_delete.to_a, current_school.id)
         end
 
-        # UpdateGradesJob.perform_later(current_school.id)
 
       rescue Exception => e
         render :csv, :locals => { :error_message => e.message, message: '' } and return

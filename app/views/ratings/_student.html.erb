@@ -1,37 +1,27 @@
-<tr>
-    <td class="firstname" title="<%= student.firstname %>"><%= student.firstname %></td>
-    <td class="lastname" title="<%= student.lastname %>"><%= student.lastname %></td>
-    <%
-        student_ratings = @ratings[student.id] || {} 
-    %>
-    <% @periods.each do |period| %>
-        <td>
-           
-            <% rating_id = "#{student_counter}-#{period.id}" if defined?(student_counter) %>
-            <% rating_id = el_id  unless defined?(student_counter) %>
 
-            <div class="input-group input-group-sm">
+    <tr>
+        <td class="firstname" title="<%= student.firstname %>"><%= student.firstname %></td>
+        <td class="lastname" title="<%= student.lastname %>"><%= student.lastname %></td>
+        <%
+            student_ratings = @ratings[student.id] || {} 
+        %>
+        <% @periods.each do |period| %>
+            <td>
+            
+                <% rating_id = "#{student_counter}-#{period.id}" if defined?(student_counter) %>
+                <% rating_id = el_id  unless defined?(student_counter) %>
 
                 <div class="input-group input-group-sm">
-                    <%= text_field_tag rating_id, student_ratings.dig(period.id, :value), class: 'rating form-control', data: {"s-id": student.id, "p-id": period.id, "c-id": @competency_selected_id }%>
-                    <div class="input-group-addon">
-                        <%= link_to rating_edit_comment_path(competency_id: @competency_selected_id, student_id: student.id, period_id: period.id), remote: true do%>
-                            <i class="fa fa-comment"></i>
-                        <% end %>
-                    </div>
-                </div>
-                <%
-=begin%>
- <div class="input-group-addon comment <%= 'commented' if student_ratings.dig(period.id, :comment).present? %>" id="c_<%= rating_id %>" data-r-comment="<%= student_ratings.dig(period.id, :comment) %>" data-r-id="c_<%= rating_id %>"><i class="fa fa-comment"></i></div>  
-<%
-=end%>
 
-                <%
-=begin%>
- <div class="input-group-addon comment" <% if student_ratings.dig(period.id, :comment).present? %> data-toggle="popover" data-content="<%= student_ratings.dig(period.id, :comment) %> <% end %>" id="c_<%= rating_id %>" data-r-id="c_<%= rating_id %>"><i class="fa fa-comment"></i></div> 
-<%
-=end%>
-            </div>
-        </td>
-    <% end %>
-</tr>
+                    <div class="input-group input-group-sm">
+                        <%= text_field_tag rating_id, student_ratings.dig(period.id, :value), class: 'rating form-control', data: {"s-id": student.id, "p-id": period.id, "c-id": @competency_selected_id }%>
+                        <div class="input-group-addon">
+                            <%= link_to rating_edit_comment_path(competency_id: @current_competency_selected_id, student_id: student.id, period_id: period.id), remote: true do%>
+                                <i class="fa fa-comment"></i>
+                            <% end %>
+                        </div>
+                    </div>
+               </div>
+            </td>
+        <% end %>
+    </tr>

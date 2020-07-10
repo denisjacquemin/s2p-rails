@@ -1,0 +1,7 @@
+<% if years.blank? %>
+    <div id="selected_year">Aucune année</div>
+<% else %>
+    <%= select_tag "selected_year", 
+        options_from_collection_for_select(years, "id", "name", current_selected_rating_year_id), 
+        class: 'form-control' %>
+<% end %>

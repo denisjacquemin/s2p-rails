@@ -19,6 +19,9 @@ class Group < ApplicationRecord
   has_many :competency_groups
   has_many :competencies, through: :competency_groups
 
+  has_many :period_groups
+  has_many :periods, through: :period_groups
+
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_student_id, ->(student_id) { where("? = ANY(students)", student_id) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
@@ -36,6 +39,10 @@ class Group < ApplicationRecord
 
   def writers
     User.active.by_group(self.id)
+  end
+
+  def filtered_competencies
+    return (Competency.by_school(self.school_id).where('all_groups = ?', true) | self.competencies).sort{|a, b| a.order <=> b.order}
   end
 
   before_destroy :clean_students, :clean_messages

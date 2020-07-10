@@ -18,6 +18,8 @@ class PeriodsController < ApplicationController
   # GET /periods/new
   def new
     @period = Period.new
+    @period.groups = Group.only_level.by_school(current_school.id)
+
     respond_to do |format|
       format.html 
       format.js
@@ -115,6 +117,6 @@ class PeriodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def period_params
-      params.require(:period).permit(:name)
+      params.require(:period).permit(:name, :all_groups, group_ids: [])
     end
 end

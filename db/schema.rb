@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_122458) do
+ActiveRecord::Schema.define(version: 2020_07_09_162852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_03_10_122458) do
     t.boolean "title_only", default: false
     t.boolean "all_periods", default: true
     t.boolean "all_groups", default: true
+    t.datetime "deleted_at"
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
@@ -181,13 +182,6 @@ ActiveRecord::Schema.define(version: 2020_03_10_122458) do
     t.string "duuid"
     t.index ["duuid"], name: "index_forms_on_duuid"
     t.index ["muuid"], name: "index_forms_on_muuid"
-  end
-
-  create_table "grades", force: :cascade do |t|
-    t.string "name"
-    t.integer "school_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "groups", id: :serial, force: :cascade do |t|
@@ -293,6 +287,13 @@ ActiveRecord::Schema.define(version: 2020_03_10_122458) do
     t.string "communication"
   end
 
+  create_table "period_groups", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "period_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "periods", force: :cascade do |t|
     t.string "name"
     t.integer "year_id"
@@ -300,6 +301,7 @@ ActiveRecord::Schema.define(version: 2020_03_10_122458) do
     t.datetime "updated_at", null: false
     t.integer "school_id"
     t.integer "order"
+    t.boolean "all_groups", default: true
   end
 
   create_table "phones", id: :serial, force: :cascade do |t|
@@ -477,7 +479,6 @@ ActiveRecord::Schema.define(version: 2020_03_10_122458) do
     t.string "siel_id"
     t.string "upload_uniq_id"
     t.string "idifapme"
-    t.string "grade"
     t.index ["code"], name: "index_students_on_code", unique: true
   end
 

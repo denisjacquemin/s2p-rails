@@ -1,2 +1,4 @@
-$('#selected_student').html("<%= escape_javascript(render 'students_options', students: @students, student_selected_id: @student_selected_id) %>");
-$('#ratings_table tbody').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings) %>");
+
+$('#selected_year').replaceWith("<%= escape_javascript(render 'years_options', years: @rating_years, current_selected_rating_year_id: @current_selected_rating_year_id) %>")
+$('#selected_group').replaceWith("<%= escape_javascript(render 'groups_options', groups: @groups, current_groups_id: @group_selected_id) %>")
+$('#selected_competency').replaceWith("<%= escape_javascript(render 'competencies_options', competencies: @competencies, competency_selected_id: nil) %>")

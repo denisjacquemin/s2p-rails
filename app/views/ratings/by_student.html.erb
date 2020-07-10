@@ -13,7 +13,7 @@
     <%= hidden_field_tag 'selected_current_rating_year', @current_rating_year&.id %>
     <div class="row">
         <div class="col-sm-12 col-md-6">
-            <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+            <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
                 <div class="form-group">
                     <label>Classes</label>
                     <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
@@ -21,7 +21,7 @@
             <% end %>
         </div>
         <div class="col-sm-12 col-md-6">
-            <%= form_tag(writers_access_path, id: 'load_ratings_by_group', method: "get", remote: true, class: '') do %>
+            <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
                 <div class="form-group">
                     <label>Elèves</label>
                     <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control' %>

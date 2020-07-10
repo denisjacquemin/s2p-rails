@@ -1,3 +1,8 @@
-<% competencies.each do |c| %>
-    <option <%= 'disabled' if c.title_only %> value="<%= c.id %>" <%= 'selected' if competency_selected_id == c.id.to_s %>>  <%= '--'  * ((c.level-1) *2) %> <%= c.name %></option>
+<% if competencies.blank? %>
+    <div id="selected_competency">Aucune Matières</div>
+<% else %>
+    <%= select_tag "selected_competency", 
+        options_from_collection_for_select(competencies, "id", "name_with_indent", competency_selected_id), 
+        class: 'form-control', 
+        include_blank: 'Sélectionnez une matière' %>
 <% end %>

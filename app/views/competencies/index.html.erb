@@ -24,8 +24,13 @@
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 top-buffer">
             <div class="row">
               <div class="col-sm-12">
-                <div><%= link_to 'Nouvelle matière', new_competency_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                <div>
+                  <%= link_to 'Nouvelle matière', new_competency_path, class: 'btn btn-primary fab visible-xs', remote: true %>
+                </div>
                 <div class="pull-right hidden-xs">
+                  <% if current_user.superadmin? %>
+                    <%= link_to 'Init Matières', init_competencies_path, class: 'btn btn-warning' %>
+                  <% end %>
                   <%= link_to 'Nouvelle matière', new_competency_path, class: 'btn btn-primary', remote: true %>
                 </div> 
               </div>

@@ -28,13 +28,31 @@ ready = () ->
     })
 
   if $('#rating_screen, #by_student').length
-    $('#rating_screen').on 'change', '#selected_group, #selected_competency', ->
+    $('#rating_screen').on 'change', '#selected_year', ->
+      console.log('in change selected_year')
+      Rails.ajax {
+        type: "POST"
+        url: 'ratings/change_year',
+        data: 'current_selected_rating_year=' + $('#selected_year').val()
+      }
+
+    $('#rating_screen').on 'change', '#selected_group', ->
+      console.log('in change selected_group')
+      Rails.ajax {
+        type: "POST"
+        url: 'ratings/change_group',
+        data: 'current_group_selected_id=' + $('#selected_group').val() \
+          + '&current_selected_rating_year=' + $('#selected_year').val()
+      }
+
+    $('#rating_screen').on 'change', '#selected_competency', ->
+      console.log('in change selected_competency')
       Rails.ajax {
         type: "POST"
         url: 'ratings/students',
         data: 'current_group_selected_id=' + $('#selected_group').val() \
           + '&current_competency_selected_id=' + $('#selected_competency').val() \
-          + '&current_selected_rating_year=' + $('#selected_rating_year').val()
+          + '&current_selected_rating_year=' + $('#selected_year').val()
       }
     $('#by_student').on 'submit', '.report_to_pdf_form', (e) ->
       $(e.target .selected_student_id).val($('#selected_student').val())

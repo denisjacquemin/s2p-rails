@@ -12,6 +12,38 @@ class CompetenciesController < ApplicationController
     @rating_comments = RatingComment.by_school(current_school.id).ordered
   end
 
+  def init
+    current_school.competencies.map(&:delete) # soft delete every competencies
+
+    Competency.create(name: 'MATHÉMATIQUES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, all_groups: true, order: 1)
+    Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 2)
+    Competency.create(name: 'Nombres et opérations', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 3)
+    Competency.create(name: 'Grandeurs', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 4)
+    Competency.create(name: 'Figures et solides', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 5)
+
+    Competency.create(name: 'LANGUE FRANÇAISE', school_id: current_school.id, level: 1, title_only: true, all_periods: true, all_groups: true, order: 6)
+    Competency.create(name: 'Savoir-écouter - savoir-parler', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 7)
+    Competency.create(name: 'Savoir-lire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 8)
+    Competency.create(name: 'Savoir-écrire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 9)
+    Competency.create(name: 'Analyse grammaticale', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 10)
+    Competency.create(name: 'Orthographe', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 11)
+    Competency.create(name: 'Conjugaison', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 12)
+    Competency.create(name: 'Vocabulaire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 13)
+
+    Competency.create(name: 'Éducation Artistique', school_id: current_school.id, level: 1, title_only: false, all_periods: true, all_groups: true, order: 14)
+    
+    Competency.create(name: 'LANGUES MODERNES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, all_groups: true, order: 15)
+
+    Competency.create(name: 'Éducation par la technologie', school_id: current_school.id, level: 1, title_only: false, all_periods: true, all_groups: true, order: 16)
+
+    Competency.create(name: 'Éducation aux médias', school_id: current_school.id, level: 1, title_only: false, all_periods: true, all_groups: true, order: 17)
+
+    Competency.create(name: 'Éducation physique', school_id: current_school.id, level: 1, title_only: false, all_periods: true, all_groups: true, order: 18)
+
+    redirect_to competencies_url
+  end
+
+
   def writers_access
     @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
     @user_selected_id = params[:selected_user] || @users&.first&.id
@@ -28,7 +60,6 @@ class CompetenciesController < ApplicationController
   # GET /competencies/new
   def new
     @competency = Competency.new
-    @competency.groups = Group.by_school(current_school.id)
     @competency.periods = Period.by_school(current_school.id)
     respond_to do |format|
       format.html 
@@ -94,7 +125,7 @@ class CompetenciesController < ApplicationController
   # DELETE /competencies/1
   # DELETE /competencies/1.json
   def destroy
-    @competency.destroy
+    @competency.delete
     respond_to do |format|
       format.html { redirect_to competencies_url, notice: 'Competency was successfully destroyed.' }
       format.json { head :no_content }

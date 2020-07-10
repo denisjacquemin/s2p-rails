@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post 'periods/update_orders', to: 'periods#update_orders'
   resources :periods
   
+  post 'ratings/change_year', to: 'ratings#change_year'
   post 'ratings/change_group', to: 'ratings#change_group'
   post 'ratings/change_student', to: 'ratings#change_student'
   post 'ratings/report_to_pdf', to: 'ratings#report_to_pdf'
@@ -25,11 +26,13 @@ Rails.application.routes.draw do
   get 'ratings/edit_comment/:competency_id/:student_id/:period_id', to: 'ratings#edit_comment', as: 'rating_edit_comment'
 
 
+
   resources :ratings
 
   patch 'users/update_competency_groups/:id', to: 'users#update_competency_groups', as: 'update_competency_groups'
   get 'competencies/writers_access', to: 'competencies#writers_access', as: 'writers_access'
   get 'users/edit_competency_groups/:id', to:'users#edit_competency_groups', as: 'edit_competency_groups'
+  get 'competencies/reset', to: 'competencies#init', as: 'init_competencies'
   resources :competencies
   post 'competencies/update_orders', to: 'competencies#update_orders'
 
