@@ -500,7 +500,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, :scheduled_datetime, "message_category_ids" => [])
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, :scheduled_datetime, recipients_attributes: [:id, :student_id, :_destroy], "message_category_ids" => [])
     end
 
     # def set_s3_direct_post

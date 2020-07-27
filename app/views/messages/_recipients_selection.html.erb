@@ -1,0 +1,166 @@
+<div class="row algolia" id="recipientSelection">
+    <div class="col-xs-12">
+        <h3>Choix des destinataires</h3>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <%= hidden_field_tag 'algolia_search_api_key', current_user.algolia_search_api_key_for_students %>
+        <%= hidden_field_tag 'current_school_id', @current_school.id %>
+
+        <div id="fullsearch-students">
+        </div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs device-small" role="tablist">
+            <li role="presentation" class="active"><a href="#groups-tab" aria-controls="groups-tab" role="tab" data-toggle="tab">Groupes</a></li>
+            <li role="presentation"><a href="#student-tab" aria-controls="student-tab" role="tab" data-toggle="tab">Elèves</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active col col-xs-12 col-sm-6" id="groups-tab">
+                <div id="groups-hits" class="facet"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane col-xs-12 col-sm-6" id="student-tab">
+                <div id="paginationR"></div>
+                <div class="pull-right" style="display:flex">
+                    <span id="totalSelected"></span> / <span id="nbHits"></span>
+                </div>
+                <div id="recipient-hits" class="hits"></div>
+            </div>
+        </div>
+
+        <div class="row" id="recipients-to-select">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" id="buttons">
+        <div style="margin-bottom: 50px">
+            <button alt="Ajouter" type="button" id="addRecipients" class="btn btn-primary" aria-label="Ajout destinataires">
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div>
+            <button alt="Enlever" type="button" id="removeRecipients" class="btn btn-primary" aria-label="Left Align">
+                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" id="recipients">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Destinataires sélectionnés<span style="float:right"># <span id="recipients_counter">Total</span></span>
+                <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par Nom, prénom ou groupe"></div>
+            </div>
+            <div class="panel-body" id="listR">
+                <div id="rEmptyMsg" style="width:100%;height:100%;text-align:center;font-size:25px;color:#aaa;">
+                    </br></br>Aucun destinataire pour l'instant.</br>
+                    <i class="fa fa-inbox" style="font-size:50px;" aria_hidden="true"></i>
+                </div>
+                <div id="rColumnsTitles" style="font-weight: bold; margin-bottom:12px">
+                    <input type="checkbox" id="toggleSelectedR" style="margin-right: 6px">
+                    Nom - prénom
+                    <span style="float:right">Groupes</span>
+                </div>
+                <%= f.fields_for :recipients do |recipients_form| %>
+                <label>
+                    <input type="checkbox">
+                    <%= recipients_form.hidden_field :student_id %>
+                    <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
+                    <span><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
+                </label>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="recipientSelectionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Sélection des destinataires</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <%# <div class="panel panel-default">
+                            <div class="panel-heading">Sélection</div>
+                            <div class="panel-body"> %>
+
+                        <%# <div id="fullsearch-students"></div>
+                        <div id="recipient-hits" class="hits"></div> %>
+
+                        <%# 
+                            </div>
+                        </div> %>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <%# <div class="panel panel-default">
+                            <div class="panel-heading">Destinataires Sélectionés</div>
+                            <div class="panel-body"> %>
+                        La liste ici
+                        <%# </div>
+                        </div> %>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/html" id="recipient-hit-template">
+    <div class="hit hover">
+        <label class="ais-RefinementList--label">
+            <input type="checkbox" class="stud ais-RefinementList--checkbox" value="{{{objectID}}}" data-fullname="{{lastname}} {{firstname}}" data-level="{{level}}" data-classroom="{{classroom}}" data-groups="{{groups_to_index}}">
+            {{{_highlightResult.lastname.value}}} {{{_highlightResult.firstname.value}}}
+            <%# <span class="ais-RefinementList--count" style="margin-left: 15px">{{{_highlightResult.level.value}}}</span> %>
+            <%# <span class="ais-RefinementList--count">Mme Stephanie</span> %>
+        </label>
+    </div>
+</script>
+
+<script type="text/html" id="recipient-no-results-template">
+    <div id="no-results-message">
+        <p>Aucun élève correspondant <em>"{{query}}"</em>.</p>
+    </div>
+</script>
+
+<script type="text/html" id="refinement-list-item-template">
+    <label class="ais-RefinementList-label">
+        <input type="checkbox" {{#isRefined}}checked{{/isRefined}} class="ais-RefinementList-checkbox" value="{{label}}">
+        <span class="ais-RefinementList-labelText">{{label}}</span>
+        <span class="ais-RefinementList-count">{{count}}</span>
+    </label>
+</script>
+
+<script type="text/html" id="refinement-list-item-template">
+    <label class="ais-RefinementList-label">
+        <input type="checkbox" {{#isRefined}}checked{{/isRefined}} class="ais-RefinementList-checkbox" value="{{label}}">
+        <span class="ais-RefinementList-labelText">{{label}}</span>
+        <span class="ais-RefinementList-count">{{count}}</span>
+    </label>
+</script>
+
+<script type="text/html" id="loading-indicator-template">
+    <span class="ais-SearchBox-loadingIndicator">
+        <div style="color:#66afe9" class="loader">En cours<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span></div>
+    </span>
+</script>
+
+
+
+
+<%# <a href="{{url}}" style="{{#isRefined}}font-weight: bold{{/isRefined}}">
+        <span>{{label}} ({{count}})</span>
+    </a> %>

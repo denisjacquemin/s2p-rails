@@ -37,7 +37,8 @@ class Message < ApplicationRecord
   belongs_to :account
   has_many :translations, dependent: :destroy
   has_many :email_recipients, dependent: :destroy
-
+  has_many :recipients, -> { order("students.lastname ASC, students.firstname ASC") }, inverse_of: :message
+  accepts_nested_attributes_for :recipients, allow_destroy: true
   has_many :succeeded_payments, -> { succeeded }, class_name: "Payment"
 
 
@@ -173,8 +174,7 @@ class Message < ApplicationRecord
       S2pFirebaseSendMessageJob.perform_later(self)
     end
 
-    groups = self.groups
-    if groups.present? or self.students.present?
+    if has_recipients?
 
       send_message_notifications(self) if self.send_to_app
       # students = Student.includes([:phones, :student_emails]).by_groups(groups) unless groups.nil?
@@ -195,7 +195,7 @@ class Message < ApplicationRecord
       # devicesAndroid = Device.active.android.by_codes(codes)
       # build_android_notifications(self, devicesAndroid) if self.send_to_app
 
-      student_ids = build_student_ids(groups, self.students, self.school.iscity?, self.message_categories.pluck(:id))
+      student_ids = build_student_ids(groups, [self.students, self.recipients.pluck(:student_id)].compact.reduce([], :|) , self.school.iscity?, self.message_categories.pluck(:id))
       # StudentsByMessagePublishJob.perform_later(student_ids, self.id, self.school_id)
       if self.send_by_sms and self.school.has_sms_provision?
         logger.info "send_by_sms: #{students.inspect}"
@@ -481,8 +481,12 @@ class Message < ApplicationRecord
     end
   end
 
+  def has_recipients?
+    return !students.blank? || !groups.blank? || !recipients.blank?
+  end
+
   def presence_of_recipients
-    if status == 'published' and students.blank? and groups.blank?
+    if status == 'published' and ! has_recipients?
       errors.add(:base, "La liste des destinataires est vide")
     end
   end

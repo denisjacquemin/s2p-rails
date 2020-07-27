@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_09_162852) do
+ActiveRecord::Schema.define(version: 2020_07_27_132205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -349,6 +349,19 @@ ActiveRecord::Schema.define(version: 2020_07_09_162852) do
     t.index ["student_id", "school_id", "competency_id", "period_id"], name: "index_ratings_uniqueness", unique: true
   end
 
+  create_table "recipients", force: :cascade do |t|
+    t.integer "message_id"
+    t.integer "student_id"
+    t.integer "school_id"
+    t.string "code"
+    t.boolean "viewed_by_email"
+    t.boolean "viewed_by_app"
+    t.boolean "viewed_by_sms"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_recipients_on_code"
+  end
+
   create_table "rpush_apps", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "environment"
@@ -439,6 +452,7 @@ ActiveRecord::Schema.define(version: 2020_07_09_162852) do
     t.boolean "acaweb", default: false
     t.boolean "is_ifapme", default: false
     t.boolean "delete_students_on_csv_import", default: false
+    t.boolean "new_recipients_selection", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
@@ -546,6 +560,7 @@ ActiveRecord::Schema.define(version: 2020_07_09_162852) do
     t.boolean "send_email_to_author", default: true
     t.boolean "send_email_to_admin", default: true
     t.boolean "send_notification_by_email", default: false
+    t.string "algolia_search_api_key_for_students"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"

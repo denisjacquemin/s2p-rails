@@ -1,207 +1,218 @@
 // Place all the styles related to the students controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 .manage_group {
-  margin-top: 30px;
-
-  .buttons {
-    padding-top: 40px;
-    margin: 0 auto;
-    #remove {
-      margin-top: 40px;
+    margin-top: 30px;
+    .buttons {
+        padding-top: 40px;
+        margin: 0 auto;
+        #remove {
+            margin-top: 40px;
+        }
     }
-  }
 }
 
 .action-menu {
-  float:right;
-  margin-top: 8px;
-  margin-right: 5px;
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
 }
 
 .div-row {
-  width: 100%;
+    width: 100%;
 }
 
 .div-row-header {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .div-column {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
 }
 
-.div-column, .div-column-action, .checkbox-column, .selectall-checkbox-column {
-  float: left;
-  height: 42px;
-  line-height: 42px;
-  text-decoration: inherit;
-  // overflow:hidden;
+.div-column,
+.div-column-action,
+.checkbox-column,
+.selectall-checkbox-column {
+    float: left;
+    height: 42px;
+    line-height: 42px;
+    text-decoration: inherit;
+    // overflow:hidden;
 }
+
 .flags {
-  display: inline;
-  .flag {
-    visibility: hidden;
-    padding: 0 3px;
-    span {
-      margin-right: 3px;
+    display: inline;
+    .flag {
+        visibility: hidden;
+        padding: 0 3px;
+        span {
+            margin-right: 3px;
+        }
     }
-  }
 }
 
 .div-column-action:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
-
 
 .algolia_students .hits .div-row:hover {
-  cursor:pointer;
-  color: #2780E3;
-  text-decoration: underline;
-  .div-column-action {
-    color: #000;
-    cursor: auto;
-  }
+    cursor: pointer;
+    color: #2780E3;
+    text-decoration: underline;
+    .div-column-action {
+        color: #000;
+        cursor: auto;
+    }
 }
 
-.checkbox-column, .selectall-checkbox-column {
-  text-align:center;
-}
-
-@media(max-width:767px){
-  .div-column {
-    width: 25%;
-  }
-  .checkbox-column, .selectall-checkbox-column {
-    display: none;
-  }
-}
-
-
-@media(min-width:768px){
-  .div-column {
-    width: 18%;
-  }
-  .checkbox-column, .selectall-checkbox-column {
-    width:5%;
-  }
-  .div-column-action {
-    width: 10%;
+.checkbox-column,
+.selectall-checkbox-column {
     text-align: center;
-  }
 }
 
-@media(min-width:992px){
-  .div-column {
-    width: 16%;
-  }
-  .div-column-action {
-    width: 15%;
-    text-align: center;
-  }
+@media(max-width:767px) {
+    .div-column {
+        width: 25%;
+    }
+    .checkbox-column,
+    .selectall-checkbox-column {
+        display: none;
+    }
+}
+
+@media(min-width:768px) {
+    .div-column {
+        width: 18%;
+    }
+    .checkbox-column,
+    .selectall-checkbox-column {
+        width: 5%;
+    }
+    .div-column-action {
+        width: 10%;
+        text-align: center;
+    }
+}
+
+@media(min-width:992px) {
+    .div-column {
+        width: 16%;
+    }
+    .div-column-action {
+        width: 15%;
+        text-align: center;
+    }
 }
 
 #results_by_page {
-  margin-top: 50px;
+    margin-top: 50px;
 }
 
 .algolia_students .hits .hit-content.active {
-  background-color: #eff9fd;
+    background-color: #eff9fd;
 }
 
 .algolia_students #hits .hit-content.active:hover {
-  background-color: #d8f1fa;
+    background-color: #d8f1fa;
 }
 
 #stats {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 #level {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 
-.ais-refinement-list--label {
-  display: block;
-  font-weight: normal;
-  input {
-    margin-right: 10px;
-  }
-  .ais-refinement-list--count {
-    float:right;
-  }
+.ais-RefinementList--label {
+    display: block;
+    font-weight: normal;
+    input {
+        margin-right: 10px;
+    }
+    .ais-RefinementList--count {
+        float: right;
+    }
 }
-
 
 .sort {
-  text-decoration: underline;
-  color: #2780E3;
+    text-decoration: underline;
+    color: #2780E3;
 }
 
 .sort:after {
-  display:inline-block;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  content:"";
-  position: relative;
-  top:-10px;
-  right:-5px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    content: "";
+    position: relative;
+    top: -10px;
+    right: -5px;
 }
+
 .sort.asc:after {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #000;
-  content:"";
-  position: relative;
-  top:4px;
-  right:-5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000;
+    content: "";
+    position: relative;
+    top: 4px;
+    right: -5px;
 }
+
 .sort.desc:after {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid #000;
-  content:"";
-  position: relative;
-  top:-4px;
-  right:-5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #000;
+    content: "";
+    position: relative;
+    top: -4px;
+    right: -5px;
 }
 
 .algolia-autocomplete {
-  width: 100%;
+    width: 100%;
 }
-.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-  width: 100%;
-  min-height: 30px;
-  text-indent: 10px;
-}
+
+.algolia-autocomplete .aa-input,
 .algolia-autocomplete .aa-hint {
-  color: #999;
+    width: 100%;
+    min-height: 30px;
+    text-indent: 10px;
 }
+
+.algolia-autocomplete .aa-hint {
+    color: #999;
+}
+
 .algolia-autocomplete .aa-dropdown-menu {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #999;
-  border-top: none;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #999;
+    border-top: none;
 }
+
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-  cursor: pointer;
-  padding: 5px 4px;
+    cursor: pointer;
+    padding: 5px 4px;
 }
+
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-  background-color: #B2D7FF;
+    background-color: #B2D7FF;
 }
+
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-  font-weight: bold;
-  font-style: normal;
+    font-weight: bold;
+    font-style: normal;
 }

@@ -7,6 +7,8 @@ class School < ApplicationRecord
   accepts_nested_attributes_for :accounts, allow_destroy: true
   has_many :competencies, dependent: :destroy
   has_many :translations, dependent: :destroy
+  has_many :recipients, dependent: :destroy
+
 
   scope :by_ids, ->(ids) { where(id: ids) }
 

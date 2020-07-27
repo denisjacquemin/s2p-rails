@@ -4,9 +4,9 @@ class Student < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch synchronous: false do
-    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count
-    attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code]
-    attributesForFaceting ['searchable(classroom)', 'searchable(level)']
+    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count, :groups_to_index, :groups_to_index_ids
+    attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code, :groups]
+    attributesForFaceting ['searchable(classroom)', 'searchable(level)', 'searchable(groups_to_index)', 'filterOnly(groups_to_index_ids)']
     customRanking ['asc(level)', 'asc(lastname)']
     typoTolerance :false
   end
@@ -29,6 +29,7 @@ class Student < ApplicationRecord
   after_update :clean_old_level, if: -> {level_changed?}
   after_update :clean_old_classroom, if: -> {classroom_changed?}
 
+  has_many :recipients, dependent: :destroy
   belongs_to :school, required: false
   has_and_belongs_to_many :users
   has_and_belongs_to_many :message_categories
@@ -40,6 +41,8 @@ class Student < ApplicationRecord
   accepts_nested_attributes_for :student_emails,
     :allow_destroy => true,
     :reject_if => proc { |att| att[:email].blank? }
+  has_many :recipients, inverse_of: :student
+
 
   def emails
     self.student_emails.pluck(:email).join(' ')
@@ -80,6 +83,14 @@ class Student < ApplicationRecord
 
   def groups_obj
     Group.by_ids(self.groups)
+  end
+
+  def groups_to_index
+    Group.where("id IN (?)", self.groups).pluck(:name)
+  end
+
+  def groups_to_index_ids
+    Group.where("id IN (?)", self.groups).pluck(:id)
   end
 
   def fullname

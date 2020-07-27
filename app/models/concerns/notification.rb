@@ -2,7 +2,7 @@ module Notification extend ActiveSupport::Concern
 
     def send_message_notifications(message)
       groups_ids = message.groups
-      students_ids = message.students
+      students_ids = [message.students, message.recipients.pluck(:student_id)].compact.reduce([], :|)
 
       devices = []
       if message.school.iscity?

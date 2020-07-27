@@ -64,6 +64,90 @@ build_group_row = (group_id, group_name) ->
             }).appendTo(td2)
   return tr
 
+add_recipient = (student) ->
+  console.log 'adding'
+  recipient = $('#recipients input[value=' +  student.value + ']')
+  if (recipient.length)
+    recipient[0].name = recipient[0].name.replace('_destroy', 'student_id')
+    $(recipient[0].parentElement).removeClass('deleted')
+  else
+    index = $('#recipients .panel-body input:checkbox').length
+    
+    label    = $("<label>", {
+      text: student.dataset['fullname']
+    }).appendTo($('#recipients .panel-body'))
+    $("<input/>", {
+        type: 'checkbox'
+      }).prependTo(label)
+    $("<input/>", {
+        type: 'hidden'
+        value: student.value
+        name: 'message[recipients_attributes][' + index + '][student_id]'
+        id: 'message_recipients_attributes_' + index + '_student_id'
+    }).prependTo(label)
+    $("<span/>", {
+      text: student.dataset['groups']
+      alt: student.dataset['groups']
+    }).appendTo(label)
+
+remove_recipient = (student) ->
+  $(student.parentElement).find("input[type='hidden']")[0].name = $(student.parentElement).find("input[type='hidden']")[0].name.replace('student_id', '_destroy')
+  $($(student.parentElement).find("input[type='checkbox']")[0]).prop('checked', false)
+  $(student.parentElement).addClass('deleted')
+  update_recipients_ui()
+  
+update_recipients_ui = () ->
+  nbrRecipients = $('#recipients .panel-body label').not('#recipients .panel-body label.deleted').length
+  $('#recipients_counter').html(nbrRecipients)
+  $('#toggleSelectedR').prop('checked', false)
+
+  if nbrRecipients > 0
+    $('#filterR, #rColumnsTitles').show()
+    $('#rEmptyMsg').hide()
+  else
+    $('#filterR, #rColumnsTitles').hide()
+    $('#rEmptyMsg').show()
+
+update_counter_selected_students = () ->
+  alert 'update_counter_selected_students'
+
+toggleSelectedR = (event) ->
+  $('#recipients label:visible input[type="checkbox"]').prop('checked', event.target.checked)
+
+toggleSelectR = (event) ->
+  $('#recipient-hits label input[type="checkbox"]').prop('checked', event.target.checked)
+
+
+resetSelectR = () ->
+  $('#recipients input[type="checkbox"]').prop('checked', false)
+
+
+filterRecipients = ->
+  # Declare variables
+  resetSelectR()
+
+  input = undefined
+  filter = undefined
+  ul = undefined
+  li = undefined
+  a = undefined
+  i = undefined
+  txtValue = undefined
+  input = document.getElementById('filterR')
+  filter = input.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+  list = document.getElementById('listR')
+  labels = list.getElementsByTagName('label')
+  # Loop through all list items, and hide those who don't match the search query
+  i = 0
+  while i < labels.length
+    txtValue = labels[i].textContent or labels[i].innerText
+    if txtValue.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().indexOf(filter) > -1
+      labels[i].style.display = ''
+    else
+      labels[i].style.display = 'none'
+    i++
+  return
+
 submit_with_status = (status) ->
   $('#message_status').val(status)
   $('#change_status').val(true)
@@ -254,6 +338,41 @@ ready = () ->
       submit_with_status(status)
 
   $('[data-toggle="popover"]').popover()
+
+  $('#recipientSelection').on 'change', '.stud', (event) ->
+    refreshRSelected()
+
+  refreshRSelected = () ->
+    $('#totalSelected').html($('.hits .hit input:checked.stud').length)
+
+
+  $('#recipientSelection').on 'click', '#addRecipients', (event) ->
+    console.log 'before add'
+    add_recipient student for student in $(".hits .hit input:checked.stud")
+    console.log 'after add'
+
+    update_recipients_ui()
+  
+  $('#recipientSelection').on 'click', '#removeRecipients', (event) ->
+    remove_recipient student for student in $("#recipients input:checked").not('#toggleSelectedR')
+    update_recipients_ui()
+
+  $('#filterR').keyup((event) ->
+    filterRecipients()
+  )
+
+  $('#recipientSelection').on 'change', '#toggleSelectedR', (event) ->
+    toggleSelectedR(event)
+
+  $('#recipientSelection').on 'click', '.all', (event) ->
+    $('#recipient-hits label input[type="checkbox"]').prop('checked', true)
+    refreshRSelected()
+  $('#recipientSelection').on 'click', '.none', (event) ->
+    $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
+    refreshRSelected()
+  
+  update_recipients_ui()
+ 
 
   # $('.dataTable').on 'change', 'input:checkbox', () ->
   #   console.log('click on input:checkbox')

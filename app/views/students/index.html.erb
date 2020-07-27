@@ -148,7 +148,7 @@
     </div>
     <div id="search-input"></div>
     <div>
-      <label class="ais-refinement-list--label">
+      <label class="ais-RefinementList--label">
         <input type="checkbox" class="scb" name="all_students" id="all_students" value="true">
             Tous les <%= current_school.iscity ? 'citoyens' : 'élèves' %> (<%= @total_of_students %>)
       </label>
@@ -206,7 +206,7 @@
 <script type="text/template" id="facet-item-template">
 
       <div>
-        <input type="checkbox" class="ais-refinement-list--checkbox" value="{{ name }}">
+        <input type="checkbox" class="ais-RefinementList--checkbox" value="{{ name }}">
         <a href="" class="facet-link toggle-refine {{#disjunctive}}facet-disjunctive{{/disjunctive}} {{#isRefined}}facet-refined{{/isRefined}}" data-facet="{{ facet }}" data-value="{{ name }}">
           {{ name }}<span class="facet-count">#{{ count }}</span>
         </a>

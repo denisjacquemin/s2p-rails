@@ -1,0 +1,131 @@
+# compatibility with browsers not supporting turbolinks:load
+if not Turbolinks.supported
+  $(document).ready ->
+    ready()
+
+$(document).on 'turbolinks:load', ->
+  ready()
+
+getTemplate = (templateName) ->
+  document.getElementById(templateName + '-template').innerHTML
+
+ready = () ->
+    if $('#recipientSelection').length
+      search = instantsearch(
+        searchClient: algoliasearch(
+          '<%= Rails.application.secrets.algolia_app_id %>'
+          $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
+        )
+        indexName: 'Student'
+        numberLocale: 'fr'
+        searchFunction: (helper) ->
+          $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
+          $('#totalSelected').html('0')
+          helper.search()
+       <%# searchFunction: (helper) ->
+          recipitentsContainer = document.querySelector('#recipient-hits')
+          groupsContainer = document.querySelector('#groups-hits')
+          recipitentsContainer.style.display = if helper.state.query == '' then 'none' else ''
+          groupsContainer.style.display = if helper.state.query == '' then '' else 'none'
+          helper.search() %>
+
+        
+      )
+
+      search.addWidget instantsearch.widgets.configure(
+        hitsPerPage: 3000
+        numericRefinements :
+          school_id:
+            '=': [$('#current_school_id').val()]
+        
+      )
+      
+      searchBoxPanel = instantsearch.widgets.panel(
+        <%# hidden: ({ results }) ->
+          [0].indexOf(results.nbPages) isnt -1 %>
+        cssClasses:
+          noRefinementRoot: 'emptyindex'
+      )(instantsearch.widgets.searchBox)
+
+      search.addWidget searchBoxPanel(
+        container: '#fullsearch-students'
+        placeholder: "Rechercher un destinataire par nom / prénom / groupe"
+        magnifier: false
+        autofocus: false
+        showReset: false
+        showSubmit: false
+        showLoadingIndicator: true
+        templates:
+          loadingIndicator: getTemplate('loading-indicator')
+      )
+      
+
+      paginationPanel = instantsearch.widgets.panel(
+        hidden: ({ results }) ->
+          [0,1].indexOf(results.nbPages) isnt -1
+      )(instantsearch.widgets.pagination)
+
+      search.addWidget paginationPanel(
+        container: '#paginationR'
+        showFirst: false
+        showPrevious: false 
+        showNext: false
+        showLast: false
+        scrollTo: '#paginationR'
+        cssClasses: {
+          root: 'paginationR'
+          active: 'active'
+          }
+      )
+
+      search.addWidget instantsearch.widgets.stats(
+        container: '#nbHits'
+        templates:
+          text: "
+            {{#hasNoResults}}0{{/hasNoResults}}
+            {{#hasOneResult}}1{{/hasOneResult}}
+            {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}}{{/hasManyResults}}
+          ",
+      )
+
+      hitsPanel = instantsearch.widgets.panel(
+        templates:
+          header: '<h5>Elèves</h5><span class="all">Tous</span> - <span class="none">Aucun</span>'
+        <%# hidden: ({ results }) ->
+          [0].indexOf(results.nbPages) isnt -1 %>
+      )(instantsearch.widgets.hits)
+
+      search.addWidget hitsPanel(
+        container: '#recipient-hits'
+        templates:
+          item: getTemplate('recipient-hit')
+          empty: getTemplate('recipient-no-results')
+      )
+
+      refinementListPanel = instantsearch.widgets.panel(
+        templates:
+          header: '<h5>Groupes</h5>'
+        <%# hidden: ({ results }) ->
+          [0].indexOf(results.nbPages) isnt -1 %>
+      )(instantsearch.widgets.refinementList)
+
+      search.addWidget refinementListPanel(
+        container: '#groups-hits'
+        attribute: 'groups_to_index'
+        limit: 1000
+        cssClasses:
+          root: ''
+        sortBy: [
+          'name:asc'
+          'count:desc'
+        ]
+        operator: 'or'
+        searchable: false
+        searchablePlaceholder: 'Rechercher un groupe'
+        searchableIsAlwaysActive: true
+        templates:
+          item: getTemplate('refinement-list-item')
+
+      )
+      
+      search.start()

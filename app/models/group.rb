@@ -33,6 +33,10 @@ class Group < ApplicationRecord
 
   default_scope { order('name ASC') }
 
+  def group_id
+    self.id
+  end
+
   def students
     Student.by_group(self.id).default_order
   end

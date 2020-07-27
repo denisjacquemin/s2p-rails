@@ -77,7 +77,11 @@
           </div>
           <%= hidden_field_tag 'scheduled_datetime', @message.scheduled_publish %>
           <%= render 'form_details', f: f, message: @message %>
-          <%= render 'form_groups', f: f, message: @message %>
+          <% if current_school.new_recipients_selection %>
+            <%= render 'recipients_selection', f: f, message: @message %>
+          <% else %>
+            <%= render 'form_groups', f: f, message: @message %>
+          <% end %>        
         <% end %>
       </div>
       <% # if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>

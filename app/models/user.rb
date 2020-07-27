@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Code
+  include DirtyAssociations
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -9,7 +10,10 @@ class User < ApplicationRecord
 
   belongs_to :school, required: false
   has_many :messages
-  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :groups, {
+    after_add: :set_dirty_associations,
+    after_remove: :set_dirty_associations,
+  }
   has_and_belongs_to_many :students
 
   has_many :competency_group_users
@@ -98,12 +102,14 @@ class User < ApplicationRecord
 
   def self.add_schools(user_id, school_ids)
     User.where(id: user_id).update_all(['schools = array_cat(schools, ARRAY[?]), updated_at = ?', school_ids, Time.now.utc])
+    set_dirty_associations
   end
 
   def self.remove_schools(user_id, schools_ids)
     schools_ids.each do |school_id|
       User.where(id: user_id).update_all(['schools = array_remove(schools, ?), updated_at = ?', school_id, Time.now.utc])
     end
+    set_dirty_associations
   end
 
   def self.add_group(user_id, group_id)
@@ -138,9 +144,8 @@ class User < ApplicationRecord
     end
 
     def algolia_key_needs_update?
-      logger.info "algolia_key_needs_update? #{schools_previously_changed?} || #{role_previously_changed?}  || #{id_previously_changed?}"
-
+      # logger.info "algolia_key_needs_update? #{schools_previously_changed?} || #{role_previously_changed?}  || #{id_previously_changed?}"
       # id_previously_changed? to detect a new creation
-      schools_previously_changed? || role_previously_changed? || id_previously_changed?
+      previous_changed? || schools_previously_changed?
     end
 end

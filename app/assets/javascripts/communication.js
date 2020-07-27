@@ -34,5 +34,6 @@
 //= require formbuilder_page
 //= require jsgrid.min
 //= require instantsearch
+//= require instantsearch_recipients
 //= require table_filter
 //= require vanilla-emoji-picker/emojiPicker.min
