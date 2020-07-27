@@ -105,19 +105,25 @@ ready = () ->
         $('#first_students').hide()
 
       search = instantsearch(
-        appId: '<%= Rails.application.secrets.algolia_app_id %>'
-        apiKey: $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
+        searchClient: algoliasearch(
+          '<%= Rails.application.secrets.algolia_app_id %>'
+          $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
+        )        
         indexName: 'Student'
-        searchParameters:
-          hitsPerPage: 100
-          numericRefinements :
-            school_id:
-              '=': [$('#current_school_id').val()]
-        urlSync: {
+        numberLocale: 'fr'
+        routing: {
           getHistoryState: ->
             { turbolinks: true }
         }
         poweredBy: true)
+
+      search.addWidget instantsearch.widgets.configure(
+        hitsPerPage: 100
+        numericRefinements :
+          school_id:
+            '=': [$('#current_school_id').val()]
+        
+      )
       search.addWidget instantsearch.widgets.searchBox(
         container: '#search-input'
         placeholder: "Rechercher"
@@ -138,14 +144,17 @@ ready = () ->
           })
       search.addWidget instantsearch.widgets.stats({
         container: '#stats',
-        templates: {
-          body: "Total: {{nbHits}}<span id='nbhits' style='display:none;'>{{nbHits}}</span>"
-        }
+        templates:
+          text: "
+            {{#hasNoResults}}0{{/hasNoResults}}
+            {{#hasOneResult}}1{{/hasOneResult}}
+            {{#hasManyResults}}<span id='nbhits' style='display:none;'>{{nbHits}}</span>Total {{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}}{{/hasManyResults}}
+          ",
       })
 
       search.addWidget instantsearch.widgets.refinementList(
         container: '#classroom'
-        attributeName: 'classroom'
+        attribute: 'classroom'
         limit: 10
         showMore:  {
           templates: {
@@ -175,7 +184,7 @@ ready = () ->
 
       search.addWidget instantsearch.widgets.refinementList(
         container: '#level'
-        attributeName: 'level'
+        attribute: 'level'
         limit: 10
         showMore: {
           templates: {

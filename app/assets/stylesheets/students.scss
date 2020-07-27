@@ -128,13 +128,19 @@
     margin-bottom: 40px;
 }
 
-.ais-RefinementList--label {
+.ais-RefinementList-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ais-RefinementList-label {
     display: block;
     font-weight: normal;
     input {
         margin-right: 10px;
     }
-    .ais-RefinementList--count {
+    .ais-RefinementList-count {
         float: right;
     }
 }
