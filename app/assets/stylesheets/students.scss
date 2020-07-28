@@ -59,10 +59,15 @@
     text-decoration: none;
 }
 
-.algolia_students .hits .div-row:hover {
+.algolia .hits .hit-content:hover {
+    background-color: #f5f7f7;
     cursor: pointer;
     color: #2780E3;
     text-decoration: underline;
+}
+
+.algolia .hits .hit-content.active:hover {
+    background-color: #d1eef9;
     .div-column-action {
         color: #000;
         cursor: auto;
