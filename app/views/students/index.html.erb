@@ -80,9 +80,17 @@
     </div>
 </div>
 
-<div class="row algolia algolia_students">
+<% if @total_of_students == 0 %>
+<div style="width:100%;height:100%;text-align:center;font-size:35px;color:#bbb;">
+    <br><br>Aucun élève pour l'instant.<br><br>
+    <i class="fa fa-user-slash" style="font-size:80px;" aria_hidden="true"></i>
+</div>
 
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+<% else %>
+
+
+<div class="row algolia algolia_students">
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id="results">
         <div class="clearfix div-row div-row-header">
             <div class="selectall-checkbox-column hidden-xs"><input type="checkbox" id="toggle_all" /></div>
             <div class="div-column">Nom</div>
@@ -95,91 +103,82 @@
             <div class="div-column">Code</div>
             <div class="div-column-action hidden-xs hidden-sm"></div>
         </div>
-        <div id="hits" class="div-table hits" style='display:none;'>
+        <div id="hits" class="div-table hits">
             <div>
-                <div class="spinner">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
-            </div>
-        </div>
-        <div id="first_students" class="hits">
-            <% @first_500_students.each do |student| %>
-            <div class="ais-hits--item">
-                <div class="clearfix div-row hit-content" data-student-id="<%= student.id %>">
-                    <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="<%= student.id %>" class="scb toggle-row"></div>
-                    <div class="div-column"><%= student.lastname %></div>
-                    <div class="div-column"><%= student.firstname %></div>
-                    <div class="div-column"><%= student.level %></div>
-                    <div class="div-column hidden-xs"><%= student.classroom %></div>
-                    <div class="div-column"><%= student.code %></div>
-                    <div class="div-column-action hidden-xs hidden-sm">
-                        <table class="flags">
-                            <tr>
-                                <td class="flag" <% if student.followers > 0 %>style="visibility:visible" <% end %>><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup><%= student.followers %></sup></td>
-                                <td class="flag" <% if student.emails.size > 0 %> style="visibility:visible" <% end %>><i class="fa fa-envelope"></i></td>
-                                <td class="flag" <% if student.phones.size > 0 %> style="visibility:visible" <% end %>><span class="fa fa-phone" aria-hidden="true"></span><sup><%= student.phones.size %></sup></td>
-                            </tr>
-                        </table>
-                        <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
-                            <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="<%= student.id %>">
-                                <i class="dd-toggle material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                            </ul>
+                <% @first_500_students.each do |student| %>
+                <div class="ais-hits--item">
+                    <div class="clearfix div-row hit-content" data-student-id="<%= student.id %>">
+                        <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="<%= student.id %>" class="scb toggle-row"></div>
+                        <div class="div-column"><%= student.lastname %></div>
+                        <div class="div-column"><%= student.firstname %></div>
+                        <div class="div-column"><%= student.level %></div>
+                        <div class="div-column hidden-xs"><%= student.classroom %></div>
+                        <div class="div-column"><%= student.code %></div>
+                        <div class="div-column-action hidden-xs hidden-sm">
+                            <table class="flags">
+                                <tr>
+                                    <td class="flag" <% if student.followers > 0 %>style="visibility:visible" <% end %>><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup><%= student.followers %></sup></td>
+                                    <td class="flag" <% if student.emails.size > 0 %> style="visibility:visible" <% end %>><i class="fa fa-envelope"></i></td>
+                                    <td class="flag" <% if student.phones.size > 0 %> style="visibility:visible" <% end %>><span class="fa fa-phone" aria-hidden="true"></span><sup><%= student.phones.size %></sup></td>
+                                </tr>
+                            </table>
+                            <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+                                <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="<%= student.id %>">
+                                    <i class="dd-toggle material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <% end %>
             </div>
-            <% end %>
         </div>
         <div id="pagination"></div>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-            Comment <em style="background-color: #FFFF00;">mettre à jour la liste des élèves</em>, <a href="/help/update_students" target="_blank" style="text-decoration:underline;">suivez le guide</a>.</em>
-        </div>
-        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
-            3 façons différentes de donner le code App smartphones aux parents, <a href="/help/communiquer_les_codes_aux_parents" target="_blank" style="text-decoration:underline;">suivez le guide</a>.
-        </div>
         <div>
             <div class="pull-left"><span id="selected">0</span> élève(s) sélectionné(s)</div>
             <div id="stats" class="pull-right"></div>
         </div>
         <div id="search-input"></div>
         <div>
-            <label class="ais-RefinementList--label">
+            <label class="ais-RefinementList-label">
                 <input type="checkbox" class="scb" name="all_students" id="all_students" value="true">
-                Tous les <%= current_school.iscity ? 'citoyens' : 'élèves' %> (<%= @total_of_students %>)
+                Tous les <%= current_school.iscity ? 'citoyens' : 'élèves' %>
+                <span class="ais-RefinementList-count" id="TotalStd"><%= @total_of_students %></span>
             </label>
             <br />
             <div id="level"></div>
             <div id="classroom"></div>
-            <!--
+        </div>
+        <!--
     <div class="pull-right" id="results_by_page"><span id="hitperpage"></span> Résultats par page</div>
     -->
-        </div>
     </div>
+</div>
 
-    <script type="text/html" id="hit-template">
-        <div class="clearfix div-row hit-content" data-student-id="{{{objectID}}}">
-            <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="{{{objectID}}}" class="scb toggle-row"></div>
-            <div class="div-column">{{{_highlightResult.lastname.value}}}</div>
-            <div class="div-column">{{{_highlightResult.firstname.value}}}</div>
-            <div class="div-column">{{{_highlightResult.level.value}}}</div>
-            <div class="div-column hidden-xs">{{{_highlightResult.classroom.value}}}</div>
-            <div class="div-column">{{{_highlightResult.code.value}}}</div>
-            <div class="div-column-action hidden-xs hidden-sm">
-                <table class="flags">
-                    <tr>
-                        <td class="flag" {{#followers}}style="visibility:visible" {{/followers}}><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup></td>
-                        <td class="flag" {{#message_sent_by_email}}style="visibility:visible" {{/message_sent_by_email}}><i class="fa fa-envelope"></i></td>
-                        <td class="flag" {{#phones_count}}style="visibility:visible" {{/phones_count}}><span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup></td>
-                    </tr>
-                </table>
-                <!-- {{#followers}}
+<% end %>
+
+<script type="text/html" id="hit-template">
+    <div class="clearfix div-row hit-content" data-student-id="{{{objectID}}}">
+        <div class="checkbox-column row-checkbox toggle-row hidden-xs"><input type="checkbox" name="student[id][]" id="s_" value="{{{objectID}}}" class="scb toggle-row"></div>
+        <div class="div-column">{{{_highlightResult.lastname.value}}}</div>
+        <div class="div-column">{{{_highlightResult.firstname.value}}}</div>
+        <div class="div-column">{{{_highlightResult.level.value}}}</div>
+        <div class="div-column hidden-xs">{{{_highlightResult.classroom.value}}}</div>
+        <div class="div-column">{{{_highlightResult.code.value}}}</div>
+        <div class="div-column-action hidden-xs hidden-sm">
+            <table class="flags">
+                <tr>
+                    <td class="flag" {{#followers}}style="visibility:visible" {{/followers}}><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup></td>
+                    <td class="flag" {{#message_sent_by_email}}style="visibility:visible" {{/message_sent_by_email}}><i class="fa fa-envelope"></i></td>
+                    <td class="flag" {{#phones_count}}style="visibility:visible" {{/phones_count}}><span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup></td>
+                </tr>
+            </table>
+            <!-- {{#followers}}
         <span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup>{{followers}}</sup>
       {{/followers}}
       {{#message_sent_by_email}}
@@ -188,29 +187,37 @@
       {{#phones_count}}
         <span class="fa fa-phone" aria-hidden="true"></span><sup>{{phones_count}}</sup>
       {{/phones_count}} -->
-                <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
-                    <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="{{{objectID}}}">
-                        <i class="dd-toggle material-icons">more_vert</i>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                    </ul>
-                </div>
+            <div class="btn-group action-menu" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Actions">
+                <a href="#" class="btn btn-sm dropdown-toggle dd-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-student-id="{{{objectID}}}">
+                    <i class="dd-toggle material-icons">more_vert</i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                </ul>
             </div>
         </div>
-    </script>
+    </div>
+</script>
 
-    <script type="text/html" id="no-results-template">
-        <div id="no-results-message">
-            <p>Aucun élève correspondant <em>"{{query}}"</em>.</p>
-        </div>
-    </script>
+<script type="text/html" id="show-more-template">
+{{#isShowingMore}}
+    Moins
+{{/isShowingMore}}
+{{^isShowingMore}}
+    Plus
+{{/isShowingMore}}
+</script>
 
-    <script type="text/template" id="facet-item-template">
+<script type="text/html" id="no-results-template">
+    <div id="no-results-message">
+        <p>Aucun élève correspondant <em>"{{query}}"</em>.</p>
+    </div>
+</script>
 
-        <div>
+<script type="text/template" id="facet-item-template">
+    <div>
         <input type="checkbox" class="ais-RefinementList--checkbox" value="{{ name }}">
         <a href="" class="facet-link toggle-refine {{#disjunctive}}facet-disjunctive{{/disjunctive}} {{#isRefined}}facet-refined{{/isRefined}}" data-facet="{{ facet }}" data-value="{{ name }}">
           {{ name }}<span class="facet-count">#{{ count }}</span>
         </a>
       </div>
-</script>
+    </script>

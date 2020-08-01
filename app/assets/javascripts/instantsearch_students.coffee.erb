@@ -25,10 +25,11 @@ ready = () ->
         e.preventDefault()
         return
       return
-    $('.algolia_students').on 'click', '#all_students', (e) ->
-      $('.algolia_students #toggle_all, .hits .scb').prop('checked', false)
-      $('.div-row').removeClass('active')
-      $('#selected').text('0')
+    <%# $('.algolia_students').on 'click', '#all_students', (e) ->
+      resetSelectedRows()
+      resetRefinements()
+      set
+      return  %>
 
     $('.hits').on 'click', '.div-row', (e) ->
       if $(e.target).is('.sendcode')
@@ -42,7 +43,6 @@ ready = () ->
           })
         return
       if $(e.target).is('.toggle-row')
-        $('#all_students').prop('checked', false)
         divRow = $(e.target).closest('.div-row')
         toggleSelectedRow(divRow)
         updateSelectedRowsCounter()
@@ -88,27 +88,15 @@ ready = () ->
 
 
     if $('.algolia_students').length
-      $('.algolia').on 'keydown', 'input.ais-SearchBox-input', (event) ->
-        $('#hits').show()
-        $('#first_students').hide()
-
-      $('.algolia').on 'click', '.ais-pagination--item', (event) ->
-        $('#hits').show()
-        $('#first_students').hide()
-
-      $('.algolia').on 'click', '.ais-RefinementList--checkbox', (event) ->
-        $('#hits').show()
-        $('#first_students').hide()
-
-      if window.location.search != ''
-        $('#hits').show()
-        $('#first_students').hide()
 
       search = instantsearch(
         searchClient: algoliasearch(
           '<%= Rails.application.secrets.algolia_app_id %>'
           $('#algolia_search_api_key').val() #'<%= Rails.application.secrets.algolia_search_api_key %>'#
-        )        
+        )
+        searchFunction: (helper) ->
+          $('#all_students').prop('checked', false)
+          helper.search()        
         indexName: 'Student'
         numberLocale: 'fr'
         routing: {
@@ -124,24 +112,43 @@ ready = () ->
             '=': [$('#current_school_id').val()]
         
       )
-      search.addWidget instantsearch.widgets.searchBox(
+      searchBoxPanel = instantsearch.widgets.panel(
+        <%# hidden: ({ results, query }) ->
+          debugger
+          query is undefined and results.hits.length == 0 %>
+          <%# [0].indexOf(results.nbPages) isnt -1 %>
+        <%# cssClasses:
+          noRefinementRoot: 'emptyindex' %>
+      )(instantsearch.widgets.searchBox)
+
+      search.addWidget searchBoxPanel(
         container: '#search-input'
-        placeholder: "Rechercher"
+        placeholder: "Rechercher par nom / prénom / groupe"
         magnifier: false
         autofocus: true
-        reset: true
+        showReset: false
+        showSubmit: false
       )
+
       search.addWidget instantsearch.widgets.hits(
         container: '#hits'
         templates:
           item: getTemplate('hit')
           empty: getTemplate('no-results'))
-      search.addWidget instantsearch.widgets.pagination(
+      
+      paginationPanel = instantsearch.widgets.panel(
+        hidden: ({ results }) ->
+          [0,1].indexOf(results.nbPages) isnt -1
+      )(instantsearch.widgets.pagination)
+
+      search.addWidget paginationPanel(
         container: '#pagination'
-        cssClasses: {
-          root: 'pagination'
-          active: 'active'
-          })
+        showFirst: false
+        showPrevious: true 
+        showNext: true
+        showLast: false
+      )
+
       search.addWidget instantsearch.widgets.stats({
         container: '#stats',
         templates:
@@ -156,12 +163,6 @@ ready = () ->
         container: '#classroom'
         attribute: 'classroom'
         limit: 10
-        showMore:  {
-          templates: {
-            active: '<a class="ais-show-more ais-show-more__inactive">Moins</a>',
-            inactive: '<a class="ais-show-more ais-show-more__inactive">Plus</a>',
-          }
-        }
         cssClasses:
           root: ''
           count: ''
@@ -170,7 +171,10 @@ ready = () ->
           'name:asc'
           'count:desc'
         ]
+        showMore: true
         operator: 'or'
+        templates:
+          showMoreText: getTemplate('show-more')
       )
       # search.addWidget instantsearch.widgets.hitsPerPageSelector(
       #   container: '#hitperpage'
@@ -186,12 +190,7 @@ ready = () ->
         container: '#level'
         attribute: 'level'
         limit: 10
-        showMore: {
-          templates: {
-            active: '<a class="ais-show-more ais-show-more__inactive">Moins</a>',
-            inactive: '<a class="ais-show-more ais-show-more__inactive">Plus</a>',
-          }
-        }
+        showMore: true
         cssClasses:
           root: ''
         sortBy: [
@@ -200,15 +199,16 @@ ready = () ->
           'count:desc'
         ]
         operator: 'or'
+        templates:
+          showMoreText: getTemplate('show-more')
       )
       search.start()
-      search.on('render', onRenderHandler);
+      <%# search.on('render', onRenderHandler); %>
 
-      $('.algolia_students').on 'click', '#toggle_all', (e) ->
-        $('#all_students').prop('checked', false)
+      <%# $('.algolia_students').on 'click', '#toggle_all', (e) ->
         rows = $('div.div-row:visible')
         setSelectedRow($(row), this.checked) for row in rows
-        updateSelectedRowsCounter()
+        updateSelectedRowsCounter() %>
 
 
       # $('.algolia_students').on 'click', '.checkbox-column', (e) ->
@@ -225,8 +225,7 @@ ready = () ->
 getTemplate = (templateName) ->
   document.getElementById(templateName + '-template').innerHTML
 
-toggleSelectedRows = (rows = []) ->
-  toogleSelectedRow row for row in rows
+
 
 toggleSelectedRow = (row) ->
   rowEl = $(row)
@@ -238,20 +237,27 @@ toggleSelectedRow = (row) ->
 
 setSelectedRow = (row, value) ->
   rowEl = $(row)
-  inputCheckbox = rowEl.find('input')
-  inputCheckbox.prop('checked', value);
   if value
     rowEl.addClass('active')
   else
     rowEl.removeClass('active')
 
 onRenderHandler = () ->
-  # reset selected row counter
-  $('#selected').text('0')
-  $('#toggle_all, .scb').prop('checked', false)
-  $('.div-row').removeClass('active')
+  updateSelectedRowsCounter()
+  resetSelectedRows()
 
 updateSelectedRowsCounter = () ->
-  counter = $('.algolia_students').find('input.scb:checked').length
-  $('#selected').text(counter)
-  $('#selected').css('background', '#FFFF00')
+  if ($('#select_all:checked').length) 
+  else 
+    counter = $('.algolia_students').find('input.scb:checked').length
+    $('#selected').text(counter)
+    $('#selected').css('background', '#FFFF00')
+
+resetSelectedRows = () ->
+  $('#results .scb:checked').click()
+  $('#toggle_all:checked').click()
+
+resetRefinements = () ->
+  $('.ais-RefinementList-list .ais-RefinementList-checkbox:checked').click()
+  
+

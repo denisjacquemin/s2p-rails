@@ -44,6 +44,9 @@ class Message < ApplicationRecord
 
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_ids, ->(ids) { where(id: ids) }
+  scope :by_school, ->(school_id) { where(school_id: school_id) }
+  scope :by_user, ->(user_id) { where(author_id: user_id) }
+
 
   enum mtype: [:message, :rappel]
   enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted, :republished ]

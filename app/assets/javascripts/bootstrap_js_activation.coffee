@@ -4,6 +4,5 @@
 
 $(document).on 'turbolinks:load', ->
   $('body').on 'mouseenter', '[data-toggle="tooltip"]', (event) ->
-    console.log 'mouseenter'
     event.preventDefault
     $(this).tooltip('show')
