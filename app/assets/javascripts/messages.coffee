@@ -347,10 +347,9 @@ ready = () ->
 
 
   $('#recipientSelection').on 'click', '#addRecipients', (event) ->
-    console.log 'before add'
+    if ($(".hits .hit input:checked.stud").length == 0)
+      alert 'Sélectionnez au moins un élève'
     add_recipient student for student in $(".hits .hit input:checked.stud")
-    console.log 'after add'
-
     update_recipients_ui()
   
   $('#recipientSelection').on 'click', '#removeRecipients', (event) ->
