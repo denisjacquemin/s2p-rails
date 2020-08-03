@@ -115,6 +115,9 @@ class CreateStudentFromCsvV3Job < ApplicationJob
     end
   end
 
+  def write_error_to_firebase(a, b, c, d)
+  end
+
   def buildArrayOfPhone(numbers)
     # n.to_s.gsub(/\D/, '') keep only numbers, remove letters
     numbers.compact.map{|n| n.to_s.gsub(/\D/, '')}.uniq.map do |number|

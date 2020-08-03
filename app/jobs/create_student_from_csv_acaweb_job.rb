@@ -115,6 +115,9 @@ class CreateStudentFromCsvAcawebJob < ApplicationJob
           Phone.new number: number
       end
     end
+
+    def write_error_to_firebase(a, b, c, d)
+    end
   
     def updateArrayOfPhone(phones_to_update, new_numbers)
       # keep number already existing

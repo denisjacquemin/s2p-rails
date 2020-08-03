@@ -216,22 +216,22 @@ class CreateStudentFromCsvV2Job < ApplicationJob
 
     private
   def write_error_to_firebase(data, errors, school_id, user_id)
-    begin
-      logger.debug "write_error_to_firebase"
-      base_uri = Rails.application.secrets.firebase_base_uri
-      secret_key = Rails.application.secrets.firebase_secret_key
-      firebase = Firebase::Client.new(base_uri, secret_key)
-      errorsMessage = errors if errors.is_a? String
-      errorsMessage = errors.full_messages.join(', ') if errors.is_a? ActiveModel::Errors
+    # begin
+    #   logger.debug "write_error_to_firebase"
+    #   base_uri = Rails.application.secrets.firebase_base_uri
+    #   secret_key = Rails.application.secrets.firebase_secret_key
+    #   firebase = Firebase::Client.new(base_uri, secret_key)
+    #   errorsMessage = errors if errors.is_a? String
+    #   errorsMessage = errors.full_messages.join(', ') if errors.is_a? ActiveModel::Errors
 
-      response = firebase.push("csv/#{school_id}/#{user_id}", { :data => data.select { |key, value| /firstname|lastname|emails|sent_message_by_email|level|classroom/.match(key.to_s) }.values().join(', '),
-                                                                :errors => errorsMessage,
-                                                                :created_at => I18n.l(Time.now.to_datetime().in_time_zone, format: :short)
-                                                              })
-      logger.debug "Firebase response: #{response.inspect}"
-    rescue Exception => e
-      logger.debug e
-    end
+    #   response = firebase.push("csv/#{school_id}/#{user_id}", { :data => data.select { |key, value| /firstname|lastname|emails|sent_message_by_email|level|classroom/.match(key.to_s) }.values().join(', '),
+    #                                                             :errors => errorsMessage,
+    #                                                             :created_at => I18n.l(Time.now.to_datetime().in_time_zone, format: :short)
+    #                                                           })
+    #   logger.debug "Firebase response: #{response.inspect}"
+    # rescue Exception => e
+    #   logger.debug e
+    # end
   end
 
   def build_student_groups(student_data, data, school_id, upload_uniq_id, current_student_groups)

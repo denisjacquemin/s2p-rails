@@ -210,15 +210,6 @@ ready = () ->
     }
     studentList = new List('students', options)
 
-  errorsRef = firebase.database().ref('csv/' + $('#fb_path').val())
-  errorsRef.on 'child_added', (data) ->
-    addLine JSON.stringify(data.val().data), data.key, JSON.stringify(data.val().errors), data.val().created_at
-    setErrorCounterValue()
-    return
-  errorsRef.on 'child_removed', (data) ->
-    removeLine data.key
-    setErrorCounterValue()
-    return
 
   $('#empty_error_list').click ->
     console.log 'empty_error_list'
