@@ -1,48 +1,66 @@
-.ais-SearchBox--reset {
-    display: none !important;
-}
-
-.ais-SearchBox-input,
-.sbx-sffv__input,
-#filterR {
-    border: 1px solid #A9A9A9;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    width: 100%;
-    color: #636363;
-    margin-bottom: 20px;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.ais-SearchBox input {
-    height: 40px;
-    padding: 0 8px;
-}
-
-.ais-SearchBox,
-.ais-SearchBox input {
-    max-width: none;
-}
-
-.sbx-sffv__input:hover,
-#filterR:hover {
-    box-shadow: none;
-}
-
-.ais-SearchBox--input:focus,
-.sbx-sffv__input:focus,
-#filterR:focus {
-    border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
-
 #recipientSelection {
+    .ais-SearchBox--reset {
+        display: none !important;
+    }
+    .ais-SearchBox-input,
+    .sbx-sffv__input,
+    #filterR {
+        border: 1px solid #A9A9A9;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        width: 100%;
+        color: #636363;
+        margin-bottom: 20px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .ais-SearchBox input {
+        height: 40px;
+        padding: 0 8px;
+    }
+    .ais-SearchBox,
+    .ais-SearchBox input {
+        max-width: none;
+    }
+    .sbx-sffv__input:hover,
+    #filterR:hover {
+        box-shadow: none;
+    }
+    .ais-SearchBox--input:focus,
+    .sbx-sffv__input:focus,
+    #filterR:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    }
+    .tab-pane {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        #recipient-hits .ais-Panel-body,
+        #groups-hits .ais-Panel-body {
+            overflow-y: scroll;
+        }
+        #recipient-hits .all,
+        #recipient-hits .none {
+            font-weight: normal;
+            font-size: 12px;
+        }
+    }
+    #buttons .stacked {
+        margin: 30px 0 30px 0;
+        display: inline;
+    }
+    #buttons .inline {
+        display: block;
+        margin: 150px 0 0 0;
+        button:nth-of-type(1) {
+            margin-bottom: 50px
+        }
+    }
     /* --------------- Responsive Fixes --------------- */
     /* small device */
     @media (max-width: 767px) {
@@ -54,6 +72,10 @@
         }
         h5 {
             display: none;
+        }
+        #recipient-hits .ais-Panel-body,
+        #groups-hits .ais-Panel-body {
+            height: 200px;
         }
     }
     /* big device */
@@ -67,6 +89,10 @@
         }
         .tab-content>.tab-pane {
             display: block;
+        }
+        #recipient-hits .ais-Panel-body,
+        #groups-hits .ais-Panel-body {
+            height: 400px;
         }
     }
     /* --------------- / Responsive Fixes --------------- */
@@ -100,7 +126,6 @@
     }
     #buttons {
         text-align: center;
-        margin: 150px 0 0 0;
     }
     #recipient-hits,
     #groups-hits,
@@ -109,14 +134,7 @@
             width: 100%;
         }
     }
-    #recipient-hits .ais-Panel-body,
-    #groups-hits .ais-Panel-body {
-        height: 400px;
-        overflow-y: scroll;
-    }
     #recipients .panel-body {
-        height: 450px;
-        overflow-y: scroll;
         label {
             display: block;
             font-weight: normal;

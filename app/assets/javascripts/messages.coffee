@@ -96,6 +96,7 @@ remove_recipient = (student) ->
   $(student.parentElement).addClass('deleted')
   update_recipients_ui()
   
+  
 update_recipients_ui = () ->
   nbrRecipients = $('#recipients .panel-body label').not('#recipients .panel-body label.deleted').length
   $('#recipients_counter').html(nbrRecipients)
@@ -369,7 +370,16 @@ ready = () ->
   $('#recipientSelection').on 'click', '.none', (event) ->
     $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
     refreshRSelected()
+
+  $('#recipientSelection').on 'click', '.none', (event) ->
+    $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
+    refreshRSelected()
+
+  # $('#recipientSelection').on 'click', (event) ->
+  #   switch event.target.className
+  #     when "ais-RefinementList-checkbox" then refinementHit()
   
+
   update_recipients_ui()
  
 

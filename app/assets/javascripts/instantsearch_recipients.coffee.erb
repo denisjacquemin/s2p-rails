@@ -18,10 +18,8 @@ ready = () ->
         )
         indexName: 'Student'
         numberLocale: 'fr'
-        searchFunction: (helper) ->
-          $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
-          $('#totalSelected').html('0')
-          helper.search()
+        <%# searchFunction: (helper) ->
+          helper.search() %>
        <%# searchFunction: (helper) ->
           recipitentsContainer = document.querySelector('#recipient-hits')
           groupsContainer = document.querySelector('#groups-hits')
@@ -90,7 +88,7 @@ ready = () ->
 
       hitsPanel = instantsearch.widgets.panel(
         templates:
-          header: '<h5>Elèves</h5><span class="all">Tous</span> - <span class="none">Aucun</span>'
+          header: '<h5>Elèves / <span class="all">Tous</span> - <span class="none">Aucun</span></h5>'
         <%# hidden: ({ results }) ->
           [0].indexOf(results.nbPages) isnt -1 %>
       )(instantsearch.widgets.hits)
@@ -127,5 +125,8 @@ ready = () ->
           item: getTemplate('refinement-list-item')
 
       )
-      
+      search.on('render', () -> 
+        $('#totalSelected').html($('.hits .hit input:checked.stud').length)
+      )
+
       search.start()

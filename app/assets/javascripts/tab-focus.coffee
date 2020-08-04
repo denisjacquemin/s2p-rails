@@ -12,6 +12,7 @@ ready = () ->
   #add a suffix
   # Change hash for page-reload
   $('.nav-tabs a').on 'shown.bs.tab', (e) ->
-    window.location.hash = e.target.hash
-    window.scrollTo(0, 0)
+    if ! e.target.dataset['target']
+      window.location.hash = e.target.hash
+      window.scrollTo(0, 0)
     return
