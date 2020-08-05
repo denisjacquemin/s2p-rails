@@ -4,7 +4,11 @@
 
 <% if @total_of_students == 0 %>
     <div class="alert alert-warning" role="alert">
-        <p>Vous n'avez pour l'instant aucun droit d'accès, votre direction peut vous donner ces droits et ainsi vous permettre de choisir vos élèves.</p>
+        <% if current_user.admin? %>
+            <p>Il n'existe, pour l'instant, aucun élève pour votre école.</p>
+        <% else %>
+            <p>Vous n'avez pour l'instant aucun droit d'accès, votre direction peut vous donner ces droits et ainsi vous permettre de choisir vos élèves.</p>
+        <% end %>
     </div>
 <% else %>
     <div class="row algolia" id="recipientSelection">
