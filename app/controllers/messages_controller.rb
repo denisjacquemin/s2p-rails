@@ -94,6 +94,7 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new()
+    @total_of_students = current_user.students_by_school(current_school.id).count
     @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
     authorize @message
   end

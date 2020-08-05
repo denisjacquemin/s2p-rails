@@ -53,6 +53,10 @@
     #buttons .stacked {
         margin: 30px 0 30px 0;
         display: inline;
+        #addRecipients {
+            padding: 10px 25px;
+            margin: 0 20px 0 0;
+        }
     }
     #buttons .inline {
         display: block;
