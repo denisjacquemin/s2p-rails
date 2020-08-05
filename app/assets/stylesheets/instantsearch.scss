@@ -35,6 +35,9 @@
     .ais-SearchBox-submit {
         display: none !important;
     }
+    .ais-RefinementList-showMore--disabled {
+        display: none;
+    }
     .ais-SearchBox input,
     .sbx-sffv__input {
         border: 1px solid #A9A9A9;

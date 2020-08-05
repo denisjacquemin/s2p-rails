@@ -37,3 +37,4 @@
 //= require instantsearch_recipients
 //= require table_filter
 //= require vanilla-emoji-picker/emojiPicker.min
+//= require responsive_tabs

@@ -1,67 +1,72 @@
 @import "snackbar";
 @import "snackbar-material";
-
 body {
     padding-top: 70px;
     padding-bottom: 30px;
     blockquote {
-      background: #fffcd5;
-      border-color: #e7dca4;
-      font-size:15px;
+        background: #fffcd5;
+        border-color: #e7dca4;
+        font-size: 15px;
     }
 }
 
-.navbar-brand {
-  padding: 7px 0 0 15px
+.link-back a {
+    padding: 10px 0;
+    display: block;
 }
 
-.snackbar  {
-  z-index: 10000;
-  font-size: 16px;
+.navbar-brand {
+    padding: 7px 0 0 15px
+}
+
+.snackbar {
+    z-index: 10000;
+    font-size: 16px;
 }
 
 .snackbar.error {
-  background-color: #ff0039;
-  color: #ffffff;
+    background-color: #ff0039;
+    color: #ffffff;
 }
+
 .snackbar.alert {
-  background-color: #ff7518;
-  color: #ffffff;
+    background-color: #ff7518;
+    color: #ffffff;
 }
+
 .snackbar.notice {
-  background-color: #3fb618;
-  color: #ffffff;
+    background-color: #3fb618;
+    color: #ffffff;
 }
 
 .field_with_errors .form-control,
 .field_with_errors .form-control:focus,
 .field_with_errors .input-group-addon {
-  border: 1px solid #FF0039;
+    border: 1px solid #FF0039;
 }
 
 .field_with_errors label {
-  color: #FF0039;
+    color: #FF0039;
 }
 
-.dropdown-menu > li > a.icon {
-  padding: 3px 20px 3px 10px;
-
+.dropdown-menu>li>a.icon {
+    padding: 3px 20px 3px 10px;
 }
 
-.dropdown-menu > li > a.icon > .glyphicon {
-  margin-right: 12px
+.dropdown-menu>li>a.icon>.glyphicon {
+    margin-right: 12px
 }
 
 .table td {
-  word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .fa-6x {
-  font-size: 6em;
+    font-size: 6em;
 }
 
 .fa-7x {
-  font-size: 7em;
+    font-size: 7em;
 }
 
 .centerindiv {
@@ -70,36 +75,47 @@ body {
 }
 
 .text-wrap {
-  white-space: normal;
+    white-space: normal;
 }
 
 .fab {
-  position: fixed;
-  bottom: 15px;
-  right: 10px;
-  z-index: 1040;
-  box-shadow: 2px 2px 5px grey;;
+    position: fixed;
+    bottom: 15px;
+    right: 10px;
+    z-index: 1040;
+    box-shadow: 2px 2px 5px grey;
+    ;
 }
 
-
 .turbolinks-progress-bar {
-  height: 6px;
+    height: 6px;
 }
 
 .fa-2 {
-  font-size: 2em !important;}
-
-.fa-3 {
-  font-size: 3em !important;}
-.fa-4 {
-  font-size: 4em !important;}
-.fa-5 {
-  font-size: 5em !important;}
-
-.clearfix {
-  overflow: visible;
-  zoom: 1;
+    font-size: 2em !important;
 }
 
-.row.top-buffer { margin-top:20px; }
-.row.bottom-buffer { margin-top:20px; }
+.fa-3 {
+    font-size: 3em !important;
+}
+
+.fa-4 {
+    font-size: 4em !important;
+}
+
+.fa-5 {
+    font-size: 5em !important;
+}
+
+.clearfix {
+    overflow: visible;
+    zoom: 1;
+}
+
+.row.top-buffer {
+    margin-top: 20px;
+}
+
+.row.bottom-buffer {
+    margin-top: 20px;
+}

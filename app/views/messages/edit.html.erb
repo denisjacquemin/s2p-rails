@@ -1,5 +1,5 @@
-<%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + 'Retour à la liste des messages', messages_path %>
-<h1 style="position:relative">
+<div class="link-back"><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + 'Retour à la liste des messages', messages_path %></div>
+<h1 class="hidden-xs" style="position:relative">
   Edition message
   <small><%= render 'status', message: @message %>
     <span class="hidden-xs pull-right" style="text-align:right;position:absolute;bottom:0;right:0;font-size:70%">
@@ -7,7 +7,7 @@
       <br/>Dernière mise à jour <%= I18n.l(@message.updated_at, format: :short)%>
     </span>
   </small></h1>
-<hr />
+<hr class="hidden-xs" />
 <%= render 'form', {message: @message } %>
 <div class="modal fade" id="schedule_sending" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

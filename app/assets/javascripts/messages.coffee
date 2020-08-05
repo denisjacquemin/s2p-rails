@@ -65,7 +65,6 @@ build_group_row = (group_id, group_name) ->
   return tr
 
 add_recipient = (student) ->
-  console.log 'adding'
   recipient = $('#recipients input[value=' +  student.value + ']')
   if (recipient.length)
     recipient[0].name = recipient[0].name.replace('_destroy', 'student_id')

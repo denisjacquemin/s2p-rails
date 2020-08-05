@@ -17,9 +17,9 @@
 <% end %>
 <div class="row">
   <div class="col-xs-12">
-    <ul class="nav nav-tabs" role="tablist" id="message_tabs">
+    <ul class="nav nav-tabs drop-on-responsive" role="tablist" id="message_tabs">
       <li role="presentation" class="active">
-        <a class="tab-link" href="#details-tab" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
+        <a class="tab-link" data-target="#details-tab" aria-controls="home" role="tab" data-toggle="tab">Titre et contenu</a>
       </li>
       <% #if not message.new_record? and @message.mtype == 'message' and current_user.superadmin? %>
       <% #<li role="presentation"> %>
@@ -30,28 +30,28 @@
       <% save_form_with_tab = message.new_record? and @message.mtype == 'message' %>
       <% if @message.mtype == 'message' %>
         <li role="presentation">
-          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF (<%= message.photos.count %>)</a>
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  data-target="#cloudinary-tab" aria-controls="profile" role="tab" data-toggle="tab">Images / PDF (<%= message.photos.count %>)</a>
         </li>
       <% end %>
       <% if @message.mtype == 'message' %>
         <li role="presentation">
-          <a class="tab-link <%= 'save-form' if save_form_with_tab %>" href="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>" data-target="#formbuilder-tab" aria-controls="profile" role="tab" data-toggle="tab">Formulaire</a>
         </li>
       <% end %>
       <% if @message.mtype == 'message' and current_school.billing_enable? %>
         <li role="presentation">
-          <a class="tab-link <%= 'save-form' if save_form_with_tab %>"  href="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>" data-target="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
         </li>
       <% end %>
       <% if not message.publish_date.nil? %>
         <li role="presentation">
-          <a class="tab-link" href="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<% if @showStatsFromEmailRecipients %><%= @total_views %><% else %><span class="total_counter">0</span><% end %>)</a>
+          <a class="tab-link" data-target="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<% if @showStatsFromEmailRecipients %><%= @total_views %><% else %><span class="total_counter">0</span><% end %>)</a>
         </li>
       <% end %>
-      <% unless message.new_record? %>
+    </ul>
+    <% unless message.new_record? %>
         <div class="pull-right"><%= render 'submit_with_status_dropdown', message: @message, size: 'btn-sm' %></div>
       <% end %>
-    </ul>
   </div>
 </div>
 <div class="row">
