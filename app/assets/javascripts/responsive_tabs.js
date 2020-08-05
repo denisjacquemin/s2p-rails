@@ -3,8 +3,8 @@ $.fn.responsiveTabs = function() {
     this.append($('<span class="glyphicon glyphicon-triangle-bottom"></span>'));
     this.append($('<span class="glyphicon glyphicon-triangle-top"></span>'));
 
-    this.on('click', 'li.active > a, span.glyphicon', function() {
-        this.toggleClass('open');
+    this.on('click', 'li.active > a, span.glyphicon', function(event) {
+        $(event.target.parentElement).toggleClass('open');
     }.bind(this));
 
     this.on('click', 'li:not(.active) > a', function() {

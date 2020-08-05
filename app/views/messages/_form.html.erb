@@ -70,7 +70,7 @@
             submit_label = t('views.messages.edit.submit') unless @message.new_record?
           %>
           <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 submit-btn">
               <%= f.submit submit_label, class: 'btn btn-primary fab visible-xs', data: { disable_with: "Enregistrement..." } %>
               <div class="pull-right hidden-xs"><%= f.submit submit_label, class: 'btn btn-primary', data: { disable_with: "Enregistrement..." } %></div>
             </div>
