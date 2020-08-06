@@ -70,11 +70,11 @@ add_recipient = (student) ->
     recipient[0].name = recipient[0].name.replace('_destroy', 'student_id')
     $(recipient[0].parentElement).removeClass('deleted')
   else
-    index = $('#recipients .panel-body input:checkbox').length
+    index = $('#recipients #recipients-list input:checkbox').length
     
     label    = $("<label>", {
       text: student.dataset['fullname']
-    }).appendTo($('#recipients .panel-body'))
+    }).appendTo($('#recipients #recipients-list'))
     $("<input/>", {
         type: 'checkbox'
       }).prependTo(label)
@@ -93,13 +93,14 @@ remove_recipient = (student) ->
   $(student.parentElement).find("input[type='hidden']")[0].name = $(student.parentElement).find("input[type='hidden']")[0].name.replace('student_id', '_destroy')
   $($(student.parentElement).find("input[type='checkbox']")[0]).prop('checked', false)
   $(student.parentElement).addClass('deleted')
-  update_recipients_ui()
   
   
 update_recipients_ui = () ->
-  nbrRecipients = $('#recipients .panel-body label').not('#recipients .panel-body label.deleted').length
+  $('#filterR').val('')
+  filterRecipients()
+
+  nbrRecipients = $('#recipients label:visible').length
   $('#recipients_counter').html(nbrRecipients)
-  $('#toggleSelectedR').prop('checked', false)
 
   if nbrRecipients > 0
     $('#filterR, #rColumnsTitles').show()
@@ -107,6 +108,7 @@ update_recipients_ui = () ->
   else
     $('#filterR, #rColumnsTitles').hide()
     $('#rEmptyMsg').show()
+  return
 
 update_counter_selected_students = () ->
   alert 'update_counter_selected_students'
@@ -135,7 +137,7 @@ filterRecipients = ->
   txtValue = undefined
   input = document.getElementById('filterR')
   filter = input.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-  list = document.getElementById('listR')
+  list = document.getElementById('recipients')
   labels = list.getElementsByTagName('label')
   # Loop through all list items, and hide those who don't match the search query
   i = 0
@@ -363,16 +365,20 @@ ready = () ->
   $('#recipientSelection').on 'change', '#toggleSelectedR', (event) ->
     toggleSelectedR(event)
 
-  $('#recipientSelection').on 'click', '.all', (event) ->
+  $('#recipientSelection').on 'click', '#recipient-hits .all', (event) ->
     $('#recipient-hits label input[type="checkbox"]').prop('checked', true)
     refreshRSelected()
-  $('#recipientSelection').on 'click', '.none', (event) ->
+
+  $('#recipientSelection').on 'click', '#recipient-hits .none', (event) ->
     $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
     refreshRSelected()
 
-  $('#recipientSelection').on 'click', '.none', (event) ->
-    $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
-    refreshRSelected()
+  $('#recipientSelection').on 'click', '#recipients .all', (event) ->
+    $('#recipients label input[type="checkbox"]').prop('checked', true)
+
+  $('#recipientSelection').on 'click', '#recipients .none', (event) ->
+    $('#recipients label input[type="checkbox"]').prop('checked', false)
+
 
   # $('#recipientSelection').on 'click', (event) ->
   #   switch event.target.className

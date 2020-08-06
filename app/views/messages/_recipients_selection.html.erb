@@ -1,6 +1,6 @@
-<div class="col-xs-12">
-        <h3>Choix des destinataires</h3>
-</div>
+<label>Choix des destinataires</label>
+<hr />
+
 
 <% if @total_of_students == 0 %>
     <div class="alert alert-warning" role="alert">
@@ -34,7 +34,6 @@
                     <div class="pull-right" style="display:flex">
                         <span id="totalSelected"></span> / <span id="nbHits"></span>
                     </div>
-                    <div class="helper device-small" style="margin-bottom:15px;"><span class="all">Tous</span> - <span class="none">Aucun</span></div>
                     <div id="recipient-hits" class="hits"></div>
                 </div>
             </div>
@@ -73,31 +72,24 @@
             
         </div>
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" id="recipients">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Destinataires sélectionnés<span style="float:right"># <span id="recipients_counter">Total</span></span>
-                    <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par Nom, prénom ou groupe"></div>
-                </div>
-                <div class="panel-body" id="listR">
-                    <div id="rEmptyMsg" style="width:100%;height:100%;text-align:center;font-size:25px;color:#aaa;">
-                        </br></br>Aucun destinataire pour l'instant.</br>
-                        <i class="fa fa-inbox" style="font-size:50px;" aria_hidden="true"></i>
-                    </div>
-                    <div id="rColumnsTitles" style="font-weight: bold; margin-bottom:12px">
-                        <input type="checkbox" id="toggleSelectedR" style="margin-right: 6px">
-                        Nom - prénom
-                        <span style="float:right">Groupes</span>
-                    </div>
+            <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par nom / prénom / groupe"></div>
+            
+            <div id="rEmptyMsg" style="width:100%;height:100%;text-align:center;font-size:25px;color:#aaa;">
+                </br></br>Aucun destinataire pour l'instant.</br>
+                <i class="fa fa-inbox" style="font-size:50px;" aria_hidden="true"></i>
+            </div>
+            
+            <h5 id="rColumnsTitles">Destinataires / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right">Total <span id="recipients_counter"></span></span></h5>
+                <div id="recipients-list">
                     <%= f.fields_for :recipients do |recipients_form| %>
-                    <label>
-                        <input type="checkbox">
-                        <%= recipients_form.hidden_field :student_id %>
-                        <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
-                        <span><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
-                    </label>
+                        <label>
+                            <input type="checkbox">
+                            <%= recipients_form.hidden_field :student_id %>
+                            <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
+                            <span class="hidden-xs"><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
+                        </label>
                     <% end %>
                 </div>
-            </div>
         </div>
     </div>
 <% end %>

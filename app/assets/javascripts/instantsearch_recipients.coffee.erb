@@ -126,7 +126,8 @@ ready = () ->
 
       )
       search.on('render', () -> 
-        $('#totalSelected').html($('.hits .hit input:checked.stud').length)
+        $('#recipientSelection .hits .hit input').prop('checked', true);
+        $('#totalSelected').html($('#recipientSelection .hits .hit input:checked.stud').length)
       )
 
       search.start()

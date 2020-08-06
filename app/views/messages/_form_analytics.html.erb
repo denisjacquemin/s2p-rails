@@ -18,17 +18,17 @@
     <ul class="nav nav-tabs drop-on-responsive" role="tablist">
     
       <% if @showStatsFromEmailRecipients %>
-        <li role="presentation" class="active"><a href="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= @email_delivered.count %>)</a></li>
-        <li role="presentation"><a href="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= @email_recipients.count %>)</a></li>
-        <li role="presentation"><a href="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= @opens_by_mobile.count %>)</a></li>
-        <li role="presentation"><a href="#sms_recipients" aria-controls="sms_recipients" role="tab" data-toggle="tab">SMS envoyés/vus (<%= @sms_recipients .count %>)</a></li>
-        <li role="presentation"><a href="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= @email_errors.count %>)</a></li>
+        <li role="presentation" class="active"><a data-target="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= @email_delivered.count %>)</a></li>
+        <li role="presentation"><a data-target="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= @email_recipients.count %>)</a></li>
+        <li role="presentation"><a data-target="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= @opens_by_mobile.count %>)</a></li>
+        <li role="presentation"><a data-target="#sms_recipients" aria-controls="sms_recipients" role="tab" data-toggle="tab">SMS envoyés/vus (<%= @sms_recipients .count %>)</a></li>
+        <li role="presentation"><a data-target="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= @email_errors.count %>)</a></li>
       <% else %>
-        <li role="presentation" class="active"><a href="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
-        <li role="presentation"><a href="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
-        <li role="presentation"><a href="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
-        <li role="presentation"><a href="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
-        <li role="presentation"><a href="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur (<span id="counter_dropped">0</span>)</a></li>
+        <li role="presentation" class="active"><a data-target="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
+        <li role="presentation"><a data-target="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
+        <li role="presentation"><a data-target="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
+        <li role="presentation"><a data-target="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
+        <li role="presentation"><a data-target="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur (<span id="counter_dropped">0</span>)</a></li>
       <% end %>
     </ul>
     <div class="tab-content">
