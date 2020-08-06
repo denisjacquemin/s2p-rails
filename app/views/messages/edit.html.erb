@@ -1,5 +1,5 @@
 <div class="link-back"><%= link_to content_tag(:span, nil, class: "glyphicon glyphicon-chevron-left", aria_hidden: true) + 'Retour à la liste des messages', messages_path %></div>
-<h1 class="hidden-xs" style="position:relative">
+<h1 class="hidden-xs" style="position:relative" id="message-page">
   Edition message
   <small><%= render 'status', message: @message %>
     <span class="hidden-xs pull-right" style="text-align:right;position:absolute;bottom:0;right:0;font-size:70%">
