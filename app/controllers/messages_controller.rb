@@ -112,6 +112,7 @@ class MessagesController < ApplicationController
     @email_errors = all_email_recipients.select{|aer| ['dropped', 'bounce'].include?(aer.status) }.uniq{|ed| ed.students }
     @sms_recipients = all_email_recipients.select{|aer| ['RECEIVED'].include?(aer.status) }.uniq{|sr| sr.students }
     @total_views = @email_recipients.count + @opens_by_mobile.count + @sms_recipients.count
+    @total_of_students = current_user.students_by_school(current_school.id).count
     @showStatsFromEmailRecipients =  @message.updated_at > DateTime.parse('Sun, 10 Nov 2019 13:42:50 +0100')
 
   end

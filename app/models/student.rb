@@ -5,7 +5,7 @@ class Student < ApplicationRecord
 
   algoliasearch synchronous: false do
     attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count, :groups_to_index, :groups_to_index_ids
-    attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code, :groups]
+    attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code, :groups_to_index]
     attributesForFaceting ['searchable(classroom)', 'searchable(level)', 'searchable(groups_to_index)', 'filterOnly(groups_to_index_ids)']
     customRanking ['asc(level)', 'asc(lastname)']
     typoTolerance :false

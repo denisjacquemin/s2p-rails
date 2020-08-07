@@ -140,13 +140,18 @@
 }
 
 .ais-RefinementList-label {
-    display: block;
+    display: flex;
     font-weight: normal;
     input {
         margin-right: 10px;
     }
     .ais-RefinementList-count {
         float: right;
+    }
+    .ais-RefinementList-labelText {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 

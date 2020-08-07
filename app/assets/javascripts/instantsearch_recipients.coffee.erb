@@ -47,7 +47,7 @@ ready = () ->
 
       search.addWidget searchBoxPanel(
         container: '#fullsearch-students'
-        placeholder: "Rechercher par nom / prénom / groupe"
+        placeholder: "Rechercher par nom ou prénom"
         magnifier: false
         autofocus: false
         showReset: false
@@ -87,10 +87,7 @@ ready = () ->
       )
 
       hitsPanel = instantsearch.widgets.panel(
-        templates:
-          header: '<h5>Elèves / <span class="all">Tous</span> - <span class="none">Aucun</span></h5>'
-        <%# hidden: ({ results }) ->
-          [0].indexOf(results.nbPages) isnt -1 %>
+
       )(instantsearch.widgets.hits)
 
       search.addWidget hitsPanel(
@@ -110,16 +107,17 @@ ready = () ->
       search.addWidget refinementListPanel(
         container: '#groups-hits'
         attribute: 'groups_to_index'
-        limit: 1000
+        limit: 100
         cssClasses:
           root: ''
         sortBy: [
+          'isRefined'
           'name:asc'
           'count:desc'
         ]
         operator: 'or'
-        searchable: false
-        searchablePlaceholder: 'Rechercher un groupe'
+        searchable: true
+        searchablePlaceholder: 'Filtrer par groupe'
         searchableIsAlwaysActive: true
         templates:
           item: getTemplate('refinement-list-item')

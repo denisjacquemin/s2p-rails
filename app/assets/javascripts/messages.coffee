@@ -365,11 +365,11 @@ ready = () ->
     $('#recipientSelection').on 'change', '#toggleSelectedR', (event) ->
       toggleSelectedR(event)
 
-    $('#recipientSelection').on 'click', '#recipient-hits .all', (event) ->
+    $('#recipientSelection').on 'click', '#student-tab .all', (event) ->
       $('#recipient-hits label input[type="checkbox"]').prop('checked', true)
       refreshRSelected()
 
-    $('#recipientSelection').on 'click', '#recipient-hits .none', (event) ->
+    $('#recipientSelection').on 'click', '#student-tab .none', (event) ->
       $('#recipient-hits label input[type="checkbox"]').prop('checked', false)
       refreshRSelected()
 

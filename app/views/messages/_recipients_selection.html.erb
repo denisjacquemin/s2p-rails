@@ -16,8 +16,8 @@
             <%= hidden_field_tag 'algolia_search_api_key', current_user.algolia_search_api_key_for_students %>
             <%= hidden_field_tag 'current_school_id', @current_school.id %>
 
-            <div id="fullsearch-students">
-            </div>
+            
+            
             <!-- Nav tabs -->
             <ul class="nav nav-tabs device-small" role="tablist">
                 <li role="presentation" class="active"><a data-target="#groups-tab" data-toggle="tab">Groupes</a></li>
@@ -30,10 +30,11 @@
                     <div id="groups-hits" class="facet"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane col-xs-12 col-sm-6" id="student-tab">
+
+
+                    <h5>Elèves / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right;display:flex;"><span id="totalSelected"></span> / <span id="nbHits"></span></span></h5>
+                    <div id="fullsearch-students"></div>
                     <div id="paginationR"></div>
-                    <div class="pull-right" style="display:flex">
-                        <span id="totalSelected"></span> / <span id="nbHits"></span>
-                    </div>
                     <div id="recipient-hits" class="hits"></div>
                 </div>
             </div>
@@ -72,7 +73,6 @@
             
         </div>
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" id="recipients">
-            <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par nom / prénom / groupe"></div>
             
             <div id="rEmptyMsg" style="width:100%;height:100%;text-align:center;font-size:25px;color:#aaa;">
                 </br></br>Aucun destinataire pour l'instant.</br>
@@ -80,16 +80,18 @@
             </div>
             
             <h5 id="rColumnsTitles">Destinataires / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right">Total <span id="recipients_counter"></span></span></h5>
-                <div id="recipients-list">
-                    <%= f.fields_for :recipients do |recipients_form| %>
-                        <label>
-                            <input type="checkbox">
-                            <%= recipients_form.hidden_field :student_id %>
-                            <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
-                            <span class="hidden-xs"><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
-                        </label>
-                    <% end %>
-                </div>
+            <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par nom / prénom / groupe"></div>
+    
+            <div id="recipients-list">
+                <%= f.fields_for :recipients do |recipients_form| %>
+                    <label>
+                        <input type="checkbox">
+                        <%= recipients_form.hidden_field :student_id %>
+                        <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
+                        <span class="hidden-xs"><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
+                    </label>
+                <% end %>
+            </div>
         </div>
     </div>
 <% end %>
@@ -151,19 +153,16 @@
     </div>
 </script>
 
-<script type="text/html" id="refinement-list-item-template">
-    <label class="ais-RefinementList-label">
-        <input type="checkbox" {{#isRefined}}checked{{/isRefined}} class="ais-RefinementList-checkbox" value="{{label}}">
-        <span class="ais-RefinementList-labelText">{{label}}</span>
-        <span class="ais-RefinementList-count">{{count}}</span>
-    </label>
-</script>
 
 <script type="text/html" id="refinement-list-item-template">
     <label class="ais-RefinementList-label">
-        <input type="checkbox" {{#isRefined}}checked{{/isRefined}} class="ais-RefinementList-checkbox" value="{{label}}">
-        <span class="ais-RefinementList-labelText">{{label}}</span>
-        <span class="ais-RefinementList-count">{{count}}</span>
+        <div class="width-80">
+            <input type="checkbox" {{#isRefined}}checked{{/isRefined}} class="ais-RefinementList-checkbox" value="{{label}}">
+            <span class="ais-RefinementList-labelText">{{label}}</span>
+        </div>
+        <div class="width-20">
+            <span class="ais-RefinementList-count">{{count}}</span>
+        </div>
     </label>
 </script>
 
