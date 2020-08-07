@@ -127,36 +127,39 @@ ready = () ->
         school_id:
           '=': [$('#current_school_id').val()]
     )
-    search.addWidget instantsearch.widgets.searchBox(
-      container: '#search-input'
-      placeholder: "Rechercher sur le titre, le contenu, l'auteur"
-      autofocus: true
-      magnifier: false
-    )
-    search.addWidget instantsearch.widgets.hits(
-      container: '#hits'
-      templates:
-        item: getTemplate('hit')
-        empty: getTemplate('no-results'))
-    # search.addWidget instantsearch.widgets.stats({
-    #   container: '#stats',
-    #   templates: {
-    #     body: getTemplate('stats')
-    #   }
-    # })
+    if $('#search-input').length
+      search.addWidget instantsearch.widgets.searchBox(
+        container: '#search-input'
+        placeholder: "Rechercher sur le titre, le contenu, l'auteur"
+        autofocus: true
+        magnifier: false
+      )
+    if $('#hits').length
+      search.addWidget instantsearch.widgets.hits(
+        container: '#hits'
+        templates:
+          item: getTemplate('hit')
+          empty: getTemplate('no-results'))
+      # search.addWidget instantsearch.widgets.stats({
+      #   container: '#stats',
+      #   templates: {
+      #     body: getTemplate('stats')
+      #   }
+      # })
 
     paginationPanel = instantsearch.widgets.panel(
       hidden: ({ results }) ->
         results.nbPages == 1
     )(instantsearch.widgets.pagination)
 
-    search.addWidget paginationPanel(
-      container: '#pagination'
-      maxPages: 10
-      cssClasses: {
-        root: 'pagination'
-        active: 'active'
-        })
+    if $('#pagination').length
+      search.addWidget paginationPanel(
+        container: '#pagination'
+        maxPages: 10
+        cssClasses: {
+          root: 'pagination'
+          active: 'active'
+          })
 
     # search.addWidget instantsearch.widgets.refinementList(
     #   container: '#authors'

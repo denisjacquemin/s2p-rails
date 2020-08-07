@@ -121,14 +121,15 @@ ready = () ->
           noRefinementRoot: 'emptyindex' %>
       )(instantsearch.widgets.searchBox)
 
-      search.addWidget searchBoxPanel(
-        container: '#search-input'
-        placeholder: "Rechercher par nom / prénom / groupe"
-        magnifier: false
-        autofocus: true
-        showReset: false
-        showSubmit: false
-      )
+      if $('#search-input').length
+        search.addWidget searchBoxPanel(
+          container: '#search-input'
+          placeholder: "Rechercher par nom / prénom / groupe"
+          magnifier: false
+          autofocus: true
+          showReset: false
+          showSubmit: false
+        )
 
       search.addWidget instantsearch.widgets.hits(
         container: '#hits'
