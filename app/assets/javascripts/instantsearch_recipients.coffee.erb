@@ -45,17 +45,19 @@ ready = () ->
           noRefinementRoot: 'emptyindex'
       )(instantsearch.widgets.searchBox)
 
-      search.addWidget searchBoxPanel(
-        container: '#fullsearch-students'
-        placeholder: "Rechercher par nom ou prénom"
-        magnifier: false
-        autofocus: false
-        showReset: false
-        showSubmit: false
-        showLoadingIndicator: true
-        templates:
-          loadingIndicator: getTemplate('loading-indicator')
-      )
+      if $('#fullsearch-students').length
+
+        search.addWidget searchBoxPanel(
+          container: '#fullsearch-students'
+          placeholder: "Rechercher par nom ou prénom"
+          magnifier: false
+          autofocus: false
+          showReset: false
+          showSubmit: false
+          showLoadingIndicator: true
+          templates:
+            loadingIndicator: getTemplate('loading-indicator')
+        )
       
 
       paginationPanel = instantsearch.widgets.panel(
@@ -63,39 +65,42 @@ ready = () ->
           [0,1].indexOf(results.nbPages) isnt -1
       )(instantsearch.widgets.pagination)
 
-      search.addWidget paginationPanel(
-        container: '#paginationR'
-        showFirst: false
-        showPrevious: false 
-        showNext: false
-        showLast: false
-        scrollTo: '#paginationR'
-        cssClasses: {
-          root: 'paginationR'
-          active: 'active'
-          }
-      )
+      if $('#paginationR').length
+        search.addWidget paginationPanel(
+          container: '#paginationR'
+          showFirst: false
+          showPrevious: false 
+          showNext: false
+          showLast: false
+          scrollTo: '#paginationR'
+          cssClasses: {
+            root: 'paginationR'
+            active: 'active'
+            }
+        )
 
-      search.addWidget instantsearch.widgets.stats(
-        container: '#nbHits'
-        templates:
-          text: "
-            {{#hasNoResults}}0{{/hasNoResults}}
-            {{#hasOneResult}}1{{/hasOneResult}}
-            {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}}{{/hasManyResults}}
-          ",
-      )
+      if $('#nbHits').length
+        search.addWidget instantsearch.widgets.stats(
+          container: '#nbHits'
+          templates:
+            text: "
+              {{#hasNoResults}}0{{/hasNoResults}}
+              {{#hasOneResult}}1{{/hasOneResult}}
+              {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}}{{/hasManyResults}}
+            ",
+        )
 
       hitsPanel = instantsearch.widgets.panel(
 
       )(instantsearch.widgets.hits)
 
-      search.addWidget hitsPanel(
-        container: '#recipient-hits'
-        templates:
-          item: getTemplate('recipient-hit')
-          empty: getTemplate('recipient-no-results')
-      )
+      if $('#recipient-hits').length
+        search.addWidget hitsPanel(
+          container: '#recipient-hits'
+          templates:
+            item: getTemplate('recipient-hit')
+            empty: getTemplate('recipient-no-results')
+        )
 
       refinementListPanel = instantsearch.widgets.panel(
         templates:
@@ -104,25 +109,26 @@ ready = () ->
           [0].indexOf(results.nbPages) isnt -1 %>
       )(instantsearch.widgets.refinementList)
 
-      search.addWidget refinementListPanel(
-        container: '#groups-hits'
-        attribute: 'groups_to_index'
-        limit: 100
-        cssClasses:
-          root: ''
-        sortBy: [
-          'isRefined'
-          'name:asc'
-          'count:desc'
-        ]
-        operator: 'or'
-        searchable: true
-        searchablePlaceholder: 'Filtrer par groupe'
-        searchableIsAlwaysActive: true
-        templates:
-          item: getTemplate('refinement-list-item')
+      if $('#groups-hits').length
+        search.addWidget refinementListPanel(
+          container: '#groups-hits'
+          attribute: 'groups_to_index'
+          limit: 100
+          cssClasses:
+            root: ''
+          sortBy: [
+            'isRefined'
+            'name:asc'
+            'count:desc'
+          ]
+          operator: 'or'
+          searchable: true
+          searchablePlaceholder: 'Filtrer par groupe'
+          searchableIsAlwaysActive: true
+          templates:
+            item: getTemplate('refinement-list-item')
 
-      )
+        )
       search.on('render', () -> 
         $('#recipientSelection .hits .hit input').prop('checked', true);
         $('#totalSelected').html($('#recipientSelection .hits .hit input:checked.stud').length)
