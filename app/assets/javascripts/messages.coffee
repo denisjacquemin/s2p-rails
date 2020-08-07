@@ -384,8 +384,8 @@ ready = () ->
     #   switch event.target.className
     #     when "ais-RefinementList-checkbox" then refinementHit()
     
-
-    update_recipients_ui()
+    if $('#recipientSelection').length
+      update_recipients_ui()
   
 
     # $('.dataTable').on 'change', 'input:checkbox', () ->

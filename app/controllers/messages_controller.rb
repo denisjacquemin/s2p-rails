@@ -120,8 +120,12 @@ class MessagesController < ApplicationController
     all_students_selected = params[:all_students].present?
 
     submitted_students_ids = []
-    unless all_students_selected
-      submitted_students_ids = params[:student][:id] unless params[:student].nil?
+    students_ids = []
+    if all_students_selected and current_school.new_recipients_selection
+      students_ids = Student.by_school(current_school.id).pluck(:id)
+    else
+      submitted_students_ids = params[:student][:id] unless params[:student].nil? unless current_school.new_recipients_selection
+      students_ids = params[:student][:id] unless params[:student].nil? if current_school.new_recipients_selection
     end
 
 
@@ -134,17 +138,35 @@ class MessagesController < ApplicationController
       author: current_user,
       school_id: current_school.id
     })
-    unless all_students_selected
-      @message.students = submitted_students_ids.map(&:to_i)
+
+    unless current_school.new_recipients_selection
+      unless all_students_selected
+        @message.students = submitted_students_ids.map(&:to_i)
+      end
+
+      if all_students_selected
+        @message.groups = Group.by_school(current_school.id).where(internal_id: 'all_students').pluck(:id)
+      end
     end
 
-    if all_students_selected
-      @message.groups = Group.by_school(current_school.id).where(internal_id: 'all_students').pluck(:id)
-    end
     @message.message_categories = MessageCategory.by_school(current_school.id) if current_school.iscity?
 
 
     if @message.save
+      if current_school.new_recipients_selection
+        recipients = []
+        students_ids.each do |student_id| 
+          recipients << Recipient.new(
+            school_id: current_school.id,
+            message_id: @message.id,
+            student_id: student_id
+          )
+        end
+
+        Recipient.transaction do
+          recipients.map(&:save)
+        end
+      end
       redirect_to edit_message_path(@message), notice: 'Le message a été créé avec succès.'
     else
       render :students

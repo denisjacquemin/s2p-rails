@@ -9,7 +9,6 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
   if $('.algolia_students').length
 
-
     $('.algolia_students').on 'click', '#toggle_all', (e) ->
       toggleAllScb(this.checked)
       setSelectAllStudent(false)
