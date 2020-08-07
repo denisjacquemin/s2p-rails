@@ -1,4 +1,13 @@
 #recipientSelection {
+    .published {
+        &#buttons {
+            visibility: hidden;
+        }
+        #shortcuts,
+        #recipients-list input {
+            display: none;
+        }
+    }
     #groups-tab {
         padding-left: 0;
     }

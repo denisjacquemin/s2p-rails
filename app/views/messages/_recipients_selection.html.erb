@@ -1,7 +1,6 @@
 <label>Choix des destinataires</label>
 <hr />
 
-
 <% if @total_of_students == 0 %>
     <div class="alert alert-warning" role="alert">
         <% if current_user.admin? %>
@@ -13,44 +12,49 @@
 <% else %>
     <div class="row algolia" id="recipientSelection">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <%= hidden_field_tag 'algolia_search_api_key', current_user.algolia_search_api_key_for_students %>
-            <%= hidden_field_tag 'current_school_id', @current_school.id %>
-
-            
-            
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs device-small" role="tablist">
-                <li role="presentation" class="active"><a data-target="#groups-tab" data-toggle="tab">Groupes</a></li>
-                <li role="presentation"><a data-target="#student-tab" data-toggle="tab">Elèves</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active col col-xs-12 col-sm-6" id="groups-tab">
-                    <div id="groups-hits" class="facet"></div>
+            <% if message.published? %>
+                <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;margin: 25px;" role="alert">
+                    <p>La liste des destinataires n'est plus modifiable une fois que le message à été envoyé.</p>
                 </div>
-                <div role="tabpanel" class="tab-pane col-xs-12 col-sm-6" id="student-tab">
+            <% else %>
+
+                <%= hidden_field_tag 'algolia_search_api_key', current_user.algolia_search_api_key_for_students %>
+                <%= hidden_field_tag 'current_school_id', @current_school.id %>
+                
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs device-small" role="tablist">
+                    <li role="presentation" class="active"><a data-target="#groups-tab" data-toggle="tab">Groupes</a></li>
+                    <li role="presentation"><a data-target="#student-tab" data-toggle="tab">Elèves</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active col col-xs-12 col-sm-6" id="groups-tab">
+                        <div id="groups-hits" class="facet"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane col-xs-12 col-sm-6" id="student-tab">
 
 
-                    <h5>Elèves / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right;display:flex;"><span id="totalSelected"></span> / <span id="nbHits"></span></span></h5>
-                    <div id="fullsearch-students"></div>
-                    <div id="paginationR"></div>
-                    <div id="recipient-hits" class="hits"></div>
+                        <h5>Elèves / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right;display:flex;"><span id="totalSelected"></span> / <span id="nbHits"></span></span></h5>
+                        <div id="fullsearch-students"></div>
+                        <div id="paginationR"></div>
+                        <div id="recipient-hits" class="hits"></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row" id="recipients-to-select">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="row" id="recipients-to-select">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                </div>
-            </div>
+            <% end %>
 
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" id="buttons">
 
+        <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 <%= 'published' if message.published? %>" id="buttons">
             <div class="hidden-sm hidden-xs inline">
                 <button alt="Ajouter" type="button" id="addRecipients" class="btn btn-primary" aria-label="Ajout destinataires">
                     <span class="hidden-sm hidden-xs glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -59,7 +63,6 @@
                     <span class="hidden-sm hidden-xs glyphicon glyphicon-menu-left" aria-hidden="true"></span>
                 </button>
             </div>
-
             <div class="visible-sm visible-xs stacked">
                 <button alt="Ajouter" type="button" id="addRecipients" class="btn btn-primary" aria-label="Ajout destinataires">
                     <span class="visible-sm visible-xs glyphicon glyphicon-menu-down" aria-hidden="true"></span> Ajouter
@@ -68,18 +71,16 @@
                     <span class="visible-sm visible-xs glyphicon glyphicon-menu-up" aria-hidden="true"></span> Enlever
                 </button>
             </div>
-
-
-            
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5" id="recipients">
+
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 <%= 'published' if message.published? %>" id="recipients">
             
             <div id="rEmptyMsg" style="width:100%;height:100%;text-align:center;font-size:25px;color:#aaa;">
                 </br></br>Aucun destinataire pour l'instant.</br>
                 <i class="fa fa-inbox" style="font-size:50px;" aria_hidden="true"></i>
             </div>
             
-            <h5 id="rColumnsTitles">Destinataires / <span class="all">Tous</span> - <span class="none">Aucun</span><span style="float:right">Total <span id="recipients_counter"></span></span></h5>
+            <h5 id="rColumnsTitles">Destinataires<span id="shortcuts"> / <span class="all">Tous</span> - <span class="none">Aucun</span></span><span style="float:right">Total <span id="recipients_counter"></span></span></h5>
             <div><input type="text" id="filterR" class="filter" data-table="#destinataires" placeholder="Filtrer par nom / prénom / groupe"></div>
     
             <div id="recipients-list">
