@@ -8,7 +8,7 @@ class Message < ApplicationRecord
   monetize :amount_to_pay_cents
 
   #todo https://github.com/algolia/algoliasearch-rails#restrict-indexing-to-a-subset-of-your-data
-  algoliasearch sanitize: true do
+  algoliasearch unless: :deleted?, sanitize: true do
     attribute :title, :created_at_ISO8601, :has_form, :author_id, :school_id, :status, :author_fullname, :last_update_meta, :scheduled_publish
 
     attribute :content do
@@ -16,8 +16,6 @@ class Message < ApplicationRecord
     end
 
     attributesToIndex [:title, :content, :created_at_ISO8601, :has_form, :author_fullname, :school_id]
-
-
 
     #attributesForFaceting [:publish_date, 'searchable(author_fullname)']
     attributesToSnippet ['content:35']
@@ -46,7 +44,7 @@ class Message < ApplicationRecord
   scope :by_ids, ->(ids) { where(id: ids) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :by_user, ->(user_id) { where(author_id: user_id) }
-
+  scope :not_deleted, -> { where(deleted: false) }
 
   enum mtype: [:message, :rappel]
   enum status: [:draft, :published, :waiting_for_approval, :approval_refused, :approval_accepted, :republished ]
@@ -61,6 +59,20 @@ class Message < ApplicationRecord
   before_update :handle_status_republish, if: -> {status_changed?}
   before_update :set_has_form, if: -> {formdata_changed?}
   # after_save :sync_firebase
+
+  def deleted?
+    return deleted
+  end
+
+  def soft_destroy
+    # remove message from algolia
+    remove_from_index!
+    # delete files from cloudinary
+    Cloudinary::Api.delete_resources(photos.pluck(:public_id))
+    self.photos = []
+    self.deleted = true
+    save
+  end
 
   def sync_firebase
     if [16, 10].include?(self.school_id) && self.status == 'published'

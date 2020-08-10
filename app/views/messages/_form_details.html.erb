@@ -71,6 +71,13 @@
                 </p>
               </div>
             </div>
+            <div class="panel-heading" style="border-top: 1px solid #ddd">Options</div>
+             <div class="panel-body">
+              <div class="form-group">
+                <%= f.check_box :auto_delete %>
+                <%= f.label :auto_delete, 'Effacer ce message automatiquement après 6 mois'%>
+              </div>
+            </div>
           </div>
         <% end %>
 

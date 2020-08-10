@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def noalgolia_index
-    @messages = policy_scope(Message).where(school_id: current_school.id).order(updated_at: :desc)
+    @messages = policy_scope(Message).not_deleted.where(school_id: current_school.id).order(updated_at: :desc)
     authorize @messages
     @school_id = current_school
   end
@@ -25,17 +25,17 @@ class MessagesController < ApplicationController
     # @current_user = current_user
     @workflow_active = @current_school.validation_workflow_active
     if current_user.user?
-      @total_of_messages = Message.by_user(current_user.id).by_school(@current_school.id).count
+      @total_of_messages = Message.not_deleted.by_user(current_user.id).by_school(@current_school.id).count
     else 
-      @total_of_messages = Message.by_school(@current_school.id).count
+      @total_of_messages = Message.not_deleted.by_school(@current_school.id).count
     end
-    @latest_messages = policy_scope(Message).includes(:author).where(school_id: current_school.id).order(updated_at: :desc).limit(12).pluck(:id, :title, :has_form, :content, "CONCAT_WS(' ', users.firstname, users.lastname)", :updated_at, :status, :scheduled_publish)
+    @latest_messages = policy_scope(Message).includes(:author).not_deleted.where(school_id: current_school.id).order(updated_at: :desc).limit(12).pluck(:id, :title, :has_form, :content, "CONCAT_WS(' ', users.firstname, users.lastname)", :updated_at, :status, :scheduled_publish)
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
-    @message = Message.find_by_muuid(params[:uuid])
+    @message = Message.not_deleted.find_by_muuid(params[:uuid])
     if @message
       @title = @message.title
       @content = @message.content
@@ -101,7 +101,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
-    @message = Message.includes([:author, :school, :photo_files, :succeeded_payments, school: :accounts]).find(params[:id])
+    @message = Message.includes([:author, :school, :photo_files, :succeeded_payments, school: :accounts]).not_deleted.find(params[:id])
     authorize @message
 
     all_email_recipients = EmailRecipient.where(message_id: @message.id).order(created_at: :desc)
@@ -494,7 +494,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1.json
   def destroy
     authorize @message
-    @message.destroy
+    @message.soft_destroy
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Le message a été effacé.' }
       format.json { head :no_content }
@@ -529,7 +529,7 @@ class MessagesController < ApplicationController
     end
 
     def message_params
-      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, :scheduled_datetime, recipients_attributes: [:id, :student_id, :_destroy], "message_category_ids" => [])
+      params.require(:message).permit(:title, :content, :school_id, :mtype, :when, :send_by_email, :send_to_app, :skip_send_by_email, :send_by_sms, :amount_to_pay, :status, :custom_author, :scheduled_datetime, :auto_delete, recipients_attributes: [:id, :student_id, :_destroy], "message_category_ids" => [])
     end
 
     # def set_s3_direct_post
