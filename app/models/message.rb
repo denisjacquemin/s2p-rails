@@ -68,7 +68,7 @@ class Message < ApplicationRecord
     # remove message from algolia
     remove_from_index!
     # delete files from cloudinary
-    Cloudinary::Api.delete_resources(photos.pluck(:public_id))
+    Cloudinary::Api.delete_resources(public_ids: photos.pluck(:public_id)) unless photos.blank?
     self.photos = []
     self.deleted = true
     save
