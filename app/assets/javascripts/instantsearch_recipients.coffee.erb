@@ -62,6 +62,7 @@ ready = () ->
 
       paginationPanel = instantsearch.widgets.panel(
         hidden: ({ results }) ->
+          console.log 'results', results
           [0,1].indexOf(results.nbPages) isnt -1
       )(instantsearch.widgets.pagination)
 
