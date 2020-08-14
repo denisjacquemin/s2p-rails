@@ -140,12 +140,13 @@ class User < ApplicationRecord
     def createAlgoliaApiKey
       logger.info "Create new Algolia Api Key for #{self.firstname} #{self.lastname}"
       @create_algolia_api_key_service = CreateAlgoliaApiKeyService.new(self)
-      @create_algolia_api_key_service.generate_key
+      @create_algolia_api_key_service.generate_key      
     end
 
     def algolia_key_needs_update?
       # logger.info "algolia_key_needs_update? #{schools_previously_changed?} || #{role_previously_changed?}  || #{id_previously_changed?}"
       # id_previously_changed? to detect a new creation
-      previous_changed? || schools_previously_changed?
+      true
+      # previous_changed? || schools_previously_changed?
     end
 end
