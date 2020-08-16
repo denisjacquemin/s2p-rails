@@ -62,6 +62,7 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -88,6 +89,9 @@
 
 <% else %>
 
+<% if ! current_school.iscity and ! current_school.is_ifapme %>
+<blockquote>🚸 <a href="/help/update_students">Guide de mise à jour des élèves.</a></blockquote>
+<% end %>
 
 <div class="row algolia algolia_students">
     <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id="results">
