@@ -78,8 +78,11 @@
                  <%= f.check_box :acaweb %>
                 </div>
                 <div class="form-group">
-                 <%= f.label :is_ifapme, 'Is Ifapme' %>
-                 <%= f.check_box :is_ifapme %>
+                  <%= f.label :is_ifapme, 'Is Ifapme' %>
+                  <%= f.check_box :is_ifapme %>
+
+                  <%= f.label :ifapme_use_code_classe_as_group, 'Code Classe column for group' %>
+                  <%= f.check_box :ifapme_use_code_classe_as_group %>
                 </div>
                 <div class="form-group">
                  <%= f.label :delete_students_on_csv_import, "Activer l'option effacer les élèves à l'import CSV" %>

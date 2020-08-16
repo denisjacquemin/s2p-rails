@@ -225,7 +225,7 @@ class StudentsController < ApplicationController
         }
 
 
-        upload_csv_ifapme_key_mapping = {
+        upload_csv_general_ifapme_key_mapping = {
           :unwanted_row => nil,
           :force_simple_split => false,
           :strip_chars_from_headers => /[\-"]/,
@@ -237,21 +237,30 @@ class StudentsController < ApplicationController
           },
           :col_sep => sniff(params[:csv].tempfile.path, [',',";"], encoding), 
           :file_encoding => encoding,
-          :key_mapping => {
-            :nom_formateur => :lastname,
-            :prénom_formateur => :firstname,
-            :nom_apprenant => :lastname,
-            :prénom_apprenant => :firstname,
-            :téléphone => :phone3,
-            :gsm => :phone2,
-            :email => :email1,
-            :courriel => :email1,
-            :classe => :group1,
-            "n.app.".to_sym => :idifapme,
-            :centre => :centre
-          }
+        }
+
+        ifapme_general_key_mapping = {
+          :nom_formateur => :lastname,
+          :prénom_formateur => :firstname,
+          :nom_apprenant => :lastname,
+          :prénom_apprenant => :firstname,
+          :téléphone => :phone3,
+          :gsm => :phone2,
+          :email => :email1,
+          :courriel => :email1,
+          :code_classe => :group2,
+          "n.app.".to_sym => :idifapme,
+          :centre => :centre
         }
     
+        if current_school.ifapme_use_code_classe_as_group
+          ifapme_key_mapping = ifapme_general_key_mapping.merge({ :code_classe => :group1 })
+        else
+          ifapme_key_mapping = ifapme_general_key_mapping.merge({ :classe => :group1 })
+        end
+        upload_csv_ifapme_key_mapping = upload_csv_general_ifapme_key_mapping.merge({key_mapping: ifapme_key_mapping})
+
+
         upload_csv_general_key_mapping = {
           :key_mapping => {
             :prenom => :firstname,
@@ -400,7 +409,6 @@ class StudentsController < ApplicationController
         else
           options = upload_csv_defaults_options.merge(upload_csv_general_key_mapping)
         end
-
         
         # options = {
         #   :unwanted_row => nil,
@@ -553,6 +561,7 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+        
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")

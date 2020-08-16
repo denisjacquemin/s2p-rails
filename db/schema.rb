@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_08_142538) do
+ActiveRecord::Schema.define(version: 2020_08_16_194135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -456,6 +456,7 @@ ActiveRecord::Schema.define(version: 2020_08_08_142538) do
     t.boolean "delete_students_on_csv_import", default: false
     t.boolean "new_recipients_selection", default: false
     t.boolean "auto_delete_messages", default: true
+    t.boolean "ifapme_use_code_classe_as_group", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
