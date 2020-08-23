@@ -138,8 +138,9 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         if student_data[:code].present?
             student = Student.where('code = ? and school_id = ?', student_data[:code].to_s, school_id).first
         end
+
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
-        if student.nil?
+        if !student_data[:code].present? and !student_data[:winpage_matricule].present? and !student_data[:proeco_id].present? and student.nil?
             student = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, school_id).first
             # if students.size == 1
             # student = students.first
