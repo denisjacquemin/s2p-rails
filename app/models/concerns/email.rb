@@ -3,7 +3,7 @@ module Email extend ActiveSupport::Concern
     def sendMessageByEmail(message, delivery_method)
         # if they are at least something to send
         if has_recipients?(message)
-            student_ids = find_student_ids(message.groups, [message.students, message.recipients.pluck(:student_id)], message.school.iscity?, message.message_categories.pluck(:id))
+            student_ids = find_student_ids(message.groups, [message.students, message.recipients.pluck(:student_id)].compact.reduce([], :|), message.school.iscity?, message.message_categories.pluck(:id))
 
             # if group "Tous les redacteurs" is selected gets all redactors' emails
             writers_emails = []
@@ -21,7 +21,7 @@ module Email extend ActiveSupport::Concern
     private
 
     def has_recipients?(message)
-      return !message.students.blank? || !message.groups..blank? || !message.recipients.blank?
+      return !message.students.blank? || !message.groups.blank? || !message.recipients.blank?
     end
 
 
