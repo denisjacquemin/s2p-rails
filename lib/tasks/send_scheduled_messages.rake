@@ -16,7 +16,7 @@ task :send_scheduled_messages => :environment do
     # AlertAdminMailer.send_alert("Message to send: #{message.id}").deliver_later
     Rails.logger.debug "SendMessageob.perform_now(message.id) #{message.id}"
 
-    if has_recipients?(message)
+    if !message.students.blank? || !message.groups.blank? || !message.recipients.blank?
       res = SendMessageJob.perform_now(message.id)
     end
     # message.status = message.status == 'published' ? 'republished' : 'published'
@@ -24,9 +24,4 @@ task :send_scheduled_messages => :environment do
     # ret =  message.save
   end
 
-  private 
-
-  def has_recipients?(message)
-    return !message.students.blank? || !message.groups..blank? || !message.recipients.blank?
-  end
 end
