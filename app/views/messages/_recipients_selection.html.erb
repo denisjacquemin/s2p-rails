@@ -86,10 +86,10 @@
             <div id="recipients-list">
                 <%= f.fields_for :recipients do |recipients_form| %>
                     <label>
-                        <div class="width-60"><input type="checkbox"><%= recipients_form.hidden_field :student_id %><%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %></div>
-                        <div class="width-40">
-                            <span class="hidden-xs"><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
-                        </div>
+                        <%= recipients_form.hidden_field :student_id %>
+                        <input type="checkbox">
+                        <%= recipients_form.object.student&.lastname %> <%= recipients_form.object.student&.firstname %>
+                        <span class="hidden-xs" alt="<%= recipients_form.object.student&.groups_to_index&.join(',') %>"><%= recipients_form.object.student&.groups_to_index&.join(',') %></span>
                     </label>
                 <% end %>
             </div>
