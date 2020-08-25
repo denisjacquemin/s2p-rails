@@ -90,9 +90,10 @@ add_recipient = (student) ->
     }).appendTo(label)
 
 remove_recipient = (student) ->
-  $(student.parentElement).find("input[type='hidden']")[0].name = $(student.parentElement).find("input[type='hidden']")[0].name.replace('student_id', '_destroy')
-  $($(student.parentElement).find("input[type='checkbox']")[0]).prop('checked', false)
-  $(student.parentElement).addClass('deleted')
+  thelabel = $(student).closest('label')
+  thelabel.find("input[type='hidden']")[0].name = $(student.parentElement).find("input[type='hidden']")[0].name.replace('student_id', '_destroy')
+  $(thelabel.find("input[type='checkbox']")[0]).prop('checked', false)
+  thelabel.addClass('deleted')
   
   
 update_recipients_ui = () ->
