@@ -157,6 +157,8 @@
             <br />
             <div id="level"></div>
             <div id="classroom"></div>
+            <h5 class="<%= current_school.is_ifapme ? '' : 'displaynone' %>">Filtrer par date de création</h5>
+            <div id="calendar" class="<%= current_school.is_ifapme ? '' : 'displaynone' %> daterange daterange--double one"></div>
         </div>
         <!--
     <div class="pull-right" id="results_by_page"><span id="hitperpage"></span> Résultats par page</div>

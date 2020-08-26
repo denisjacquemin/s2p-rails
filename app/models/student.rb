@@ -4,9 +4,9 @@ class Student < ApplicationRecord
   include AlgoliaSearch
 
   algoliasearch synchronous: false do
-    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count, :groups_to_index, :groups_to_index_ids
+    attribute :firstname, :lastname, :school_id, :classroom, :level, :code, :followers, :message_sent_by_email, :phones_count, :groups_to_index, :groups_to_index_ids, :created_at_timestamp
     attributesToIndex [:firstname, :lastname, :school_id, :classroom, :level, :code, :groups_to_index]
-    attributesForFaceting ['searchable(classroom)', 'searchable(level)', 'searchable(groups_to_index)', 'filterOnly(groups_to_index_ids)']
+    attributesForFaceting ['searchable(classroom)', 'searchable(level)', 'searchable(groups_to_index)', 'filterOnly(groups_to_index_ids)', 'filterOnly(created_at_timestamp)']
     customRanking ['asc(level)', 'asc(lastname)']
     typoTolerance :false
   end
@@ -20,6 +20,12 @@ class Student < ApplicationRecord
 
   def phones_count
     self.phones.count
+  end
+
+  def created_at_timestamp
+    if school.is_ifapme
+      created_at&.to_time.to_i
+    end
   end
 
   # after_save :set_code, if: "code.blank?"

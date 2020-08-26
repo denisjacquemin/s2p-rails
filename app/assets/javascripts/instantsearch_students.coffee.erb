@@ -187,7 +187,6 @@ ready = () ->
       #   autoHideContainer: false
       # )
 
-
       search.addWidget instantsearch.widgets.refinementList(
         container: '#level'
         attribute: 'level'
@@ -205,6 +204,37 @@ ready = () ->
         templates:
           showMoreText: getTemplate('show-more')
       )
+
+      ONE_DAY_IN_MS = 3600 * 24 * 1000;
+      ONE_DAY_IN_S = 3600 * 24
+
+      makeRangeWidget = instantsearch.connectors.connectRange((options, isFirstRendering) ->
+        if !isFirstRendering
+          return
+        refine = options['refine']
+        new Calendar(
+          element: $('#calendar')
+          same_day_range: true
+          callback: ->
+            start = Math.floor (new Date(@start_date).getTime() / 1000) 
+            end = Math.floor ((new Date(@end_date).getTime() + ONE_DAY_IN_MS) / 1000)
+            actualEnd = if start == end then end + ONE_DAY_IN_S else end
+            refine [
+              start
+              actualEnd
+            ]
+            return
+          start_date: new Date('01/01/2019')
+          end_date: new Date()
+          earliest_date: new Date('01/01/2019')
+          latest_date: new Date())
+        return
+      )
+      dateRangeWidget = makeRangeWidget(attribute: 'created_at_timestamp')
+      search.addWidget dateRangeWidget
+
+
+
       search.start()
       <%# search.on('render', onRenderHandler); %>
 

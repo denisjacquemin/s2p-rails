@@ -24,4 +24,5 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require moment/fr
+//= require Calendar
 // require_tree .
