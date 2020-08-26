@@ -63,7 +63,7 @@
                   <%= f.check_box :send_email_to_author %> M'envoyer un email lorsque je suis l'auteur du message.
                 <% end %>
               </div>
-              <% unless current_user.user? %>
+              <% unless @user.user? %>
               <div class="checkbox">
                 <%= f.label :send_email_to_admin do %>
                   <%= f.check_box :send_email_to_admin %> En tant qu'administrateur, m'envoyer un email pour chaque message.
