@@ -27,7 +27,6 @@ ready = () ->
           groupsContainer.style.display = if helper.state.query == '' then '' else 'none'
           helper.search() %>
 
-        
       )
 
       search.addWidget instantsearch.widgets.configure(
@@ -117,7 +116,6 @@ ready = () ->
           cssClasses:
             root: ''
           sortBy: [
-            'isRefined'
             'name:asc'
             'count:desc'
           ]
