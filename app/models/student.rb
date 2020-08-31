@@ -262,6 +262,33 @@ class Student < ApplicationRecord
   #   end
   # end
 
+
+  def update_level_and_classroom_groups
+    # check if level has changed, if yes get the old and the new group_id
+    # check if classroom has changed, if yes get the old and the new group_id
+    old_level_group = get_old_group(self.level_was)
+    old_level_group_id = old_level_group.id if old_level_group.present?
+    old_classroom_group = get_old_group(self.classroom_was)
+    old_classroom_group_id = old_classroom_group.id if old_classroom_group.present?
+
+    new_level_group_id = get_new_group(self.level, 'level')
+    new_classroom_group_id = get_new_group(self.classroom, 'classroom')
+
+    # update student's groups by removing old groups
+    # update student's groups by adding new groups
+    array_of_groups = [old_level_group_id, old_classroom_group_id].flatten.uniq.compact
+
+    self.remove_groups(array_of_groups) if array_of_groups.present?
+
+    #Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
+    array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
+
+
+    self.add_groups(array_of_groups) if array_of_groups.present?
+    #Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
+
+  end
+
   private
     def generate_uuid
       self.uuid = SecureRandom.uuid
@@ -287,32 +314,6 @@ class Student < ApplicationRecord
         new_group_id = new_group.id unless new_group.nil?
       end
       new_group_id
-    end
-
-    def update_level_and_classroom_groups
-      # check if level has changed, if yes get the old and the new group_id
-      # check if classroom has changed, if yes get the old and the new group_id
-      old_level_group = get_old_group(self.level_was)
-      old_level_group_id = old_level_group.id if old_level_group.present?
-      old_classroom_group = get_old_group(self.classroom_was)
-      old_classroom_group_id = old_classroom_group.id if old_classroom_group.present?
-
-      new_level_group_id = get_new_group(self.level, 'level')
-      new_classroom_group_id = get_new_group(self.classroom, 'classroom')
-
-      # update student's groups by removing old groups
-      # update student's groups by adding new groups
-      array_of_groups = [old_level_group_id, old_classroom_group_id].flatten.uniq.compact
-
-      self.remove_groups(array_of_groups) if array_of_groups.present?
-
-      #Student.remove_groups([self.id], array_of_groups) if array_of_groups.present?
-      array_of_groups = [new_level_group_id, new_classroom_group_id].flatten.uniq.compact
-
-
-      self.add_groups(array_of_groups) if array_of_groups.present?
-      #Student.add_groups([self.id], array_of_groups) if array_of_groups.present?
-
     end
 
     def clean_old_level
