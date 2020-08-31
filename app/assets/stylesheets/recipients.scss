@@ -115,9 +115,11 @@
         .tab-content>.tab-pane {
             display: block;
         }
-        #recipient-hits .ais-Panel-body,
-        #groups-hits .ais-RefinementList-list {
+        #recipient-hits .ais-Panel-body {
             height: 400px;
+        }
+        #groups-hits .ais-RefinementList-list {
+            height: 490px;
         }
         #recipients #recipients-list {
             height: 420px;
