@@ -112,7 +112,6 @@ ready = () ->
         search.addWidget refinementListPanel(
           container: '#groups-hits'
           attribute: 'groups_to_index'
-          limit: 150
           cssClasses:
             root: ''
           sortBy: [
@@ -120,7 +119,8 @@ ready = () ->
             'count:desc'
           ]
           operator: 'or'
-          searchable: false
+          limit: 100
+          searchable: true
           searchablePlaceholder: 'Rechercher un groupe'
           searchableIsAlwaysActive: true
           templates:
