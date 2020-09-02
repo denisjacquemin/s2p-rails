@@ -581,8 +581,6 @@ class StudentsController < ApplicationController
             end
           end 
 
-
-
           if current_school.is_ifapme 
             CreateStudentFromCsvV3Job.perform_later(r, current_school.id, current_user, upload_uniq_id)  
           elsif current_school.acaweb
