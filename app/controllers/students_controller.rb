@@ -260,6 +260,9 @@ class StudentsController < ApplicationController
         end
         upload_csv_ifapme_key_mapping = upload_csv_general_ifapme_key_mapping.merge({key_mapping: ifapme_key_mapping})
 
+        # if current_school.siel_use_te_classe_as_group
+        #   general_key_mapping = 
+
 
         upload_csv_general_key_mapping = {
           :key_mapping => {
@@ -314,29 +317,33 @@ class StudentsController < ApplicationController
             # :classe => :level2, # champ Creos mais deja supporté grace à ProEco
             # keys from ProEco
             :matric_info => :proeco_id,
-            :matricule_p4_élève => :proeco_id, # ProEco 5
             :nom_elève => :lastname,
             :nom_élève => :lastname, # APSchool et ProEco 5
             :prénom_élève => :firstname, # APSchool et ProEco 5
             :prénom_elève => :firstname,
             :gsm_père => :phone1,
-            :g_sm_adresse_principale_père_élève_dossier_inscription => :phone1, # ProEco 5
             :gsm_mère => :phone2,
-            :g_sm_adresse_principale_mère_élève_dossier_inscription => :phone2, # ProEco 5
             :année => :level1,
-            :code_année_étude => :level1, # ProEco 5
+            :année_classe_classe => :level1,
             :annee => :level1,
             :anff  => :anff,
             :orientation => :orientation,
             "année_[déf]".to_sym => :level1,
             :classe => :level2,
-            :libellé_classe => :implantation, # ProEco 5
             "classe_[déf]".to_sym => :level2,
             :email_père => :email1,
             :email_mère => :email3,
-            :e_mail_adresse_principale_mère_élève_dossier_inscription => :email3, # ProEco 5
             :email_responsable => :email_responsable,
             :grpel => :classroom,
+            # ProEco 5
+            :matricule_p4_élève => :proeco_id, 
+            :g_sm_adresse_principale_mère_élève=> :phone1,
+            :g_sm_adresse_principale_père_élève=> :phone2,
+            :g_sm_adresse_principale_responsable_élève => :phone3,
+            :e_mail_adresse_principale_responsable_élève=> :email1,
+            :e_mail_adresse_principale_père_élève => :email2,
+            :e_mail_adresse_principale_mère_élève => :email3,
+            :libellé_classe => :implantation, # ProEco 5
             # SIEL
             "annee_d'etude".to_sym => :level1,
             "nom_tit".to_sym => :siel_nom_tit,
@@ -351,7 +358,7 @@ class StudentsController < ApplicationController
             # SIEL SPECIALISE
             "te_nom".to_sym => :lastname,
             "te_prenom".to_sym => :firstname,
-            "co_aa_etude".to_sym => :level1,
+            #"co_aa_etude".to_sym => :level1, # sauf pour Special Gembloux
             "te_resp1_tel1".to_sym => :phone1,
             "te_resp1_tel2".to_sym => :phone2,
             "te_resp1_tel3".to_sym => :phone3,

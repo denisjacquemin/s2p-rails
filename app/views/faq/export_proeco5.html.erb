@@ -1,0 +1,65 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'list_guides' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2 id="proeco">Importer les élèves depuis ProEco 5</h2>
+    <p>Les utilisateurs de ProEco 5 peuvent utiliser la procédure ci-dessous pour créer un fichier CSV contenant la liste des élèves.</p>
+    <ol>
+      <li>Création d'un fichier excel (.xlsx) contenant la liste des élèves</li>
+      <li>Convertir le fichier excel(.xlsx) ProEco en .CSV</li>
+      <li>Importer le fichier .CSV dans Konecto App</li>
+    </ol>
+    <h3>1. Création d'un fichier excel contenant la liste des élèves</h3>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        1.1. Dans ProEco, Cliquez sur le module "Elevès".
+        <br/><br/>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/1clickoneleves.PNG"), class: "img-responsive img-thumbnail" %>
+        <br/><br/>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>1.2. Dans le menu d'actions, cliquez sur le bouton "Liste personnalisée".<br>
+        Si vous ne voyez pas le bouton, via l'écran "Accueil" activez dans les paramètres le mode "affichage avancé".</p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/2listepersonnalisee.PNG"), class: "img-thumbnail"%>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>1.3. Constituez une liste avec les champs ci-dessous.</p>
+        <ol>
+            <li>Eleve > Matricule p4 élève</li>
+            <li>Eleve > Prénom Elève</li>
+            <li>Eleve > Nom Elève</li>
+            <li>AnneeEtude > AnneeClasse</li> 
+            <li>Eleve > Responsable > AdressePrincipale > Email</li >
+            <li>Eleve > Responsable > AdressePrincipale > GSM</li >
+            <li>Eleve > Pere > AdressePrincipale > Email</li >
+            <li>Eleve > Pere > AdressePrincipale > GSM</li >
+            <li>Eleve > Mere > AdressePrincipale > Email</li >
+            <li>Eleve > Mere > AdressePrincipale > GSM</li >
+        </ol>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>1.4. Sur la gauche de l'écran faites bien attention de ne rien sélectionner dans le champ "Regroupement par".</p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/5regroupement.PNG"), class: "img-thumbnail"%>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>1.5. Créez le fichier excel en cliquant sur le bouton "Excel".</p>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <%= image_tag asset_path("faq/4excel.PNG"), class: "img-thumbnail"%>
+      </div>
+    </div>
+    <h3>2. Convertir le fichier excel(.xlsx) ProEco en .CSV</h3>
+    <p>Ouvrez le fichier excel(.xlsx) dans Excel, dans le menu <em>Fichier > Enregistrer Sous</em>. Dans type de fichier, choisir <em style="background-color: #FFFF00;">CSV (séparateur: point-virgule)</em>
+    <h3>3. Importer le fichier .CSV dans Konecto App</h3>
+    <%= render 'import_csv_file' %>
+
+    
+
+</div>
