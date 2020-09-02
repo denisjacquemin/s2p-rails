@@ -82,6 +82,8 @@ Rails.application.routes.draw do
   get 'help/export_gestscol', to: 'faq#export_gestscol'
   get 'help/export_siel', to: 'faq#export_siel'
   get 'help/export_proeco', to: 'faq#export_proeco'
+  get 'help/export_proeco5', to: 'faq#export_proeco5'
+
   get 'help/export_creos', to: 'faq#export_creos'
   get 'help/import_excel', to: 'faq#import_excel'
   get 'help/message_sms', to: 'faq#message_sms'
