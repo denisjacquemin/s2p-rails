@@ -9,7 +9,7 @@ class CreateStudentFromCsvV3Job < ApplicationJob
       firstname = data[:firstname]&.strip
       lastname = data[:lastname]&.strip
       unless firstname.blank? or lastname.blank? # check if mandatory fields are presents
-        students["#{firstname&.upcase}##{lastname&.upcase}"] = build_student(students["#{firstname&.upcase}##{lastname&.upcase}"], data, school_id)
+        students["#{firstname&.upcase}##{lastname&.upcase}#{data[:idifapme]}"] = build_student(students["#{firstname&.upcase}##{lastname&.upcase}#{data[:idifapme]}"], data, school_id)
       end
     end
 
@@ -38,7 +38,15 @@ class CreateStudentFromCsvV3Job < ApplicationJob
   end
 
   def create_or_update_student(data, school_id)
-    student = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', data[:firstname]&.downcase, data[:lastname]&.downcase, school_id).first
+    student = nil
+    
+    if data[:idifapme].present?
+      student = Student.where('idifapme = ? and school_id = ?', data[:idifapme].to_s, school_id).first
+    end
+    
+    if student.nil? and data[:idifapme].blank?
+      student = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', data[:firstname]&.downcase, data[:lastname]&.downcase, school_id).first
+    end
 
     if student.blank?
       new_student = {}
