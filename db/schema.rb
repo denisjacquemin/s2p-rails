@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_194135) do
+ActiveRecord::Schema.define(version: 2020_08_26_143433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -182,6 +182,13 @@ ActiveRecord::Schema.define(version: 2020_08_16_194135) do
     t.string "duuid"
     t.index ["duuid"], name: "index_forms_on_duuid"
     t.index ["muuid"], name: "index_forms_on_muuid"
+  end
+
+  create_table "grades", force: :cascade do |t|
+    t.string "name"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "groups", id: :serial, force: :cascade do |t|
@@ -457,6 +464,7 @@ ActiveRecord::Schema.define(version: 2020_08_16_194135) do
     t.boolean "new_recipients_selection", default: false
     t.boolean "auto_delete_messages", default: true
     t.boolean "ifapme_use_code_classe_as_group", default: false
+    t.boolean "siel_use_te_classe_as_group", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|
@@ -497,6 +505,7 @@ ActiveRecord::Schema.define(version: 2020_08_16_194135) do
     t.string "siel_id"
     t.string "upload_uniq_id"
     t.string "idifapme"
+    t.string "grade"
     t.index ["code"], name: "index_students_on_code", unique: true
   end
 

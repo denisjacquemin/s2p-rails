@@ -56,7 +56,7 @@ s = School.find
 
 s.students.update_all(classroom: '')
 
-Group.find(422454).students.each { |student| student.groups.delete(422454); student.save }
+Group.find(420883).students.each { |student| student.groups.delete(420883); student.save }
 
 ## Extraire tous les messages pour un auteur en CSV
 
