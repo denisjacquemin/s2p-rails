@@ -1,7 +1,7 @@
 # invokation: rails delete_classroom_for_a_given_school[1]
 desc "Soft delete old messages"
 task :soft_delete_old_messages => :environment do |task|
-  messages = Message.where('updated_at < ? and auto_delete is true and deleted is false', 25.months.ago)
+  messages = Message.where('updated_at < ? and auto_delete is true and deleted is false', 21.months.ago)
   nbr_messages = 0
   nbr_images = 0
   messages.each do |message|
