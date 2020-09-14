@@ -179,7 +179,7 @@ load_billing_students = () ->
       return
 
 ready = () ->
-  if $('#message-page').length
+  if $('#message-page, #group-page').length
     $ ->
       table = $('#users-datatable').dataTable
         processing: true
