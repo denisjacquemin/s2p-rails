@@ -64,6 +64,7 @@ class GroupsController < ApplicationController
     Student.add_group(members_to_add, params[:id]) if members_to_add.any?
     Student.remove_group(actual_members_to_delete, params[:id]) if actual_members_to_delete.any?
     if @group.update(group_params)
+      @group.students.reindex!
       redirect_to edit_group_path(@group), notice: t('controller.groups.update.notice.success')
     else
       render :edit

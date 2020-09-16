@@ -9,6 +9,7 @@ class Group < ApplicationRecord
     attributesToIndex ['name']
   end
 
+
   validates :name, presence: true
   validates_uniqueness_of :name, scope: :school_id
   #validates :code, uniqueness: true, :on => :update
@@ -50,6 +51,7 @@ class Group < ApplicationRecord
   end
 
   before_destroy :clean_students, :clean_messages
+  
 
   # before_save do
   #   logger.debug "Group.before_save compute_code"
