@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_112719) do
+ActiveRecord::Schema.define(version: 2020_09_18_140601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -203,11 +203,13 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.string "upload_id"
     t.index ["code"], name: "index_groups_on_code", unique: true
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true
+    t.index ["school_id"], name: "index_groups_on_school_id"
   end
 
   create_table "groups_users", id: false, force: :cascade do |t|
     t.integer "group_id"
     t.integer "user_id"
+    t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id"
     t.index ["group_id"], name: "index_groups_users_on_group_id"
     t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
@@ -265,6 +267,8 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.datetime "scheduled_publish"
     t.boolean "auto_delete", default: true
     t.boolean "deleted", default: false
+    t.index ["author_id"], name: "index_messages_on_author_id"
+    t.index ["school_id"], name: "index_messages_on_school_id"
   end
 
   create_table "mfiles", id: :serial, force: :cascade do |t|
@@ -274,6 +278,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.integer "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_mfiles_on_message_id"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -319,6 +324,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.integer "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_phones_on_student_id"
   end
 
   create_table "rating_comments", force: :cascade do |t|
@@ -369,6 +375,9 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_recipients_on_code"
+    t.index ["message_id"], name: "index_recipients_on_message_id"
+    t.index ["school_id"], name: "index_recipients_on_school_id"
+    t.index ["student_id"], name: "index_recipients_on_student_id"
   end
 
   create_table "rpush_apps", id: :serial, force: :cascade do |t|
@@ -508,11 +517,13 @@ ActiveRecord::Schema.define(version: 2020_09_08_112719) do
     t.string "idifapme"
     t.string "grade"
     t.index ["code"], name: "index_students_on_code", unique: true
+    t.index ["school_id"], name: "index_students_on_school_id"
   end
 
   create_table "students_users", id: false, force: :cascade do |t|
     t.integer "student_id"
     t.integer "user_id"
+    t.index ["student_id", "user_id"], name: "index_students_users_on_student_id_and_user_id"
     t.index ["student_id"], name: "index_students_users_on_student_id"
     t.index ["user_id"], name: "index_students_users_on_user_id"
   end
