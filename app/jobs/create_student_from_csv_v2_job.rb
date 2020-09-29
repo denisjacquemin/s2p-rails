@@ -249,7 +249,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
       group_id = Group.find_or_create_group(data[:group1], school_id, upload_uniq_id).id
       student_groups.push(group_id)  
     else
-      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10] ].compact.each do |group_name|
+      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation] ].compact.each do |group_name|
           group_id = Group.find_or_create_group(group_name, school_id, nil).id
           student_groups.push(group_id)
       end

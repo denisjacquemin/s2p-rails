@@ -239,6 +239,7 @@ class StudentsController < ApplicationController
           :file_encoding => encoding,
         }
 
+
         ifapme_general_key_mapping = {
           :nom_formateur => :lastname,
           :prénom_formateur => :firstname,
@@ -263,7 +264,6 @@ class StudentsController < ApplicationController
         
 
         upload_csv_general_key_mapping = {
-          :key_mapping => {
             :prenom => :firstname,
             :nom => :lastname,
             :emails => :emails,
@@ -342,39 +342,7 @@ class StudentsController < ApplicationController
             :e_mail_adresse_principale_père_élève => :email2,
             :e_mail_adresse_principale_mère_élève => :email3,
             :libellé_classe => :implantation, # ProEco 5
-            # SIEL
-            "annee_d'etude".to_sym => :level1,
-            "nom_tit".to_sym => :siel_nom_tit,
-            "prénom_tit".to_sym => :siel_prenom_tit,
-            "eleve".to_sym => :siel_id,
-            "email_responsable_1".to_sym => :email1,
-            "email_responsable_2".to_sym => :email2,
-            "tel_1_responsable_1".to_sym => :phone1,
-            "tel_1_responsable_2".to_sym => :phone2,
-            "tel_2_responsable_1".to_sym => :phone3,
-            "tel_2_responsable_2".to_sym => :phone4,
-            # SIEL SPECIALISE
-            "te_nom".to_sym => :lastname,
-            "te_prenom".to_sym => :firstname,
-            "te_resp1_tel1".to_sym => :phone1,
-            "te_resp1_tel2".to_sym => :phone2,
-            "te_resp1_tel3".to_sym => :phone3,
-            "te_resp1_email".to_sym => :email1,
-            "te_resp2_email".to_sym => :email2,
-            "te_resp2_tel1".to_sym => :phone4,
-            "te_resp2_tel2".to_sym => :phone5,
-            "te_resp2_tel3".to_sym => :phone6,
-            # SIEL SECONDAIRE
-            "resp1_email".to_sym => :email1,
-            "resp2_email".to_sym => :email2,
-            "co_annee_etude".to_sym => :level1,
-            "te_classe".to_sym => :level2,
-            "resp1_tel1".to_sym => :phone1,
-            "resp1_tel2".to_sym => :phone2,
-            "resp1_tel3".to_sym => :phone3,
-            "resp2_tel1".to_sym => :phone4,
-            "resp2_tel2".to_sym => :phone5,
-            "resp2_tel3".to_sym => :phone6,
+            
             # gestscol
             #             :nom => :lastname,
             #             "prénom".to_sym  => :firstname,
@@ -408,15 +376,58 @@ class StudentsController < ApplicationController
             # :classe => :classroom_acaweb4,
             :jour => :classroom_acaweb5,
             :heure => :classroom_acaweb6
-    
-          },
+          }
+
+        siel_general_key_mapping = {
+          # SIEL
+          "annee_d'etude".to_sym => :level1,
+          "nom_tit".to_sym => :siel_nom_tit,
+          "prénom_tit".to_sym => :siel_prenom_tit,
+          "eleve".to_sym => :siel_id,
+          "email_responsable_1".to_sym => :email1,
+          "email_responsable_2".to_sym => :email2,
+          "tel_1_responsable_1".to_sym => :phone1,
+          "tel_1_responsable_2".to_sym => :phone2,
+          "tel_2_responsable_1".to_sym => :phone3,
+          "tel_2_responsable_2".to_sym => :phone4,
+          # SIEL SPECIALISE
+          "te_nom".to_sym => :lastname,
+          "te_prenom".to_sym => :firstname,
+          "te_resp1_tel1".to_sym => :phone1,
+          "te_resp1_tel2".to_sym => :phone2,
+          "te_resp1_tel3".to_sym => :phone3,
+          "te_resp1_email".to_sym => :email1,
+          "te_resp2_email".to_sym => :email2,
+          "te_resp2_tel1".to_sym => :phone4,
+          "te_resp2_tel2".to_sym => :phone5,
+          "te_resp2_tel3".to_sym => :phone6,
+          # SIEL SECONDAIRE
+          "resp1_email".to_sym => :email1,
+          "resp2_email".to_sym => :email2,
+          "co_annee_etude".to_sym => :level1,
+          "te_classe".to_sym => :level2,
+          "resp1_tel1".to_sym => :phone1,
+          "resp1_tel2".to_sym => :phone2,
+          "resp1_tel3".to_sym => :phone3,
+          "resp2_tel1".to_sym => :phone4,
+          "resp2_tel2".to_sym => :phone5,
+          "resp2_tel3".to_sym => :phone6,
         }
 
+
         if current_school.siel_use_te_classe_as_group
-          general_key_mapping = upload_csv_general_key_mapping.merge({ "te_classe".to_sym => :level1 })
+          siel_key_mapping = siel_general_key_mapping.merge({ "te_classe".to_sym => :level1 })
         else
-          general_key_mapping = upload_csv_general_key_mapping.merge({ "co_aa_etude".to_sym => :level1 })
+          siel_key_mapping = siel_general_key_mapping.merge({ "co_aa_etude".to_sym => :level1 })
         end
+        
+        if current_school.siel_use_fase_implantation
+          siel_key_mapping = siel_general_key_mapping.merge({"fase_implantation".to_sym => :fase_implantation })
+        end
+
+        key_mapping = upload_csv_general_key_mapping.merge(siel_key_mapping)
+        general_key_mapping = {key_mapping: key_mapping}
+        
 
         options = {}
         if current_school.is_ifapme
@@ -578,7 +589,7 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-        
+
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
