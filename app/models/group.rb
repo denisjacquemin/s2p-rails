@@ -6,7 +6,7 @@ class Group < ApplicationRecord
     # list of attribute used to build an Algolia record
     attribute :name, :school_id
     # the attributesToIndex` setting defines the attributes you want to search in
-    attributesToIndex ['name']
+    attributesToIndex ['name', 'school_id']
   end
 
 
