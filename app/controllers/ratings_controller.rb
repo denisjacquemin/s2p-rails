@@ -31,18 +31,15 @@ class RatingsController < ApplicationController
     set_ratings unless @current_competency.title_only
   end
 
+
+  # initialize by_student screen, no default student selected therefore no ratings to display
   def by_student
     @groups = Group.only_level.by_school(current_school.id)
-    @group_selected_id = @groups&.first&.id
+    @group_selected_id = getCurrentGroup(params, @groups)
     @students = Student.by_group(@group_selected_id)
-    @student_selected_id = @students&.first&.id
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
-    @current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
-    @current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if @current_rating_year.nil?
-    @rating_comments = RatingComment.by_school(current_school.id)
-
-    set_ratings_for_one_students()
+    @current_rating_year = getCurrentRatingYear(params)
   end
 
   def change_year
@@ -51,28 +48,20 @@ class RatingsController < ApplicationController
     @current_rating_year = RatingYear.find(@current_selected_rating_year_id)
 
     @groups = @current_rating_year&.filtered_groups
-
   end
 
 
+  # change the current group and reload list of students
   def change_group
-    @rating_years = RatingYear.by_school(current_school.id).ordered
-    @current_selected_rating_year_id = params[:current_selected_rating_year]
-    @current_rating_year = RatingYear.find(@current_selected_rating_year_id)
-
-    @groups = @current_rating_year&.filtered_groups
-    @group_selected_id = params[:current_group_selected_id]
-    @current_group = Group.find @group_selected_id
-    
-    @competencies = @current_group.filtered_competencies
-
+    @group_selected_id = getCurrentGroup(params, @groups)
+    @students = Student.by_group(@group_selected_id).order(:lastname)
   end
 
   def change_student
-    @group_selected_id = params[:group_selected_id]
+    @group_selected_id = getCurrentGroup(params, @groups)
     @student_selected_id = params[:student_selected_id]
     @student_ratings = {}
-    set_ratings_for_one_students()
+    set_ratings_for_one_students() unless @student_selected_id.blank?
   end
 
   def choose_report_period
@@ -238,6 +227,25 @@ class RatingsController < ApplicationController
   end
 
   private
+
+    def getCurrentGroup(params, groups)
+      if params[:group_selected_id].present?
+        return params[:group_selected_id]
+      else
+        return groups&.first&.id
+      end
+    end 
+
+    def getCurrentRatingYear(params)
+      if params[:selected_current_rating_year].present?
+        RatingYear.find params[:selected_current_rating_year]
+      else
+        current_rating_year = RatingYear.by_school(current_school.id).where('all_groups = true')&.first
+        current_rating_year = RatingYear.by_school(current_school.id).includes(:rating_year_groups).where("rating_year_groups.group_id" => @group_selected_id)&.first if current_rating_year.nil?
+        return current_rating_year
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
       @rating = Rating.find(params[:id])
@@ -268,8 +276,7 @@ class RatingsController < ApplicationController
       }
 
       @periods = Period.by_school(current_school.id).ordered
-      
-      @competencies = Group.find(@group_selected_id).competencies.ordered
+      @competencies = Group.find(@group_selected_id).filtered_competencies
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

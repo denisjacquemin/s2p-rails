@@ -8,19 +8,19 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
   # common between /ratings and /by_student
   if $('#rating_screen, #by_student').length
-    # $('#ratings_table').on 'input', '.rating', (e) ->
-    #   e.preventDefault()
-    #   console.log 'savingRating: ' + window.savingRating
-    #   if !window['savingRating#' + e.target.id ]
-    #     setTimeout (->
-    #       saveRating(e)
-    #       return
-    #     ), 2000
-    #     console.log("saveRating set")
-    #     window['savingRating#' + e.target.id ] = true
-    #     return
-    #   else
-    #     console.log("saveRating pending")
+    $('#ratings_table').on 'input', '.rating', (e) ->
+      e.preventDefault()
+      console.log 'savingRating: ' + window.savingRating
+      if !window['savingRating#' + e.target.id ]
+        setTimeout (->
+          saveRating(e)
+          return
+        ), 2000
+        console.log("saveRating set")
+        window['savingRating#' + e.target.id ] = true
+        return
+      else
+        console.log("saveRating pending")
     $('[data-toggle="popover"]').popover({
       placement: 'top'
       title: 'Commentaire'

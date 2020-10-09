@@ -1,31 +1,35 @@
 
-        <tbody>
+        <table class="table table-hover">
             <% @competencies.each do |competence| %>
                 <tr>
-                    <td class="firstname level<%= competence.level %>"><%= competence.name %></td>
+                    <%  %>
+                    <td class="firstname level<%= competence.level %>" <%= "colspan=#{@periods.count + 1}" if competence.title_only %> ><%= competence.name %></td>
                     <%
                         periodsList = @periods
                         periodsList = competence.periods.ordered unless competence.all_periods
                     %>
-                    <% @periods.each do |period| %>
-                        <td>
-                            <% if periodsList.include?(period) and !competence.title_only %>
-                                <% rating_id = "#{competence.id}-#{period.id}"  %>
-                                <%
-                                    has_a_comment = @student_ratings.dig(competence.id, period.id, :comment) 
-                                %>
 
-                                <div class="input-group input-group-sm">
-                                    <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id }%>
-                                    <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
-                                        <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
-                                            <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
-                                        <% end %>
+                    <% if !competence.title_only %>
+                        <% @periods.each do |period| %>
+                            <td>
+                                <% if periodsList.include?(period) and !competence.title_only %>
+                                    <% rating_id = "#{competence.id}-#{period.id}"  %>
+                                    <%
+                                        has_a_comment = @student_ratings.dig(competence.id, period.id, :comment) 
+                                    %>
+
+                                    <div class="input-group input-group-sm">
+                                        <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id }%>
+                                        <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
+                                            <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
+                                                <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
+                                            <% end %>
+                                        </div>
                                     </div>
-                                </div>
-                            <% end %>
-                        </td>
+                                <% end %>
+                            </td>
+                        <% end %>
                     <% end %>
                 </tr>
             <% end %>
-        </tbody>
+        </table>

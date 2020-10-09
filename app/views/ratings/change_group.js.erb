@@ -1,4 +1,2 @@
-
-$('#selected_year').replaceWith("<%= escape_javascript(render 'years_options', years: @rating_years, current_selected_rating_year_id: @current_selected_rating_year_id) %>")
-$('#selected_group').replaceWith("<%= escape_javascript(render 'groups_options', groups: @groups, current_groups_id: @group_selected_id) %>")
-$('#selected_competency').replaceWith("<%= escape_javascript(render 'competencies_options', competencies: @competencies, competency_selected_id: nil) %>")
+$('#ratings_table table').replaceWith("<table></table>")
+$('#selected_student').replaceWith("<%= escape_javascript(render 'students_options', students: @students) %>")
