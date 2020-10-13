@@ -36,7 +36,7 @@ class RatingsController < ApplicationController
   def by_student
     @groups = Group.only_level.by_school(current_school.id)
     @group_selected_id = getCurrentGroup(params, @groups)
-    @students = Student.by_group(@group_selected_id)
+    @students = Student.by_group(@group_selected_id).order('lastname ASC, firstname ASC') 
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
     @current_rating_year = getCurrentRatingYear(params)
@@ -75,6 +75,8 @@ class RatingsController < ApplicationController
     params[:student][:id]
     params[:period]
 
+    @school = current_school
+    @period_selected  = Period.find params[:period]
     @students = params[:student][:id].map do |student_id| 
 
       @current_student = Student.find student_id
@@ -85,18 +87,46 @@ class RatingsController < ApplicationController
       }
 
       @periods = Period.by_school(current_school.id).ordered
+
+      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @current_student.school_id).pluck(:id).first
       
-      @competencies = Group.find(@group_selected_id).competencies.ordered
-      
-       {
+      @competencies = Group.find(student_s_group_id).filtered_competencies
+      {
         current_student: @current_student,
         student_ratings: @student_ratings,
         periods: @periods,
         competencies: @competencies
-      }
-
-      
+      }      
     end
+
+
+    render pdf: "bulletin_milo_jacquemin_#{Date.today}",
+      viewport_size: '1280x1024',
+      page_size: 'A4',
+      template: "/ratings/reports_pdf.html.erb",
+      header:  {   
+        spacing: 20,
+        html: {            
+          template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
+          # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
+          url:      'www.example.com',
+          locals:   { foo: @bar }
+        }
+      },
+      margin: {   
+        top:               30,                     # default 10 (mm)
+        bottom:            30,
+        left:              10,
+        right:             10 
+      },
+      layout: "report_pdf.html",
+      orientation: "Portrait",
+      lowquality: true,
+      zoom: 1,
+      dpi: 75,
+      encoding: "UTF-8",
+      show_as_html: params.key?('debug')
+      
   end
 
   def report_to_pdf
