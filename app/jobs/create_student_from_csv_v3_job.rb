@@ -22,6 +22,20 @@ class CreateStudentFromCsvV3Job < ApplicationJob
   def build_student(already_existing_student, data, school_id)
     student = already_existing_student || {}
     student[:groups] = add_new_group(student[:groups], data[:group1])
+
+    if data[:codeclasse].present?
+      if data[:codeclasse].start_with?('W1')
+        student[:groups] = add_new_group(student[:groups], "Centre Wavre")
+      elsif data[:codeclasse].start_with?('P1')
+        student[:groups] = add_new_group(student[:groups], "Centre Perwez")
+      elsif data[:codeclasse].start_with?('G1')
+        student[:groups] = add_new_group(student[:groups], "Centre Gembloux")
+      elsif data[:codeclasse].start_with?('N1')
+        student[:groups] = add_new_group(student[:groups], "Centre Namur")
+      end
+    end
+
+
     if (data[:group1]&.downcase&.include?('marche'))
       student[:groups] = add_new_group(student[:groups], "Centre Y2")
     else

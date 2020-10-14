@@ -253,11 +253,25 @@ class StudentsController < ApplicationController
           "n.app.".to_sym => :idifapme,
           :centre => :centre
         }
+
+        # import formateur Namur
+        ifapme_formateur_general_key_mapping = {
+          :code_classe => :codeclasse, # 2 premiers caractères = code centre (W1 Wavre P1 Perwez G1 Gembloux N1 Namur)
+          :nom_formateur => :lastname,
+          :prénom_formateur => :firstname,
+          :gsm => :phone2,
+          :courriel => :email1
+        }
     
+        
         if current_school.ifapme_use_code_classe_as_group
           ifapme_key_mapping = ifapme_general_key_mapping.merge({ :code_classe => :group1 })
         else
-          ifapme_key_mapping = ifapme_general_key_mapping.merge({ :classe => :group1 })
+          if current_school.ifapme_formateur
+            ifapme_key_mapping = ifapme_formateur_general_key_mapping.merge({ :classe => :group1 })
+          else
+            ifapme_key_mapping = ifapme_general_key_mapping.merge({ :classe => :group1 })
+          end
         end
         upload_csv_ifapme_key_mapping = upload_csv_general_ifapme_key_mapping.merge({key_mapping: ifapme_key_mapping})
 
