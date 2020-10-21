@@ -1,24 +1,30 @@
 // @import 'bootstrap';
+.alwaysbreak {
+    page-break-before: always;
+}
 
-.alwaysbreak { page-break-before: always; }
-.nobreak:before { clear:both; }
-.nobreak { page-break-inside: avoid; }
+.nobreak:before {
+    clear: both;
+}
 
-* { 
+.nobreak {
+    page-break-inside: avoid;
+}
+
+* {
     font-family: 'Arial';
     font-size: 13px;
     color: black;
-
-} 
+}
 
 #header {
-    height:100px;
     // line-height: 100%;
     font-size: 14px;
     line-height: 20px;
     height: 20px;
     .school-name {
         font-size: 16px;
+        font-weight: 800;
         line-height: 20px;
         height: 20px;
     }
@@ -34,21 +40,19 @@
 }
 
 #body {
-
     #ratings {
         &.tbl {
-            padding-bottom: 70px; 
+            padding-bottom: 70px;
             display: table;
             width: 100%;
             .row {
                 display: table-row;
-
             }
             .cell {
                 display: table-cell;
                 border-bottom: 1px solid #ddd;
-                padding: 5px 0;  
-                font-size: 12px;        
+                padding: 5px 0;
+                font-size: 12px;
                 &.center {
                     text-align: center;
                 }
@@ -58,21 +62,19 @@
                 &.active {
                     background: #eee;
                 }
-
                 &.competency {
                     min-width: 200px;
                     max-width: 200px;
                     width: 200px;
                 }
-
                 &.comment {
+                    text-rendering: optimizeLegibility;
                     min-width: 180px;
                     max-width: 180px;
                     width: 180px;
                     padding: 0 5px;
                     font-size: 12px;
                 }
-
                 &.level1 {
                     font-size: 14px;
                     font-weight: 800;
@@ -80,7 +82,6 @@
                     max-width: 220px;
                     width: 220px;
                 }
-
                 &.level2 {
                     padding-left: 20px;
                     font-size: 12px;
@@ -89,7 +90,6 @@
                     max-width: 200px;
                     width: 200px;
                 }
-
                 &.level3 {
                     font-size: 12px;
                     font-weight: 400;
@@ -98,22 +98,17 @@
                     max-width: 180px;
                     width: 180px;
                 }
-            } 
+            }
         }
-        
     }
-
-
     // .competency {
     //     font-size: 26px; 
     //     font-weight: 800;
     // }
-
     // .competency {
     //     width: 550px;
     //     padding-right: 20px;
     // }
-
     // #ratings_table {
     //     th {
     //         font-size: 16px; 
@@ -125,11 +120,7 @@
     //         text-align: left;
     //         font-size: 14px;
     //     }
-
-
-
     // }
-
     // .level1 {
     //     td {
     //         font-size: 20px; 
@@ -142,7 +133,6 @@
     //         font-weight: 800;
     //     }
     // }
-
     // .level2 {
     //     td {
     //         font-size: 20px; 
@@ -153,7 +143,6 @@
     //         padding-left: 30px;
     //     }
     // }
-
     // .level2 {
     //     td {
     //         font-size: 20px; 
@@ -164,7 +153,6 @@
     //         padding-left: 55px;
     //     }
     // }
-
     // .level3 {
     //     td {
     //         font-size: 20px; 

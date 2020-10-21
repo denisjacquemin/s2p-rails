@@ -19,5 +19,6 @@ ready = () ->
         type: "POST"
         url: '/ratings/change_student',
         data: 'student_selected_id=' + $('#selected_student').val() \
-            + '&group_selected_id=' + $('#selected_group').val()
+            + '&group_selected_id=' + $('#selected_group').val() \
+            + '&selected_current_rating_year=' + $('#selected_current_rating_year').val()
       }

@@ -1,1 +1,8 @@
-<%= options_from_collection_for_select(students, "id", "fullname", student_selected_id) %>
+<% if students.blank? %>
+    <div id="selected_student">Aucun élève</div>
+<% else %>
+    <%= select_tag "selected_student", 
+        options_from_collection_for_select(students, "id", "fullname"), 
+        class: 'form-control', 
+        include_blank: 'Sélectionnez un élève' %>
+<% end %>

@@ -1,1 +1,1 @@
-$('#ratings_table tbody').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings) %>");
+$('#ratings_table table').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings) %>");

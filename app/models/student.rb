@@ -57,6 +57,7 @@ class Student < ApplicationRecord
   has_many :ratings
   # scope :ratings_by_competency_id, ->(competency_id) joins(:ratings).{ where("ratings.competency_id = ?",competency_id) }
 
+  has_many :rating_comments
 
   # def emails=(emails)
   #   unless emails.nil?
@@ -109,7 +110,6 @@ class Student < ApplicationRecord
   scope :contains_any_groups, -> (ids) { where("groups @> ARRAY[?]::integer[]", ids) }
   scope :by_school, ->(school_id) { where(school_id: school_id) }
   scope :by_code, ->(code) { where(code: code) }
-  scope :without_group, ->(id) { where.not("? = ANY(groups)", id) }
 
   # http://stackoverflow.com/questions/24236871/in-rails-how-to-add-an-element-to-an-array-type-attribute-for-all-records
   # http://www.postgresql.org/docs/current/static/arrays.html

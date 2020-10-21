@@ -2,11 +2,18 @@ $('#modal .modal-body').html("<%= escape_javascript(render 'choose_period_form',
 $('#modal .modal-title').html("Choisir la période");
 $('#modal .submit').html("Générer les bulletins");
 $('#modal .submit').click( function(e) {
-        
-    Rails.ajax ({
-        type: "POST",
-        url: '/ratings/reports_to_pdf',
-        data: $.param($('input.scb:checked')) + '&period=' + $('#selected_period_id').val()
-    });
+    e.preventDefault
+    $('#modal #modal-form').html("<%= escape_javascript(render 'generate_form_reports') %>");
+
+    form = $('#generate_reports');
+    $('<input>').attr({
+        type: 'hidden',
+        name: 'period',
+        value: $('#selected_period_id').val()
+    }).appendTo(form);
+    $('input.scb:checked').clone().attr('type', 'hidden').appendTo(form);
+    form.appendTo();
+    form.submit();
+
 });
 $("#modal").modal('show');

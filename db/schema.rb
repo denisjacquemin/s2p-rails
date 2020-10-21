@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_14_075454) do
+
+ActiveRecord::Schema.define(version: 2020_10_21_130100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -328,11 +329,13 @@ ActiveRecord::Schema.define(version: 2020_10_14_075454) do
   end
 
   create_table "rating_comments", force: :cascade do |t|
-    t.string "name"
     t.integer "school_id"
-    t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "student_id"
+    t.integer "period_id"
+    t.integer "year_id"
+    t.text "content"
   end
 
   create_table "rating_year_groups", force: :cascade do |t|
@@ -361,7 +364,7 @@ ActiveRecord::Schema.define(version: 2020_10_14_075454) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rating_year_id"
-    t.index ["student_id", "school_id", "competency_id", "period_id"], name: "index_ratings_uniqueness", unique: true
+    t.index ["student_id", "school_id", "competency_id", "period_id", "rating_year_id"], name: "index_ratings_uniqueness", unique: true
   end
 
   create_table "recipients", force: :cascade do |t|

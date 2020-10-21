@@ -24,7 +24,7 @@
             <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
                 <div class="form-group">
                     <label>Elèves</label>
-                    <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control' %>
+                    <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control', :include_blank => "Sélectionnez un élève" %>
                 </div>
             <% end %>
         </div>
@@ -67,32 +67,13 @@
     </div> 
 <%
 =end%>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="table-responsive" id="ratings_table">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th class="firstname">Matière</th>
-                        <% @periods.each do |period| %>
-                        <th>
-                            <%= form_for Rating, as: :post, url: ratings_report_to_pdf_path(format: :pdf, debuug: true), method: :post, html: { class: "report_to_pdf_form", target: '_blank', style: 'display:inline' } do |f| %>
-                                <%= hidden_field_tag 'selected_student_id', {class: 'selected_student_id'} %>
-                                <%= hidden_field_tag 'selected_group_id', {class: 'selected_group_id'} %>
-                                <%= hidden_field_tag 'selected_period_id', period.id %>
-                                <button type="submit" class='btn btn-primary btn-xs' id='codes_to_pdf_submit' rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Génération du bulletin PDF">
-                                    <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                                </button>
-                            <% end %>
-                            <%= period.name %>
-                        </th>
-                        <% end %>
-                    </tr>
-                    </thead>
-                    <%= render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, student_selected_id: @student_selected_id %>
-                </table>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive" id="ratings_table">
+                    <table style="display:none">
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <%= render 'edit_comment_modal' %>
+        <%= render 'edit_comment_modal' %>
 </div>
