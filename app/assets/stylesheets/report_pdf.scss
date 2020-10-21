@@ -24,6 +24,7 @@
     height: 20px;
     .school-name {
         font-size: 16px;
+        font-weight: 800;
         line-height: 20px;
         height: 20px;
     }
@@ -67,6 +68,7 @@
                     width: 200px;
                 }
                 &.comment {
+                    text-rendering: optimizeLegibility;
                     min-width: 180px;
                     max-width: 180px;
                     width: 180px;

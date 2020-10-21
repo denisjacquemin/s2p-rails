@@ -16,7 +16,7 @@
   <div class="col-md-12">
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a data-target="#home" aria-controls="home" role="tab" data-toggle="tab" >Liste des Matières et périodes</a></li>
-      <li role="presentation"><a data-target="#writers_access" aria-controls="writers_access" role="tab" data-toggle="tab" data-url="<%= writers_access_path %>">Accès rédacteurs</a></li>
+      <!-- <li role="presentation"><a data-target="#writers_access" aria-controls="writers_access" role="tab" data-toggle="tab" data-url="<%= writers_access_path %>">Accès rédacteurs</a></li>-->
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="home">
@@ -57,9 +57,9 @@
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 periods" >
             <div class="row">
               <div class="col-sm-12">
-                <div><%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                <div><%= link_to 'Nouvelle colonne', new_period_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
                 <div class="pull-right hidden-xs">
-                  <%= link_to 'Nouvelle période', new_period_path, class: 'btn btn-primary', remote: true %>
+                  <%= link_to 'Nouvelle colonne', new_period_path, class: 'btn btn-primary', remote: true %>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@
                     <thead>
                       <tr>
                         <th width="20px">&nbsp;</th>
-                        <th data-data="name">Nom de la période</th>
+                        <th data-data="name">Colonnes (ex périodes)</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -82,57 +82,35 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-sm-12">
-                <div><%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
-                <div class="pull-right hidden-xs">
-                  <%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary', remote: true %>
+            <% if current_user.superadmin? %>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div><%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
+                  <div class="pull-right hidden-xs">
+                    <%= link_to 'Nouvelle Année', new_rating_year_path, class: 'btn btn-primary', remote: true %>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row" id="rating_years">
-              <div class="col-sm-12">
-                <div class="table-responsive">
-                  <table class="table-striped table table-hover">
-                    <thead>
-                      <tr>
-                        <th data-data="name">Nom de l'année</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id="rating_years_rows">
-                      <%= render partial: '/rating_years/rating_year', collection: @rating_years %>
-                    </tbody>
-                  </table>
+              
+              <div class="row" id="rating_years">
+                <div class="col-sm-12">
+                  <div class="table-responsive">
+                    <table class="table-striped table table-hover">
+                      <thead>
+                        <tr>
+                          <th data-data="name">Nom de l'année</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="rating_years_rows">
+                        <%= render partial: '/rating_years/rating_year', collection: @rating_years %>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div><%= link_to 'Nouveau commentaire', new_rating_comment_path, class: 'btn btn-primary fab visible-xs', remote: true %></div>
-                <div class="pull-right hidden-xs">
-                  <%= link_to 'Nouveau commentaire', new_rating_comment_path, class: 'btn btn-primary', remote: true %>
-                </div>
-              </div>
-            </div>
-            <div class="row" id="rating_comments">
-              <div class="col-sm-12">
-                <div class="table-responsive">
-                  <table class="table-striped table table-hover">
-                    <thead>
-                      <tr>
-                        <th width="20px">&nbsp;</th>
-                        <th data-data="name">Commentaires</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id="rating_comments_rows">
-                      <%= render partial: '/rating_comments/rating_comment', collection: @rating_comments %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <% end %>
+            
             
           </div>
         </div>

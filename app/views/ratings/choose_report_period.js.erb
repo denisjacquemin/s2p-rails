@@ -11,7 +11,7 @@ $('#modal .submit').click( function(e) {
         name: 'period',
         value: $('#selected_period_id').val()
     }).appendTo(form);
-    $('input.scb:checked').appendTo(form);
+    $('input.scb:checked').clone().attr('type', 'hidden').appendTo(form);
     form.appendTo();
     form.submit();
 

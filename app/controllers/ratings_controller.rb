@@ -39,6 +39,7 @@ class RatingsController < ApplicationController
     @students = Student.by_group(@group_selected_id).order('lastname ASC, firstname ASC') 
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
+    
     @current_rating_year = getCurrentRatingYear(params)
   end
 
@@ -61,7 +62,9 @@ class RatingsController < ApplicationController
     @group_selected_id = getCurrentGroup(params, @groups)
     @student_selected_id = params[:student_selected_id]
     @student_ratings = {}
-    set_ratings_for_one_students() unless @student_selected_id.blank?
+    @current_rating_year = getCurrentRatingYear(params)
+    set_comments_for_one_student(@current_rating_year.id) unless @student_selected_id.blank?
+    set_ratings_for_one_students(@current_rating_year.id) unless @student_selected_id.blank?
   end
 
   def choose_report_period
@@ -81,7 +84,10 @@ class RatingsController < ApplicationController
 
       @current_student = Student.find student_id
       @student_ratings = {}
-      @current_student.ratings.each { |r|
+      
+      # todo add year_id to select comment
+      @period_comment = RatingComment.where(student_id: student_id, school_id: @school.id, period_id: @period_selected.id).first
+      @current_student.ratings.each { |r| # todo add year_id to select ratings
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
         @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
       }
@@ -95,7 +101,8 @@ class RatingsController < ApplicationController
         current_student: @current_student,
         student_ratings: @student_ratings,
         periods: @periods,
-        competencies: @competencies
+        competencies: @competencies,
+        period_comment: @period_comment
       }      
     end
 
@@ -194,8 +201,8 @@ class RatingsController < ApplicationController
     student_id = params[:"s-id"]
     period_id = params[:"p-id"]
     rating_year_id = params[:"ry-id"]
-
     rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id, rating_year_id: rating_year_id)
+    
     rating.rating = value
     rating.save
 
@@ -210,10 +217,23 @@ class RatingsController < ApplicationController
     end
   end
 
+  def edit_period_comment 
+    @period_comment = RatingComment.find_or_create_by(student_id: params[:student_id], school_id: current_school.id, period_id: params[:period_id], year_id: params[:year_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def save_comment 
     rating = Rating.find_or_create_by(student_id: params[:rating][:student_id], school_id: current_school.id, competency_id: params[:rating][:competency_id], period_id: params[:rating][:period_id])
     rating.comment = params[:rating][:comment]
     rating.save
+  end
+
+  def save_period_comment 
+    rating_comment = RatingComment.find_or_create_by(student_id: params[:rating_comment][:student_id], school_id: current_school.id, period_id: params[:rating_comment][:period_id], year_id: params[:rating_comment][:year_id])
+    rating_comment.content = params[:rating_comment][:content]
+    rating_comment.save
   end
 
   # POST /ratings
@@ -297,10 +317,18 @@ class RatingsController < ApplicationController
       }
     end
 
-    def set_ratings_for_one_students()
+    def set_comments_for_one_student(year_id)
+      @current_student = Student.find @student_selected_id
+      @student_comments = {}
+      @current_student.rating_comments.by_rating_year(year_id).each { |c| 
+        @student_comments[c.period_id] = { content: c.content}
+      }
+    end
+
+    def set_ratings_for_one_students(year_id)
       @current_student = Student.find @student_selected_id
       @student_ratings = {}
-      @current_student.ratings.each { |r|
+      @current_student.ratings.by_rating_year(year_id).each { |r|
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
         @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
       }

@@ -1,0 +1,28 @@
+<%= form_with(model: period_comment, url: save_period_comment_path, local: false) do |form| %>
+    <%= form.hidden_field :student_id %>
+    <%= form.hidden_field :year_id %>
+    <%= form.hidden_field :period_id %>
+    <div id="error_explanation">
+        <ul>
+        <% period_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+        </ul>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="form-group">
+                <%= form.label :content, 'Commentaire' %>
+                <%= form.text_area :content, class: 'form-control', rows: 12 %>
+            </div>
+        </div>
+    </div>
+
+<% end %>
+        

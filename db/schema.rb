@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_23_144201) do
+ActiveRecord::Schema.define(version: 2020_10_21_130100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -328,11 +328,13 @@ ActiveRecord::Schema.define(version: 2020_09_23_144201) do
   end
 
   create_table "rating_comments", force: :cascade do |t|
-    t.string "name"
     t.integer "school_id"
-    t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "student_id"
+    t.integer "period_id"
+    t.integer "year_id"
+    t.text "content"
   end
 
   create_table "rating_year_groups", force: :cascade do |t|
@@ -361,7 +363,7 @@ ActiveRecord::Schema.define(version: 2020_09_23_144201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rating_year_id"
-    t.index ["student_id", "school_id", "competency_id", "period_id"], name: "index_ratings_uniqueness", unique: true
+    t.index ["student_id", "school_id", "competency_id", "period_id", "rating_year_id"], name: "index_ratings_uniqueness", unique: true
   end
 
   create_table "recipients", force: :cascade do |t|
@@ -476,6 +478,7 @@ ActiveRecord::Schema.define(version: 2020_09_23_144201) do
     t.boolean "siel_use_te_classe_as_group", default: false
     t.boolean "message_scheduling_enable", default: false
     t.boolean "siel_use_fase_implantation", default: false
+    t.boolean "ifapme_formateur", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

@@ -1,0 +1,3 @@
+$('#editCommentModal .modal-body').html("<%= escape_javascript(render 'edit_period_comment_form', period_comment: @period_comment) %>");
+$('#editCommentModal #modalTitle').html("Edition commentaire");
+$("#editCommentModal").modal('show');

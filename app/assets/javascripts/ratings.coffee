@@ -88,7 +88,7 @@ saveRating = (e) ->
         + '&value=' + e.target.value \
         + '&s-id=' + e.target.getAttribute('data-s-id') \
         + '&p-id=' + e.target.getAttribute('data-p-id') \
-        + '&ry-id=' + $('#selected_rating_year').val() \
+        + '&ry-id=' + $('#selected_current_rating_year').val() \
         + '&el_id=' + e.target.id
   }
   window['savingRating#' + e.target.id ] = null

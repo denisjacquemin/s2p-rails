@@ -23,7 +23,10 @@ Rails.application.routes.draw do
   post 'ratings/students', to: 'ratings#students', as: 'ratings_students'
   post 'ratings/save', to: 'ratings#save'
   patch 'ratings/save_comment', to: 'ratings#save_comment', as: 'save_comment'
+  patch 'ratings/save_period_comment', to: 'ratings#save_period_comment', as: 'save_period_comment'
   get 'ratings/edit_comment/:competency_id/:student_id/:period_id', to: 'ratings#edit_comment', as: 'rating_edit_comment'
+  get 'ratings/edit_period_comment/:year_id/:student_id/:period_id', to: 'ratings#edit_period_comment', as: 'rating_edit_period_comment'
+
 
 
 

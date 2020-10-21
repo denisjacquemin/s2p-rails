@@ -13,10 +13,10 @@
                    student_ratings = student_infos[:student_ratings]
                    periods = student_infos[:periods]
                    competencies = student_infos[:competencies]
+                   period_comment = student_infos[:period_comment]
                 %>
                 <div class="alwaysbreak">
                     <div class="row">
-                        <div class="align-left"><div><b></b></div></div> 
 
                         <% i = 0 %>
                         <% while i < competencies.size %>
@@ -29,7 +29,7 @@
                                             <% current_period = period.id == @period_selected.id %>
                                             <div class="cell center <%= 'active' if current_period %>"><%= period.name %></div>
                                         <% end %>
-                                        <div class="comment cell center">Commentaire de la période</div>
+                                        <div class="comment cell center">Commentaire</div>
                                     </div>
                                 <% end %>
 
@@ -52,18 +52,19 @@
 
                                         </div>
                                     <% end %>
-                                    <div class="comment cell left"><% unless competence.title_only %><%= @student_ratings.dig(competence.id, @period_selected.id, :comment) %><% end %></div>
+                                    <div class="comment cell left"><% unless competence.title_only %><%= student_ratings.dig(competence.id, @period_selected.id, :comment) %><% end %></div>
                                 </div>
 
                             <% i = i + 1 %>
                             <% if (competencies[i] and competencies[i].level == 1) or i == competencies.size%>
                             </div>
                             <% end %>
-                            
-                            
-                            
 
                         <% end %>
+                    </div>
+                    <div class="row">
+                        <h1>Commentaires de la période</h1>
+                       <%= period_comment&.content %>
                     </div>
                 </div>
             <% end %>
