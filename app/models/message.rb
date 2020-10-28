@@ -56,6 +56,7 @@ class Message < ApplicationRecord
 
   before_update :avoid_nil_for_status, if: -> {status_changed?}
   before_update :handle_status_changed, if: -> {status_changed?}
+  after_update :handle_after_update_action
   before_update :handle_status_republish, if: -> {status_changed?}
   before_update :set_has_form, if: -> {formdata_changed?}
   # after_save :sync_firebase
@@ -152,10 +153,10 @@ class Message < ApplicationRecord
       end
   end
 
-  def handle_status_changed
-    logger.info ">>> in Message.handle_status_changed"
-    if (self.status != self.status_was)
-      case self.status
+  def handle_after_update_action # after_update
+    logger.info "### In handle_after_update_action number of recipients: #{self.recipients.count}"
+    unless self.after_update_action.nil?
+      case self.after_update_action
         when 'republished'
           handle_repuplish
         when 'published'
@@ -168,6 +169,28 @@ class Message < ApplicationRecord
           handle_approval_refused
         when 'approval_accepted'
           handle_approval_accepted
+      end
+      self.after_update_action = nil
+      self.save
+    end
+  end
+
+  def handle_status_changed # before_update
+    logger.info "### In handle_status_changed number of recipients: #{self.recipients.count}"
+    if (self.status != self.status_was)
+      case self.status
+        when 'republished'
+          self.after_update_action = 'republished'
+        when 'published'
+          self.after_update_action = 'published'
+        when 'draft'
+          self.after_update_action = 'draft'
+        when 'waiting_for_approval'
+          self.after_update_action = 'waiting_for_approval'
+        when 'approval_refused'
+          self.after_update_action = 'approval_refused'
+        when 'approval_accepted'
+          self.after_update_action = 'approval_accepted'
       end
     end
   end
@@ -185,10 +208,10 @@ class Message < ApplicationRecord
   end
 
   def handle_publish
+    logger.info  "### In handle_publish number of recipients: #{self.recipients.count}"
     if ([10].include?(self.school_id))
       S2pFirebaseSendMessageJob.perform_later(self)
     end
-
     if has_recipients?
 
       send_message_notifications(self) if self.send_to_app
@@ -335,10 +358,8 @@ class Message < ApplicationRecord
         emails_data = add_to_hash_and_merge_code(emails_data, email)
       }
     end
-    
     unless emails_data.blank?
       chunck_size = 20
-
       index = 0
       array_to_process = []
       emails_data.each_value do |value|

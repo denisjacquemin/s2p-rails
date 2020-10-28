@@ -11,7 +11,8 @@ class Student < ApplicationRecord
     typoTolerance :false
   end
 
-  scope :by_emails, ->(emails) { joins(:student_emails).where('student_emails.email': emails) }
+  scope :by_emails, ->(emails) { joins(:student_emails).where('lower(student_emails.email) IN (?)', emails.strip.downcase) }
+
 
 
   def message_sent_by_email
