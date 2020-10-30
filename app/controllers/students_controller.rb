@@ -251,7 +251,8 @@ class StudentsController < ApplicationController
           :courriel => :email1,
           :code_classe => :group2,
           "n.app.".to_sym => :idifapme,
-          :centre => :centre
+          :centre => :centre,
+          :stade_formation => :stadeformation
         }
 
         # import formateur Namur
