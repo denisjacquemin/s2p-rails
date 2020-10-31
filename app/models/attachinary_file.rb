@@ -1,0 +1,2 @@
+class AttachinaryFile < ApplicationRecord
+end
