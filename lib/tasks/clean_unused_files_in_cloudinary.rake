@@ -6,9 +6,9 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   # https://support.cloudinary.com/hc/en-us/articles/203678042-How-to-list-all-resources-older-than-a-specific-date-
   # https://support.cloudinary.com/hc/en-us/articles/205714121-How-do-I-browse-through-all-the-resources-in-my-account-using-the-API-
 
-  year = 2018
-  month = 12
-  day = 31
+  year = 2017
+  month = 01
+  day = 1
 
   chuck_size = 500
 
