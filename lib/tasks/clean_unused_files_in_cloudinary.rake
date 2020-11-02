@@ -7,8 +7,8 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   # https://support.cloudinary.com/hc/en-us/articles/205714121-How-do-I-browse-through-all-the-resources-in-my-account-using-the-API-
 
   year = 2017
-  month = 01
-  day = 1
+  month = 12
+  day = 31
 
   chuck_size = 500
 
@@ -20,6 +20,9 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   total_found = 0
   to_delete = 0
   to_keep = 0
+
+  public_ids_to_delete = []
+
   puts "count: #{resources["resources"].count}"
 
   resources["resources"].each do |resource|
@@ -31,7 +34,9 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
     end
     if files.empty?
       to_delete = to_delete + 1
-      #puts "#{resource["public_id"]} should be deleted"
+      # puts "#{resource["public_id"]} should be deleted"
+      public_ids_to_delete.push(resource["public_id"])
+      # puts 
     end
   end
 
@@ -50,6 +55,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
       end
       if files.empty?
         to_delete = to_delete + 1
+        public_ids_to_delete.push(resource["public_id"])
         #puts "#{resource["public_id"]} should be deleted"
       end
     end
@@ -59,5 +65,9 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   puts "to_delete: #{to_delete}"
   puts "to_keep: #{to_keep}"
   puts "total attachinary in db #{AttachinaryFile.count}"
+
+  puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
+
+  # Cloudinary::Api.delete_resources(public_ids_to_delete) unless  public_ids_to_delete.empty?
 
 end
