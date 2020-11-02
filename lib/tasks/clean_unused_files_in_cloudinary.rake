@@ -9,9 +9,9 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   # https://support.cloudinary.com/hc/en-us/articles/203678042-How-to-list-all-resources-older-than-a-specific-date-
   # https://support.cloudinary.com/hc/en-us/articles/205714121-How-do-I-browse-through-all-the-resources-in-my-account-using-the-API-
 
-  year = 2019
-  month = 12
-  day = 31
+  year = 2020
+  month = 06
+  day = 30
 
   chuck_size = 500
 
@@ -72,11 +72,11 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
 
 
-  unless public_ids_to_delete.empty?
-    public_ids_to_delete.each_slice(100).to_a.each do |ids|
-      Cloudinary::Api.delete_resources(ids) 
-    end
-  end
+  # unless public_ids_to_delete.empty?
+  #   public_ids_to_delete.each_slice(100).to_a.each do |ids|
+  #     Cloudinary::Api.delete_resources(ids) 
+  #   end
+  # end
   
 
 end
