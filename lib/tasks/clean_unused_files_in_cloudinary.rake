@@ -68,6 +68,6 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
 
   puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
 
-  # Cloudinary::Api.delete_resources(public_ids_to_delete) unless  public_ids_to_delete.empty?
+  Cloudinary::Api.delete_resources(public_ids_to_delete) unless  public_ids_to_delete.empty?
 
 end
