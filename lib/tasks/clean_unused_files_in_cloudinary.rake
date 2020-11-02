@@ -69,7 +69,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   puts "to_keep: #{to_keep}"
   puts "total attachinary in db #{AttachinaryFile.count}"
 
-  puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
+  # puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
 
 
   # unless public_ids_to_delete.empty?
