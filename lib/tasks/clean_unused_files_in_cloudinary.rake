@@ -10,7 +10,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   month = 12
   day = 31
 
-  chuck_size = 500
+  chuck_size = 100
 
   # get all resources starting at a given date
   resources = Cloudinary::Api.resources(start_at:Time.new(year,month,day), direction:"desc", max_results: chuck_size)
