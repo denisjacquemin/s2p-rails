@@ -10,7 +10,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   month = 12
   day = 31
 
-  chuck_size = 100
+  chuck_size = 500
 
   # get all resources starting at a given date
   resources = Cloudinary::Api.resources(start_at:Time.new(year,month,day), direction:"desc", max_results: chuck_size)
@@ -68,6 +68,12 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
 
   puts "public_ids_to_delete: #{public_ids_to_delete.count} #{public_ids_to_delete}"
 
-  Cloudinary::Api.delete_resources(public_ids_to_delete) unless  public_ids_to_delete.empty?
+
+  unless public_ids_to_delete.empty?
+    public_ids_to_delete.each_slice(100).to_a.each do |ids|
+      Cloudinary::Api.delete_resources(ids) 
+    end
+  end
+  
 
 end
