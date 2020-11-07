@@ -161,13 +161,13 @@ fieldset[disabled] .btn.active {
         overlay_file_format = 'image'
         overlay_file_format = 'pdf' if photo.format == 'pdf'
       %>
-      <a href="<%= cloudinary_url(photo.path, :quality=>"auto", crop: :limit, width: 1024) %>" target="_blank">
-        <%= cl_image_tag(photo.path.gsub(/pdf$/, 'png'), :alt => photo.public_id, :transformation=>[
-            {:width => 150, :height => 150, :crop => :fill},
+      <% attach_url = photo.format == "pdf" ? "#{photo.public_id}.pdf" : "#{photo.public_id}.jpg" %>
+      <a href="<%= cloudinary_url(attach_url, :quality=>"auto", crop: :limit, width: 1024) %>" target="_blank">
+        <%= cl_image_tag("#{photo.public_id}.jpg", :fetch_format=>:auto, :alt => photo.public_id, :transformation=>[{:width => 150, :height => 150, :crop => :fill}])
             # {:overlay=>"black_bar", :width=>1.0, :height=>0.17, :flags=>"relative", :gravity=>"south", :opacity=>50},
             # {:overlay=>overlay_file_format, :gravity=>"south_west", :x=>10, :y=>5},
             # {:overlay=>"text:Arial_10O:#{photo.public_id}", :gravity=>"south_west", :y=>7, :x=>32, :color=>"#eee", :flags => 'no_overflow'}
-              ]) %>
+ %>
       </a>
     <% end %>
   <% end %>
