@@ -83,4 +83,4 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => ENV["HOST"], :protocol => 'https'}
 
 end
-GA.tracker = ENV["GA"]
+# GA.tracker = ENV["GA"]
