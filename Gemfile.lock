@@ -159,7 +159,6 @@ GEM
       sass (>= 3.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    google-analytics-rails (1.1.1)
     google-cloud-core (1.2.7)
       google-cloud-env (~> 1.0)
     google-cloud-env (1.0.5)
@@ -416,7 +415,6 @@ DEPENDENCIES
   dotenv-rails
   faraday
   firebase (~> 0.2.6)
-  google-analytics-rails
   google-cloud-translate (~> 1.2)
   hashids
   houston

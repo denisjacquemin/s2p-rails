@@ -24,7 +24,6 @@ gem "algoliasearch-rails"
 
 gem 'bootbox-rails'
 
-gem 'google-analytics-rails'
 
 gem "recaptcha", require: "recaptcha/rails"
 
