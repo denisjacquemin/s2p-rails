@@ -151,21 +151,28 @@ module Notification extend ActiveSupport::Concern
       end
     end
 
+    # FCM auth_key can be found here https://console.firebase.google.com/u/0/project/s2p-prod/settings/cloudmessaging/android:com.dsjn.s2p
+
     def send_android_notifications(alert, devices, data = {})
       # logger.info "[NOTIFICATION ANDROID] message(#{alert}) devices(#{devices.inspect})"
       begin
         registration_ids = devices.map{|device| device.registration_id}
+        
         unless registration_ids.nil?
-          n = Rpush::Gcm::Notification.new
-          n.app = Rpush::Gcm::App.find_by_name("android_app")
-          n.registration_ids = registration_ids
-          n.delay_while_idle = true
-          n.data = data
-          n.save!
-          logger.info "payload: #{n.payload}"
+          registration_ids.each_slice(1000).to_a.each do |r_ids|
+
+            n = Rpush::Gcm::Notification.new
+            n.app = Rpush::Gcm::App.find_by_name("android_app")
+            n.registration_ids = r_ids
+            n.delay_while_idle = true
+            n.data = data
+            n.save!
+            logger.info "payload: #{n.payload}"
+
+          end
         end
       rescue => e
-        puts "Exception send_android_notifications: #{e}"
+        puts "Exception Error send_android_notifications: #{e}"
       end
     end
 
