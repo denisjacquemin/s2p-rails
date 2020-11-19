@@ -115,8 +115,12 @@ module Notification extend ActiveSupport::Concern
       # slogger.info "[NOTIFICATION IOS] message(#{alert}) for devices(#{devices.inspect})"
       begin
         devices.each { |device|
+          # n = Rpush::Apns::Notification.new
+          # n.app = Rpush::Apns::App.find_by_name("ios_app")
+
           n = Rpush::Apns::Notification.new
-          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n.app = Rpush::Apnsp8::App.find_by_name("ios_app")
+
           n.device_token = device.registration_id # 64-character hex string
           n.alert = {
             title: alert[0..256],
@@ -181,8 +185,10 @@ module Notification extend ActiveSupport::Concern
       # logger.info "[NOTIFICATION IOS] message(#{message.id} #{message.title}) devices(#{devices.inspect})"
       begin
         devices.each { |device|
+          # n = Rpush::Apns::Notification.new
+          # n.app = Rpush::Apns::App.find_by_name("ios_app")
           n = Rpush::Apns::Notification.new
-          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n.app = Rpush::Apnsp8::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
           n.alert = message.title
           n.data = {
