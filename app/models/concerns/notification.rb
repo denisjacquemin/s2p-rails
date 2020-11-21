@@ -146,8 +146,8 @@ module Notification extend ActiveSupport::Concern
           begin
             # logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect} + payload: #{n.payload}"
             n.save!
-          rescue ActiveRecord::RecordInvalid => invalid
-            logger.info "[NOTIFICATION IOS FAILED] Rpush Apnsp8 Notification save failed for (#{invalid.record.errors.inspect}) #{device.inspect}"
+          rescue ActiveRecord::RecordInvalid => exception
+            logger.info "[NOTIFICATION IOS FAILED] Rpush Apnsp8 Notification save failed for (#{exception.message}) #{device.inspect}"
           end
         }
       rescue => e
