@@ -146,8 +146,8 @@ module Notification extend ActiveSupport::Concern
           begin
             # logger.info "[NOTIFICATION IOS TO SEND] + #{n.inspect} + payload: #{n.payload}"
             n.save!
-          rescue ActiveRecord::RecordInvalid
-            logger.info "[NOTIFICATION IOS FAILED] Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+          rescue ActiveRecord::RecordInvalid => invalid
+            logger.info "[NOTIFICATION IOS FAILED] Rpush Apnsp8 Notification save failed for (#{invalid.record.errors}) #{device.inspect}"
           end
         }
       rescue => e
@@ -187,7 +187,7 @@ module Notification extend ActiveSupport::Concern
         devices.each { |device|
           # n = Rpush::Apns::Notification.new
           # n.app = Rpush::Apns::App.find_by_name("ios_app")
-          n = Rpush::Apns::Notification.new
+          n = Rpush::Apnsp8::Notification.new
           n.app = Rpush::Apnsp8::App.find_by_name("ios_app")
           n.device_token = device.registration_id # 64-character hex string
           n.alert = message.title
@@ -199,7 +199,7 @@ module Notification extend ActiveSupport::Concern
           begin
             n.save!
           rescue ActiveRecord::RecordInvalid
-            logger.debug "Rpush::Apns::Notification save failed for #{device.token} + #{device.inspect}"
+            logger.debug "Rpush::Apnsp8::Notification save failed for #{device.token} + #{device.inspect}"
           end
         }
       rescue => e
