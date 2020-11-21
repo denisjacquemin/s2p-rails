@@ -67,6 +67,16 @@ Rpush.reflect do |on|
   # Call 'error_code' and 'error_description' on the notification for the cause.
   on.notification_failed do |notification|
     Rails.logger.info "[Rpush.reflect notification_failed] #{notification.inspect}"
+
+    app = Rpush::Apnsp8::App.find_by_name("ios_app")
+
+    Rails.logger.info "environment: #{app.environment}"
+    Rails.logger.info "apn_key_id: #{app.apn_key_id}"
+    Rails.logger.info "team_id: #{app.team_id}"
+    Rails.logger.info "bundle_id: #{app.bundle_id}"
+    
+
+
   end
 
   # Called when the notification delivery failed and only the notification ID
