@@ -188,8 +188,8 @@ fieldset[disabled] .btn.active {
       <td></td>
       <td>
         <% unless @message.custom_author.blank? %><%= @message.custom_author %><br><% end %>
-        <% unless @message.school.name.blank? %><%= @message.school.name %><br><% end %>
         <% unless @message.author.function.blank? %><%= @message.author.function %><br><% end %>
+        <% unless @message.school.name.blank? %><%= @message.school.name %><br><% end %>
         <% unless @message.school.address.blank? %><%= @message.school.address %><br><% end %>
         <% unless @message.school.phone.blank? %><%= @message.school.phone %><br><% end %>
         <% if @message.author.display_email_address %>
