@@ -98,7 +98,16 @@ class CreateStudentFromCsvV3Job < ApplicationJob
   def add_new_email(already_existing_emails, new_emails)
     emails = already_existing_emails || []
     emails = emails + new_emails
-    emails.compact.uniq()
+
+    # A-Z characters are allowed
+    # a-z characters are allowed
+    # 0-9 digits are allowed
+    # Underscore(_), dash(-), and dot(.) are allowed
+    # Other characters are not allowed
+    regex_email = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/
+
+
+    emails.compact.uniq().select{|email| email =~ regex_email}
   end
 
   def add_new_phones(already_existing_phones, new_phones)

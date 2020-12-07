@@ -249,6 +249,7 @@ class StudentsController < ApplicationController
           :gsm => :phone2,
           :email => :email1,
           :courriel => :email2,
+          :prénom_patron => :email3,
           :code_classe => :group2,
           "n.app.".to_sym => :idifapme,
           :centre => :centre,
