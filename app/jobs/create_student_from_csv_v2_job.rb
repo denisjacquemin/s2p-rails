@@ -249,7 +249,14 @@ class CreateStudentFromCsvV2Job < ApplicationJob
       group_id = Group.find_or_create_group(data[:group1], school_id, upload_uniq_id).id
       student_groups.push(group_id)  
     else
-      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation] ].compact.each do |group_name|
+      
+      # Pour le college des 3 vallees Rixensart
+      langue_i_2e_langue = data[:langue_i_2e_langue].sub("N", "Néerlandais Lang Mod 1").sub("A", 'Anglais Lang Mod 1') if data[:langue_i_2e_langue].present?
+      langue_ii_3e_langue = data[:langue_ii_3e_langue].sub("N", "Néerlandais Lang Mod 2").sub("A", 'Anglais Lang Mod 2') if data[:langue_ii_3e_langue].present?
+      immersion = data[:langue_immersion].sub("N", "Immersion").sub("A", 'English') if data[:langue_immersion].present?
+
+
+      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], data[:implantation], langue_i_2e_langue, langue_ii_3e_langue, immersion ].compact.each do |group_name|
           group_id = Group.find_or_create_group(group_name, school_id, nil).id
           student_groups.push(group_id)
       end
