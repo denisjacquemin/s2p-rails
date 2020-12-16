@@ -353,6 +353,9 @@ class StudentsController < ApplicationController
             :langue_i_2e_langue => :langue_i_2e_langue,
             :langue_ii_3e_langue => :langue_ii_3e_langue,
             :langue_immersion => :langue_immersion,
+            # Pour Saint Satnislas Mons Secondaire
+            :cours_de_l_ob_24_34_28_38_lgs_gr => :cours_de_l_ob_24_34_28_38_lgs_gr,
+            :cours_de_l_ac_41_à_66_gr => :cours_de_l_ac_41_à_66_gr,
             # ProEco 5
             :matricule_p4_élève => :proeco_id, 
             :g_sm_adresse_principale_mère_élève=> :phone1,
@@ -609,6 +612,7 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")

@@ -250,18 +250,23 @@ class CreateStudentFromCsvV2Job < ApplicationJob
       student_groups.push(group_id)  
     else
       
+      # Pour le college des 3 vallees Rixensart
       implantation = data[:implantation]&.to_s
       if school_id == 615
         implantation = data[:implantation]&.to_s.sub("1", "NDA").sub("2", "ALC") if data[:implantation].present?
       end
 
-      # Pour le college des 3 vallees Rixensart
       langue_i_2e_langue = data[:langue_i_2e_langue].sub("N", "Néerlandais Lang Mod 1").sub("A", 'Anglais Lang Mod 1') if data[:langue_i_2e_langue].present?
       langue_ii_3e_langue = data[:langue_ii_3e_langue].sub("N", "Néerlandais Lang Mod 2").sub("A", 'Anglais Lang Mod 2') if data[:langue_ii_3e_langue].present?
       immersion = data[:langue_immersion].sub("N", "Immersion").sub("A", 'English') if data[:langue_immersion].present?
 
+      # Pour Saint Stanislas Mons Secondaire
+      cours_ob = data[:cours_de_l_ob_24_34_28_38_lgs_gr]&.split('/')
+      cours_ac = data[:cours_de_l_ac_41_à_66_gr]&.split('/')
 
-      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], implantation, langue_i_2e_langue, langue_ii_3e_langue, immersion ].compact.each do |group_name|
+
+
+      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], implantation, langue_i_2e_langue, langue_ii_3e_langue, immersion, cours_ob, cours_ac ].flatten.compact.each do |group_name|
           group_id = Group.find_or_create_group(group_name, school_id, nil).id
           student_groups.push(group_id)
       end
