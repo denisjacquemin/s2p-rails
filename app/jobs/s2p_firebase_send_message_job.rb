@@ -24,7 +24,7 @@ class S2pFirebaseSendMessageJob < ApplicationJob
   
         begin
           uri = URI(ENV['S2P_FIREBASE_HOST'] + '/sendMessage')
-          
+          byebug
           response = Faraday.post do |req|
             req.url uri
             req.headers['Content-Type'] = "application/json; charset=utf-8"
@@ -32,7 +32,7 @@ class S2pFirebaseSendMessageJob < ApplicationJob
             req.body = data
           end
         rescue => e
-            puts "[S2PFirebase] #{e}"
+            logger.info "[S2PFirebase] #{e}"
         end
       end
     end
