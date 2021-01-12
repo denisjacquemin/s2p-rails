@@ -12,7 +12,7 @@
           <tr>
             <th>Nom - Prénom</th>
             <th>Email</th>
-            <% unless current_school.iscity %>
+            <% unless current_school.iscity or current_user.superadmin? %>
               <th>Ecole(s)</th>
             <% end %>
             <th>Rôle</th>
@@ -26,7 +26,7 @@
             <tr>
               <td><%= link_to "#{user.lastname} #{user.firstname}", edit_user_path(user) %></td>
               <td><%= link_to user.email, edit_user_path(user) %></td>
-              <% unless current_school.iscity %>
+              <% unless current_school.iscity or current_user.superadmin? %>
                 <td><% if user.schools.any? %><%= School.find(user.schools).pluck(:name).join(', ') %><% end %></td>
               <% end %>
               <td>
