@@ -106,6 +106,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'byebug'
   gem 'active_record_query_trace'
+  gem 'bullet'
 end
 
 group :development do
