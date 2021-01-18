@@ -16,7 +16,7 @@ class StudentsController < ApplicationController
     @message = Message.new
 
     # sync order by with algolia default ranking parameters
-    @first_500_students = Student.includes([:phones, :student_emails]).by_school(@current_school.id).order("NULLIF(level, '') NULLS LAST, lastname").limit(100)
+    @first_500_students = Student.by_school(@current_school.id).order("NULLIF(level, '') NULLS LAST, lastname").limit(100)
     @total_of_students = Student.by_school(@current_school.id).count
   end
 
