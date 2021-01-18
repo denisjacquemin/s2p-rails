@@ -11,6 +11,7 @@ puts 'SUPER ADMIN USER CREATED: ' << super_admin.email
 
 School.create(name: 'Ecole demo') if !School.exists?(name: 'Ecole demo')
 
+# old
 if !Rpush::Apns::App.exists?(name: "ios_app")
   app = Rpush::Apns::App.new
   app.name = "ios_app"
@@ -20,6 +21,20 @@ if !Rpush::Apns::App.exists?(name: "ios_app")
   app.connections = 1
   app.save!
 end
+
+# new
+if !Rpush::Apnsp8::App.exists?(name: "ios_app")
+  app = Rpush::Apnsp8::App.new
+  app.name = "ios_app"
+  app.apn_key = File.read("config/" + Rails.application.secrets.apnsp8_cert_filename)
+  app.environment = Rails.application.secrets.apns_env # APNs environment.
+  app.apn_key_id = Rails.application.secrets.apnsp8_key_id # This is the Encryption Key ID provided by apple
+  app.team_id = Rails.application.secrets.apnsp8_team_id # the team id - e.g. ABCDE12345
+  app.bundle_id = Rails.application.secrets.apnsp8_bundle_id # the unique bundle id of the app, like com.example.appname
+  app.connections = 1
+  app.save!
+end
+
 if !Rpush::Gcm::App.exists?(name: "android_app")
   appA = Rpush::Gcm::App.new
   appA.name = "android_app"
