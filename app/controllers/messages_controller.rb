@@ -101,10 +101,13 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
-    @message = Message.includes([:author, :school, :photo_files, :succeeded_payments, school: :accounts]).not_deleted.find(params[:id])
+    @message = Message.includes([:author, :school, :photo_files]).not_deleted.find(params[:id])
     authorize @message
 
     all_email_recipients = EmailRecipient.where(message_id: @message.id).order(created_at: :desc)
+    # if current_user.superadmin?
+    #   @recipients = Recipient.where(message_id: @message.id).includes(:student).order('students.lastname, students.firstname')
+    # end
     
     @email_delivered = all_email_recipients.select{|aer| aer.status == 'delivered'}.uniq{|ed| ed.students }
     @email_recipients = all_email_recipients.select{|aer| aer.status == 'open'}.uniq{|ed| ed.students }
