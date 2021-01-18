@@ -3,7 +3,10 @@ class S2pFirebaseSendMessageJob < ApplicationJob
     queue_as :S2pFirebase
   
     def perform(message)
-      studend_ids = Message.find_student_ids(message.groups, message.students, message.school.iscity, message.message_categories)
+
+      studend_ids = message.build_student_ids(message.groups, [message.students, message.recipients.pluck(:student_id)].compact.reduce([], :|) , message.school.iscity?, message.message_categories.pluck(:id))
+
+      # studend_ids = Message.find_student_ids(message.groups, message.students, message.school.iscity, message.message_categories)
       if !studend_ids.empty?
 
         files = message.photos.map do |photo|
@@ -24,7 +27,6 @@ class S2pFirebaseSendMessageJob < ApplicationJob
   
         begin
           uri = URI(ENV['S2P_FIREBASE_HOST'] + '/sendMessage')
-          byebug
           response = Faraday.post do |req|
             req.url uri
             req.headers['Content-Type'] = "application/json; charset=utf-8"
