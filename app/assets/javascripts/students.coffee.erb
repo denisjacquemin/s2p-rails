@@ -193,7 +193,7 @@ ready = () ->
   $('#choose_report_period').click (e) ->
     if $('input.scb:checked').size() == 0
       alert 'Selectionnez au moins un élève'
-      e.preventDefault()
+      return false
     return
 
 

@@ -14,6 +14,6 @@ $('#modal .submit').click( function(e) {
     $('input.scb:checked').clone().attr('type', 'hidden').appendTo(form);
     form.appendTo();
     form.submit();
-
+    $("#modal").modal('hide');
 });
 $("#modal").modal('show');

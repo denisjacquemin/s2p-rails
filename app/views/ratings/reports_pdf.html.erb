@@ -8,12 +8,11 @@
         
         <div id="body" class="container">
             
-            <% @students.each do |student_infos| %>
-                <% student = student_infos[:current_student] 
-                   student_ratings = student_infos[:student_ratings]
-                   periods = student_infos[:periods]
-                   competencies = student_infos[:competencies]
-                   period_comment = student_infos[:period_comment]
+                <% student = @current_student
+                   student_ratings = @student_ratings
+                   periods = @periods
+                   competencies = @competencies
+                   period_comment = @period_comment
                 %>
                 <div class="alwaysbreak">
                     <div class="row">
@@ -24,7 +23,7 @@
                                 <% if competence.level == 1 %> 
                                 <div id="ratings" class="tbl nobreak">
                                     <div class="thead row">
-                                        <div class="cell left competency"><%= "#{student.firstname} #{student.lastname} - #{student.level}"%></div>
+                                        <div class="cell left competency"></div>
                                         <% periods.each do |period| %>
                                             <% current_period = period.id == @period_selected.id %>
                                             <div class="cell center <%= 'active' if current_period %>"><%= period.name %></div>
@@ -67,7 +66,6 @@
                        <%= period_comment&.content %>
                     </div>
                 </div>
-            <% end %>
             
         </div>
     </body>

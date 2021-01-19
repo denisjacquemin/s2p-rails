@@ -81,7 +81,10 @@ class RatingsController < ApplicationController
 
     @school = current_school
     @period_selected  = Period.find params[:period]
-    @students = params[:student][:id].map do |student_id| 
+
+    combined_pdfs = CombinePDF.new
+
+    params[:student][:id].map do |student_id| 
 
       @current_student = Student.find student_id
       @student_ratings = {}
@@ -105,10 +108,8 @@ class RatingsController < ApplicationController
         competencies: @competencies,
         period_comment: @period_comment
       }      
-    end
 
-
-    render pdf: "bulletin_milo_jacquemin_#{Date.today}",
+      pdf_data = render_to_string_with_wicked_pdf pdf: "",
       viewport_size: '1280x1024',
       page_size: 'A4',
       template: "/ratings/reports_pdf.html.erb",
@@ -135,6 +136,10 @@ class RatingsController < ApplicationController
       encoding: "UTF-8",
       show_as_html: params.key?('debug')
       
+      combined_pdfs << CombinePDF.parse(pdf_data)
+    end
+    
+    send_data combined_pdfs.to_pdf, filename: "bulletins_#{Date.today}", type: "application/pdf"
   end
 
   def report_to_pdf
