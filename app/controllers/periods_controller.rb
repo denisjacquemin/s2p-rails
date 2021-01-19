@@ -117,6 +117,6 @@ class PeriodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def period_params
-      params.require(:period).permit(:name, :all_groups, group_ids: [])
+      params.require(:period).permit(:name, :all_groups, :is_weight, group_ids: [])
     end
 end

@@ -14,11 +14,13 @@
                     <td class="firstname">Commentaires Période</td>
                     <% @periods.each do |period| %>	            
                         <td class="period-comment">
-                            <%
-                                has_a_period_comment = @student_comments.dig(period.id, :content).present? 
-                            %>
-                            <%= link_to rating_edit_period_comment_path(year_id: @current_rating_year.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
-                                <i class="fa fa-comment <%= 'has-a-comment' if has_a_period_comment %>"></i>
+                            <% unless period.is_weight %>
+                                <%
+                                    has_a_period_comment = @student_comments.dig(period.id, :content).present? 
+                                %>
+                                <%= link_to rating_edit_period_comment_path(year_id: @current_rating_year.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
+                                    <i class="fa fa-comment <%= 'has-a-comment' if has_a_period_comment %>"></i>
+                                <% end %>
                             <% end %>
                         </td>	            
                     <% end %>
@@ -43,12 +45,14 @@
                                     %>
 
                                     <div class="input-group input-group-sm">
-                                        <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id, "ry-id": @current_rating_year.id }%>
-                                        <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
-                                            <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
-                                                <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
-                                            <% end %>
-                                        </div>
+                                        <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), autocomplete: "off", class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id, "ry-id": @current_rating_year.id }%>
+                                            <% unless period.is_weight %>
+                                            <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
+                                                <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
+                                                    <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
+                                                <% end %>
+                                            </div>
+                                        <% end %>
                                     </div>
                                 <% end %>
                             </td>

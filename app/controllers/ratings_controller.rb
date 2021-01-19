@@ -68,6 +68,7 @@ class RatingsController < ApplicationController
   end
 
   def choose_report_period
+    @periods = Period.by_school(current_school.id).without_weights.ordered
     respond_to do |format|
       format.html 
       format.js

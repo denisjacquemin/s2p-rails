@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_18_142158) do
+ActiveRecord::Schema.define(version: 2021_01_18_154445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -318,6 +318,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_142158) do
     t.integer "school_id"
     t.integer "order"
     t.boolean "all_groups", default: true
+    t.boolean "is_weight", default: false
   end
 
   create_table "phones", id: :serial, force: :cascade do |t|

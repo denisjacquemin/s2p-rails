@@ -4,7 +4,7 @@
     <div class="row">
       <div class="form-group">
         <%= form.label :selected_period_id, 'Période'%>
-        <%= select_tag "selected_period_id", options_from_collection_for_select(Period.by_school(current_school.id).ordered, "id", "name"), class: 'form-control' %>
+        <%= select_tag "selected_period_id", options_from_collection_for_select(@periods, "id", "name"), class: 'form-control' %>
       </div>
     </div>
   </div>
