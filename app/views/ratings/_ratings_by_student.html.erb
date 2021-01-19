@@ -27,7 +27,7 @@
             <% @competencies.each do |competence| %>
                 <tr>
                     <%  %>
-                    <td class="firstname level<%= competence.level %>" <%= "colspan=#{@periods.count + 1}" if competence.title_only %> ><%= competence.name %></td>
+                    <td class="firstname level<%= competence.level %> <%= 'totals' if competence.is_totals %>" <%= "colspan=#{@periods.count + 1}" if competence.title_only %> ><%= competence.name %></td>
                     <%
                         periodsList = @periods
                         periodsList = competence.periods.ordered unless competence.all_periods

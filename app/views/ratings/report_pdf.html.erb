@@ -29,8 +29,7 @@
                                     </div>
                             <% end %>
                             <div class="tbody row">
-                                <div class="competency cell level<%= competence.level %>"><%= competence.name %></div>
-                                
+                                <div class="competency cell level<%= competence.level %> <%= 'totals' if competence.is_totals %>"><%= competence.name %></div>
                                     <% periodsList.each_with_index do |period, index| %>
                                         <% current_period = period.id == @period_selected.id %>
 

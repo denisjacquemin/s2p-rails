@@ -33,7 +33,7 @@
                                     </div>
                                 <% end %>
 
-                                <div class="tbody row">
+                                <div class="tbody row <%= 'totals' if competence.is_totals %>">
                                     <div class="competency cell level<%= competence.level %>"><%= competence.name %></div>
                                     
                                     <% periods.each_with_index do |period, index| %>

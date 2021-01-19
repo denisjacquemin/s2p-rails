@@ -47,6 +47,9 @@
             width: 100%;
             .row {
                 display: table-row;
+                &.totals {
+                    font-weight: 800;
+                }
             }
             .cell {
                 display: table-cell;
@@ -85,14 +88,12 @@
                 &.level2 {
                     padding-left: 20px;
                     font-size: 12px;
-                    font-weight: 400;
                     min-width: 200px;
                     max-width: 200px;
                     width: 200px;
                 }
                 &.level3 {
                     font-size: 12px;
-                    font-weight: 400;
                     padding-left: 40px;
                     min-width: 180px;
                     max-width: 180px;
