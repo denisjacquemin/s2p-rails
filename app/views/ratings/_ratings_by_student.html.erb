@@ -38,7 +38,7 @@
                     <% if !competence.title_only %>
                         <% @periods.each do |period| %>
                             <td>
-                                <% if periodsList.include?(period) and !competence.title_only %>
+                                <% if ((periodsList.include?(period) and !competence.title_only) or period.is_weight) %>
                                     <% rating_id = "#{competence.id}-#{period.id}"  %>
                                     <%
                                         has_a_comment = @student_ratings.dig(competence.id, period.id, :comment) 
