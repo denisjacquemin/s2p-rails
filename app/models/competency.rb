@@ -8,6 +8,8 @@ class Competency < ApplicationRecord
     has_many :competency_periods
     has_many :periods, through: :competency_periods
 
+    belongs_to :school
+
     validates :name, presence: true
 
     scope :by_school, ->(school_id) { where(school_id: school_id) }
