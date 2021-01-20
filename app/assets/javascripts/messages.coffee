@@ -84,10 +84,10 @@ add_recipient = (student) ->
         name: 'message[recipients_attributes][' + index + '][student_id]'
         id: 'message_recipients_attributes_' + index + '_student_id'
     }).prependTo(label)
-    $("<span/>", {
-      text: student.dataset['groups']
-      alt: student.dataset['groups']
-    }).appendTo(label)
+    # $("<span/>", {
+    #   text: student.dataset['groups']
+    #   alt: student.dataset['groups']
+    # }).appendTo(label)
 
 remove_recipient = (student) ->
   thelabel = $(student).closest('label')
