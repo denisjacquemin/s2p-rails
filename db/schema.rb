@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_18_154445) do
+ActiveRecord::Schema.define(version: 2021_01_21_105048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_154445) do
     t.boolean "all_groups", default: true
     t.datetime "deleted_at"
     t.boolean "is_totals", default: false
+    t.integer "group_id"
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
@@ -523,6 +524,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_154445) do
     t.string "upload_uniq_id"
     t.string "idifapme"
     t.string "grade"
+    t.integer "phones_count"
     t.index ["code"], name: "index_students_on_code", unique: true
     t.index ["school_id"], name: "index_students_on_school_id"
   end

@@ -19,10 +19,6 @@ class Student < ApplicationRecord
     self.sent_message_by_email and self.student_emails.count > 0
   end
 
-  def phones_count
-    self.phones.count
-  end
-
   def created_at_timestamp
     if school.is_ifapme
       created_at&.to_time.to_i
