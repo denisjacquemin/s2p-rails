@@ -15,11 +15,11 @@ class CompetenciesController < ApplicationController
   def init
     current_school.competencies.map(&:delete) # soft delete every competencies
 
-    Competency.create(name: 'MATHÉMATIQUES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, all_groups: true, order: 1)
-    Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 2)
-    Competency.create(name: 'Nombres et opérations', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 3)
-    Competency.create(name: 'Grandeurs', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 4)
-    Competency.create(name: 'Figures et solides', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 5)
+    Competency.create(name: 'MATHÉMATIQUES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, order: 1)
+    Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 2)
+    Competency.create(name: 'Nombres et opérations', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 3)
+    Competency.create(name: 'Grandeurs', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 4)
+    Competency.create(name: 'Figures et solides', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 5)
 
     Competency.create(name: 'LANGUE FRANÇAISE', school_id: current_school.id, level: 1, title_only: true, all_periods: true, all_groups: true, order: 6)
     Competency.create(name: 'Savoir-écouter - savoir-parler', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 7)
@@ -82,9 +82,30 @@ class CompetenciesController < ApplicationController
     @competency.school_id = current_school.id
     @competency.order = Competency.where(school_id: current_school.id).count + 1
 
+    byebug
+    # for each group_id creates a competency
+    if params[:competency][:all_groups] == "1"
+      group_ids = Group.by_school(current_school.id).pluck(:id)
+      competencies_to_create = []
+      group_ids.each do |group_id|
+        competencies_to_create.push( { 
+          name: params[:competency][:name], 
+          level: params[:competency][:level], 
+          title_only: params[:competency][:title_only], 
+          is_totals: params[:competency][:is_totals], 
+          all_groups: params[:competency][:all_groups],
+          group_id: group_id,
+          all_periods: params[:competency][:all_periods],
+          period_ids: params[:competency][:period_ids],
+          school_id: current_school.id,
+          order: Competency.where(school_id: current_school.id, group_id: group_id).count + 1
+        })
+      end 
+      
+    end
 
     respond_to do |format|
-      if @competency.save
+      if Competency.create(competencies_to_create)
         @competencies = Competency.where(school_id: current_school.id).order(:order)
         format.html { redirect_to @competency, notice: 'Competency was successfully created.' }
         format.js

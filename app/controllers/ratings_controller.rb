@@ -118,8 +118,7 @@ class RatingsController < ApplicationController
         html: {            
           template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
           # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
-          url:      'www.example.com',
-          locals:   { foo: @bar }
+          url:      'www.example.com'
         }
       },
       margin: {   
