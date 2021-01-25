@@ -13,7 +13,13 @@ class Student < ApplicationRecord
 
   scope :by_emails, ->(emails) { joins(:student_emails).where('lower(student_emails.email) IN (?)', emails.strip.downcase) }
 
+  def level
+    self[:level]&.upcase
+  end
 
+  def classroom
+    self[:classroom]&.upcase
+  end
 
   def message_sent_by_email
     self.sent_message_by_email and self.student_emails.count > 0
@@ -90,7 +96,7 @@ class Student < ApplicationRecord
   end
 
   def groups_to_index
-    Group.where("id IN (?)", self.groups).pluck(:name)
+    Group.where("id IN (?)", self.groups).pluck(:name).map!(&:upcase)
   end
 
   def groups_to_index_ids
