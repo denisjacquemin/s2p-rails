@@ -110,16 +110,12 @@ class RatingsController < ApplicationController
       }      
 
       pdf_data = render_to_string_with_wicked_pdf pdf: "",
-      viewport_size: '1280x1024',
       page_size: 'A4',
       template: "/ratings/reports_pdf.html.erb",
       header:  {   
         spacing: 20,
         html: {            
-          template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
-          # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
-          url:      'www.example.com',
-          locals:   { foo: @bar }
+          template: '/ratings/report_pdf_header.html.erb'
         }
       },
       margin: {   
@@ -130,12 +126,9 @@ class RatingsController < ApplicationController
       },
       layout: "report_pdf.html",
       orientation: "Portrait",
-      lowquality: true,
       zoom: 1,
-      dpi: 75,
-      encoding: "UTF-8",
-      show_as_html: params.key?('debug')
-      
+      dpi: 72,
+      encoding: "UTF-8"      
       combined_pdfs << CombinePDF.parse(pdf_data)
     end
     
