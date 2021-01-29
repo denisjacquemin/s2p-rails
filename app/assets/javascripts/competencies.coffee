@@ -29,7 +29,15 @@ ready = () ->
     else
       $('.select_periods').show()
     return
-
+  
+  $('#competencies_header').on 'change', '#selected_group', () ->
+    Rails.ajax {
+      type: "POST"
+      url: '/competencies/update_competencies',
+      data: 'selected_group_id=' + $('#selected_group').val()
+    }
+    return
+    
   $('#reports-param-screen').on 'shown.bs.tab', '[data-toggle="tab"]', (e) ->
     console.log 'tab change'
     # e.preventDefault()

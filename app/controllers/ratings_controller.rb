@@ -98,9 +98,9 @@ class RatingsController < ApplicationController
 
       @periods = Period.by_school(current_school.id).ordered
 
-      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @current_student.school_id).pluck(:id).first
+      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @school.id).pluck(:id).first
       
-      @competencies = Group.find(student_s_group_id).filtered_competencies
+      @competencies = Competency.where(group_id: student_s_group_id, school_id: @school.id).order(:order)
       {
         current_student: @current_student,
         student_ratings: @student_ratings,
@@ -339,7 +339,7 @@ class RatingsController < ApplicationController
       }
 
       @periods = Period.by_school(current_school.id).ordered
-      @competencies = Group.find(@group_selected_id).filtered_competencies
+      @competencies = Competency.where(school_id: current_school.id, group_id: @group_selected_id).order(:order)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

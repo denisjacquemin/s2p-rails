@@ -39,11 +39,11 @@
               <div class="col-sm-12">
                 <div class="table-responsive">
                   <table class="table-striped table table-hover">
-                    <thead>
+                    <thead id="competencies_header">
                       <tr>
                         <th width="20px">&nbsp;</th>
                         <th data-data="name">Nom de la matière</th>
-                        <th></th>
+                        <th style="text-align:right;font-weight:normal" class="form-group-sm"><%= select_tag 'selected_group', options_from_collection_for_select(@groups, "id", "name", @selected_group), class: 'form-control'  %></th>
                       </tr>
                     </thead>
                     <tbody id="competencies">
