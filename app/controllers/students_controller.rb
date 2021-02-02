@@ -612,7 +612,6 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")

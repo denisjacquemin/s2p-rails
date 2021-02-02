@@ -109,31 +109,57 @@ class RatingsController < ApplicationController
         period_comment: @period_comment
       }      
 
-      pdf_data = render_to_string_with_wicked_pdf pdf: "",
-      viewport_size: '1280x1024',
-      page_size: 'A4',
-      template: "/ratings/reports_pdf.html.erb",
-      header:  {   
-        spacing: 20,
-        html: {            
-          template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
-          # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
-          url:      'www.example.com'
-        }
-      },
-      margin: {   
-        top:               30,                     # default 10 (mm)
-        bottom:            30,
-        left:              10,
-        right:             10 
-      },
-      layout: "report_pdf.html",
-      orientation: "Portrait",
-      lowquality: true,
-      zoom: 1,
-      dpi: 75,
-      encoding: "UTF-8",
-      show_as_html: params.key?('debug')
+      pdf = Prawn::Document.new
+      # pdf.text "#{@current_student.firstname} #{@current_student.lastname}" 
+      pdf.draw_text "This draw_text line is absolute positioned. However don't expect it to flow even if it hits the document border", at: [200, 300]
+      pdf.text_box 'This is a text box, you can control where it will flow by specifying the :height and :width options', at: [100, 250], height: 100, width:100 
+
+
+      pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width do
+        pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
+          pdf.text "€#{@current_student.firstname} #{@current_student.lastname} jdsfhjdh dfjhjdfh dfjhjdfjh jhdfjdfj jjdj jnsdjkhds kjdsfhkjdfh kjdfkhdfk kdfjhk dfk kdfhkhdf khdfkhdfk hdfkh dfkh kdfhk fdh k", :align => :left, :size => 10
+        end
+        pdf.bounding_box [pdf.bounds.width / 2, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
+          pdf.text "#{@school.name}", :align => :right
+        end
+        pdf.stroke_horizontal_rule
+      end
+
+    # footer
+      pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 25], :width  => pdf.bounds.width do
+        pdf.font "Helvetica"
+        pdf.stroke_horizontal_rule
+        pdf.move_down(5)
+        pdf.text "And here's a sexy footer", :size => 16
+      end
+      pdf_data = pdf.render
+
+
+      # pdf_data = render_to_string_with_wicked_pdf pdf: "",
+      # viewport_size: '1280x1024',
+      # page_size: 'A4',
+      # template: "/ratings/reports_pdf.html.erb",
+      # header:  {   
+      #   spacing: 20,
+      #   html: {            
+      #     template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
+      #     # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
+      #     url:      'www.example.com'
+      #   }
+      # },
+      # margin: {   
+      #   top:               30,                     # default 10 (mm)
+      #   bottom:            30,
+      #   left:              10,
+      #   right:             10 
+      # },
+      # layout: "report_pdf.html",
+      # orientation: "Portrait",
+      # lowquality: true,
+      # zoom: 1,
+      # dpi: 75,
+      # encoding: "UTF-8",
+      # show_as_html: params.key?('debug')
       
       combined_pdfs << CombinePDF.parse(pdf_data)
     end

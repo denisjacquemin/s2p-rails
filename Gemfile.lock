@@ -259,8 +259,12 @@ GEM
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     os (0.9.6)
+    pdf-core (0.9.0)
     pg (1.0.0)
     phonie (3.3.1)
+    prawn (2.4.0)
+      pdf-core (~> 0.9.0)
+      ttfunk (~> 1.7)
     public_suffix (3.0.2)
     puma (3.12.0)
     pundit (1.1.0)
@@ -369,6 +373,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    ttfunk (1.7.0)
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
@@ -443,6 +448,7 @@ DEPENDENCIES
   nexmo
   pg
   phonie
+  prawn
   puma
   pundit
   rails (= 5.2)
