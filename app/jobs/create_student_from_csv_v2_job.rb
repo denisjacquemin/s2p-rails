@@ -90,7 +90,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
             student_data[:winpage_matricule] = data[:winpage_matricule].to_s
             phonesArray = [data[:phone1], data[:phone2], data[:phone3], data[:info_contact1]]
             # handle Creos info_contact, build an array of emails and an array of phones
-            contactArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4], data[:email1], data[:email2], data[:info_contact], data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
+            contactArray = [data[:phone1], data[:phone2], data[:phone3], data[:phone4], data[:email1], data[:email2], data[:email3], data[:info_contact], data[:info_contact1], data[:info_contact2], data[:info_contact3], data[:info_contact4], data[:info_contact5], data[:info_contact6], data[:info_contact7], data[:info_contact8], data[:info_contact9]].compact.uniq
             if contactArray.any?
                 emailsArray = []
                 phonesArray = []
@@ -106,7 +106,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
                 }
             end
         end
-
         ### data from siel
         student_data[:siel_id] = data[:siel_id].to_s
         # student_data[:level] = "#{data[:siel_annee_etude]}#{data[:level2]}" 
