@@ -194,7 +194,12 @@ class RatingsController < ApplicationController
             end
             pdf.move_down(30)
           end
+
+          
         end 
+        pdf.text("Commentaires de la période:", :size => 12)
+        pdf.move_down(5)
+        pdf.text(@period_comment&.content, :size => 10)
 
 
 

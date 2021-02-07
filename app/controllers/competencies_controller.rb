@@ -10,7 +10,7 @@ class CompetenciesController < ApplicationController
     @periods = Period.by_school(current_school.id).ordered
     @rating_years = RatingYear.by_school(current_school.id).ordered
     @rating_comments = RatingComment.by_school(current_school.id).ordered
-    @groups = Group.where(school_id: current_school.id, group_type: 'level')
+    @groups = Group.where(school_id: current_school.id).only_level
     @selected_group = @groups.first.id
     @competencies = Competency.where(school_id: current_school.id, group_id: @selected_group).ordered
   end
@@ -23,7 +23,7 @@ class CompetenciesController < ApplicationController
     Period.create(school_id: current_school.id, name: 'P2', order: 2)
     Period.create(school_id: current_school.id, name: 'P3', order: 3)
 
-    @groups = Group.where(school_id: current_school.id, group_type: 'level')
+    @groups = Group.where(school_id: current_school.id).only_level
     @groups.each do |group|
       Competency.create(name: 'MATHÉMATIQUES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, order: 1, group_id: group.id)
       Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 2, group_id: group.id)
@@ -46,7 +46,7 @@ class CompetenciesController < ApplicationController
 
       Competency.create(name: 'Éducation Artistique', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 16, group_id: group.id)
       
-      Competency.create(name: 'LANGUES MODERNES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, order: 17, group_id: group.id)
+      Competency.create(name: 'LANGUES MODERNES', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 17, group_id: group.id)
 
       Competency.create(name: 'Éducation par la technologie', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 18, group_id: group.id)
 
@@ -75,7 +75,7 @@ class CompetenciesController < ApplicationController
   # GET /competencies/new
   def new
     @competency = Competency.new
-    @groups = Group.where(school_id: current_school.id, group_type: 'level')
+    @groups = Group.where(school_id: current_school.id).only_level
     @periods = Period.by_school(current_school.id)
     respond_to do |format|
       format.html 
@@ -122,7 +122,7 @@ class CompetenciesController < ApplicationController
 
     respond_to do |format|
       if Competency.create(competencies_to_create)
-        @groups = Group.where(school_id: current_school.id, group_type: 'level')
+        @groups = Group.where(school_id: current_school.id).only_level
         @selected_group = @groups.first.id
         @competencies = Competency.where(school_id: current_school.id, group_id: @selected_group).ordered
         format.html { redirect_to @competency, notice: 'Competency was successfully created.' }
@@ -141,7 +141,7 @@ class CompetenciesController < ApplicationController
   def update
     respond_to do |format|
       if @competency.update(competency_params)
-        @groups = Group.where(school_id: current_school.id, group_type: 'level')
+        @groups = Group.where(school_id: current_school.id).only_level
         @selected_group = @groups.first.id
         @competencies = Competency.where(school_id: current_school.id, group_id: @selected_group).ordered        
         
@@ -156,7 +156,7 @@ class CompetenciesController < ApplicationController
   end
 
   def update_competencies
-    @groups = Group.where(school_id: current_school.id, group_type: 'level')
+    @groups = Group.where(school_id: current_school.id).only_level
     @selected_group = params[:selected_group_id]
     @competencies = Competency.where(school_id: current_school.id, group_id: @selected_group).ordered        
         
