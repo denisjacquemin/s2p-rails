@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   get 'competencies/reset', to: 'competencies#init', as: 'init_competencies'
   resources :competencies
   post 'competencies/update_orders', to: 'competencies#update_orders'
+  post '/competencies/update_competencies', to: 'competencies#update_competencies'
+
 
   get '/monitors', to: 'monitors#index'
   resources :message_categories

@@ -84,6 +84,8 @@ class RatingsController < ApplicationController
 
     combined_pdfs = CombinePDF.new
 
+    filename = "bulletins_#{Date.today}"
+
     params[:student][:id].map do |student_id| 
 
       @current_student = Student.find student_id
@@ -98,9 +100,9 @@ class RatingsController < ApplicationController
 
       @periods = Period.by_school(current_school.id).ordered
 
-      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @current_student.school_id).pluck(:id).first
+      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @school.id).pluck(:id).first
       
-      @competencies = Group.find(student_s_group_id).filtered_competencies
+      @competencies = Competency.where(group_id: student_s_group_id, school_id: @school.id).order(:order)
       {
         current_student: @current_student,
         student_ratings: @student_ratings,
@@ -108,31 +110,144 @@ class RatingsController < ApplicationController
         competencies: @competencies,
         period_comment: @period_comment
       }      
+      
+      pdf = Prawn::Document.new
+  
+      # header stuffs
+      pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width, :height => 100 do
+        pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
+          pdf.text "#{@current_student.firstname} #{@current_student.lastname}", :align => :left, :size => 10, leading: 1
+          pdf.text "Année 2020 - 2021 / #{@current_student.level}", :align => :left, :size => 10, leading: 1
+          pdf.text "Période: #{@period_selected.name}", :align => :left, :size => 10, leading: 1
+        end
+        pdf.bounding_box [pdf.bounds.width / 2, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
+          pdf.text ""
+          pdf.text "#{@school.name}", :align => :right, :size => 10, leading: 1
+          pdf.text "#{@school.address}", :align => :right, :size => 10, leading: 1
+        end
+        pdf.move_down(20)
+        pdf.stroke_horizontal_rule  
+      end
 
-      pdf_data = render_to_string_with_wicked_pdf pdf: "",
-      page_size: 'A4',
-      template: "/ratings/reports_pdf.html.erb",
-      header:  {   
-        spacing: 20,
-        html: {            
-          template: '/ratings/report_pdf_header.html.erb'
-        }
-      },
-      margin: {   
-        top:               30,                     # default 10 (mm)
-        bottom:            30,
-        left:              10,
-        right:             10 
-      },
-      layout: "report_pdf.html",
-      orientation: "Portrait",
-      zoom: 1,
-      dpi: 72,
-      encoding: "UTF-8"      
+      pdf.define_grid(columns: 5, rows: 9, gutter: 0)
+      # pdf.grid.show_all
+
+
+      header = [['', @periods.map {|p| p.name }, 'Commentaires' ].flatten]      
+
+       
+      # pdf.stroke_axis
+      pdf.grid([1, 0], [8, 4]).bounding_box do
+
+        data = []
+        i = 0
+
+        while i < @competencies.size
+          competence = @competencies[i]
+          if competence.level == 1 # start a new table
+            data = header
+          end
+
+          row = [competence.name]
+          if competence.title_only
+            row = [{ :content => competence.name, :colspan => @periods.size + 2, :font_style => :bold}]
+          else
+            competence_name_cell = {:content => Prawn::Text::NBSP * (3 * (competence.level - 1))  + competence.name}
+            competence_name_cell[:font_style] = :bold if competence.is_totals
+            row = [competence_name_cell]
+            @periods.each_with_index do |period, index|
+              current_period = period.id == @period_selected.id
+                cell_value = ""
+                if index <= @period_selected.order
+                  rating_id = "#{competence.id}-#{period.id}"
+                  has_a_comment = @student_ratings.dig(competence.id, period.id, :comment)
+                  cell_value = @student_ratings.dig(competence.id, period.id, :value)
+                end
+                cell = { :content => cell_value }
+                cell[:font_style] = :bold if competence.is_totals
+                row.push(cell)
+            end
+            row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment))
+          end
+          data += [row]
+
+          i = i + 1
+
+          if (@competencies[i] and @competencies[i].level == 1) or i == @competencies.size
+            last_column_index = "#{@periods.size+1}".to_i
+            pdf.table(data, 
+              :header => true, 
+              :width => 536, 
+              :column_widths => {0 => 150, last_column_index => 150},
+              :row_colors => ["F7F7F7", "FFFFFF"],
+              :cell_style => {
+                :border_width => 1, 
+                :border_color => 'CCCCCC',
+                :align => :center,
+                :size => 10
+              },
+            ) do
+              row(0).style :font_style => :bold
+              column(0).style :align => :left
+              column(last_column_index).style :align => :left, size: 9
+            end
+            pdf.move_down(30)
+          end
+
+          
+        end 
+        pdf.text("Commentaires de la période:", :size => 12)
+        pdf.move_down(5)
+        pdf.text(@period_comment&.content, :size => 10)
+
+
+
+        # data = [ ["short", "short", "loooooooooooooooooooong"],
+        # ["short", "short"],
+        # ["loooooooooooooooooooong", "short", "short"] ]
+        
+      end
+
+      # footer stuffs
+      # pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 25], :width  => pdf.bounds.width do
+      #   pdf.font "Helvetica"
+      #   pdf.stroke_horizontal_rule
+      #   pdf.move_down(5)
+      #   pdf.text "And here's a sexy footer", :size => 16
+      # end
+      pdf_data = pdf.render
+
+
+      # pdf_data = render_to_string_with_wicked_pdf pdf: "",
+      # viewport_size: '1280x1024',
+      # page_size: 'A4',
+      # template: "/ratings/reports_pdf.html.erb",
+      # header:  {   
+      #   spacing: 20,
+      #   html: {            
+      #     template: '/ratings/report_pdf_header.html.erb',          # use :template OR :url
+      #     # layout:   'pdf_plain',             # optional, use 'pdf_plain' for a pdf_plain.html.pdf.erb file, defaults to main layout
+      #     url:      'www.example.com'
+      #   }
+      # },
+      # margin: {   
+      #   top:               30,                     # default 10 (mm)
+      #   bottom:            30,
+      #   left:              10,
+      #   right:             10 
+      # },
+      # layout: "report_pdf.html",
+      # orientation: "Portrait",
+      # lowquality: true,
+      # zoom: 1,
+      # dpi: 75,
+      # encoding: "UTF-8",
+      # show_as_html: params.key?('debug')
+      
       combined_pdfs << CombinePDF.parse(pdf_data)
     end
     
-    send_data combined_pdfs.to_pdf, filename: "bulletins_#{Date.today}", type: "application/pdf"
+    send_data combined_pdfs.to_pdf, filename: filename, type: "application/pdf"
   end
 
   def report_to_pdf
@@ -333,7 +448,7 @@ class RatingsController < ApplicationController
       }
 
       @periods = Period.by_school(current_school.id).ordered
-      @competencies = Group.find(@group_selected_id).filtered_competencies
+      @competencies = Competency.where(school_id: current_school.id, group_id: @group_selected_id).order(:order)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
