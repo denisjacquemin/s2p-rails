@@ -109,6 +109,7 @@ class CompetenciesController < ApplicationController
         name: params[:competency][:name], 
         level: params[:competency][:level], 
         title_only: params[:competency][:title_only], 
+        weight: params[:competency][:weight],
         is_totals: params[:competency][:is_totals], 
         all_groups: params[:competency][:all_groups],
         group_id: group_id,
