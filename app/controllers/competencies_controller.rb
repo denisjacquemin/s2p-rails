@@ -109,6 +109,7 @@ class CompetenciesController < ApplicationController
         name: params[:competency][:name], 
         level: params[:competency][:level], 
         title_only: params[:competency][:title_only], 
+        weight: params[:competency][:weight],
         is_totals: params[:competency][:is_totals], 
         all_groups: params[:competency][:all_groups],
         group_id: group_id,
@@ -192,6 +193,6 @@ class CompetenciesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competency_params
-      params.require(:competency).permit(:name, :level, :order, :comment, :title_only, :is_totals, :all_periods, :all_groups, group_ids: [], period_ids: [] )
+      params.require(:competency).permit(:name, :level, :order, :comment, :title_only, :is_totals, :weight, :all_periods, :all_groups, group_ids: [], period_ids: [] )
     end
 end

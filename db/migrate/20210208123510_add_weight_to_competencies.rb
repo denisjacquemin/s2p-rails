@@ -1,0 +1,5 @@
+class AddWeightToCompetencies < ActiveRecord::Migration[5.2]
+  def change
+    add_column :competencies, :weight, :string
+  end
+end

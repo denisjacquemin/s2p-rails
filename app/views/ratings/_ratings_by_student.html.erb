@@ -45,7 +45,9 @@
                                     %>
 
                                     <div class="input-group input-group-sm">
-                                        <%= text_field_tag rating_id, @student_ratings.dig(competence.id, period.id, :value), autocomplete: "off", class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id, "ry-id": @current_rating_year.id }%>
+                                        <% value = @student_ratings.dig(competence.id, period.id, :value) %>
+                                        <% value = competence.weight if period.is_weight && value.nil? %>
+                                        <%= text_field_tag rating_id, value, autocomplete: "off", class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id, "ry-id": @current_rating_year.id }%>
                                             <% unless period.is_weight %>
                                             <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
                                                 <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>

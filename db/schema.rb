@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_105048) do
+ActiveRecord::Schema.define(version: 2021_02_08_123510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_105048) do
     t.datetime "deleted_at"
     t.boolean "is_totals", default: false
     t.integer "group_id"
+    t.string "weight"
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
