@@ -158,11 +158,11 @@ class RatingsController < ApplicationController
             row = [competence_name_cell]
             @periods.each_with_index do |period, index|
               current_period = period.id == @period_selected.id
-                cell_value = ""
                 if index <= @period_selected.order
                   rating_id = "#{competence.id}-#{period.id}"
                   has_a_comment = @student_ratings.dig(competence.id, period.id, :comment)
                   cell_value = @student_ratings.dig(competence.id, period.id, :value)
+                  cell_value = competence.weight if period.is_weight && cell_value.nil?
                 end
                 cell = { :content => cell_value }
                 cell[:font_style] = :bold if competence.is_totals
