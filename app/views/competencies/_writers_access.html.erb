@@ -11,11 +11,6 @@
             <%= form_tag(writers_access_path, id: 'load_write_accesses', method: "get", remote: true, class: '') do %>
                 <label>Rédacteur:</label>
                 <%= select_tag "selected_user", options_from_collection_for_select(@users, "id", "fullname", @user_selected_id), class: 'form-control' %>
-                <%
-=begin%>
- <%= submit_tag 'changer', class: 'btn btn-primary'%> 
-<%
-=end%>
             <% end %>
         </div>
     </div>
