@@ -26,33 +26,33 @@ class CompetenciesController < ApplicationController
     @groups = Group.where(school_id: current_school.id).only_level
     @groups.each do |group|
       Competency.create(name: 'MATHÉMATIQUES', school_id: current_school.id, level: 1, title_only: true, all_periods: true, order: 1, group_id: group.id)
-      Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 2, group_id: group.id)
-      Competency.create(name: 'Nombres et opérations', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 3, group_id: group.id)
-      Competency.create(name: 'Grandeurs', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 4, group_id: group.id)
-      Competency.create(name: 'Figures et solides', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 5, group_id: group.id)
-      Competency.create(name: 'Total', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 6, is_totals: true, group_id: group.id)
+      Competency.create(name: 'Résolution de problèmes', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 2, group_id: group.id)
+      Competency.create(name: 'Nombres et opérations', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 3, group_id: group.id)
+      Competency.create(name: 'Grandeurs', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 4, group_id: group.id)
+      Competency.create(name: 'Figures et solides', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 5, group_id: group.id)
+      Competency.create(name: 'Total', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 6, is_totals: true, group_id: group.id)
 
 
       Competency.create(name: 'LANGUE FRANÇAISE', school_id: current_school.id, level: 1, title_only: true, all_periods: true, order: 7, group_id: group.id)
-      Competency.create(name: 'Savoir-écouter - savoir-parler', school_id: current_school.id, level: 2, title_only: false, all_periods: true, all_groups: true, order: 8, group_id: group.id)
-      Competency.create(name: 'Savoir-lire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 9, group_id: group.id)
-      Competency.create(name: 'Savoir-écrire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 10, group_id: group.id)
-      Competency.create(name: 'Analyse grammaticale', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 11, group_id: group.id)
-      Competency.create(name: 'Orthographe', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 12, group_id: group.id)
-      Competency.create(name: 'Conjugaison', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 13, group_id: group.id)
-      Competency.create(name: 'Vocabulaire', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 14, group_id: group.id)
-      Competency.create(name: 'Total', school_id: current_school.id, level: 2, title_only: false, all_periods: true, order: 15, is_totals: true, group_id: group.id)
+      Competency.create(name: 'Savoir-écouter - savoir-parler', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, all_groups: true, order: 8, group_id: group.id)
+      Competency.create(name: 'Savoir-lire', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 9, group_id: group.id)
+      Competency.create(name: 'Savoir-écrire', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 10, group_id: group.id)
+      Competency.create(name: 'Analyse grammaticale', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 11, group_id: group.id)
+      Competency.create(name: 'Orthographe', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 12, group_id: group.id)
+      Competency.create(name: 'Conjugaison', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 13, group_id: group.id)
+      Competency.create(name: 'Vocabulaire', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 14, group_id: group.id)
+      Competency.create(name: 'Total', school_id: current_school.id, level: 2, weight: '20', title_only: false, all_periods: true, order: 15, is_totals: true, group_id: group.id)
 
 
-      Competency.create(name: 'Éducation Artistique', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 16, group_id: group.id)
+      Competency.create(name: 'Éducation Artistique', school_id: current_school.id, level: 1, weight: '20', title_only: false, all_periods: true, order: 16, group_id: group.id)
       
-      Competency.create(name: 'LANGUES MODERNES', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 17, group_id: group.id)
+      Competency.create(name: 'LANGUES MODERNES', school_id: current_school.id, level: 1, weight: '20', title_only: false, all_periods: true, order: 17, group_id: group.id)
 
-      Competency.create(name: 'Éducation par la technologie', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 18, group_id: group.id)
+      Competency.create(name: 'Éducation par la technologie', school_id: current_school.id, level: 1, weight: '20', title_only: false, all_periods: true, order: 18, group_id: group.id)
 
-      Competency.create(name: 'Éducation aux médias', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 19, group_id: group.id)
+      Competency.create(name: 'Éducation aux médias', school_id: current_school.id, level: 1, weight: '20', title_only: false, all_periods: true, order: 19, group_id: group.id)
 
-      Competency.create(name: 'Éducation physique', school_id: current_school.id, level: 1, title_only: false, all_periods: true, order: 20, group_id: group.id)
+      Competency.create(name: 'Éducation physique', school_id: current_school.id, level: 1, weight: '20', title_only: false, all_periods: true, order: 20, group_id: group.id)
 
     end
     redirect_to competencies_url
