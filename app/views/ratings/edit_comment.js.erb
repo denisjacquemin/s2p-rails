@@ -1,3 +1,23 @@
 $('#editCommentModal .modal-body').html("<%= escape_javascript(render 'edit_comment_form', rating: @rating) %>");
 $('#editCommentModal #modalTitle').html("Edition commentaire");
 $("#editCommentModal").modal('show');
+$('#editCommentModal .modal-body textarea').trumbowyg({
+    lang: 'fr',
+    minimalLinks: true,
+    semantic: false,
+    btns: [
+    ['strong', 'em', 'underline'],
+    ['superscript', 'subscript'],
+    ['removeformat']
+    ],
+    removeformatPasted: false,
+    autogrow: true,
+    allowTagsFromPaste: [
+        'b',
+        'i',
+        's',
+        'sub',
+        'sup',
+        'strikethrough',
+    ]
+});

@@ -167,7 +167,7 @@ class RatingsController < ApplicationController
                 cell[:font_style] = :bold if competence.is_totals
                 row.push(cell)
             end
-            row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment))
+            row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment)&.gsub("&nbsp;", "")&.gsub("<p>", "<br>")&.gsub('</p>', ''))
           end
           data += [row]
 
@@ -189,7 +189,7 @@ class RatingsController < ApplicationController
             ) do
               row(0).style :font_style => :bold
               column(0).style :align => :left
-              column(last_column_index).style :align => :left, size: 9
+              column(last_column_index).style :align => :left, size: 9, inline_format: true
             end
             pdf.move_down(30)
           end
@@ -198,7 +198,7 @@ class RatingsController < ApplicationController
         end 
         pdf.text("Commentaires de la période:", :size => 12)
         pdf.move_down(5)
-        pdf.text(@period_comment&.content, :size => 10)
+        pdf.text(@period_comment&.content&.gsub("&nbsp;", "")&.gsub("<p>", "<br>")&.gsub('</p>', ''), :size => 10, inline_format: true)
 
 
 
