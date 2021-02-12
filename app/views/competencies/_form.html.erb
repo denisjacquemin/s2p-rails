@@ -44,6 +44,9 @@
           <br/>
           <%= form.check_box :is_totals, id: 'is_totals' %>
           <%= form.label :is_totals, 'Totaux' %>
+          <br/>
+          <%= form.check_box :show_emojis  %>
+          <%= form.label :show_emojis, 'Activer les Emojis' %>
         </div>
     </div>
     <% if competency.new_record? %>

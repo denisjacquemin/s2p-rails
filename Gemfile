@@ -93,6 +93,7 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'prawn'
 gem 'prawn-table'
+gem 'prawn-emoji'
 
 gem 'hashids'
 

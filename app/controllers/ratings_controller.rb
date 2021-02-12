@@ -128,6 +128,23 @@ class RatingsController < ApplicationController
         pdf.move_down(20)
         pdf.stroke_horizontal_rule  
       end
+      
+      font_path = "#{Rails.root}/lib/fonts/"
+      pdf.font_families.update(
+       'DejaVuSans' => {
+          normal: { file: font_path + 'DejaVuSans.ttf', font: 'DejaVuSans' },
+          italic: { file: font_path + 'DejaVuSans-Oblique.ttf', font: 'DejaVuSans-Italic' },
+          bold: { file: font_path + 'DejaVuSans-Bold.ttf', font: 'DejaVuSans-Bold' },
+          bold_italic: { file: font_path + 'DejaVuSans-BoldOblique.ttf', font: 'DejaVuSans-BoldItalic' }
+       },
+       'DejaVuSerif' => {
+        normal: { file: font_path + 'DejaVuSerif.ttf', font: 'DejaVuSerif' },
+        italic: { file: font_path + 'DejaVuSerif-Italic.ttf', font: 'DejaVuSerif-Italic' },
+        bold: { file: font_path + 'DejaVuSerif-Bold.ttf', font: 'DejaVuSerif-Bold' },
+        bold_italic: { file: font_path + 'DejaVuSerif-BoldItalic.ttf', font: 'DejaVuSerif-BoldItalic' }
+     }
+      )
+      pdf.font('DejaVuSans')
 
       pdf.define_grid(columns: 5, rows: 9, gutter: 0)
       # pdf.grid.show_all
@@ -178,18 +195,18 @@ class RatingsController < ApplicationController
             pdf.table(data, 
               :header => true, 
               :width => 536, 
-              :column_widths => {0 => 150, last_column_index => 150},
+              :column_widths => {0 => 170, last_column_index => 170},
               :row_colors => ["F7F7F7", "FFFFFF"],
               :cell_style => {
                 :border_width => 1, 
                 :border_color => 'CCCCCC',
                 :align => :center,
-                :size => 10
+                :size => 9
               },
             ) do
               row(0).style :font_style => :bold
               column(0).style :align => :left
-              column(last_column_index).style :align => :left, size: 9, inline_format: true
+              column(last_column_index).style :align => :left, size: 8, inline_format: true
             end
             pdf.move_down(30)
           end

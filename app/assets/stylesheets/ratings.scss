@@ -88,6 +88,12 @@
 #ratings_table input {
     max-width: 70px;
     min-width: 65px;
+    padding: 5px 10px;
+    height: 31px;
+}
+
+#ratings_table .input-group .form-control {
+    position: unset;
 }
 
 #ratings_table .input-group {

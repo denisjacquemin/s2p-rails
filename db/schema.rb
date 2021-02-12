@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_123510) do
+ActiveRecord::Schema.define(version: 2021_02_12_090730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_123510) do
     t.boolean "is_totals", default: false
     t.integer "group_id"
     t.string "weight"
+    t.boolean "show_emojis", default: false
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
