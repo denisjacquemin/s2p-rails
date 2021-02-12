@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @evaluation.group_id %>
+</p>
+
+<p>
+  <strong>Competency:</strong>
+  <%= @evaluation.competency_id %>
+</p>
+
+<p>
+  <strong>Period:</strong>
+  <%= @evaluation.period_id %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @evaluation.description %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @evaluation.weight %>
+</p>
+
+<p>
+  <strong>School:</strong>
+  <%= @evaluation.school_id %>
+</p>
+
+<%= link_to 'Edit', edit_evaluation_path(@evaluation) %> |
+<%= link_to 'Back', evaluations_path %>

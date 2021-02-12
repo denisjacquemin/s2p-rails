@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_123510) do
+ActiveRecord::Schema.define(version: 2021_02_12_132600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 2021_02_08_123510) do
     t.index ["attachinariable_type", "attachinariable_id", "scope"], name: "by_scoped_parent"
   end
 
+  create_table "averages", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "period_id"
+    t.integer "competency_id"
+    t.integer "group_id"
+    t.integer "school_id"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "billed_students", id: :serial, force: :cascade do |t|
     t.integer "student_id"
     t.integer "message_id"
@@ -89,6 +100,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_123510) do
     t.boolean "is_totals", default: false
     t.integer "group_id"
     t.string "weight"
+    t.boolean "show_emojis", default: false
   end
 
   create_table "competencies_groups", id: false, force: :cascade do |t|
@@ -166,6 +178,17 @@ ActiveRecord::Schema.define(version: 2021_02_08_123510) do
     t.string "students"
     t.string "reason"
     t.index ["message_id", "status", "email"], name: "index_email_recipients_for_exists_query"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "competency_id"
+    t.integer "period_id"
+    t.string "description"
+    t.string "weight"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "form_templates", id: :serial, force: :cascade do |t|
@@ -330,6 +353,16 @@ ActiveRecord::Schema.define(version: 2021_02_08_123510) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_phones_on_student_id"
+  end
+
+  create_table "quotations", force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "school_id"
+    t.integer "student_id"
+    t.boolean "averageable", default: true
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rating_comments", force: :cascade do |t|

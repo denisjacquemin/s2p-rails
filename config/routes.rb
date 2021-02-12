@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :evaluations
   authenticated :user, -> user { user.superadmin? } do
     mount Delayed::Web::Engine, at: '/jobs'
   end

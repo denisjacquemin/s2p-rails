@@ -1,0 +1,20 @@
+<h1>Evaluations</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-evaluations" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="group_id">Group</th>
+      <th data-data="competency_id">Competency</th>
+      <th data-data="period_id">Period</th>
+      <th data-data="description">Description</th>
+      <th data-data="weight">Weight</th>
+      <th data-data="school_id">School</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Evaluation', new_evaluation_path %>
