@@ -1,0 +1,3 @@
+$('#newEvaluationModal .modal-body').html("<%= escape_javascript(render 'form', evaluation: @evaluation) %>");
+$('#newEvaluationModal #modalTitle').html("Nouvelle évaluation");
+$("#newEvaluationModal").modal('show');

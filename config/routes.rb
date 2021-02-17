@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
   resources :evaluations
+  post 'evaluations/change_group', to: 'evaluations#change_group'
+  post 'evaluations/change_period', to: 'evaluations#change_period'
+  post 'evaluations/change_competency', to: 'evaluations#change_competency'
+  post 'evaluations/save_quot', to: 'evaluations#save_quot'
+
   authenticated :user, -> user { user.superadmin? } do
     mount Delayed::Web::Engine, at: '/jobs'
   end

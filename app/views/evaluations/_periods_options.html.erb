@@ -1,0 +1,10 @@
+<% if periods.blank? %>
+    <label>Périodes</label>
+    <div>Aucune période</div>
+<% else %>
+    <label>Périodes</label>
+    <%= select_tag "selected_period", 
+        options_from_collection_for_select(periods, "id", "name"), 
+        class: 'form-control', 
+        include_blank: 'Sélectionnez une période' %>
+<% end %>

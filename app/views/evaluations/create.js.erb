@@ -1,0 +1,2 @@
+$("#newEvaluationModal").modal('hide');
+$('#evaluations').html("<%= escape_javascript(render 'evaluations_table', evaluations: @evaluations, students: @students) %>");

@@ -39,6 +39,7 @@ class PeriodsController < ApplicationController
   def create
     @periods = Period.by_school(current_school.id).ordered
     @period = Period.new(period_params)
+    byebug
     @period.school_id = current_school.id
     @period.order = @periods.size
 

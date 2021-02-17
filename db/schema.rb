@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_132600) do
     t.integer "group_id"
     t.integer "school_id"
     t.string "value"
+    t.string "percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

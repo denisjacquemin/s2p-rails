@@ -7,6 +7,7 @@ class CreateAverages < ActiveRecord::Migration[5.2]
       t.integer :group_id
       t.integer :school_id
       t.string :value
+      t.string :percent
 
       t.timestamps
     end

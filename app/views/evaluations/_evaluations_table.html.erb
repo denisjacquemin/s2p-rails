@@ -1,0 +1,56 @@
+<% if @evaluations.empty? %>
+    <div class="row">
+        <div class="col-xs-12 ">
+            Aucune évaluation pour l'instant.<br/>
+            <%= link_to 'Nouvelle évaluation', new_evaluation_path(pid: @period_selected_id, cid: @competency_selected_id), class: 'btn btn-primary', remote: true %>
+        </div>
+    </div>
+<% else %>
+    <div class="row">
+        <div class="col-xs-12 pull-right">
+            <%= link_to 'Nouvelle évaluation', new_evaluation_path(pid: @period_selected_id, cid: @competency_selected_id), class: 'btn btn-primary', remote: true %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" id="evaluations">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                <% @evaluations.each do |evaluation| %>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%= "evaluation#{evaluation.id}" %>" aria-expanded="true" aria-controls="collapseOne"><%= evaluation.description %></a>
+                        </h4>
+                    </div>
+                    <div id="<%= "evaluation#{evaluation.id}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= evaluation.description %>">
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="27%">Nom - prénom</th>
+                                        <th width="150px">Cote</th>
+                                        <th>Commentaires</th>
+                                    </tr>
+                                </thead>
+                                <% @students.each do |student| %>
+                                    <tr>
+                                        <td><%= student.fullname %></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <% id = "#{evaluation.id}##{student.id}" %>
+                                                <%= text_field_tag id, @quotations.dig(:"#{evaluation.id}", :"#{student.id}", :value), autocomplete: "off", class: 'quot form-control' , data: {"s-id": student.id, "e-id": evaluation.id }%>
+                                                <span class="input-group-addon" id="basic-addon2">/ <%= evaluation.weight %></span>
+                                            </div>
+                                        </td>
+                                        <td><input type="text" class="form-control" /></td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+<% end %>

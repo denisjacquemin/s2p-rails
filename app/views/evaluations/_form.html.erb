@@ -1,47 +1,32 @@
-<%= form_with(model: evaluation, local: true) do |form| %>
+<%= form_with(model: evaluation, local: false) do |form| %>
+  <%= form.hidden_field 'period_id', value: @period_id %>
+  <%= form.hidden_field 'competency_id', value: @competency_id %>
   <% if evaluation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(evaluation.errors.count, "error") %> prohibited this evaluation from being saved:</h2>
-
-      <ul>
-      <% evaluation.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="row">
+      <div class="col-xs-12" id="error_explanation">
+        <ul>
+          <% evaluation.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
+  <div class="row">
+      <div class="col-xs-12" >
+        <div class="form-group">
+          <%= form.label :description %>
+          <%= form.text_field :description, class: 'form-control' %>
+        </div>
 
-  <div class="field">
-    <%= form.label :group_id %>
-    <%= form.number_field :group_id %>
-  </div>
+        <div class="form-group">
+          <%= form.label :weight, 'Pondération' %>
+          <%= form.text_field :weight, class: 'form-control' %>
+        </div>
 
-  <div class="field">
-    <%= form.label :competency_id %>
-    <%= form.number_field :competency_id %>
-  </div>
 
-  <div class="field">
-    <%= form.label :period_id %>
-    <%= form.number_field :period_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :weight %>
-    <%= form.text_field :weight %>
-  </div>
-
-  <div class="field">
-    <%= form.label :school_id %>
-    <%= form.number_field :school_id %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+        <div class="actions">
+          <%= form.submit %>
+        </div>
+      </div>
 <% end %>
