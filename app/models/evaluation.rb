@@ -4,6 +4,6 @@ class Evaluation < ApplicationRecord
     belongs_to :competency
     belongs_to :group
     belongs_to :school
-    has_many :quotations
+    has_many :quotations, dependent: :destroy
 
 end

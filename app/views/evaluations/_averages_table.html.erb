@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th width="20%" class="fullname">Nom - prénom</th>
+                <% @evaluations.each do |evaluation| %>
+                <th><%= evaluation.description[0, 10] %></th>
+                <% end %>
+                <th width="150px" class="redbg">Moyennes</th>
+                <th class="redbg">Commentaires</th>
+            </tr>
+        </thead>
+        <% @students.each do |student| %>
+        <tr>
+            <td class="fullname truncate"><%= student.fullname %></td>
+            <% @evaluations.each do |evaluation| %>
+            <td class="q"><%= @quotations&.dig(:"#{evaluation.id}", :"#{student.id}", :value) %><small>/<%= evaluation.weight %></small></td>
+            <% end %>
+            <td width="150px" class="redbg"><%= @ratings_by_students&.dig(:"#{student.id}", :average) %><small>/<%= @competency_weight %></small></td>
+            <td class="redbg">
+                <div class="input-group input-group-sm quot-comment-group">
+                    <input type="text" class="form-control average-comment" value="<%= @ratings_by_students&.dig(:"#{student.id}", :comment)%>", data-s-id="<%= student.id %>" /></td>
+                </div>
+            </td>
+        </tr>
+        <% end %>
+        <tfoot>
+            <tr>
+                <td colspan="<%= 3 + @evaluations.size %>"><i class="fas fa-info-circle"></i> "Moyennes" et "Commentaires" sont automatiquement reporté dans le bulletin</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

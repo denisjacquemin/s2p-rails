@@ -1,56 +1,85 @@
 <% if @evaluations.empty? %>
-    <div class="row">
-        <div class="col-xs-12 ">
-            Aucune évaluation pour l'instant.<br/>
-            <%= link_to 'Nouvelle évaluation', new_evaluation_path(pid: @period_selected_id, cid: @competency_selected_id), class: 'btn btn-primary', remote: true %>
-        </div>
-    </div>
+<%= render 'no_evaluation_yet' %>
 <% else %>
-    <div class="row">
-        <div class="col-xs-12 pull-right">
-            <%= link_to 'Nouvelle évaluation', new_evaluation_path(pid: @period_selected_id, cid: @competency_selected_id), class: 'btn btn-primary', remote: true %>
-        </div>
+<div class="row">
+    <div class="col-xs-12 pull-right">
+        <%= link_to 'Nouvelle évaluation', new_evaluation_path(pid: @period_selected_id, cid: @competency_selected_id), class: 'btn btn-primary', remote: true %>
     </div>
-    <div class="row">
-        <div class="col-xs-12" id="evaluations">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-                <% @evaluations.each do |evaluation| %>
+</div>
+<div class="row">
+    <div class="col-xs-12" id="evaluations">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+            <% @evaluations.each do |evaluation| %>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%= "evaluation#{evaluation.id}" %>" aria-expanded="true" aria-controls="collapseOne"><%= evaluation.description %></a>
-                        </h4>
-                    </div>
-                    <div id="<%= "evaluation#{evaluation.id}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= evaluation.description %>">
-                        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a class="truncate" style="width:70%" role="button" data-toggle="collapse" data-parent="#accordion" href="#<%= "evaluation#{evaluation.id}" %>" aria-expanded="true" aria-controls="collapseOne">
+                            <strong><%= "#{evaluation.description}" %></strong><%=" - #{evaluation.weight} - #{evaluation.date.try(:strftime,"%d/%m/%y")}" %>
+                        </a>
+                        <span class="buttons" style="width:30%;">
+                        <%= link_to 'Supprimer',  evaluation, method: :delete, data: { confirm: 'Etes vous sûr' }, class: 'btn btn-danger btn-xs pull-right', remote: true, style: 'color:#fff;margin-left:5px' %>
+                        &nbsp;
+                        <%= link_to 'Mise à jour', edit_evaluation_path(evaluation), class: 'btn btn-default btn-xs pull-right', remote: true, style: 'color:#fff' %>
+                        </span>
+                    </h4>
+                </div>
+                <div id="<%= "evaluation#{evaluation.id}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= evaluation.description %>">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="27%">Nom - prénom</th>
+                                        <th width="20%" class="fullname">Nom - prénom</th>
                                         <th width="150px">Cote</th>
                                         <th>Commentaires</th>
+                                        <th style="text-align:center" width="50px">Moyenne</th>
                                     </tr>
                                 </thead>
                                 <% @students.each do |student| %>
-                                    <tr>
-                                        <td><%= student.fullname %></td>
-                                        <td>
-                                            <div class="input-group">
-                                                <% id = "#{evaluation.id}##{student.id}" %>
-                                                <%= text_field_tag id, @quotations.dig(:"#{evaluation.id}", :"#{student.id}", :value), autocomplete: "off", class: 'quot form-control' , data: {"s-id": student.id, "e-id": evaluation.id }%>
-                                                <span class="input-group-addon" id="basic-addon2">/ <%= evaluation.weight %></span>
-                                            </div>
-                                        </td>
-                                        <td><input type="text" class="form-control" /></td>
-                                    </tr>
+                                <tr id="<%="#{student.id}#{evaluation.id}"%>" data-s-id="<%= student.id %>" data-e-id="<%= evaluation.id%>">
+                                    <td class="fullname"><%= student.fullname %></td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <%= text_field_tag nil, @quotations.dig(:"#{evaluation.id}", :"#{student.id}", :value), autocomplete: "off", class: 'quot form-control quot-value', data: {"s-id": student.id, "e-id": evaluation.id } %>
+                                            <span class="hidden-xs input-group-addon" id="basic-addon2">/ <%= evaluation.weight %></span>
+                                        </div>
+                                    </td>
+                                    <% 
+                                                checked = true
+                                                checked = false if @quotations.dig(:"#{evaluation.id}", :"#{student.id}", :averageable) == false
+                                                %>
+                                    <td>
+                                        <div class="input-group input-group-sm quot-comment-group">
+                                            <input type="text" class="form-control quot quot-comment" value="<%= @quotations.dig(:"#{evaluation.id}", :"#{student.id}", :comment) %>" /></td>
+                                        </div>
+                                    <td style="text-align:center">
+                                        <%= check_box_tag 'averageable', nil , checked, {class: "quot quot-averageable"}  %>
+                                    </td>
+                                </tr>
                                 <% end %>
                             </table>
                         </div>
                     </div>
                 </div>
-                <% end %>
             </div>
+
+            <% end %>
+            <div class="panel panel-default" style="margin-top:25px" id="averages">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#averages_table" aria-expanded="true" aria-controls="collapseOne"><strong>Moyennes</strong></a>
+                    </h4>
+                </div>
+                <div id="averages_table" class="panel-collapse collapse" role="tabpanel" aria-labelledby="Moyennes">
+                    <div class="panel-body">
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
+</div>
 <% end %>

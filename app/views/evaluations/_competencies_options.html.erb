@@ -4,7 +4,8 @@
 <% else %>
     <label>Matières</label>
     <%= select_tag "selected_competency", 
-        options_from_collection_for_select(competencies, "id", "name"), 
+        groups_and_options_for_competencies(competencies), 
         class: 'form-control', 
         include_blank: 'Sélectionnez une matière' %>
 <% end %>
+

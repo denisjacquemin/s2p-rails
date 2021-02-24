@@ -22,9 +22,40 @@ class EvaluationsController < ApplicationController
     @group_selected_id = params[:group_selected_id]
     @period_selected_id = params[:period_selected_id]
     @competency_selected_id = params[:competency_selected_id]
+    set_evaluation_table_data(@group_selected_id, @competency_selected_id)
+  end
 
-    @evaluations = Evaluation.where(school_id: current_school.id, competency_id: @competency_selected_id)
-    @students = Student.by_school(current_school.id).by_group(@group_selected_id).order('lastname ASC, firstname ASC')
+  def load_averages
+    @group_selected_id = params[:group_selected_id]
+    @period_selected_id = params[:period_selected_id]
+    @competency_selected_id = params[:competency_selected_id]
+    @competency_weight = Competency.select(:weight).find(@competency_selected_id).weight
+    set_evaluation_table_data(@group_selected_id, @competency_selected_id)
+    set_ratings_for_averages(@group_selected_id, @competency_selected_id, @period_selected_id, @students)
+
+  end
+
+  def save_average_comment
+    group_selected_id = params[:group_selected_id]
+    period_selected_id = params[:period_selected_id]
+    competency_selected_id = params[:competency_selected_id]
+    student_id = params[:"s-id"]
+    comment = params[:"comment"]
+    current_rating_year = RatingYear.by_school(current_school.id)&.first
+
+    Rating.where(
+      school_id: current_school.id, 
+      student_id: student_id, 
+      competency_id: competency_selected_id, 
+      period_id: period_selected_id,
+      rating_year_id: current_rating_year
+    ).update_all(comment: comment)
+  end
+
+
+  def set_evaluation_table_data(group_id, competency_id)
+    @students = Student.by_school(current_school.id).by_group(group_id).order('lastname ASC, firstname ASC')
+    @evaluations = Evaluation.where(school_id: current_school.id, competency_id: competency_id).order("date ASC")
     
     @quotations = {}
     # for each evaluations
@@ -34,26 +65,72 @@ class EvaluationsController < ApplicationController
       
       evaluations_by_students = {}
       quotations_by_evaluation.each do |quot|
-         evaluations_by_students[:"#{quot.student_id}"] = { id: quot.id, value: quot.value, averageable: quot.averageable } 
+         evaluations_by_students[:"#{quot.student_id}"] = { id: quot.id, value: quot.value, averageable: quot.averageable, comment: quot.comment } 
       end
       @quotations[:"#{evaluation.id}"] = evaluations_by_students
     end
   end
 
+  def set_ratings_for_averages(group_id, competency_id, period_id, students)
+    #current_rating_year = RatingYear.by_school(current_school.id)&.first
+    ratings = Rating.where(school_id: current_school.id, period_id: period_id, student_id: students.pluck(:id), competency_id: competency_id)
+    @ratings_by_students = {}
+
+    ratings.each do |rating|
+      @ratings_by_students[:"#{rating.student_id}"] = { average: rating.average, comment: rating.comment } 
+   end
+
+  end
+
   def save_quot
     evaluation_id = params[:"e-id"]
     student_id = params[:"s-id"]
+    competency_id = params[:"c-id"]
+    period_id = params[:"p-id"]
     averageable = params[:averageable]
     value = params[:value]
+    comment = params[:comment]
+    averageable = params[:averageable]
+    puts "params[:averageable]: #{params[:averageable]}"
 
     quot = Quotation.find_or_create_by(
       student_id: student_id, 
       school_id: current_school.id, 
-      evaluation_id: evaluation_id)
+      evaluation_id: evaluation_id,
+      competency_id: competency_id)
+
+    old_value = quot.value
+    new_value = params[:value]
+    old_averageable = quot.averageable
+    new_averageable = params[:averageable]
+
+    current_rating_year = RatingYear.by_school(current_school.id)&.first
+ 
 
     quot.averageable = averageable
     quot.value = value
+    quot.comment = comment
+    puts quot.inspect
     quot.save
+    
+    
+
+    if ((old_averageable != new_averageable) or (!quot.value.nil? && !quot.value&.empty? && old_value != new_value))
+      rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id, rating_year_id: current_rating_year.id)
+      arr_of_quot_evaluation_id_and_values = Quotation.where(student_id: student_id, school_id: current_school.id, competency_id: competency_id, averageable: true).pluck(:evaluation_id, :value)
+      value_total = arr_of_quot_evaluation_id_and_values.compact.inject(0) { |sum, n| sum + n[1].to_i }
+      max_total = Evaluation.where(id: arr_of_quot_evaluation_id_and_values.map{|el| el[0].to_i}, school_id: current_school.id).pluck(:weight).compact.inject(0) { |sum, n| sum + n.to_i }.to_i
+
+      competency_weight = Competency.select(:weight).find(competency_id).weight&.to_i
+
+      unless competency_weight.nil?
+        average = ((value_total.to_f / max_total) * competency_weight).round(1)
+        Rating.where(school_id: current_school.id, student_id: student_id, competency_id: competency_id, period_id: period_id).update_all(average: average)
+      end
+
+    end
+
+
 
   end
 
@@ -86,18 +163,17 @@ class EvaluationsController < ApplicationController
     @evaluation.school_id = current_school.id
     @evaluation.group_id = Competency.select(:group_id).find(@evaluation.competency_id)&.group_id
     @competency_selected_id = @evaluation.competency_id
-    byebug
     respond_to do |format|
       if @evaluation.save
-        @evaluations = Evaluation.where(school_id: current_school.id, competency_id: @competency_selected_id)
-        @students = Student.by_school(current_school.id).by_group(@evaluation.group_id).order('lastname ASC, firstname ASC')
-    
+        set_evaluation_table_data(@evaluation.group_id, @competency_selected_id)
+
+
         format.html { redirect_to @evaluation, notice: 'Evaluation was successfully created.' }
         format.js
         format.json { render :show, status: :created, location: @evaluation }
       else
         format.html { render :new }
-        format.js { render :errors, competency: @evaluation }
+        format.js { render :errors, evaluation: @evaluation }
         format.json { render json: @evaluation.errors, status: :unprocessable_entity }
       end
     end
@@ -108,10 +184,14 @@ class EvaluationsController < ApplicationController
   def update
     respond_to do |format|
       if @evaluation.update(evaluation_params)
+        set_evaluation_table_data(@evaluation.group_id, @evaluation.competency_id)
+
         format.html { redirect_to @evaluation, notice: 'Evaluation was successfully updated.' }
+        format.js
         format.json { render :show, status: :ok, location: @evaluation }
       else
         format.html { render :edit }
+        format.js { render :errors, evaluation: @evaluation }
         format.json { render json: @evaluation.errors, status: :unprocessable_entity }
       end
     end
@@ -122,7 +202,10 @@ class EvaluationsController < ApplicationController
   def destroy
     @evaluation.destroy
     respond_to do |format|
+      set_evaluation_table_data(@evaluation.group_id, @evaluation.competency_id)
+
       format.html { redirect_to evaluations_url, notice: 'Evaluation was successfully destroyed.' }
+      format.js
       format.json { head :no_content }
     end
   end
@@ -135,6 +218,6 @@ class EvaluationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def evaluation_params
-      params.require(:evaluation).permit(:description, :weight, :competency_id, :period_id)
+      params.require(:evaluation).permit(:description, :weight, :competency_id, :period_id, :date)
     end
 end

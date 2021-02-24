@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   post 'evaluations/change_period', to: 'evaluations#change_period'
   post 'evaluations/change_competency', to: 'evaluations#change_competency'
   post 'evaluations/save_quot', to: 'evaluations#save_quot'
+  post 'evaluations/load_averages', to: 'evaluations#load_averages'
+  post 'evaluations/save_average_comment', to: 'evaluations#save_average_comment'
+
+
 
   authenticated :user, -> user { user.superadmin? } do
     mount Delayed::Web::Engine, at: '/jobs'

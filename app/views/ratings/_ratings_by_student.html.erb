@@ -47,6 +47,7 @@
                                     <div class="input-group input-group-sm">
                                         <% value = @student_ratings.dig(competence.id, period.id, :value) %>
                                         <% value = competence.weight if period.is_weight && value.nil? %>
+                                        <% value = @student_ratings.dig(competence.id, period.id, :average) if value.nil? or value.empty? %>
                                         <%= text_field_tag rating_id, value, autocomplete: "off", class: 'rating form-control' , data: {"s-id": @student_selected_id, "p-id": period.id, "c-id": competence.id, "ry-id": @current_rating_year.id }%>
                                             <% unless period.is_weight %>
                                             <div class="input-group-addon comment" data-r-id="<%= rating_id %>">

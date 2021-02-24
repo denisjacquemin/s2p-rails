@@ -30,27 +30,74 @@ ready = () ->
       }
     $('#evaluations').on 'input', '.quot', (e) ->
       e.preventDefault()
-      if !window['saveQuot#' + e.target.id ]
+      parentTR = $(e.target).closest('tr')
+      id = parentTR.attr('id')
+      if !window['saveQuot#' + id ]
+        console.log 'saving: ' + 'saveQuot#' + id
         setTimeout (->
-          saveQuot(e)
+          saveQuot(parentTR)
           return
         ), 2000
-        console.log("saveQuot set")
-        window['saveQuot#' + e.target.id ] = true
+        window['saveQuot#' + id ] = true
         return
-      else
-        console.log("saveQuot pending", window['saveQuot#' + e.target.id ])
       return
+    $('#evaluations').on 'show.bs.collapse', '#averages', (e) ->
+      Rails.ajax {
+        type: "POST"
+        url: '/evaluations/load_averages',
+        data: 'period_selected_id=' + $('#selected_period').val() \
+            + '&group_selected_id=' + $('#selected_group').val() \
+            + '&competency_selected_id=' + $('#selected_competency').val()
+      }
+    $('#evaluations').on 'input', '.average-comment', (e) ->
+      e.preventDefault()
+      el = $(e.target)
+      
+      if !window['saveAverageComment#' + el.data('s-id') ]
+        setTimeout (->
+          saveAverageComment(el)
+          return
+        ), 2000
+        window['saveAverageComment#' + el.data('s-id') ] = true
+        return
+      return
+    
+    $('#evaluations').on 'hidden.bs.collapse', '#averages', (e) ->
+      $('#averages_table .panel-body').empty()
 
-saveQuot = (e) ->
-  console.log("Quot saved")
+saveAverageComment = (el) ->
+  comment = el.val()
+  sid = el.data('s-id')
+
+  Rails.ajax {
+      type: "POST"
+      url: '/evaluations/save_average_comment',
+      data: 'period_selected_id=' + $('#selected_period').val() \
+          + '&group_selected_id=' + $('#selected_group').val() \
+          + '&competency_selected_id=' + $('#selected_competency').val() \
+          + '&s-id=' + sid \
+          + '&comment=' + comment
+  }
+  window['saveAverageComment#' + el.data('s-id') ] = null
+  return
+    
+saveQuot = (tr) ->
+  
+  value = tr.find('.quot-value')
+  comment = tr.find('.quot-comment').val()
+  averageable = tr.find('.quot-averageable')[0].checked
+
   Rails.ajax {
       type: "POST"
       url: '/evaluations/save_quot',
-      data: 'value=' + e.target.value \
-        + '&s-id=' + e.target.getAttribute('data-s-id') \
-        + '&e-id=' + e.target.getAttribute('data-e-id') \
-        + '&averageable=' + e.target.getAttribute('data-averageable')
+      data: 'value=' + value.val() \
+        + '&comment=' + comment \
+        + '&averageable=' + averageable \
+        + '&c-id=' + $('#selected_competency').val() \
+        + '&p-id=' + $('#selected_period').val() \
+        + '&s-id=' + value.data('s-id') \
+        + '&e-id=' + value.data('e-id')
   }
-  window['saveQuot#' + e.target.id ] = null
+  window['saveQuot#' + tr.attr('id') ] = null
+  console.log 'saved: ' + 'saveQuot#' + tr.attr('id')
   return

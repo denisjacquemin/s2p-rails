@@ -2,7 +2,7 @@
     <td><i class="fa fa-arrows-alt handle"></i></td>
     <td><%= link_to period.name, edit_period_path(period), remote: true %></td>
     <td align="right">
-        <%= link_to 'Edit', edit_period_path(period), class: 'btn btn-default btn-xs', remote: true %>
+        <%= link_to 'Mise à jour', edit_period_path(period), class: 'btn btn-default btn-xs', remote: true %>
         &nbsp;
         <%= link_to 'Supprimer',  period, method: :delete, data: { confirm: 'Etes vous sûr' }, class: 'btn btn-danger btn-xs', remote: true %>
     </td>

@@ -1,5 +1,43 @@
 #evaluations_screen {
     #evaluations {
         margin: 25px 0;
+        .panel-title {
+            display: flex;
+            .buttons {
+                min-width: 160px;
+            }
+        }
+        .fullname {
+            position: sticky;
+            left: 0;
+            background-color: white;
+            max-width: 140px;
+            width: 140px;
+        }
+        .quot-value {
+            max-width: 70px;
+            min-width: 65px;
+        }
+        .input-group {
+            width: max-content;
+        }
+        .quot-comment-group {
+            width: 100%;
+        }
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+        }
+        .redbg {
+            background: #ffb0b061;
+            border: 1px solid #e0bdbd;
+        }
+        #averages {
+            .q {
+                text-align: center;
+            }
+        }
     }
 }

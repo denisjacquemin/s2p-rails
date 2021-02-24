@@ -445,7 +445,7 @@ class RatingsController < ApplicationController
       @student_ratings = {}
       @current_student.ratings.by_rating_year(year_id).each { |r|
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
-        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
+        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment, average: r.average}
       }
 
       @periods = Period.by_school(current_school.id).ordered
