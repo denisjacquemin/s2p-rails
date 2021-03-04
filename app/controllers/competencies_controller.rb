@@ -110,7 +110,6 @@ class CompetenciesController < ApplicationController
     @competency = Competency.new(competency_params)
     if @competency.valid?
       competencies_to_create = []
-      byebug
       params[:competency][:group_ids].each do |group_id|
         competencies_to_create.push( { 
           name: params[:competency][:name], 
