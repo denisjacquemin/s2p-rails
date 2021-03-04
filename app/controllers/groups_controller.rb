@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action do
     helpers.authorize_current_school(current_user, current_school.id)
   end
-  before_action :set_group, only: [:show, :edit, :update, :update_students, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :update_students, :destroy, :is_valid_class]
 
   # GET /groups
   # GET /groups.json
@@ -71,6 +71,11 @@ class GroupsController < ApplicationController
     end
   end
 
+  def is_valid_class
+    @group.update(group_params_is_valid_class)
+    head :ok
+  end
+
   def update_students
     # before update, compares the actual members of the group to the submitted list
     actual_members_ids = @group.students.pluck(:id)
@@ -103,4 +108,9 @@ class GroupsController < ApplicationController
     def group_params
       params.require(:group).permit(:name, :school_id)
     end
+
+    def group_params_is_valid_class
+      params.require(:group).permit(:is_valid_class)
+    end
+
 end

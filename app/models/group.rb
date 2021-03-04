@@ -31,6 +31,7 @@ class Group < ApplicationRecord
   scope :by_code, ->(code) { where(code: code) }
   scope :only_level, -> { where(group_type: 'level') }
   scope :only_classroom, -> { where(group_type: 'classroom') }
+  scope :valid_class, -> { where(group_type: 'level', is_valid_class: true) }
 
   default_scope { order('name ASC') }
 

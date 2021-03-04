@@ -34,8 +34,8 @@ class RatingsController < ApplicationController
 
   # initialize by_student screen, no default student selected therefore no ratings to display
   def by_student
-    @groups = Group.only_level.by_school(current_school.id)
-    @group_selected_id = getCurrentGroup(params, @groups)
+    @groups = Group.valid_class.by_school(current_school.id)
+    @group_selected_id = params[:group_selected_id]
     @students = Student.by_group(@group_selected_id).order('lastname ASC, firstname ASC') 
     # default behaviour, most of the time only one RatingYear for the school
     # allow a school to define multiple Rating Year ie: "2019-2020" and "2019-2020 / 2020-2021"
@@ -76,9 +76,6 @@ class RatingsController < ApplicationController
   end
 
   def reports_to_pdf
-    params[:student][:id]
-    params[:period]
-
     @school = current_school
     @period_selected  = Period.find params[:period]
 
@@ -86,27 +83,25 @@ class RatingsController < ApplicationController
 
     filename = "bulletins_#{Date.today}"
 
-    params[:student][:id].map do |student_id| 
+    students = Student.includes([:ratings]).where(id: params[:student][:id], school_id: @school.id).default_order
 
-      @current_student = Student.find student_id
+    periods = Period.by_school(current_school.id).ordered
+    students.each do |student| 
       @student_ratings = {}
       
       # todo add year_id to select comment
-      @period_comment = RatingComment.where(student_id: student_id, school_id: @school.id, period_id: @period_selected.id).first
-      @current_student.ratings.each { |r| # todo add year_id to select ratings
+      @period_comment = student.rating_comments.where(period_id: @period_selected.id).first
+      
+      student.ratings.each { |r| # todo add year_id to select ratings
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
-        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
+        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment, average: r.average}
       }
 
-      @periods = Period.by_school(current_school.id).ordered
-
-      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', @current_student&.level&.downcase, @school.id).pluck(:id).first
+      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', student&.level&.downcase, @school.id).pluck(:id).first
       
       @competencies = Competency.where(group_id: student_s_group_id, school_id: @school.id).order(:order)
       {
-        current_student: @current_student,
         student_ratings: @student_ratings,
-        periods: @periods,
         competencies: @competencies,
         period_comment: @period_comment
       }      
@@ -116,8 +111,8 @@ class RatingsController < ApplicationController
       # header stuffs
       pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width, :height => 100 do
         pdf.bounding_box [pdf.bounds.left, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
-          pdf.text "#{@current_student.firstname} #{@current_student.lastname}", :align => :left, :size => 10, leading: 1
-          pdf.text "Année 2020 - 2021 / #{@current_student.level}", :align => :left, :size => 10, leading: 1
+          pdf.text "#{student.firstname} #{student.lastname}", :align => :left, :size => 10, leading: 1
+          pdf.text "Année 2020 - 2021 / #{student.level}", :align => :left, :size => 10, leading: 1
           pdf.text "Période: #{@period_selected.name}", :align => :left, :size => 10, leading: 1
         end
         pdf.bounding_box [pdf.bounds.width / 2, pdf.bounds.top], :width  => pdf.bounds.width / 2 do
@@ -150,7 +145,7 @@ class RatingsController < ApplicationController
       # pdf.grid.show_all
 
 
-      header = [['', @periods.map {|p| p.name }, 'Commentaires' ].flatten]      
+      header = [['', periods.map {|p| p.name }, 'Commentaires' ].flatten]      
 
        
       # pdf.stroke_axis
@@ -167,21 +162,22 @@ class RatingsController < ApplicationController
 
           row = [competence.name]
           if competence.title_only
-            row = [{ :content => competence.name, :colspan => @periods.size + 2, :font_style => :bold}]
+            row = [{ :content => competence.name, :colspan => periods.size + 2, :font_style => :bold}]
           else
             competence_name_cell = {:content => Prawn::Text::NBSP * (3 * (competence.level - 1))  + competence.name}
             competence_name_cell[:font_style] = :bold if competence.is_totals
             row = [competence_name_cell]
-            @periods.each_with_index do |period, index|
+            periods.each_with_index do |period, index|
               current_period = period.id == @period_selected.id
                 if index <= @period_selected.order
                   rating_id = "#{competence.id}-#{period.id}"
                   has_a_comment = @student_ratings.dig(competence.id, period.id, :comment)
                   cell_value = @student_ratings.dig(competence.id, period.id, :value)
+                  cell_value = @student_ratings.dig(competence.id, period.id, :average) if cell_value.nil? or cell_value.empty?
                   cell_value = competence.weight if period.is_weight && cell_value.nil?
                 end
                 cell = { :content => cell_value }
-                cell[:font_style] = :bold if competence.is_totals
+                cell[:font_style] = :bold if competence.is_totals or current_period
                 row.push(cell)
             end
             row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment)&.gsub("&nbsp;", "")&.gsub("<p>", "<br>")&.gsub('</p>', ''))
@@ -191,12 +187,12 @@ class RatingsController < ApplicationController
           i = i + 1
 
           if (@competencies[i] and @competencies[i].level == 1) or i == @competencies.size
-            last_column_index = "#{@periods.size+1}".to_i
+            last_column_index = "#{periods.size+1}".to_i
             pdf.table(data, 
               :header => true, 
               :width => 536, 
               :column_widths => {0 => 170, last_column_index => 170},
-              :row_colors => ["F7F7F7", "FFFFFF"],
+              :row_colors => ["FaFaFa", "FFFFFF"],
               :cell_style => {
                 :border_width => 1, 
                 :border_color => 'CCCCCC',
@@ -332,7 +328,7 @@ class RatingsController < ApplicationController
     student_id = params[:"s-id"]
     period_id = params[:"p-id"]
     rating_year_id = params[:"ry-id"]
-    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id, rating_year_id: rating_year_id)
+    rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
     
     rating.rating = value
     rating.save
@@ -348,7 +344,7 @@ class RatingsController < ApplicationController
     end
   end
 
-  def edit_period_comment 
+  def edit_period_comment
     @period_comment = RatingComment.find_or_create_by(student_id: params[:student_id], school_id: current_school.id, period_id: params[:period_id], year_id: params[:year_id])
     respond_to do |format|
       format.js
@@ -459,9 +455,9 @@ class RatingsController < ApplicationController
     def set_ratings_for_one_students(year_id)
       @current_student = Student.find @student_selected_id
       @student_ratings = {}
-      @current_student.ratings.by_rating_year(year_id).each { |r|
+      @current_student.ratings.each { |r| #.by_rating_year(year_id)
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
-        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment}
+        @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment, average: r.average}
       }
 
       @periods = Period.by_school(current_school.id).ordered

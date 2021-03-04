@@ -18,7 +18,7 @@ class PeriodsController < ApplicationController
   # GET /periods/new
   def new
     @period = Period.new
-    @period.groups = Group.only_level.by_school(current_school.id)
+    @period.groups = Group.valid_class.by_school(current_school.id)
 
     respond_to do |format|
       format.html 

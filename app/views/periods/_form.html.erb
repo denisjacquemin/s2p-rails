@@ -44,7 +44,7 @@
 </div>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row select_groups" id="period_groups" style="<%= "#{'display:none' if @period.all_groups}" %>">
-        <% groups = Group.where(school_id: current_school.id).only_level %>
+        <% groups = Group.where(school_id: current_school.id).valid_class %>
         <%= form.collection_check_boxes(:group_ids, groups, :id, :name) do |g| %>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <%= g.label(class: "check_box") { g.check_box(class: "add_margin") + ' ' + g.text } %>

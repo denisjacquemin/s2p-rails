@@ -262,8 +262,14 @@ class CreateStudentFromCsvV2Job < ApplicationJob
       # Pour Saint Stanislas Mons Secondaire
       cours_ob = data[:cours_de_l_ob_24_34_28_38_lgs_gr]&.split('/')
       cours_ac = data[:cours_de_l_ac_41_à_66_gr]&.split('/')
+  
+      if (!cours_ob.nil? and cours_ob.any?)
+        cours_ob.map! {|cours| "#{student_data[:level]} #{cours.strip}"}
+      end
 
-
+      if (!cours_ac.nil? and cours_ac.any?)
+        cours_ac.map! {|cours| "#{student_data[:level]} #{cours.strip}"}
+      end
 
       [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], implantation, langue_i_2e_langue, langue_ii_3e_langue, immersion, cours_ob, cours_ac ].flatten.compact.each do |group_name|
           group_id = Group.find_or_create_group(group_name, school_id, nil).id

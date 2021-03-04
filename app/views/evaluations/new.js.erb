@@ -1,0 +1,8 @@
+$('#myModal .modal-body').html("<%= escape_javascript(render 'form', evaluation: @evaluation, period_id: @period_id, competency_id: @competency_id) %>");
+$('#myModal #modalTitle').html("Nouvelle évaluation");
+$('#myModal .modal-body #datetimepickerdate').datetimepicker({
+    locale: 'fr',
+    format: 'DD/MM/YYYY'
+  });
+
+$("#myModal").modal('show');

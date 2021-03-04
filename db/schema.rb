@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_090730) do
+ActiveRecord::Schema.define(version: 2021_03_02_074913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 2021_02_12_090730) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["attachinariable_type", "attachinariable_id", "scope"], name: "by_scoped_parent"
+  end
+
+  create_table "averages", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "period_id"
+    t.integer "competency_id"
+    t.integer "group_id"
+    t.integer "school_id"
+    t.string "value"
+    t.string "percent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "billed_students", id: :serial, force: :cascade do |t|
@@ -169,6 +181,18 @@ ActiveRecord::Schema.define(version: 2021_02_12_090730) do
     t.index ["message_id", "status", "email"], name: "index_email_recipients_for_exists_query"
   end
 
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "competency_id"
+    t.integer "period_id"
+    t.string "description"
+    t.string "weight"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "date"
+  end
+
   create_table "form_templates", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "school_id"
@@ -205,6 +229,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_090730) do
     t.string "internal_id"
     t.string "group_type", default: ""
     t.string "upload_id"
+    t.boolean "is_valid_class", default: true
     t.index ["code"], name: "index_groups_on_code", unique: true
     t.index ["school_id", "name"], name: "index_groups_on_school_id_and_name", unique: true
     t.index ["school_id"], name: "index_groups_on_school_id"
@@ -333,6 +358,18 @@ ActiveRecord::Schema.define(version: 2021_02_12_090730) do
     t.index ["student_id"], name: "index_phones_on_student_id"
   end
 
+  create_table "quotations", force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "school_id"
+    t.integer "student_id"
+    t.boolean "averageable", default: true
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "comment"
+    t.integer "competency_id"
+  end
+
   create_table "rating_comments", force: :cascade do |t|
     t.integer "school_id"
     t.datetime "created_at", null: false
@@ -369,6 +406,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_090730) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rating_year_id"
+    t.string "average"
     t.index ["student_id", "school_id", "competency_id", "period_id", "rating_year_id"], name: "index_ratings_uniqueness", unique: true
   end
 

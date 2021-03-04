@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
 
+  resources :evaluations
+  post 'evaluations/change_group', to: 'evaluations#change_group'
+  post 'evaluations/change_period', to: 'evaluations#change_period'
+  post 'evaluations/change_competency', to: 'evaluations#change_competency'
+  post 'evaluations/save_quot', to: 'evaluations#save_quot'
+  post 'evaluations/load_averages', to: 'evaluations#load_averages'
+  post 'evaluations/save_average_comment', to: 'evaluations#save_average_comment'
+
+
+
   authenticated :user, -> user { user.superadmin? } do
     mount Delayed::Web::Engine, at: '/jobs'
   end
@@ -34,6 +44,7 @@ Rails.application.routes.draw do
 
   patch 'users/update_competency_groups/:id', to: 'users#update_competency_groups', as: 'update_competency_groups'
   get 'competencies/writers_access', to: 'competencies#writers_access', as: 'writers_access'
+  get 'reports/parameters', to: 'reports#parameters'
   get 'users/edit_competency_groups/:id', to:'users#edit_competency_groups', as: 'edit_competency_groups'
   get 'competencies/reset', to: 'competencies#init', as: 'init_competencies'
   resources :competencies
@@ -131,6 +142,7 @@ Rails.application.routes.draw do
   patch '/groups/update_students/:id', to: 'groups#update_students'
   get '/students/import_csv_student', to: 'students#new_import_csv', as: 'new_import_csv'
   post '/students/export_csv', to: 'students#export_csv'
+  patch 'groups/is_valid_class/:id', to: 'groups#is_valid_class', as: 'is_valid_class'
   post '/students/codes_to_pdf', to: 'students#codes_to_pdf'
   post '/students/csv_upload', to: 'students#csv_upload'
   delete '/students/destroy_all', to: 'students#destroy_all'

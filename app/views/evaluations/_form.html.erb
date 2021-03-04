@@ -1,0 +1,44 @@
+<%= form_with(model: evaluation, local: false) do |form| %>
+  <%= form.hidden_field 'period_id', value: period_id %>
+  <%= form.hidden_field 'competency_id', value: competency_id %>
+  <% if evaluation.errors.any? %>
+    <div class="row">
+      <div class="col-xs-12" id="error_explanation">
+        <ul>
+          <% evaluation.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-xs-12" >
+      <div class="pull-right"><%= form.submit "Enregistrer", class: 'btn btn-primary', 'data-disable-with': "Enregistrement..." %></div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-xs-12" >
+        <div class="form-group">
+          <%= form.label :description %>
+          <%= form.text_field :description, class: 'form-control', autocomplete: "off" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :weight, 'Pondération' %>
+          <%= form.text_field :weight, class: 'form-control', autocomplete: "off" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :date, 'Date' %>
+          <div class='input-group date' id='datetimepickerdate'>
+              <%= form.text_field :date, value: evaluation.date.try(:strftime,"%d/%m/%y"), class: 'form-control', autocomplete: "off" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+          </div>
+        </div>
+
+      </div>
+  </div>
+<% end %>

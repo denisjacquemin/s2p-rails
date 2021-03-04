@@ -3,15 +3,16 @@
 * Add "left" or "right" in modal parent div, after class="modal".
 * Get free snippets on bootpen.com
 *******************************/
+
 .modal.right .modal-dialog {
     position: fixed;
     margin: auto;
     width: 320px;
     height: 100%;
     -webkit-transform: translate3d(0%, 0, 0);
-        -ms-transform: translate3d(0%, 0, 0);
-         -o-transform: translate3d(0%, 0, 0);
-            transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
 }
 
 .modal.right .modal-content {
@@ -21,21 +22,26 @@
 
 .modal.right .modal-body {
     padding: 15px 15px 80px;
-}  
+}
+
+
 /*Right*/
+
 .modal.right.fade .modal-dialog {
     right: -320px;
     -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-       -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-         -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-            transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
 }
 
 .modal.right.fade.in .modal-dialog {
     right: 0;
 }
 
+
 /* ----- MODAL STYLE ----- */
+
 .modal-content {
     border-radius: 0;
     border: none;
@@ -44,4 +50,25 @@
 .modal-header {
     border-bottom-color: #EEEEEE;
     background-color: #FAFAFA;
+}
+
+.modal.right {
+    #error_explanation {
+        width: 100%;
+        border: none;
+        padding: 7px;
+        padding-bottom: 0;
+        margin-bottom: 20px;
+        ul {
+            list-style: none;
+            margin: 0 10px;
+            padding: 0;
+        }
+        ul li {
+            list-style: none;
+            margin: 0 0;
+            padding: 0;
+            color: red;
+        }
+    }
 }

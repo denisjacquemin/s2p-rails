@@ -1,0 +1,1 @@
+$('#evaluations').html("<%= escape_javascript(render 'evaluations_table', evaluations: @evaluations, students: @students, period_selected_id: @period_selected_id, competency_selected_id: @competency_selected_id) %>");

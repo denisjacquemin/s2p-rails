@@ -1,23 +1,24 @@
-.btn-group > form {
-  display: inline;
-  > form:last-child {
-    > button:last-of-type {
-
+.btn-group>form {
+    display: inline;
+    >form:last-child {
+        >button:last-of-type {}
     }
-  }
 }
 
 .modal-body {
-  max-height: calc(100vh - 212px);
-  overflow-y: auto;
+    max-height: calc(100vh - 212px);
+    overflow-y: auto;
+}
+
+#myModal .modal-body {
+    height: inherit;
 }
 
 .navbar.bg-dark {
-  background-color: #373a3c;
-  border: none;
+    background-color: #373a3c;
+    border: none;
 }
 
-
 .panel-body .tab-content .tab-pane tbody {
-  display: table-row-group;
+    display: table-row-group;
 }

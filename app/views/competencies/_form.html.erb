@@ -1,11 +1,15 @@
 <%= form_with(model: competency, local: false) do |form| %>
-    <div id="error_explanation">
-      <ul>
-      <% competency.errors.full_messages.each do |message| %>
-        <li><%p= message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <% if competency.errors.any? %>
+      <div class="row">
+        <div class="col-xs-12" id="error_explanation">
+          <ul>
+            <% competency.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
   <%= form.hidden_field :order %>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">
@@ -22,14 +26,6 @@
         <%= form.label :weight, 'Pondération' %>
         <%= form.text_field :weight, class: 'form-control' %>
       </div>
-      <%
-=begin%>
- <div class="form-group">
-        <%= form.label :comment, 'Commentaire' %>
-        <%= form.text_field :comment, class: 'form-control' %>
-      </div> 
-<%
-=end%>
       <div class="form-group">
         <%= form.label :level, 'Niveau' %>
         <%= form.select(:level, [['Niveau 1', 1], ['Niveau 2', 2], ['Niveau 3', 3]],  {}, {class: "form-control"}) %>

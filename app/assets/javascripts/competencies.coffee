@@ -11,18 +11,18 @@ $(document).on 'turbolinks:load', ->
 
 ready = () ->
   # set the focus to the first input in modal
-  $('#newCompetencyModal').on 'shown.bs.modal', () ->
-    $('#newCompetencyModal input[type=text]').filter(':visible:first').focus()
+  $('#myModal').on 'shown.bs.modal', () ->
+    $('#myModal input[type=text]').filter(':visible:first').focus()
   
 
-  $('#newCompetencyModal').on 'change', '#all_groups', () ->
+  $('#myModal').on 'change', '#all_groups', () ->
     console.log 'changed'
     if $('#all_groups:checked').length > 0
       $('.select_groups').hide()
     else
       $('.select_groups').show()
     return
-  $('#newCompetencyModal').on 'change', '#all_periods', () ->
+  $('#myModal').on 'change', '#all_periods', () ->
     console.log 'changed'
     if $('#all_periods:checked').length > 0
       $('.select_periods').hide()
@@ -36,6 +36,10 @@ ready = () ->
       url: '/competencies/update_competencies',
       data: 'selected_group_id=' + $('#selected_group').val()
     }
+    return
+
+  $('#parameters').on 'change', '.isvalidclass', (e) ->
+    Rails.fire($(e.target).closest('form')[0], 'submit')
     return
     
   $('#reports-param-screen').on 'shown.bs.tab', '[data-toggle="tab"]', (e) ->
@@ -79,7 +83,7 @@ ready = () ->
         # # when item is in another sortable: `"clone"` if cloning, `true` if moving
         return
     })
-    $('#newCompetencyModal').on 'click', '#select_all, #unselect_all', (e) ->
+    $('#myModal').on 'click', '#select_all, #unselect_all', (e) ->
       e.preventDefault()
       $('#' + $(e.target).data('target') + ' input:checkbox') \
         .prop('checked', e.target.id == 'select_all')

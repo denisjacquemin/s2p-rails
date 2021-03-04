@@ -10,7 +10,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
   # https://support.cloudinary.com/hc/en-us/articles/205714121-How-do-I-browse-through-all-the-resources-in-my-account-using-the-API-
 
   year = 2020
-  month = 8
+  month = 10
   day = 30
 
   chuck_size = 500

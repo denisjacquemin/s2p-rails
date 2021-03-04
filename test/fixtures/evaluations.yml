@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group_id: 1
+  competency_id: 1
+  period_id: 1
+  description: MyString
+  weight: MyString
+  school_id: 1
+
+two:
+  group_id: 1
+  competency_id: 1
+  period_id: 1
+  description: MyString
+  weight: MyString
+  school_id: 1

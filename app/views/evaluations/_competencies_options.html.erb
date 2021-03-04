@@ -1,0 +1,11 @@
+<% if competencies.blank? %>
+    <label>Matières</label>
+    <div>Aucune matière</div>
+<% else %>
+    <label>Matières</label>
+    <%= select_tag "selected_competency", 
+        groups_and_options_for_competencies(competencies), 
+        class: 'form-control', 
+        include_blank: 'Sélectionnez une matière' %>
+<% end %>
+

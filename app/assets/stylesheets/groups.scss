@@ -1,43 +1,44 @@
 // Place all the styles related to the groups controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 .groups {
-  .panel-body {
-    height: 350px;
-    padding-top: 0;
-    thead, tbody { display: block; }
-
-    .filter {
-      width: 100%;
-      margin: 5px 0;
+    .panel-body {
+        height: 350px;
+        padding-top: 0;
+        thead,
+        tbody {
+            display: block;
+        }
+        .filter {
+            width: 100%;
+            margin: 5px 0;
+        }
+        .scroll-area {
+            height: 310px;
+            /* Just for the demo          */
+            overflow-y: auto;
+            /* Trigger vertical scroll    */
+            overflow-x: hidden;
+            /* Hide the horizontal scroll */
+        }
+        tbody {
+            label {
+                font-weight: normal;
+            }
+            td.fullwidth {
+                width: 99%;
+            }
+            td.nowrap {
+                white-space: nowrap;
+            }
+        }
     }
-
-    .scroll-area {
-      height: 310px;       /* Just for the demo          */
-      overflow-y: auto;    /* Trigger vertical scroll    */
-      overflow-x: hidden;  /* Hide the horizontal scroll */
+    .buttons {
+        padding: 20px 0 20px 0;
+        text-align: center;
+        #remove,
+        input[type='submit'] {
+            margin-top: 40px;
+        }
     }
-
-    tbody {
-      label {
-        font-weight: normal;
-      }
-      td.fullwidth {
-        width: 99%;
-      }
-      td.nowrap {
-        white-space: nowrap;
-      }
-    }
-  }
-
-  .buttons {
-    padding: 20px 0 20px 0;
-    text-align:center;
-    #remove, input[type='submit'] {
-      margin-top: 40px;
-    }
-  }
-
 }

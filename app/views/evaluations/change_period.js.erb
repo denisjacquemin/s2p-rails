@@ -1,0 +1,3 @@
+$('#evaluations').html("<%= escape_javascript(render 'choose_evaluations_filters') %>")
+$('#selected_competency').html("<option>Sélectionnez une matière</option>");
+$('#selected_competency').html("<%= escape_javascript(render 'competencies_options', competencies: @competencies) %>")

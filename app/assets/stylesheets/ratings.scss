@@ -57,8 +57,7 @@
     color: #333333;
 }
 
-#editCommentModal,
-#newCompetencyModal {
+#myModal {
     /* media query for mobile devices */
     &.modal .modal-body {
         max-height: inherit;

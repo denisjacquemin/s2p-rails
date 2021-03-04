@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Classes</th>
+                    <th>Active?</th>
+                </tr>
+            </thead>
+
+            <% @groups.each do |group| %>
+            <tr>
+
+                <td><%= group.name %></td>
+                <td>
+                    <%= form_with(model: group, url: is_valid_class_path(group), local: false) do |f| %>
+                        <%= f.check_box :is_valid_class, class: 'isvalidclass' %>
+                    <% end %>
+                </td>
+
+            </tr>
+            <% end %>
+
+        </table>
+    </div>
+</div>

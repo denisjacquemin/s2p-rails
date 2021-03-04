@@ -1,0 +1,6 @@
+<% if @evaluation.errors.any? %>
+  $('#myModal .modal-body').html("<%= escape_javascript(render 'form', evaluation: @evaluation, period_id: @period_id, competency_id: @competency_id) %>");
+<% else %>
+    $("#myModal").modal('hide');
+    $('#evaluations').html("<%= escape_javascript(render 'evaluations_table', evaluations: @evaluations, students: @students, period_selected_id: @period_selected_id, competency_selected_id: @competency_selected_id) %>");
+<% end %>

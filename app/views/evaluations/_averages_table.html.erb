@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="fullname">Nom - prénom</th>
+                <% @evaluations.each do |evaluation| %>
+                    <th  class="average-eval"><%= evaluation.description[0, 10] %></th>
+                <% end %>
+                <th class="redbg average-value">Moyennes</th>
+                <th class="redbg average-comment">Commentaires</th>
+            </tr>
+        </thead>
+        <% @students.each do |student| %>
+        <tr>
+            <td class="fullname truncate"><%= student.fullname %></td>
+            <% @evaluations.each do |evaluation| %>
+            <td class="q"><%= @quotations&.dig(:"#{evaluation.id}", :"#{student.id}", :value) %><small>/<%= evaluation.weight %></small></td>
+            <% end %>
+            <td class="redbg average-value"><%= @ratings_by_students&.dig(:"#{student.id}", :average) %><small>/<%= @competency_weight %></small></td>
+            <td class="redbg average-comment">
+                <%= link_to rating_edit_comment_path(student_id: student.id, period_id: @period_selected_id, competency_id: @competency_selected_id), remote: true, class: 'btn btn-default btn-xs' do %>
+                    <i class="fa fa-comment"></i> Bulletin
+                <% end %>
+            </td>
+        </tr>
+        <% end %>
+        <tfoot>
+            <tr>
+                <td colspan="<%= 3 + @evaluations.size %>"><i class="fas fa-info-circle"></i> "Moyennes" et "Commentaires" sont automatiquement reporté dans le bulletin</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

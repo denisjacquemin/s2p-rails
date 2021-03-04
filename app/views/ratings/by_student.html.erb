@@ -16,7 +16,7 @@
             <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
                 <div class="form-group">
                     <label>Classes</label>
-                    <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), class: 'form-control' %>
+                    <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), include_blank: "Sélectionnez une classe", class: 'form-control' %>
                 </div>
             <% end %>
         </div>
@@ -29,44 +29,6 @@
             <% end %>
         </div>
     </div>
-    <%
-=begin%>
- <div class="row">
-        <div class="col-sm-12">
-            <div class="table-responsive" id="ratings_table">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="firstname">Commentaire</th>
-                            <% @periods.each do |period| %>
-                                <th><%= period.name %></th>
-                            <% end %>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @rating_comments.each do |rc| %>
-                            <tr>
-                                <th class="firstname"><%= rc.name %></th>
-                                <% @periods.each do |period| %>
-                                    <th>
-                                    <div class="input-group input-group-sm">
-                                        <%= text_field_tag '#', rc.comment, class: 'rating form-control'%>
-                                        <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
-                                            <%= link_to rating_comment_path(rc), remote: true do %>
-                                                <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
-                                            <% end %>
-                                        </div>
-                                    </div>
-                                <% end %>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> 
-<%
-=end%>
         <div class="row">
             <div class="col-sm-12">
                 <div class="table-responsive" id="ratings_table">
@@ -75,5 +37,5 @@
                 </div>
             </div>
         </div>
-        <%= render 'edit_comment_modal' %>
+        <%= render '/application/right_modal' %>
 </div>

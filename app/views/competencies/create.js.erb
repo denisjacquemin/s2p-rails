@@ -1,2 +1,6 @@
-$("#newCompetencyModal").modal('hide');
-$("#competencies").html("<%= escape_javascript(render partial: 'competency', collection: @competencies) %>");
+<% if @competency.errors.any? %>
+    $('#myModal .modal-body').html("<%= escape_javascript(render 'form', competency: @competency) %>");
+<% else %>
+    $("#myModal").modal('hide');
+    $("#competencies").html("<%= escape_javascript(render partial: 'competency', collection: @competencies) %>");
+<% end %>

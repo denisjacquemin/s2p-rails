@@ -15,7 +15,7 @@ class RatingYearsController < ApplicationController
   # GET /rating_years/new
   def new
     @rating_year = RatingYear.new
-    @rating_year.groups = Group.only_level.by_school(current_school.id)
+    @rating_year.groups = Group.valid_class.by_school(current_school.id)
     respond_to do |format|
       format.html 
       format.js
