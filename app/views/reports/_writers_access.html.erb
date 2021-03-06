@@ -1,0 +1,33 @@
+<%
+=begin%>
+ Permettre de choisir pour prof spec le cours de neerlandais pour toutes les classes
+ PErmettre pour un titulaire de choisir toutes les matieres pour une classe 
+<%
+=end%>
+<div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label>Rédacteurs</label>
+            <%= select_tag "selected_user", options_from_collection_for_select(@users, "id", "fullname", @user_selected_id), class: 'form-control', include_blank: "Sélectionnez un rédacteur" %>
+        </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+        <div class="form-group" >
+            <div>
+            <label>Classes</label>
+            <%= select_tag "wa_selected_group", nil, prompt: 'Sélectionnez une classe', class: 'form-control' %>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    
+  <div class="row" id="users">
+    <%= render 'reports/choose_writers_access_filters' %>
+  </div>
+
+
+</div>

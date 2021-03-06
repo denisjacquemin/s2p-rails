@@ -8,3 +8,4 @@
 //= require evaluations
 //= require cable
 //= require channels/rating
+//= require writers_access

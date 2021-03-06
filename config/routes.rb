@@ -43,8 +43,11 @@ Rails.application.routes.draw do
   resources :ratings
 
   patch 'users/update_competency_groups/:id', to: 'users#update_competency_groups', as: 'update_competency_groups'
-  get 'competencies/writers_access', to: 'competencies#writers_access', as: 'writers_access'
+  get 'reports/writers_access', to: 'reports#writers_access', as: 'writers_access'
   get 'reports/parameters', to: 'reports#parameters'
+  post 'reports/change_user', to: 'reports#change_user'
+  post 'reports/change_wa_group', to: 'reports#change_wa_group'
+
   get 'users/edit_competency_groups/:id', to:'users#edit_competency_groups', as: 'edit_competency_groups'
   get 'competencies/reset', to: 'competencies#init', as: 'init_competencies'
   resources :competencies

@@ -1,0 +1,2 @@
+$('#users').html("<%= escape_javascript(render 'choose_writers_access_filters') %>")
+$('#wa_selected_group').replaceWith("<%= escape_javascript(render 'groups_options', groups: @groups) %>")

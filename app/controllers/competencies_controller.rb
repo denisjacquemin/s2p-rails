@@ -66,18 +66,6 @@ class CompetenciesController < ApplicationController
     redirect_to competencies_url
   end
 
-
-  def writers_access
-    @users = User.where('? = ANY (schools)', current_school.id).order(lastname: :asc).no_superadmin.active
-    @user_selected_id = params[:selected_user] || @users&.first&.id
-    # @competency_write_accesses = CompetencyWriterAccess.where(user_id: @user_selected_id, school_id: current_school.id)
-    @competencies = Competency.where(school_id: current_school.id).order(:order)
-    render layout: false
-  end
-
-  def change_users
-  end
-
   # GET /competencies/1
   # GET /competencies/1.json
   def show

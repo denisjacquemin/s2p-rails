@@ -29,6 +29,7 @@ class User < ApplicationRecord
   scope :by_school, ->(id) { where("? = ANY(schools)", id) }
   scope :by_group, ->(id) { where("? = ANY(groups)", id) }
   scope :by_code, ->(code) { where(code: code) }
+  scope :user, -> {where(role: :user)}
   scope :admin, -> { where(role: :admin)}
   scope :superdamin, -> { where(role: :superadmin)}
   scope :no_superadmin, -> { where.not(role: :superadmin)}

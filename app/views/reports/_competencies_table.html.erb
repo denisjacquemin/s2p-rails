@@ -1,0 +1,27 @@
+<div class="col-sm-12">
+    <table class="table table-hover">
+        <thead>	
+            <tr>
+                <th class="firstname">Matière</th>
+                <th>Maj cotes</th>	            
+            </tr>	
+        </thead>
+        <tbody>
+            <% @competencies.each do |competency| %>
+                <tr>
+                    <td class="firstname level<%= competency.level %>"><%= competency.name %></td>
+                    <td><input type="checkbox" />
+                    <%
+=begin%>
+ <%= form_with(model: user, url: is_valid_class_path(group), local: false) do |f| %>
+                        <%= f.check_box :is_valid_class, class: 'isvalidclass' %>
+                    <% end %> 
+<%
+=end%>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    
+</div>

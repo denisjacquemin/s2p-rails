@@ -1,0 +1,9 @@
+<% if groups.blank? %>
+    <div id="wa_selected_group">Aucune classe</div>
+<% else %>
+    <%= select_tag "wa_selected_group", 
+        options_from_collection_for_select(groups, "id", "name"), 
+        class: 'form-control', 
+        include_blank: 'Sélectionnez une classe' %>
+
+<% end %>
