@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_02_074913) do
+ActiveRecord::Schema.define(version: 2021_03_06_104859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(version: 2021_03_02_074913) do
     t.boolean "message_scheduling_enable", default: false
     t.boolean "siel_use_fase_implantation", default: false
     t.boolean "ifapme_formateur", default: false
+    t.boolean "add_siel_fase_to_group", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

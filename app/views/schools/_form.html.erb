@@ -96,6 +96,10 @@
                   <%= f.check_box :siel_use_fase_implantation %>
                 </div>
                 <div class="form-group">
+                  <%= f.label :add_siel_fase_to_group, 'Ajouter fase_implantation au debut de chaque nom de groupe (SIEL only)' %>
+                  <%= f.check_box :add_siel_fase_to_group %>
+                </div>
+                <div class="form-group">
                   <%= f.label :message_scheduling_enable, 'Enable Message scheduling' %>
                   <%= f.check_box :message_scheduling_enable %>
                 </div>

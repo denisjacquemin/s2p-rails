@@ -72,6 +72,11 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:lastname] = data[:lastname]
         student_data[:level] = "#{data[:level1]}#{data[:level2]}"
         student_data[:level] = student_data[:level] + " (#{data[:implantation]})" if data[:implantation].present? # proeco (Auvelais)
+        if data[:fase_implantation].present?
+          school = School.find school_id
+          student_data[:level] = "#{data[:fase_implantation]} #{student_data[:level]}" if school.add_siel_fase_to_group?
+        end
+
         student_data[:level] = '' + data[:anff].to_s  + data[:level2].to_s + ' ' + data[:orientation].to_s if data[:anff].present?
         student_data[:classroom] = data[:classroom] if data[:classroom].present?
 
@@ -118,7 +123,6 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         student_data[:student_emails] = buildArrayOfStudentEmail(emailsArray) if emailsArray.any?
         # build new groups if required and gets all group ids
         student_data[:groups] = build_student_groups(student_data, data, school_id, upload_uniq_id, current_student_groups)
-
         return student_data
         
     end
@@ -271,7 +275,9 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         cours_ac.map! {|cours| "#{student_data[:level]} #{cours.strip}"}
       end
 
-      [ student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], implantation, langue_i_2e_langue, langue_ii_3e_langue, immersion, cours_ob, cours_ac ].flatten.compact.each do |group_name|
+      
+
+      [student_data[:level], student_data[:classroom], data[:group1], data[:group2], data[:group3], data[:group4], data[:group5], data[:group6], data[:group7], data[:group8], data[:group9], data[:group10], data[:fase_implantation], implantation, langue_i_2e_langue, langue_ii_3e_langue, immersion, cours_ob, cours_ac ].flatten.compact.each do |group_name|
           group_id = Group.find_or_create_group(group_name, school_id, nil).id
           student_groups.push(group_id)
       end
