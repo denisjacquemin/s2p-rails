@@ -1,4 +1,4 @@
-class StudentDatatable < AjaxDatatablesRails::Base
+class StudentDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
   def_delegator :@view, :check_box_tag
