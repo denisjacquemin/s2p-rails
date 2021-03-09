@@ -52,7 +52,7 @@ gem 'httparty'
 gem "animate-rails"
 gem 'money-rails'
 gem 'phonie'
-gem 'ajax-datatables-rails', :github => 'jbox-web/ajax-datatables-rails', :branch => 'master'
+gem 'ajax-datatables-rails', git: 'https://github.com/jbox-web/ajax-datatables-rails', :branch => 'master'
 gem 'jquery-datatables'
 
 gem 'roadie-rails'
@@ -82,8 +82,8 @@ gem 'jbuilder'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'devise', :github => 'plataformatec/devise', :branch => 'master'
-gem 'devise_invitable', :github => 'scambra/devise_invitable', :branch => 'master'
+gem 'devise', git: 'https://github.com/plataformatec/devise', :branch => 'master'
+gem 'devise_invitable', git: 'https://github.com/scambra/devise_invitable', :branch => 'master'
 
 gem 'snackbarjs-rails'
 
