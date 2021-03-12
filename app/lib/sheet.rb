@@ -51,6 +51,8 @@ module Sheet
     encoding = 'utf-8' #File.open(file.tempfile.path).read.encoding
     begin
       lines = CSV.read(file.tempfile.path, :encoding => encoding)
+    rescue CSV::MalformedCSVError
+      encoding = 'cp1252'
     rescue ArgumentError
       encoding = 'cp1252'
     end
