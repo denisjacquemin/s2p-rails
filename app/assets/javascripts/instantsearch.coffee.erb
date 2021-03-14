@@ -56,42 +56,7 @@ ready = () ->
         message_id = $(this).data('message-id')
         ul.append('<li>' + linkAction('edit', message_id) + '</li>')
         ul.append('<li role="separator" class="divider"></li>')
-        if workflowActive == "true"
-          switch $(this).data('status')
-            when 'draft'
-              if role == 'admin'
-                ul.append('<li>' + linkAction('publish', message_id) + '</li>')
-              else
-                if role == 'user'
-                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
-            when 'waiting_for_approval'
-              if role == 'admin'
-                ul.append('<li>' + linkAction('accept', message_id) + '</li>')
-                ul.append('<li>' + linkAction('reject', message_id) + '</li>')
-            when 'approval_accepted'
-              ul.append('<li>' + linkAction('publish', message_id) + '</li>')
-            when 'approval_refused'
-              if role == 'admin'
-                ul.append('<li>' + linkAction('publish', message_id) + '</li>')
-              else
-                if role == 'user'
-                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
-            when 'published'
-              if role == 'admin'
-                ul.append('<li>' + linkAction('republished', message_id) + '</li>')
-              else
-                if role == 'user'
-                  ul.append('<li>' + linkAction('approbation', message_id) + '</li>')
-              # ul.append('<li>' + linkAction('unpublish', message_id) + '</li>')
-          ul.append('<li>' + linkAction('delete', message_id) + '</li>')
-        else
-          switch $(this).data('status')
-            when 'draft'
-              ul.append('<li>' + linkAction('publish', message_id) + '</li>')
-            when 'published'
-              ul.append('<li>' + linkAction('republished', message_id) + '</li>')
-              #ul.append('<li><a href="#"><i class="glyphicon glyphicon-send"></i>Dépublier</li>')
-          ul.append('<li>' + linkAction('delete', message_id) + '</li>')
+        ul.append('<li>' + linkAction('delete', message_id) + '</li>')
       event.preventDefault()
 
     isDraft = (status) ->
