@@ -322,12 +322,15 @@ ready = () ->
       e.preventDefault()
       anchor = $(this).closest('a')
       status = anchor.data('status')
-      nbr_recipients = $('#recipients-list label').not( '#recipients-list label.deleted').size()
+      message = anchor.data('message')
+      if anchor.hasClass('show_nbr_recipients')
+        nbr_recipients = $('#recipients-list label').not( '#recipients-list label.deleted').size()
+        message = anchor.data('message').replace(/#/, nbr_recipients)
       if anchor.data('before-submit-confirm') # if data-confirm is present don't submit form
-        if nbr_recipients > 0 
+        if !anchor.hasClass('show_nbr_recipients') || nbr_recipients > 0
           bootbox.confirm
             title: anchor.data('title')
-            message: anchor.data('message').replace(/#/, nbr_recipients)
+            message: message
             buttons:
               confirm:
                 label: 'Oui'
