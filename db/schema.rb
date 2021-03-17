@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_104859) do
+ActiveRecord::Schema.define(version: 2021_03_16_142719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -114,13 +114,6 @@ ActiveRecord::Schema.define(version: 2021_03_06_104859) do
   create_table "competency_group_users", force: :cascade do |t|
     t.integer "competency_group_id"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "competency_groups", force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "competency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -424,6 +417,12 @@ ActiveRecord::Schema.define(version: 2021_03_06_104859) do
     t.index ["message_id"], name: "index_recipients_on_message_id"
     t.index ["school_id"], name: "index_recipients_on_school_id"
     t.index ["student_id"], name: "index_recipients_on_student_id"
+  end
+
+  create_table "report_group_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+    t.boolean "allowed", default: false
   end
 
   create_table "rpush_apps", id: :serial, force: :cascade do |t|

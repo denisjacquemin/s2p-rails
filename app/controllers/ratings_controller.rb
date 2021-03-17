@@ -34,7 +34,11 @@ class RatingsController < ApplicationController
 
   # initialize by_student screen, no default student selected therefore no ratings to display
   def by_student
-    @groups = Group.valid_class.by_school(current_school.id)
+    if current_user.admin? or current_user.superadmin?
+      @groups = Group.where(school_id: current_school.id).valid_class
+    else
+      @groups = Group.where(school_id: current_school.id, id: current_user.report_allowed_group_ids).valid_class
+    end
     @group_selected_id = params[:group_selected_id]
     @students = Student.by_group(@group_selected_id).order('lastname ASC, firstname ASC') 
     # default behaviour, most of the time only one RatingYear for the school

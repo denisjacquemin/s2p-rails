@@ -95,7 +95,7 @@ class CompetenciesController < ApplicationController
   # POST /competencies
   # POST /competencies.json
   def create
-    @competency = Competency.new(competency_params)
+    @competency = Competency.new(name: params[:competency][:name])
     if @competency.valid?
       competencies_to_create = []
       params[:competency][:group_ids].each do |group_id|

@@ -41,6 +41,11 @@ ready = () ->
   $('#parameters').on 'change', '.isvalidclass', (e) ->
     Rails.fire($(e.target).closest('form')[0], 'submit')
     return
+
+  $('#writers_access').on 'change', '.grouprightsforreport', (e) ->
+    Rails.fire($(e.target).closest('form')[0], 'submit')
+    return
+
     
   $('#reports-param-screen').on 'shown.bs.tab', '[data-toggle="tab"]', (e) ->
     console.log 'tab change'

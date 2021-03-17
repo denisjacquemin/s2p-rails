@@ -17,11 +17,11 @@ class ReportsController < ApplicationController
         @groups = Group.where(school_id: current_school.id).valid_class
     end
 
-    def change_wa_group
+    def load_competencies_table
         @user_selected_id = params[:user_selected_id]
         @group_selected_id = params[:group_selected_id]
-
         @user = User.find @user_selected_id
+
         @competencies = Competency.by_school(current_school.id).where(group_id: @group_selected_id).ordered
     end
 

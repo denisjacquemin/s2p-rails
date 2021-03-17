@@ -2,13 +2,11 @@ class Competency < ApplicationRecord
     
     include SoftDeletable
 
-    has_many :competency_groups
-    has_many :groups, through: :competency_groups
-
     has_many :competency_periods
     has_many :periods, through: :competency_periods
 
     belongs_to :school
+    belongs_to :group
 
     validates :name, presence: true
 

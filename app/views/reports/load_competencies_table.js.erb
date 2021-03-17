@@ -1,0 +1,1 @@
+$('#<%= @group_selected_id %> .panel-body').html("<%= escape_javascript(render 'competencies_table', competencies: @competencies, user: @user, group_selected_id: @group_selected_id) %>")

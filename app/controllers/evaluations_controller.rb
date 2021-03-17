@@ -4,7 +4,11 @@ class EvaluationsController < ApplicationController
   # GET /evaluations
   # GET /evaluations.json
   def index
-    @groups = Group.where(school_id: current_school.id).valid_class
+    if current_user.admin? or current_user.superadmin?
+      @groups = Group.where(school_id: current_school.id).valid_class
+    else
+      @groups = Group.where(school_id: current_school.id, id: current_user.report_allowed_group_ids).valid_class
+    end
   end
 
   def change_group

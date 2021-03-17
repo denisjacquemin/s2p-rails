@@ -31,16 +31,6 @@ class UserPolicy < ApplicationPolicy
     return false
   end
 
-  def edit_competency_groups?
-    # if user is admin then can edit only user with the same school
-    return true if @user.admin? and (@user.schools & @record.schools).any?
-
-    return @user.superadmin?
-
-    return false
-  end
-
-
 
   def update?
     # if user is admin then can edit only user with the same school
@@ -53,14 +43,6 @@ class UserPolicy < ApplicationPolicy
 
     return false
 
-  end
-
-  def update_competency_groups?
-    return true if @user.admin? and (@user.schools & @record.schools).any?
-    
-    return @user.superadmin?
-
-    return false
   end
 
   def update_schools?

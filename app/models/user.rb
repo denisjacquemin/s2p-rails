@@ -10,10 +10,14 @@ class User < ApplicationRecord
 
   belongs_to :school, required: false
   has_many :messages
+
   has_and_belongs_to_many :groups, {
     after_add: :set_dirty_associations,
     after_remove: :set_dirty_associations,
   }
+  has_many :report_group_users
+  has_many :report_groups, through: :report_group_users, source: :user
+
   has_and_belongs_to_many :students
 
   has_many :competency_group_users
@@ -67,6 +71,21 @@ class User < ApplicationRecord
     else
       return self.students.by_school(school_id)
     end
+  end
+
+  def report_allowed_group_ids
+    # get all groupd ids from ReportGroupUser for current_user
+    report_groups = ReportGroupUser.where('user_id = ?', self.id)
+    user_group_ids = self.groups.pluck(:id)
+    # for each report_groups, keep it if allowed and in the same time remove it from user_group_ids (if allowed or not)
+    # at the end merge the new array and what is left in user_group_ids 
+
+    allowed_groups = report_groups.select {|rg|
+      user_group_ids.delete(rg.group_id)
+      rg.allowed == true
+    }
+
+    user_group_ids + allowed_groups.pluck(:group_id)
   end
 
   def reply_to

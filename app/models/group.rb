@@ -16,9 +16,10 @@ class Group < ApplicationRecord
 
   belongs_to :school, required: false
   has_and_belongs_to_many :users
+  has_many :report_group_users
+  has_many :report_users, through: :report_group_users, source: :group
 
-  has_many :competency_groups
-  has_many :competencies, through: :competency_groups
+  has_many :competencies
 
   has_many :period_groups
   has_many :periods, through: :period_groups

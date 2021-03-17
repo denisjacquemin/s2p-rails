@@ -15,11 +15,10 @@ ready = () ->
         data: 'user_selected_id=' + $('#selected_user').val()
       }
       return
-    $('#writers_access').on 'change', '#wa_selected_group', ->
+    $('#writers_access').on 'show.bs.collapse', '.group-panel', (e) ->
       Rails.ajax {
         type: "POST"
-        url: '/reports/change_wa_group',
+        url: '/reports/load_competencies_table',
         data: 'user_selected_id=' + $('#selected_user').val() \
-            + '&group_selected_id=' + $('#wa_selected_group').val()
+            + '&group_selected_id=' + $(e.target).attr('id')
       }
-      return

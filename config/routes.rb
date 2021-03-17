@@ -46,7 +46,7 @@ Rails.application.routes.draw do
   get 'reports/writers_access', to: 'reports#writers_access', as: 'writers_access'
   get 'reports/parameters', to: 'reports#parameters'
   post 'reports/change_user', to: 'reports#change_user'
-  post 'reports/change_wa_group', to: 'reports#change_wa_group'
+  post 'reports/load_competencies_table', to: 'reports#load_competencies_table'
 
   get 'users/edit_competency_groups/:id', to:'users#edit_competency_groups', as: 'edit_competency_groups'
   get 'competencies/reset', to: 'competencies#init', as: 'init_competencies'
@@ -146,6 +146,7 @@ Rails.application.routes.draw do
   get '/students/import_csv_student', to: 'students#new_import_csv', as: 'new_import_csv'
   post '/students/export_csv', to: 'students#export_csv'
   patch 'groups/is_valid_class/:id', to: 'groups#is_valid_class', as: 'is_valid_class'
+  patch 'users/group_rights_for_report/:id', to: 'users#group_rights_for_report', as: 'group_rights_for_report'
   post '/students/codes_to_pdf', to: 'students#codes_to_pdf'
   post '/students/csv_upload', to: 'students#csv_upload'
   delete '/students/destroy_all', to: 'students#destroy_all'
