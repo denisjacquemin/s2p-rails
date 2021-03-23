@@ -22,7 +22,7 @@ class Student < ApplicationRecord
   end
 
   def message_sent_by_email
-    self.sent_message_by_email and self.student_emails.count > 0
+    self.sent_message_by_email and self.student_emails.size > 0
   end
 
   def created_at_timestamp

@@ -123,7 +123,7 @@
                             <table class="flags">
                                 <tr>
                                     <td class="flag" <% if student.followers > 0 %>style="visibility:visible" <% end %>><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><sup><%= student.followers %></sup></td>
-                                    <td class="flag" <% if student.emails.size > 0 %> style="visibility:visible" <% end %>><i class="fa fa-envelope"></i></td>
+                                    <td class="flag" <% if student.student_emails.size > 0 %> style="visibility:visible" <% end %>><i class="fa fa-envelope"></i></td>
                                     <td class="flag" <% if student.phones.size > 0 %> style="visibility:visible" <% end %>><span class="fa fa-phone" aria-hidden="true"></span><sup><%= student.phones.size %></sup></td>
                                 </tr>
                             </table>
