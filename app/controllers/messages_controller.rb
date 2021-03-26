@@ -24,11 +24,6 @@ class MessagesController < ApplicationController
     @current_school_id = @current_school.id
     # @current_user = current_user
     @workflow_active = @current_school.validation_workflow_active
-    if current_user.user?
-      @total_of_messages = Message.not_deleted.by_user(current_user.id).by_school(@current_school.id).count
-    else 
-      @total_of_messages = Message.not_deleted.by_school(@current_school.id).count
-    end
     @latest_messages = policy_scope(Message).includes(:author).not_deleted.where(school_id: current_school.id).order(updated_at: :desc).limit(12).pluck(:id, :title, :has_form, :content, "CONCAT_WS(' ', users.firstname, users.lastname)", :updated_at, :status, :scheduled_publish)
   end
 
