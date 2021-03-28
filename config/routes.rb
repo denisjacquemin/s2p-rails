@@ -63,6 +63,8 @@ Rails.application.routes.draw do
 
   resources :form_templates, :except => :show
   get '/form_templates/loadformtemplate', to: 'form_templates#load_form_template'
+  get '/form_templates/copy/:id', to: 'form_templates#copy', as: "copy_form_template"
+
   mount Attachinary::Engine => "/attachinary"
 
   get 'messages/noalgolia_index', to: 'messages#noalgolia_index'
@@ -113,6 +115,8 @@ Rails.application.routes.draw do
   get 'help/payconiq', to: 'faq#payconiq'
   get 'help/form_template', to: 'faq#form_template'
   get 'help/traduction_des_messages', to: 'faq#traduction_des_messages'
+  get 'help/bulletins', to: 'faq#bulletins'
+  get 'help/carnetdecotes', to: 'faq#carnetdecotes'
   get 'help/bug_android_chrome', to: 'faq#bug_android_chrome'
   get 'help/wetransfer', to: 'faq#wetransfer'
   get 'gts', to: 'faq#gts'
@@ -147,6 +151,7 @@ Rails.application.routes.draw do
   post '/students/export_csv', to: 'students#export_csv'
   patch 'groups/is_valid_class/:id', to: 'groups#is_valid_class', as: 'is_valid_class'
   patch 'users/group_rights_for_report/:id', to: 'users#group_rights_for_report', as: 'group_rights_for_report'
+  patch 'users/competency_rights_for_report/:id', to: 'users#competency_rights_for_report', as: 'competency_rights_for_report'
   post '/students/codes_to_pdf', to: 'students#codes_to_pdf'
   post '/students/csv_upload', to: 'students#csv_upload'
   delete '/students/destroy_all', to: 'students#destroy_all'

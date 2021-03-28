@@ -28,6 +28,7 @@
                 <td>
                   <div class="pull-right">
                     <%= link_to 'Edition', edit_form_template_path(form_template), class: 'btn btn-default btn-xs', data: { disable_with: "Edition..." } %>
+                    &nbsp;<%= link_to 'dupliquer', copy_form_template_path(form_template.id), class: 'btn btn-default btn-xs', data: { disable_with: "En cours..." } %>
                     &nbsp;<%= link_to 'Supprimer', form_template, method: :delete, data: { confirm: 'Etes vous sûr?' }, class: 'btn btn-default btn-xs', data: { disable_with: "Suppression..." } %>
                   </div>
                 </td>

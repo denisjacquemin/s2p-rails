@@ -3,7 +3,7 @@ class FormTemplatesController < ApplicationController
   before_action do
     helpers.authorize_current_school(current_user, current_school.id)
   end
-  before_action :set_form_template, only: [:show, :edit, :update, :destroy]
+  before_action :set_form_template, only: [:show, :edit, :update, :destroy, :copy]
 
   # GET /form_templates
   # GET /form_templates.json
@@ -19,6 +19,18 @@ class FormTemplatesController < ApplicationController
   # GET /form_templates/1/edit
   def edit
     authorize @form_template
+  end
+
+
+  def copy
+    FormTemplate.create(
+      school_id: current_school.id, 
+      name: "Copie de - #{@form_template.name}", 
+      formdata: @form_template.formdata,
+      author_id: @form_template.author_id
+    )
+
+    redirect_to action: "index"
   end
 
   # POST /form_templates
