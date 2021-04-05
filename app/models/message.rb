@@ -280,7 +280,7 @@ class Message < ApplicationRecord
     self.aa_sms_sent = false
     self.ar_sms_sent = false
     admin_emails = self.school.admins.wants_email_notification.map{|u| u.email}
-    NotificationMailer.approval_requested(admin_emails, self.title, self.author.firstname, self.author.lastname).deliver_later unless admin_emails.empty?
+    NotificationMailer.approval_requested(admin_emails, self.title, self.author.firstname, self.author.lastname, self.school.name).deliver_later unless admin_emails.empty?
 
     # codes = self.school.admins.map{|u| u.code}
     # phone_numbers = self.school.admins.map{|u| u.phone}
