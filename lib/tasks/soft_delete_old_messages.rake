@@ -11,10 +11,10 @@ task :soft_delete_old_messages => :environment do |task|
     nbr_images += message.photos.count
     if message.school.nil?
       nbr_messages_destroy += 1
-      message.destroy
+      # message.destroy
     elsif message.school&.auto_delete_messages
       nbr_messages_soft_destroy += 1
-      message.soft_destroy
+      # message.soft_destroy
       #puts "deleting #{message.title} #{message.created_at}"
       nbr_images = message.photos.pluck(:public_id).size
     else
