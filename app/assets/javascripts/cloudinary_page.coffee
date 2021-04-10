@@ -43,6 +43,7 @@ ready = () ->
   #   console.log('fileuploaddone : ', data)
   $('.attachinary-input').bind 'attachinary:fileadded', (event, data) ->
     console.log 'fileadded'
+    console.log 'size ' + data.total
   $('.attachinary-input').bind 'attachinary:fileremoved', (event, data) ->
     console.log 'fileremoved'
     $('.maximumreached').hide()
