@@ -5,6 +5,9 @@ class Competency < ApplicationRecord
     has_many :competency_periods
     has_many :periods, through: :competency_periods
 
+    has_many :report_competency_users
+    has_many :report_users, through: :report_competencies_users, source: :competency
+
     belongs_to :school
     belongs_to :group
 

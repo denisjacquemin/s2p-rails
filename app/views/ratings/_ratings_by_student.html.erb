@@ -1,5 +1,5 @@
  
-        <table class="table table-hover">
+        <table class="table table-hover" style="border-collapse: separate;">
             <thead>	
                 <tr>
                     <th class="firstname">Matière</th>	           
@@ -26,48 +26,85 @@
                     <% end %>
                </tr>
 
-            <% @competencies.each do |competence| %>
-                <tr>
-                    <%  %>
-                    <td class="firstname level<%= competence.level %> <%= 'totals' if competence.is_totals %>" <%= "colspan=#{@periods.count + 1}" if competence.title_only %> ><%= competence.name %></td>
+            <% 
+              previous_level, previous_competency_id, parent_competency_id  = 100 
+              parent_data = ""
+            %>
+            <% @competencies.each do |competency| %>
+                <%
+                  # If current level is one deeper than the previous one, then set de parent_level to previous_level  
+                  parent_competency_id = previous_competency_id if previous_level < competency.level
+                  parent_competency_id = nil if previous_level > competency.level
+
+                  parent_data = "data-total-parentID=#{parent_competency_id}" if previous_level < competency.level && !competency.title_only
+                  parent_data = "" if previous_level > competency.level || competency.title_only || competency.is_totals
+
+                  sum_total_id = "" if !competency.is_totals
+                  sum_total_id = "data-sum-total-id=#{parent_competency_id}" if competency.is_totals
+                  
+                %>
+                <tr <%= parent_data %> class="parent_competency_id#<%= parent_competency_id %> competencyID#<%= competency.id%>">
+                    
+                    <td class="firstname level<%= competency.level %> <%= 'totals' if competency.is_totals %>" <%= "colspan=#{@periods.count + 1}" if competency.title_only %> ><%= competency.name %></td>
                     <%
                         periodsList = @periods
-                        periodsList = competence.periods.ordered unless competence.all_periods
+                        periodsList = competency.periods.ordered unless competency.all_periods
                     %>
 
-                    <% if !competence.title_only %>
+                    <% if !competency.title_only %>
                         <% @periods.each do |period| %>
                             <td>
-                                <% if ((periodsList.include?(period) and !competence.title_only) or period.is_weight) %>
-                                    <% rating_id = "#{competence.id}-#{period.id}"  %>
+                                <% if ((periodsList.include?(period) and !competency.title_only) or period.is_weight) %>
+                                    <% rating_id = "#{competency.id}-#{period.id}"  %>
                                     <%
-                                        has_a_comment = @student_ratings.dig(competence.id, period.id, :comment) 
+                                        has_a_comment = @student_ratings.dig(competency.id, period.id, :comment) 
                                     %>
 
                                     <div class="input-group input-group-sm">
-                                        
+                                        <% 
+                                            checked_competency = has_access_to_competency(user, group_selected_id, competency.id)
+
+                                        %>        
                                         <% 
                                             data = {
                                                 "s-id": @student_selected_id, 
                                                 "p-id": period.id, 
-                                                "c-id": competence.id, 
-                                                "ry-id": @current_rating_year.id 
+                                                "c-id": competency.id, 
+                                                "ry-id": @current_rating_year.id
                                             }
 
-                                            if (competence.show_emojis) 
+                                            if (competency.is_totals && !period.is_weight)
+                                              data["sum-total-id"] = parent_competency_id
+                                            end
+
+                                            if (period.is_weight)
+                                              data["is-weight"] = true
+                                            end
+
+                                            if (!competency.is_totals && !competency.title_only)
+                                              data["sum-parent-id"] = parent_competency_id
+                                            end 
+
+
+                                            if (competency.show_emojis) 
                                                 data["emoji-picker"] = true
                                                 data[:emojis] = "0x1F44D,0x1F44E,0x1F44F,0x1F534,0x1F7E0,0x1F7E2,0x1F7E3,0x1F535,0x1F7E4"
                                             end
                                         %>
                                         <% 
-                                            value = @student_ratings.dig(competence.id, period.id, :value)
-                                            value = competence.weight if period.is_weight && value.nil?
-                                            value = @student_ratings.dig(competence.id, period.id, :average) if value.nil? or value.empty? 
+                                            value = @student_ratings.dig(competency.id, period.id, :value)
+                                            value = competency.weight if period.is_weight && value.nil?
+                                            value = @student_ratings.dig(competency.id, period.id, :average) if value.nil? or value.empty? 
+                                            
+                                            totals = competency.is_totals ? " totals" : ""
+                                            updateTotal = period.is_weight ? " updateTotals" : " updateTotal"
                                         %>
-                                        <%= text_field_tag rating_id, value, autocomplete: "off", class: 'rating form-control' , data: data%>
-                                            <% unless period.is_weight %>
+
+
+                                        <%= text_field_tag rating_id, value, autocomplete: "off", class: 'rating form-control' + totals + updateTotal , data: data%>
+                                        <% unless period.is_weight %>
                                             <div class="input-group-addon comment" data-r-id="<%= rating_id %>">
-                                                <%= link_to rating_edit_comment_path(competency_id: competence.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
+                                                <%= link_to rating_edit_comment_path(competency_id: competency.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
                                                     <i class="fa fa-comment <%= 'has-a-comment' if has_a_comment %>"></i>
                                                 <% end %>
                                             </div>
@@ -78,6 +115,10 @@
                         <% end %>
                     <% end %>
                 </tr>
+                <% 
+                    previous_level = competency.level 
+                    previous_competency_id = competency.id
+                %>
             <% end %>
             </tbody>
         </table>

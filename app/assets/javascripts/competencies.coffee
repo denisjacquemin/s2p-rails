@@ -42,7 +42,7 @@ ready = () ->
     Rails.fire($(e.target).closest('form')[0], 'submit')
     return
 
-  $('#writers_access').on 'change', '.grouprightsforreport', (e) ->
+  $('#writers_access').on 'change', '.grouprightsforreport, .competencyrightsforreport', (e) ->
     Rails.fire($(e.target).closest('form')[0], 'submit')
     return
 

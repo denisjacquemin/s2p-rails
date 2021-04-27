@@ -1,29 +1,19 @@
 <div class="col-sm-12">
     <p>
             <div class="form-group form-check">
-                <% 
-                    checked = false
-                    # if a ReportGroupUser exist get the allowed value otherwise check user.groups
-                    report_group = ReportGroupUser.where('user_id = ? and report_group_users.group_id = ?', user.id, group_selected_id).first
-                    unless report_group.nil?
-                        checked = report_group.allowed
-                    else
-                        checked = true if user.groups.pluck(:id).include?(group_selected_id.to_i)
-                    end
-                    
-                %>
+                <% checked_group = has_access_to_group(user, group_selected_id) %>
 
                 <%= form_with(model: user, url: group_rights_for_report_path(user.id), local: false) do |f| %>
                     <%= f.hidden_field :group_id, value: group_selected_id %>
                     <div class="form-group">
-                        <%= f.check_box 'allow_access', class: 'grouprightsforreport', checked: checked %>
+                        <%= f.check_box 'allow_access', class: 'grouprightsforreport', checked: checked_group %>
                         <%= f.label 'allow_access', "Authoriser l'accès à cette classe" %>
                     </div>
                 <% end %>
             </div>
         </p>
 
-    <table class="table table-hover">
+    <table class="table-striped table table-hover">
         <thead>	
             <tr>
                 <th colspan="2">Accès aux matières? <a href="#">Tous / Aucun</a></th>
@@ -31,18 +21,21 @@
         </thead>
         <tbody>
             <% 
-                checked = false
-                checked = true if user.groups.pluck(:id).include?(group_selected_id.to_i)
+
+                # checked = true if user.groups.pluck(:id).include?(group_selected_id.to_i)
             %>
             <% competencies.each do |competency| %>
+                <% checked_competency = has_access_to_competency(user, group_selected_id, competency.id) %>
                 <tr>
-                    <td>
-                        <% unless competency.title_only? %>
-                            <%= check_box_tag 'averageable', nil , checked, {class: "quot quot-averageable"}  %>
+                    <td width="35px">
+                        <%= form_with(model: user, url: competency_rights_for_report_path(user.id), local: false) do |f| %>
+                            <%= f.hidden_field :competency_id, value: competency.id %>
+                            <div class="form-group">
+                                <%= f.check_box 'allow_access', class: 'competencyrightsforreport', checked: checked_competency %>
+                            </div>
                         <% end %>
                     </td>
                     <td class="firstname level<%= competency.level %>"><%= competency.name %></td>
-                    
                 </tr>
             <% end %>
         </tbody>

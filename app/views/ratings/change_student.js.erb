@@ -1,7 +1,38 @@
-$('#ratings_table table').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings) %>");
+$('#ratings_table table').replaceWith("<%= escape_javascript(render 'ratings_by_student', competencies: @competencies, periods: @periods, student_ratings: @student_ratings, user: @current_user, group_selected_id: @group_selected_id) %>");
 if ($('*[data-emoji-picker="true"]').length > 0) {
   console.log("if is true")
   try {
     new EmojiPicker();
   } catch (_error) {}
 }
+
+$("input[data-sum-total-id]").each(function( index, el ) {
+  if (!$(el).val()) {
+    // this code is duplicated in method updateThisTotalInput in ratings.coffee
+    var max, result, sum, summax;
+
+    sum = 0;
+
+    summax = 0;
+
+    $('input[data-sum-parent-id=' + $(el).data('sum-total-id') + '][data-p-id=' + $(el).data('p-id') + ']').each(function(index, elToSum) {
+      var elToSumVal, summaxVal;
+      elToSumVal = parseInt($(elToSum).val());
+      summaxVal = parseInt($('input[data-c-id=' + $(elToSum).data('c-id') + '][data-is-weight=true]').val());
+      if (!isNaN(elToSumVal) && !isNaN(summaxVal)) {
+        sum += elToSumVal;
+        summax += summaxVal;
+      }
+    });
+
+    max = $('input[data-c-id=' + $(el).data('c-id') + '][data-is-weight=true]').val();
+
+    result = sum / summax * parseInt(max);
+
+    if (!isNaN(result)) {
+      $(el).val(Math.round(result * 10) / 10);
+      $(el).trigger( "input" )
+    }
+  }
+});
+  

@@ -18,6 +18,10 @@ class User < ApplicationRecord
   has_many :report_group_users
   has_many :report_groups, through: :report_group_users, source: :user
 
+  has_many :report_competency_users
+  has_many :report_competencies, through: :report_competencies_users, source: :user
+
+
   has_and_belongs_to_many :students
 
   has_many :competency_group_users
@@ -72,6 +76,14 @@ class User < ApplicationRecord
       return self.students.by_school(school_id)
     end
   end
+
+  # def competency_allowed_competency_id
+  #   # get all compenticies
+  #   report_competencies_ids = ReportCompetencyUser.where('user_id = ?', self.id)
+
+
+
+  # end
 
   def report_allowed_group_ids
     # get all groupd ids from ReportGroupUser for current_user

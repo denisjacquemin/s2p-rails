@@ -1,1 +1,1 @@
-$('#users').html("<%= escape_javascript(render 'groups_table', groups: @groups) %>")
+$('#users').html("<%= escape_javascript(render 'groups_table', groups: @groups, user: @user) %>")

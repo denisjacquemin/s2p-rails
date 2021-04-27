@@ -1,1 +1,1 @@
-export RUBYOPT='-W:no-deprecated'
+export RUBYOPT='-W:no-deprecated -W:no-experimental'

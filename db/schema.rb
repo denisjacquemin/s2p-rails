@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_16_142719) do
+ActiveRecord::Schema.define(version: 2021_03_22_142044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -419,6 +419,12 @@ ActiveRecord::Schema.define(version: 2021_03_16_142719) do
     t.index ["student_id"], name: "index_recipients_on_student_id"
   end
 
+  create_table "report_competency_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "competency_id"
+    t.boolean "allowed", default: false
+  end
+
   create_table "report_group_users", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
@@ -565,6 +571,7 @@ ActiveRecord::Schema.define(version: 2021_03_16_142719) do
     t.string "idifapme"
     t.string "grade"
     t.integer "phones_count"
+    t.integer "student_emails_count"
     t.index ["code"], name: "index_students_on_code", unique: true
     t.index ["school_id"], name: "index_students_on_school_id"
   end

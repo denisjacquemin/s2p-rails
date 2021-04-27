@@ -96,7 +96,8 @@ saveQuot = (tr) ->
         + '&c-id=' + $('#selected_competency').val() \
         + '&p-id=' + $('#selected_period').val() \
         + '&s-id=' + value.data('s-id') \
-        + '&e-id=' + value.data('e-id')
+        + '&e-id=' + value.data('e-id') \
+        + '&g-id=' + $('#selected_group').val()
   }
   window['saveQuot#' + tr.attr('id') ] = null
   console.log 'saved: ' + 'saveQuot#' + tr.attr('id')

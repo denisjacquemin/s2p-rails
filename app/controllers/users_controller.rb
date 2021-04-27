@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action do
     helpers.authorize_current_school(current_user, current_school.id)
   end
-  before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools, :group_rights_for_report]
+  before_action :set_user, only: [:edit, :update, :destroy, :resend_invite, :update_schools, :group_rights_for_report, :competency_rights_for_report]
 
   def new_announcements_viewed
     @user = current_user
@@ -23,6 +23,18 @@ class UsersController < ApplicationController
     else
       report_group_user = ReportGroupUser.find_or_create_by(user_id: @user.id, group_id: group_id)
       report_group_user.update(allowed: false)
+    end
+  end
+
+  def competency_rights_for_report
+    allow_access = params[:user][:allow_access]
+    competency_id = params[:user][:competency_id]
+    if allow_access == "1"
+      report_competency_user = ReportCompetencyUser.find_or_create_by(competency_id: competency_id, user_id: @user.id)
+      report_competency_user.update(allowed: true)
+    else 
+      report_competency_user = ReportCompetencyUser.find_or_create_by(competency_id: competency_id, user_id: @user.id)
+      report_competency_user.update(allowed: false)
     end
   end
 

@@ -32,7 +32,7 @@ fr:
     group:
       all_students: Tous les élèves
       all_writers: Tous les rédacteurs
-      all_emails: Tous les emails
+      all_emails: Tous les emails    
   activerecord:
     errors:
       messages:
@@ -40,6 +40,8 @@ fr:
     attributes:
       form_template:
         name: Nom du modèle de formulaire
+      evaluation:
+        weight: Pondération
       message:
         mtype: Type
         title: Titre

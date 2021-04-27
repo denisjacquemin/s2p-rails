@@ -58,17 +58,19 @@ class RatingsController < ApplicationController
 
   # change the current group and reload list of students
   def change_group
-    @group_selected_id = getCurrentGroup(params, @groups)
-    @students = Student.by_group(@group_selected_id).order(:lastname)
+    @group_selected = getCurrentGroup(params, @groups)
+    @students = Student.by_group(@group_selected.id).where(level: @group_selected.name).order(:lastname, :firstname)
   end
 
   def change_student
-    @group_selected_id = getCurrentGroup(params, @groups)
+    group_selected = getCurrentGroup(params, @groups)
+    @group_selected_id = group_selected.id
     @student_selected_id = params[:student_selected_id]
     @student_ratings = {}
     @current_rating_year = getCurrentRatingYear(params)
-    set_comments_for_one_student(@current_rating_year.id) unless @student_selected_id.blank?
-    set_ratings_for_one_students(@current_rating_year.id) unless @student_selected_id.blank?
+    @current_user = current_user
+    set_comments_for_one_student() unless @student_selected_id.blank?
+    set_ratings_for_one_students() unless @student_selected_id.blank?
   end
 
   def choose_report_period
@@ -95,14 +97,13 @@ class RatingsController < ApplicationController
       
       # todo add year_id to select comment
       @period_comment = student.rating_comments.where(period_id: @period_selected.id).first
-      
       student.ratings.each { |r| # todo add year_id to select ratings
         @student_ratings[r.competency_id] = Hash.new if @student_ratings[r.competency_id].nil?
         @student_ratings[r.competency_id][r.period_id] = {value: r.rating, comment: r.comment, average: r.average}
       }
 
-      student_s_group_id = Group.where('lower(name) = ? and school_id = ?', student&.level&.downcase, @school.id).pluck(:id).first
-      
+      student_s_group_id = Group.where(id: student.groups, group_type: 'level').pluck(:id).first#Group.where('lower(name) = ? and school_id = ?', student&.level&.downcase, @school.id).pluck(:id).first
+      puts "student_s_group_id: #{student_s_group_id}"
       @competencies = Competency.where(group_id: student_s_group_id, school_id: @school.id).order(:order)
       {
         student_ratings: @student_ratings,
@@ -178,13 +179,13 @@ class RatingsController < ApplicationController
                   has_a_comment = @student_ratings.dig(competence.id, period.id, :comment)
                   cell_value = @student_ratings.dig(competence.id, period.id, :value)
                   cell_value = @student_ratings.dig(competence.id, period.id, :average) if cell_value.nil? or cell_value.empty?
-                  cell_value = competence.weight if period.is_weight && cell_value.nil?
+                  cell_value = competence.weight if period.is_weight && (cell_value.nil? || cell_value.empty?)
                 end
                 cell = { :content => cell_value }
                 cell[:font_style] = :bold if competence.is_totals or current_period
                 row.push(cell)
             end
-            row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment)&.gsub("&nbsp;", "")&.gsub("<p>", "<br>")&.gsub('</p>', ''))
+            row.push(@student_ratings.dig(competence.id, @period_selected.id, :comment)&.gsub("&nbsp;", Prawn::Text::NBSP)&.gsub("<p>", "<br>")&.gsub('</p>', ''))
           end
           data += [row]
 
@@ -194,8 +195,7 @@ class RatingsController < ApplicationController
             last_column_index = "#{periods.size+1}".to_i
             pdf.table(data, 
               :header => true, 
-              :width => 536, 
-              :column_widths => {0 => 170, last_column_index => 170},
+              :width => pdf.bounds.width, 
               :row_colors => ["FaFaFa", "FFFFFF"],
               :cell_style => {
                 :border_width => 1, 
@@ -215,7 +215,7 @@ class RatingsController < ApplicationController
         end 
         pdf.text("Commentaires de la période:", :size => 12)
         pdf.move_down(5)
-        pdf.text(@period_comment&.content&.gsub("&nbsp;", "")&.gsub("<p>", "<br>")&.gsub('</p>', ''), :size => 10, inline_format: true)
+        pdf.text(@period_comment&.content&.gsub("&nbsp;", Prawn::Text::NBSP)&.gsub("<p>", "<br>")&.gsub('</p>', ''), :size => 10, inline_format: true)
 
 
 
@@ -410,11 +410,13 @@ class RatingsController < ApplicationController
   private
 
     def getCurrentGroup(params, groups)
+      group_id = nil
       if params[:group_selected_id].present?
-        return params[:group_selected_id]
+        group_id = params[:group_selected_id]
       else
-        return groups&.first&.id
+        group_id = groups&.first&.id
       end
+      return Group.find group_id
     end 
 
     def getCurrentRatingYear(params)
@@ -448,15 +450,15 @@ class RatingsController < ApplicationController
       }
     end
 
-    def set_comments_for_one_student(year_id)
+    def set_comments_for_one_student()
       @current_student = Student.find @student_selected_id
       @student_comments = {}
-      @current_student.rating_comments.by_rating_year(year_id).each { |c| 
+      @current_student.rating_comments.each { |c| 
         @student_comments[c.period_id] = { content: c.content}
       }
     end
 
-    def set_ratings_for_one_students(year_id)
+    def set_ratings_for_one_students()
       @current_student = Student.find @student_selected_id
       @student_ratings = {}
       @current_student.ratings.each { |r| #.by_rating_year(year_id)

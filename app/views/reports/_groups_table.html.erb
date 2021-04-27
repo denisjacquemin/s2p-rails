@@ -10,11 +10,13 @@
                         <a class="truncate" style="width:70%" role="button" data-toggle="collapse" data-parent="#accordion" href="#<%= group.id %>" aria-expanded="true" aria-controls="collapseOne">
                             <strong><%=group.name%></strong>
                         </a>
-                        <span class="pull-right">
-                            <div class="form-group form-check">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        </span>
+                        <% if has_access_to_group(user, group.id) %>
+                            <span class="pull-right">
+                                <div class="form-group form-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </span>
+                        <% end %>
                     </h4>
                 </div>
 

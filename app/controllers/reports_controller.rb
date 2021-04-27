@@ -14,15 +14,16 @@ class ReportsController < ApplicationController
 
     def change_user
         @user_selected_id = params[:user_selected_id]
+        @user = User.find @user_selected_id
         @groups = Group.where(school_id: current_school.id).valid_class
     end
 
     def load_competencies_table
         @user_selected_id = params[:user_selected_id]
         @group_selected_id = params[:group_selected_id]
-        @user = User.find @user_selected_id
-
+        @user = User.find(@user_selected_id)
         @competencies = Competency.by_school(current_school.id).where(group_id: @group_selected_id).ordered
+        @competencies_access_rights = ReportCompetencyUser.where(competency_id: @competencies.pluck(:id))
     end
 
 end

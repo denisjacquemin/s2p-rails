@@ -1,0 +1,45 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    <%= render 'list_start_guide' %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-offset-1 col-lg-9">
+    <h2>Bulletins</h2>
+    <p>Seul un "Admin" peut accéder aux écrans de paramètres.</p>
+    <h3>Gestion Paramètres > Liste des matières et périodes</h3>
+    <p>Cet écran permet de définir la structure du bulletin pour chaque classe.</p>
+    <h4>Matières</h4>
+    <p>Permet de définir la liste des matières (lignes) du bulletin, avec arboressence.</p>
+    <ol>
+        <li>Une ligne/matière peut contenir un nom (Ex: "Grandeurs" <span style="color:red;font-weight:bold">(1)</span>), une pondération (ex: 20 <span style="color:red;font-weight:bold">(2)</span>), et un niveau  <span style="color:red;font-weight:bold">(3)</span> utile pour la positionner dans l'arboresence.</li>
+        <li>Les lignes/matières peuvent être réordonnées en les déplacants à l'aide de l'icone <i class="fa fa-arrows-alt handle"></i> <span style="color:red;font-weight:bold">(4)</span>.</li>
+        <li>Une ligne/manière peut simplement être un titre et donc ne pas avoir de côtes (Option "Matière sans cotation" <span style="color:red;font-weight:bold">(5)</span>).</li>
+        <li>Une ligne/manière peut contenir les totaux des lignes/matières précédentes (Option "Totaux" <span style="color:red;font-weight:bold">(6)</span>). Le calcul des totaux est automatique.</li>
+        <li>Il est possible d'utiliser des emojis pour les côtes d'une matière (Option "Activer les Emojis" <span style="color:red;font-weight:bold">(7)</span>)).</li>
+        <li>A la création (uniquement) d'une ligne/matière, il est possible de choisir d'autres classes pour lesquels elle est crée  <span style="color:red;font-weight:bold">(8)</span>).</li>
+        <li>Une matière peut avoir des côtes uniquement pour certaines périodes <span style="color:red;font-weight:bold">(9)</span>.</li>
+    </ol>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <%= image_tag asset_path("faq/matieres.png"), class: "img-responsive" %>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <%= image_tag asset_path("faq/Nouvellematiere.png"), class: "img-responsive" %>
+        </div>
+    </div>
+    <h4>Les Périodes</h4>
+    <h3>Gestion Paramètres > Accès rédacteurs</h3>
+    <p>Un admin a accès à toutes les côtes de toutes les classes</p>
+    <p>Cet écran permet de choisir quelles classes un rédacteur peut voir dans les "Carnet de côtes" et "Bulletins".</p>
+    <p><u>Par défaut</u>, un rédacteur peut voir les classes pour lesquels il a des droits d'accès définits sur sa fiche rédacteur, pour ces classes il peut encoder les points pour toutes les matières.</p>
+    <p>Cet écran permet de modifier ces droits en choissant à quelle classe un rédacteur peut avoir accès, et si besoin, choisir quelles matières pour lesquelles il peut encoder des côtes.</p>
+    <p>Ces droits sont valables pour le carnet de côtes et l'écran des bulletins.</p>
+    <p>Exemples concrets:
+        <ul>
+            <li>Un titulaire peut avoir accès à toutes les côtes de sa classe.</li>
+            <li>Un professeur de langues peut avoir accès juste à sa matière pour les 5 classes dans lesquelles il enseigne.</li>
+        </ul>
+    </p>
+    <h3>Gestion Paramètres > Divers</h3>
+    <p>Cet écran permet d'exclure certains groupes "d'élèves" si ceux-ci ne doivent pas apparitrent dans les écrans de gestion des côtes et bulletins. Exemple, si vous avez créé un groupe "Enseignants" pour aussi communiquer avec eux via Konecto, vous pouvez désactiver ce groupe pour la gestion des côtes et bulletins.</p>
+  </div>
+</div>

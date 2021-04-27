@@ -8,12 +8,28 @@ $(document).on 'turbolinks:load', ->
 ready = () ->
   # common between /ratings and /by_student
   if $('#rating_screen, #by_student').length
+    $('#ratings_table').on 'input', '.updateTotals', (e) ->
+      console.log 'updateTotals'
+      $("input[data-sum-total-id=" + \
+        $(e.target).data('sum-parent-id') + "]").each (index, totalToUpdate) ->
+          updateThisTotalInput(totalToUpdate)
+      return
+
+    $('#ratings_table').on 'input', '.updateTotal', (e) ->
+      console.log 'updateTotal'
+      e.preventDefault()
+      updateThisTotalInput($("input[data-sum-total-id=" + $(e.target).data('sum-parent-id') +  \
+        "][data-p-id=" + $(e.target).data('p-id') + "]"))
+      return
+      
     $('#ratings_table').on 'input', '.rating', (e) ->
       e.preventDefault()
       console.log 'savingRating: ' + window.savingRating
       if !window['savingRating#' + e.target.id ]
         setTimeout (->
           saveRating(e)
+          updateThisTotalInput($("input[data-sum-total-id=" + $(e.target).data('sum-parent-id') +  \
+            "][data-p-id=" + $(e.target).data('p-id') + "]"))
           return
         ), 2000
         console.log("saveRating set")
@@ -57,9 +73,30 @@ ready = () ->
     $('#by_student').on 'submit', '.report_to_pdf_form', (e) ->
       $(e.target .selected_student_id).val($('#selected_student').val())
       $(e.target .selected_group_id).val($('#selected_group').val())
-   
+
+updateThisTotalInput = (el) ->
+  #  this code is duplicated in change_student.js.erb
+  sum = 0
+  summax = 0
+  $('input[data-sum-parent-id=' \
+    + $(el).data('sum-total-id') \
+    + '][data-p-id=' + $(el).data('p-id') + ']').each (index, elToSum) ->
+    
+      elToSumVal = parseInt($(elToSum).val())
+      summaxVal = parseInt($('input[data-c-id=' + $(elToSum).data('c-id') + '][data-is-weight=true]').val())
+      
+      if (!isNaN(elToSumVal) && ! isNaN(summaxVal))
+        sum += elToSumVal
+        summax += summaxVal
+      return
+
+  max = $('input[data-c-id=' + $(el).data('c-id') + '][data-is-weight=true]').val()
+  result = sum / summax * parseInt(max)
+  if !isNaN(result)
+    $(el).val Math.round(result * 10) / 10
+  $(el).trigger( "input" )
+
 saveRating = (e) ->
-  console.log("rating saved")
   Rails.ajax {
       type: "POST"
       url: '/ratings/save',
