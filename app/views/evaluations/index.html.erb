@@ -6,32 +6,38 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-4">
-      <div class="form-group">
-          <label>Classes</label>
-          <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name"), class: 'form-control', include_blank: "Sélectionnez une classe" %>
+  <% if @groups.empty? %>
+   <div class="alert alert-warning" role="alert">Vous n'avez accès à aucune classe, demandez à votre admin (probablement votre direction) pour avoir des droits d'accès.</div>
+  <% else %>
+
+
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <div class="form-group">
+            <label>Classes</label>
+            <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name"), class: 'form-control', include_blank: "Sélectionnez une classe" %>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-12 col-md-4">
-      <div class="form-group" >
-        <div>
-          <label>Périodes</label>
-          <%= select_tag "selected_period", nil, prompt: 'Sélectionnez une classe', class: 'form-control' %>
+      <div class="col-sm-12 col-md-4">
+        <div class="form-group" >
+          <div>
+            <label>Périodes</label>
+            <%= select_tag "selected_period", nil, prompt: 'Sélectionnez une classe', class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <div class="form-group">
+            <label>Matières</label>
+            <%= select_tag "selected_competency", nil, prompt: 'Sélectionnez une classe', class: 'form-control' %>
         </div>
       </div>
     </div>
-    <div class="col-sm-12 col-md-4">
-      <div class="form-group">
-          <label>Matières</label>
-          <%= select_tag "selected_competency", nil, prompt: 'Sélectionnez une classe', class: 'form-control' %>
-      </div>
+    <hr />
+    <div id="evaluations">
+      <%= render 'choose_evaluations_filters' %>
     </div>
-  </div>
-  <hr />
-  <div id="evaluations">
-    <%= render 'choose_evaluations_filters' %>
-  </div>
+  <% end %>
 </div>
 
 <%= render '/application/right_modal' %>

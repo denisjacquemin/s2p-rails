@@ -126,6 +126,7 @@ Rails.application.routes.draw do
   resources :mfiles
   post '/messages/sendcode', to: 'messages#create_sendcode_message'
   get 'messages/exportform', to: 'messages#export_formdata', as: 'export_formdata'
+  get 'messages/exportrecipients', to: 'messages#export_recipients', as: 'export_recipients'
   get 'messages/refresh_qr/:muuid', to: 'messages#refresh_qr'
   patch 'messages/update_amounttopay/:id', to: 'messages#update_amount_to_pay', as: 'update_amount_to_pay'
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'

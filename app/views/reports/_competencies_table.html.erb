@@ -16,10 +16,10 @@
     <table class="table-striped table table-hover">
         <thead>	
             <tr>
-                <th colspan="2">Accès aux matières? <a href="#">Tous / Aucun</a></th>
+                <td colspan="2">Accès aux matières? <a href="#" id="select_all" data-target="group#<%= group_selected_id %>">Tout</a> - <a href="#" id="unselect_all" data-target="competency_groups">Aucun</a></td>
             </tr>	
         </thead>
-        <tbody>
+        <tbody id="group#<%= group_selected_id %>">
             <% 
 
                 # checked = true if user.groups.pluck(:id).include?(group_selected_id.to_i)

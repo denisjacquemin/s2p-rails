@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   before_action except: [:show, :save_form, :refresh_qr] do
     helpers.authorize_current_school(current_user, current_school.id)
   end
-  before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list]
+  before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list, :export_recipients]
 
   # before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
@@ -233,6 +233,46 @@ class MessagesController < ApplicationController
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), notice: 'Le message a été mis à jour.'
     else
       redirect_to edit_message_path(@message, anchor: 'billing-tab'), error: 'Une erreur est survenue.'
+    end
+  end
+
+  def export_recipients
+    recipients = @message.recipients
+    column_names = ['Nom et prénom', 'Classe', 'Message Vu', 'Vu par email', 'Vu par App', 'Vu par SMS']
+    rows = []
+    recipients.each do |r|
+      row = []
+      student = Student.find(r.student_id)
+      row[0] = student.fullname
+      row[1] = student.level
+      row[2] = (r.viewed_by_email or r.viewed_by_app or r.viewed_by_sms) ? 'v' : 'x' 
+      row[3] = r.viewed_by_email ? 'v' : 'x'
+      row[4] = r.viewed_by_app ? 'v' : 'x'
+      row[5] = r.viewed_by_sms ? 'v' : 'x'
+      rows.push(row)
+    end
+
+    respond_to do |format|
+      format.csv {
+        options = {
+          col_sep: ';',
+          headers: true
+        }
+        csv_data = CSV.generate(options) do |csv|
+          csv << column_names
+          rows.each do |r|
+            csv << r
+          end
+        end
+        filename_title = ""
+        unless @message.title.empty?
+          filename_title = @message.title.slice(0..20).parameterize
+        end
+
+        send_data csv_data.encode("cp1252", invalid: :replace, undef: :replace),
+          filename: "statistiques_#{filename_title}_#{I18n.l(Time.now, format: :short).parameterize}.csv",
+          type: 'text/csv; charset=iso-8859-1; header=present'
+      }
     end
   end
 

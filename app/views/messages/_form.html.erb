@@ -104,7 +104,11 @@
 
       <% if not message.publish_date.nil? %>
         <div role="tabpanel" class="tab-pane fade in" id="analytics-tab">
-          <%= render 'form_analytics', message: @message %>
+          <% if message.school.id == 616 %>
+            <%= render 'form_analyticsv2', message: @message %>
+          <% else %>
+            <%= render 'form_analytics', message: @message %>
+          <% end %>
         </div>
       <% end %>
       <% if not message.new_record? and @message.mtype == 'message' and message.school.billing_enable?  %>

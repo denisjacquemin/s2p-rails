@@ -11,24 +11,28 @@
     </div>
     <%= hidden_field_tag 'current_school_id', current_school.id %>
     <%= hidden_field_tag 'selected_current_rating_year', @current_rating_year&.id %>
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
-                <div class="form-group">
-                    <label>Classes</label>
-                    <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), include_blank: "Sélectionnez une classe", class: 'form-control' %>
-                </div>
-            <% end %>
+    
+    <% if @groups.empty? %>
+        <div class="alert alert-warning" role="alert">Vous n'avez accès à aucune classe, demandez à votre admin (probablement votre direction) pour avoir des droits d'accès.</div>
+    <% else %>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
+                    <div class="form-group">
+                        <label>Classes</label>
+                        <%= select_tag "selected_group", options_from_collection_for_select(@groups, "id", "name", @group_selected_id), include_blank: "Sélectionnez une classe", class: 'form-control' %>
+                    </div>
+                <% end %>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
+                    <div class="form-group">
+                        <label>Elèves</label>
+                        <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control', :include_blank => "Sélectionnez un élève" %>
+                    </div>
+                <% end %>
+            </div>
         </div>
-        <div class="col-sm-12 col-md-6">
-            <%= form_tag(writers_access_path, method: "get", remote: true, class: '') do %>
-                <div class="form-group">
-                    <label>Elèves</label>
-                    <%= select_tag "selected_student", options_from_collection_for_select(@students, "id", "fullname", @student_selected_id), class: 'form-control', :include_blank => "Sélectionnez un élève" %>
-                </div>
-            <% end %>
-        </div>
-    </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="table-responsive" id="ratings_table">
@@ -38,4 +42,5 @@
             </div>
         </div>
         <%= render '/application/right_modal' %>
+    <% end %>
 </div>

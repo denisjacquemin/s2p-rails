@@ -1,0 +1,320 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+    <h2><%= message.title %></h2>
+    <h4>Publié le <%= I18n.l(message.publish_date, format: :short)%></h4>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3  col-lg-2 total_counter_container">
+    <% if @showStatsFromEmailRecipients %>
+    <h1><%= @total_views %></h1>
+    <% else %>
+    <h1 class="total_counter">0</h1>
+    <% end %>
+    <p>Vues total</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-tabs drop-on-responsive" role="tablist">
+    
+      <% if @showStatsFromEmailRecipients %>
+        <li role="presentation" class="active"><a data-target="#email_delivered_list" aria-controls="email_delivered_list" role="tab" data-toggle="tab">Emails envoyés (<%= @email_delivered.count %>)</a></li>
+        <li role="presentation"><a data-target="#email_open_list" aria-controls="email_open_list" role="tab" data-toggle="tab">Emails ouverts (<%= @email_recipients.count %>)</a></li>
+        <li role="presentation"><a data-target="#open_by_mobile" aria-controls="open_by_mobile" role="tab" data-toggle="tab">Vues App mobile (<%= @opens_by_mobile.count %>)</a></li>
+        <li role="presentation"><a data-target="#sms_recipients" aria-controls="sms_recipients" role="tab" data-toggle="tab">SMS envoyés/vus (<%= @sms_recipients .count %>)</a></li>
+        <li role="presentation"><a data-target="#email_dropped_list" aria-controls="email_dropped_list" role="tab" data-toggle="tab">Emails en erreur (<%= @email_errors.count %>)</a></li>
+        <li role="presentation"><a data-target="#statsv2" aria-controls="statsv2" role="tab" data-toggle="tab">Par élève</a></li>
+      <% else %>
+        <li role="presentation" class="active"><a data-target="#delivered_list" aria-controls="delivered_list" role="tab" data-toggle="tab">Emails envoyés (<span id="counter_delivered">0</span>)</a></li>
+        <li role="presentation"><a data-target="#open_list" aria-controls="open_list" role="tab" data-toggle="tab">Emails ouverts (<span id="counter_open">0</span>)</a></li>
+        <li role="presentation"><a data-target="#mobile_list" aria-controls="mobile_list" role="tab" data-toggle="tab">Vues App mobile (<span id="counter_mobile">0</span>)</a></li>
+        <li role="presentation"><a data-target="#sms_list" aria-controls="sms_list" role="tab" data-toggle="tab">SMS envoyés/vus (<span id="counter_sms">0</span>)</a></li>
+        <li role="presentation"><a data-target="#dropped_list" aria-controls="dropped_list" role="tab" data-toggle="tab">Emails en erreur (<span id="counter_dropped">0</span>)</a></li>
+      <% end %>
+    </ul>
+    <div class="tab-content">
+
+
+      <% unless @showStatsFromEmailRecipients %>
+
+
+      <div role="tabpanel" class="tab-pane active table-responsive" id="delivered_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails envoyés. Si l'email est classé dans le dossier SPAM, conseillez d'ajouter l'adresse konecto@konectoapp.com à leur carnet d'adresses.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="delivered_rows"></tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane table-responsive" id="open_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des accusés de lecture des emails. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet. D'autres raisons techniques peuvent empêcher l'accusé d'apparaître sur cet écran.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="open_rows"></tbody>
+        </table>
+      </div>
+
+
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="mobile_list">
+        <% if @message.mtype == "rappel" %>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Pas de statistique App mobile pour un message court.
+          </div>
+        <% else %>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Ci-dessous la liste des accusés de lecture du message via smartphones ou tablettes. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet.
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Source</th>
+                <th>Commentaire</th>
+                <th>Date/heure</th>
+              </tr>
+            </thead>
+            <tbody id="mobile_rows"></tbody>
+          </table>
+        <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane table-responsive" id="sms_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des numéros de téléphones auquels un SMS a été envoyé. 2 statuts possibles: <em>Envoyé</em> et <em>Reçu</em>.
+        </div>
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Pour envoyer des SMS, créez un message de type court et sélectionnez <em>Envoyer par SMS</em>.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Numéro</th>
+              <th>Statut</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="sms_rows"></tbody>
+        </table>
+      </div>
+
+
+
+
+
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="dropped_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails qui n'ont pu être envoyés. Vérifiez que les emails sont corrects.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="dropped_rows"></tbody>
+        </table>
+      </div>
+      <% end %>
+
+      <% if @showStatsFromEmailRecipients %>
+
+      <div role="tabpanel" class="tab-pane active table-responsive" id="email_delivered_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails envoyés. Si l'email est classé dans le dossier SPAM, conseillez d'ajouter l'adresse konecto@konectoapp.com à leur carnet d'adresses.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @email_delivered.each do |ed| %>
+              <tr>
+                <td><i class="material-icons">mail</i></td>
+                <td><%= ed.students %></td>
+                <td>Email Envoyé</td>
+                <td><%= ed.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="email_open_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des accusés de lecture des emails. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet. D'autres raisons techniques peuvent empêcher l'accusé d'apparaître sur cet écran.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody id="">
+            <% @email_recipients.each do |er| %>
+              <tr>
+                <td><i class="material-icons">drafts</i></td>
+                <td><%= er.students %></td>
+                <td>Email ouvert</td>
+                <td><%= er.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="open_by_mobile">
+        <% if @message.mtype == "rappel" %>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Pas de statistique App mobile pour un message court.
+          </div>
+        <% else %>
+          <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+            Ci-dessous la liste des accusés de lecture du message via smartphones ou tablettes. L'accusé de lecture n'apparaît pas ci-dessous si le message est lu sans connexion internet.
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Source</th>
+                <th>Commentaire</th>
+                <th>Date/heure</th>
+              </tr>
+            </thead>
+            <tbody id="">
+              <% @opens_by_mobile.each do |om| %>
+                <tr>
+                  <td><i class="fa fa-mobile-phone fa-2x"></i></td>
+                  <td><%= om.students %></td>
+                  <td>Vu sur mobile</td>
+                  <td><%= om.dateandtime %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="sms_recipients">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des numéros de téléphones auquels un SMS a été envoyé. 2 statuts possibles: <em>Envoyé</em> et <em>Reçu</em>.
+        </div>
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Pour envoyer des SMS, créez un message de type court et sélectionnez <em>Envoyer par SMS</em>.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Numéro</th>
+              <th>Statut</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @sms_recipients.each do |sr| %>
+                <tr>
+                  <td><i class="fa fa-mobile-phone fa-2x"></i></td>
+                  <td><%= sr.students %></td>
+                  <td><%= sr.status %></td>
+                  <td><%= sr.dateandtime %></td>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="email_dropped_list">
+        <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+          Ci-dessous la liste des emails qui n'ont pu être envoyés. Vérifiez que les emails sont corrects.
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Source</th>
+              <th>Commentaire</th>
+              <th>Date/heure</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <% @email_errors.each do |ee| %>
+              <tr>
+                <td><i class="fa fa-warning"></td>
+                <td><%= ee.students %></td>
+                <td>En erreur</td>
+                <td><%= ee.dateandtime %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane table-responsive" id="statsv2">
+        <%= link_to "Export Excel", export_recipients_path(id: @message.id , format: "csv") %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom et prénom élève</th>
+              <th>Classe</th>
+              <th>Message vu</th> 
+              <th>Vu par email</th>
+              <th>Vu par App</th>
+              <th>Vu par SMS</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <% message.recipients.each do |r| %>
+              <% student = Student.find(r.student_id) %>
+              <tr>
+                <td><%= student.fullname %></td>
+                <td><%= student.level %></td>
+                <td><%= (r.viewed_by_email or r.viewed_by_email or r.viewed_by_sms) ? 'v' : 'x' %></td>
+                <td><%= r.viewed_by_email ? 'v' : 'x' %></td>
+                <td><%= r.viewed_by_app ? 'v' : 'x' %></td>
+                <td><%= r.viewed_by_sms ? 'v' : 'x' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <% end %>
+
+
+
+
+    </div>
+  </div>
+</div>
