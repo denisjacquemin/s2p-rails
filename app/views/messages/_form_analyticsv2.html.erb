@@ -300,7 +300,7 @@
               <tr>
                 <td><%= student.fullname %></td>
                 <td><%= student.level %></td>
-                <td><%= (r.viewed_by_email or r.viewed_by_email or r.viewed_by_sms) ? 'v' : 'x' %></td>
+                <td><%= (r.viewed_by_email or r.viewed_by_app or r.viewed_by_sms) ? 'v' : 'x' %></td>
                 <td><%= r.viewed_by_email ? 'v' : 'x' %></td>
                 <td><%= r.viewed_by_app ? 'v' : 'x' %></td>
                 <td><%= r.viewed_by_sms ? 'v' : 'x' %></td>
