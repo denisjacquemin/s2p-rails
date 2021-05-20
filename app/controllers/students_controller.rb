@@ -401,7 +401,9 @@ class StudentsController < ApplicationController
             :degré => :classroom_acaweb3,
             # :classe => :classroom_acaweb4,
             :jour => :classroom_acaweb5,
-            :heure => :classroom_acaweb6
+            :heure => :classroom_acaweb6,
+            :adresse_email => :email1, # ISIS
+            :email_élève => :email2, # ISIS
           }
 
         siel_general_key_mapping = {
