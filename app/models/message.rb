@@ -70,7 +70,7 @@ class Message < ApplicationRecord
     remove_from_index!
     # delete files from cloudinary
     begin
-      Cloudinary::Api.delete_resources(public_ids: photos.pluck(:public_id)) unless photos.blank?
+      Cloudinary::Api.delete_resources(photos.pluck(:public_id)) unless photos.blank?
     rescue
     end
     self.photos = []
