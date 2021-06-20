@@ -43,6 +43,15 @@
           <a class="tab-link <%= 'save-form' if save_form_with_tab %>" data-target="#billing-tab" aria-controls="profile" role="tab" data-toggle="tab">Facturation</a>
         </li>
       <% end %>
+      <% if current_school&.bulletin_enable %>
+        <li role="presentation">
+          <% report_period_value = '-' %>
+          <% if @message.report_period_id %>
+            <% report_period_value = Period.find(@message.report_period_id)&.name %>
+          <% end %>
+          <a class="tab-link <%= 'save-form' if save_form_with_tab %>" data-target="#bulletin-tab" aria-controls="profile" role="tab" data-toggle="tab">Bulletins (<%= report_period_value %>)</a>
+        </li>
+      <% end %>
       <% if not message.publish_date.nil? %>
         <li role="presentation">
           <a class="tab-link" data-target="#analytics-tab" aria-controls="profile" role="tab" data-toggle="tab">Statistiques (<% if @showStatsFromEmailRecipients %><%= @total_views %><% else %><span class="total_counter">0</span><% end %>)</a>
@@ -102,6 +111,32 @@
         </div>
       <% end %>
 
+      <% if current_school&.bulletin_enable and not message.new_record? %>
+        <div role="tabpanel" class="tab-pane fade in" id="bulletin-tab">
+          <%= form_for(message, url: messages_update_report_period_path(message.id), method: :patch, html: { id: 'message_update_report_period'}) do |f| %>          
+            <div class="row">
+              <div class="col-xs-12  submit-btn" style="text-align:right">
+                <%= f.submit "Enregistrer", class: 'btn btn-primary fab visible-xs', data: { disable_with: "Enregistrement..." } %>
+                <%= f.submit "Enregistrer", class: 'btn btn-primary hidden-xs', data: { disable_with: "Enregistrement..." } %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="alert alert-info" style="color: #31708f;background-color: #d9edf7;border-color:#bce8f1;" role="alert">
+                  Insérez un lien vers le bulletin de l'élève dans le message. Sélectionnez la période ci-dessous et enregistrez.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <%= label :selected_period_id, 'Période'%>
+                <%= select_tag "report_period_id", options_from_collection_for_select(current_school.periods.without_weights.ordered, "id", "name", @message.report_period_id), class: 'form-control', prompt: 'Ne pas insérer de bulletin' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
       <% if not message.publish_date.nil? %>
         <div role="tabpanel" class="tab-pane fade in" id="analytics-tab">
           <% if message.school.id == 616 %>
@@ -111,6 +146,10 @@
           <% end %>
         </div>
       <% end %>
+
+
+
+
       <% if not message.new_record? and @message.mtype == 'message' and message.school.billing_enable?  %>
         <div role="tabpanel" class="tab-pane fade in" id="billing-tab">
           <%= render 'form_billing', message: @message %>

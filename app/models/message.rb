@@ -3,6 +3,7 @@ class Message < ApplicationRecord
   include Bulksms
   include Status
   include ActionView::Helpers::TextHelper # for truncate
+  include Rails.application.routes.url_helpers
   include AlgoliaSearch
 
   monetize :amount_to_pay_cents
@@ -335,12 +336,20 @@ class Message < ApplicationRecord
     # 1. emails
     # 2. codes: for each email set the code (in li tags)
     # 3. emails_encrypt: for each email encrypt the email
+    # 4. report hash to show a link to the report
     # for emails without code ei: admins and author set an empty string
     emails_data = {}
     students = Student.joins(:student_emails).where(id: student_ids, school_id: self.school_id).pluck( :sent_message_by_email, :firstname, :lastname, :code, :"student_emails.email", :id)
+    
     students.each do |student|
       if (student[0] or message.skip_send_by_email)
-        emails_data = add_to_hash_and_merge_code(emails_data, student[4], "<li>#{student[1]} #{student[2]}: #{student[3]}</li>", student[5])
+        report_link = nil
+        if message.report_period_id
+          period_name = Period.find(message.report_period_id)&.name
+          hash = Base64.urlsafe_encode64("#{student[5]}###{message.report_period_id}###{message.school.id}")
+          report_link = "<a href='https://www.konectoapp.com/report/#{hash}' target='_blank' style='background: #ffb100fa;padding: 15px;margin-right:10px;color: #0400ff;'>Bulletin #{period_name} - #{student[1]} #{student[2]}</a>"
+        end
+        emails_data = add_to_hash_and_merge_code(emails_data, student[4], "<li>#{student[1]} #{student[2]}: #{student[3]}</li>", student[5], report_link)
       end
     end
 
@@ -391,15 +400,18 @@ class Message < ApplicationRecord
 
   end
 
-  def add_to_hash_and_merge_code(hash, email, codeTag="", student_id="")
+  def add_to_hash_and_merge_code(hash, email, codeTag="", student_id="", report_url_hash="")
 
     code = codeTag
     code = "#{hash[email][:code]}#{codeTag}" if hash.key?(email)
+    report_url = report_url_hash
+    report_url = "#{hash[email][:report_url_hash]}#{report_url_hash}" if hash.key?(email)
     hash[email] = {
       email: email,
       email_encrypted: email, #"ed", #Student.email_encrypt(email)
       student_id: student_id&.to_s,
-      code: code
+      code: code,
+      report_url_hash: report_url
     }
     hash
   end

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post 'ratings/report_to_pdf', to: 'ratings#report_to_pdf'
   get 'ratings/choose_report_period', to: 'ratings#choose_report_period'
   post 'ratings/reports_to_pdf', to: 'ratings#reports_to_pdf'
+  get 'report/:hash', to: 'ratings#reports_to_pdf', as: 'generate_report_with_hash'
 
 
   get 'ratings/by_student', to: 'ratings#by_student', as: 'by_student'
@@ -35,7 +36,7 @@ Rails.application.routes.draw do
   patch 'ratings/save_comment', to: 'ratings#save_comment', as: 'save_comment'
   patch 'ratings/save_period_comment', to: 'ratings#save_period_comment', as: 'save_period_comment'
   get 'ratings/edit_comment/:competency_id/:student_id/:period_id', to: 'ratings#edit_comment', as: 'rating_edit_comment'
-  get 'ratings/edit_period_comment/:year_id/:student_id/:period_id', to: 'ratings#edit_period_comment', as: 'rating_edit_period_comment'
+  get 'ratings/edit_period_comment/:student_id/:period_id', to: 'ratings#edit_period_comment', as: 'rating_edit_period_comment'
 
 
 
@@ -131,6 +132,8 @@ Rails.application.routes.draw do
   patch 'messages/update_amounttopay/:id', to: 'messages#update_amount_to_pay', as: 'update_amount_to_pay'
   patch 'messages/add_photo/:id', to: 'messages#add_photo', as: 'messages_add_photo'
   patch 'messages/update_formdata/:id', to: 'messages#update_formdata', as: 'messages_update_form'
+  patch 'messages/update_report_period/:id', to: 'messages#update_report_period', as: 'messages_update_report_period'
+
   get 'm/:uuid/:emailencrypted', to: 'messages#show'
   get 'm/:uuid(:s)', to: 'messages#show', as: "message_form"
   get 'p/:uuid', to: 'messages#show', as: "message_pay"

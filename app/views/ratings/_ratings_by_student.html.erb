@@ -18,7 +18,7 @@
                                 <%
                                     has_a_period_comment = @student_comments.dig(period.id, :content).present? 
                                 %>
-                                <%= link_to rating_edit_period_comment_path(year_id: @current_rating_year.id, student_id: @student_selected_id, period_id: period.id), remote: true do%>
+                                <%= link_to rating_edit_period_comment_path(student_id: @student_selected_id, period_id: period.id), remote: true do%>
                                     <i class="fa fa-comment <%= 'has-a-comment' if has_a_period_comment %>"></i>
                                 <% end %>
                             <% end %>
@@ -69,8 +69,7 @@
                                             data = {
                                                 "s-id": @student_selected_id, 
                                                 "p-id": period.id, 
-                                                "c-id": competency.id, 
-                                                "ry-id": @current_rating_year.id
+                                                "c-id": competency.id
                                             }
 
                                             if (competency.is_totals && !period.is_weight)

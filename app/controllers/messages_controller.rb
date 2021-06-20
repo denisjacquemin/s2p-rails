@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   before_action except: [:show, :save_form, :refresh_qr] do
     helpers.authorize_current_school(current_user, current_school.id)
   end
-  before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list, :export_recipients]
+  before_action :set_message, only: [:update, :update_amount_to_pay, :publish, :unpublish, :republish, :send_for_approval, :accept, :reject, :update_groups, :destroy, :add_photo, :update_formdata, :export_formdata, :billed_students_list, :export_recipients, :update_report_period]
 
   # before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
@@ -209,6 +209,12 @@ class MessagesController < ApplicationController
 
     if @message.update(formdata: params[:message][:formdata], form_due_date: form_due_date)
       redirect_to edit_message_path(@message, anchor: 'formbuilder-tab'), notice: 'Le message a été mis à jour.'
+    end
+  end
+
+  def update_report_period
+    if @message.update(report_period_id: params[:report_period_id])
+      redirect_to edit_message_path(@message, anchor: 'bulletin-tab'), notice: 'Le message a été mis à jour.'
     end
   end
 

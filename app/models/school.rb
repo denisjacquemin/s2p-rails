@@ -8,6 +8,7 @@ class School < ApplicationRecord
   has_many :competencies, dependent: :destroy
   has_many :translations, dependent: :destroy
   has_many :recipients, dependent: :destroy
+  has_many :periods, dependent: :destroy
 
 
   scope :by_ids, ->(ids) { where(id: ids) }

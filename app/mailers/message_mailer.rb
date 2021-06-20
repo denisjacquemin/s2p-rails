@@ -10,11 +10,13 @@ class MessageMailer < ApplicationMailer
     codes = []
     emails_encrypt = []
     studentids = []
+    report_url_hashs = []
     emails_data_to_process.each do |email_to_process|
       to.push(email_to_process[:email])
       codes.push(email_to_process[:code])
       emails_encrypt.push(email_to_process[:email_encrypted])
       studentids.push(email_to_process[:student_id])
+      report_url_hashs.push(email_to_process[:report_url_hash])
     end
 
     puts "######### to.size: #{to.size}"
@@ -54,7 +56,9 @@ class MessageMailer < ApplicationMailer
       my_hash["[code]"] = codes unless codes.blank?
       my_hash["-email_encrypt-"] = emails_encrypt unless emails_encrypt.blank?
       my_hash["-studentids-"] = studentids unless studentids.blank?
+      my_hash["-report_url_hash-"] =  report_url_hashs unless report_url_hashs.blank?
     end
+    
 
 
     # logger.info "X-SMTPAPI prety output: #{JSON.pretty_generate(x_smptapi_hash)}"

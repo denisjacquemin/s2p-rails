@@ -51,6 +51,12 @@ fieldset[disabled] .btn.active {
   background-color: #FFFFFF;
 }
 
+.linkreport a {
+  background: yellow;
+  padding: 15px;
+  color: red;
+}
+
   .photos a {
     border: none;
     text-decoration: none;
@@ -77,6 +83,16 @@ fieldset[disabled] .btn.active {
 <% end %>
 <br>
 
+<% if @message.report_period_id %>
+  <br>
+    <div>
+    -report_url_hash-
+    <% #slink_to "Bulletin de #{recipient.student.fullname}", "#{messages_update_report_period_url}/-report_url_hash-", class: 'linkreport' %>
+    </div>
+  <br>
+  <br>
+<% end %>
+
 <% if @message.school.allow_translation %>
   <% url = message_form_url(@message.muuid) %>
   <p><a href='<%= url%>' type='button' class='btn' style='display: inline-block; font-weight: 400;text-align: center;vertical-align: middle;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;border: 1px solid transparent;padding: .375rem .75rem;font-size: 1rem;line-height: 1.5;border-radius: .25rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #6c757d;border-color: #6c757d;overflow: visible;    padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;'>Traduire ce message</a></p>
@@ -95,6 +111,7 @@ fieldset[disabled] .btn.active {
     </tbody>
   </table>
 <% end %>
+
 
 <% if @message.include_payment? %>
   <table cellpadding="0" cellspacing="0" border="0" align="left" style="border-collapse:separate;border:1px solid #1791c8;width:100%">

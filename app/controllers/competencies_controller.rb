@@ -132,7 +132,7 @@ class CompetenciesController < ApplicationController
     respond_to do |format|
       if @competency.update(competency_params)
         @groups = Group.where(school_id: current_school.id).valid_class
-        @selected_group = @groups.first.id
+        @selected_group = @competency.group_id
         @competencies = Competency.where(school_id: current_school.id, group_id: @selected_group).ordered        
         
         format.html { redirect_to @competency, notice: 'Competency was successfully updated.' }

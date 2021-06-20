@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_142044) do
+ActiveRecord::Schema.define(version: 2021_06_14_161059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -114,6 +114,13 @@ ActiveRecord::Schema.define(version: 2021_03_22_142044) do
   create_table "competency_group_users", force: :cascade do |t|
     t.integer "competency_group_id"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "competency_groups", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "competency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -290,6 +297,7 @@ ActiveRecord::Schema.define(version: 2021_03_22_142044) do
     t.boolean "auto_delete", default: true
     t.boolean "deleted", default: false
     t.string "after_update_action"
+    t.integer "report_period_id"
     t.index ["author_id"], name: "index_messages_on_author_id"
     t.index ["school_id"], name: "index_messages_on_school_id"
   end

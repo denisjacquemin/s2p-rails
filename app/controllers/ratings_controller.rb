@@ -82,14 +82,25 @@ class RatingsController < ApplicationController
   end
 
   def reports_to_pdf
-    @school = current_school
-    @period_selected  = Period.find params[:period]
+    # if hash params is present, it means the url is /report/jksd8dfihdfhdf8y
+    if params[:hash].present?
+      hash = params[:hash]
+      hash_values = Base64.urlsafe_decode64(hash).split('##')
+      @school = School.find hash_values[2]
+      @period_selected = Period.find hash_values[1]
+      student_ids = hash_values[0]
+    else 
+      student_ids = params[:student][:id]
+      @school = current_school
+      @period_selected  = Period.find params[:period]
+    end
 
+    
     combined_pdfs = CombinePDF.new
 
     filename = "bulletins_#{Date.today}"
 
-    students = Student.includes([:ratings]).where(id: params[:student][:id], school_id: @school.id).default_order
+    students = Student.includes([:ratings]).where(id: student_ids, school_id: @school.id).default_order
 
     periods = Period.by_school(current_school.id).ordered
     students.each do |student| 
@@ -331,7 +342,7 @@ class RatingsController < ApplicationController
     value = params[:value]
     student_id = params[:"s-id"]
     period_id = params[:"p-id"]
-    rating_year_id = params[:"ry-id"]
+    # rating_year_id = params[:"ry-id"]
     rating = Rating.find_or_create_by(student_id: student_id, school_id: current_school.id, competency_id: competency_id, period_id: period_id)
     
     rating.rating = value
@@ -349,7 +360,7 @@ class RatingsController < ApplicationController
   end
 
   def edit_period_comment
-    @period_comment = RatingComment.find_or_create_by(student_id: params[:student_id], school_id: current_school.id, period_id: params[:period_id], year_id: params[:year_id])
+    @period_comment = RatingComment.find_or_create_by(student_id: params[:student_id], school_id: current_school.id, period_id: params[:period_id])
     respond_to do |format|
       format.js
     end
@@ -362,7 +373,7 @@ class RatingsController < ApplicationController
   end
 
   def save_period_comment 
-    rating_comment = RatingComment.find_or_create_by(student_id: params[:rating_comment][:student_id], school_id: current_school.id, period_id: params[:rating_comment][:period_id], year_id: params[:rating_comment][:year_id])
+    rating_comment = RatingComment.find_or_create_by(student_id: params[:rating_comment][:student_id], school_id: current_school.id, period_id: params[:rating_comment][:period_id])
     rating_comment.content = params[:rating_comment][:content]
     rating_comment.save
   end
