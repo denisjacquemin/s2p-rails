@@ -11,7 +11,7 @@ task :clean_unused_files_in_cloudinary => :environment do |task|
 
   year = 2021
   month = 06
-  day = 15
+  day = 30
 
   chuck_size = 500
 
