@@ -404,6 +404,12 @@ class StudentsController < ApplicationController
             :heure => :classroom_acaweb6,
             :adresse_email => :email1, # ISIS
             :email_élève => :email2, # ISIS
+            # Ecole France Lille
+            :niveau => :classroom,
+            :adresse_mail_mere => :email1,
+            :adresse_mail_père => :email2,
+            "mail_resp.2".to_sym => :email1,
+            "mail_resp.1".to_sym => :email2,
           }
 
         siel_general_key_mapping = {
@@ -465,150 +471,7 @@ class StudentsController < ApplicationController
         else
           options = upload_csv_defaults_options.merge(general_key_mapping)
         end
-        
-        # options = {
-        #   :unwanted_row => nil,
-        #   :force_simple_split => false,
-        #   :col_sep => col_sep,
-        #   :strip_chars_from_headers => /[\-"]/,
-        #   :quote_char => '"',
-        #   :chunk_size => 500,
-        #   :key_mapping => {
-        #     :prenom => :firstname,
-        #     :nom => :lastname,
-        #     :emails => :emails,
-        #     :envoi_des_messages_via_email => :sent_message_by_email,
-        #     :entite => :level,
-        #     :titulaire => :classroom,
-        #     # :rue => :classroom,
-        #     :code => :code,
-        #     # keys from WinPage ou Creos
-        #     "classe_(libellé)".to_sym  => :level,
-        #     "prénom".to_sym  => :firstname,
-        #     :nom_du_titulaire => :classroom,
-        #     "prénom_du_titulaire".to_sym => :firstname_classroom,
-        #     "courriel_de_l'élève".to_sym  => :emails,
-        #     "courriel_signataire".to_sym => :emails2,
-        #     "matricule".to_sym => :winpage_matricule,
-        #     "mobile".to_sym => :phone1, # update Creos 2019
-        #     "téléphone".to_sym => :phone2, # update Creos 2019
-        #     "mobilepr".to_sym => :phone3, # update Creos 2019
-        #     "téléphonepr".to_sym => :phone4, # update Creos 2019
-        #     "emailpr".to_sym => :email2, # update Creos 2019
-        #     "telephone_1".to_sym => :phone1,
-        #     "telephone_2".to_sym => :phone2,
-        #     "telephone_3".to_sym => :phone3,
-        #     "telephone_4".to_sym => :phone4,
-        #     "téléphone_1".to_sym => :phone1,
-        #     "téléphone_2".to_sym => :phone2,
-        #     "téléphone_3".to_sym => :phone3,
-        #     # "gsm".to_sym => :phone4,
-        #     "Implantation".to_sym => :implantation,
-        #     "implantation".to_sym => :implantation,
-        #     "titulaire_nom".to_sym => :classroom,
-        #     "titulaire_prénom".to_sym => :firstname_classroom,
-        #     "informations_de_contact".to_sym => :info_contact,
-        #     "personnes_responsables_informations_de_contact_1".to_sym => :info_contact1,
-        #     "personnes_responsables_informations_de_contact_2".to_sym => :info_contact2,
-        #     "personnes_responsables_informations_de_contact_3".to_sym => :info_contact3,
-        #     "personnes_responsables_informations_de_contact_4".to_sym => :info_contact4,
-        #     "personnes_responsables_informations_de_contact_5".to_sym => :info_contact5,
-        #     "personnes_responsables_informations_de_contact_6".to_sym => :info_contact6,
-        #     "personnes_responsables_informations_de_contact_7".to_sym => :info_contact7,
-        #     "personnes_responsables_informations_de_contact_8".to_sym => :info_contact8,
-        #     "personnes_responsables_informations_de_contact_9".to_sym => :info_contact9,
-        #     "gsm".to_sym => :info_contact1,
-        #     "email".to_sym => :info_contact2,
-        #     "personnes_responsables_gsm".to_sym => :info_contact3,
-        #     "personnes_responsables_email".to_sym => :info_contact4,
-        #     "personnes_responsables_telephone".to_sym => :info_contact5,
-        #     # :classe => :level2, # champ Creos mais deja supporté grace à ProEco
-        #     # keys from ProEco
-        #     :matric_info => :proeco_id,
-        #     :nom_elève => :lastname,
-        #     :prénom_elève => :firstname,
-        #     :gsm_père => :phone1,
-        #     :gsm_mère => :phone2,
-        #     :année => :level1,
-        #     :annee => :level1,
-        #     "année_[déf]".to_sym => :level1,
-        #     :classe => :level2,
-        #     "classe_[déf]".to_sym => :level2,
-        #     :email_père => :email1,
-        #     :email_mère => :email3,
-        #     :email_responsable => :email_responsable,
-        #     :grpel => :classroom,
-        #     # SIEL
-        #     "annee_d'etude".to_sym => :level1,
-        #     "nom_tit".to_sym => :siel_nom_tit,
-        #     "prénom_tit".to_sym => :siel_prenom_tit,
-        #     "eleve".to_sym => :siel_id,
-        #     "email_responsable_1".to_sym => :email1,
-        #     "email_responsable_2".to_sym => :email2,
-        #     "tel_1_responsable_1".to_sym => :phone1,
-        #     "tel_1_responsable_2".to_sym => :phone2,
-        #     "tel_2_responsable_1".to_sym => :phone3,
-        #     "tel_2_responsable_2".to_sym => :phone4,
-        #     # SIEL SPECIALISE
-        #     "te_nom".to_sym => :lastname,
-        #     "te_prenom".to_sym => :firstname,
-        #     "co_aa_etude".to_sym => :level1,
-        #     "te_resp1_tel1".to_sym => :phone1,
-        #     "te_resp1_tel2".to_sym => :phone2,
-        #     "te_resp1_tel3".to_sym => :phone3,
-        #     "te_resp1_email".to_sym => :email1,
-        #     "te_resp2_email".to_sym => :email2,
-        #     "te_resp2_tel1".to_sym => :phone4,
-        #     "te_resp2_tel2".to_sym => :phone5,
-        #     "te_resp2_tel3".to_sym => :phone6,
 
-        #     # gestscol
-        #     #             :nom => :lastname,
-        #     #             "prénom".to_sym  => :firstname,
-        #     #             :année => :level1,
-        #     #             :annee => :level,
-        #     #             :classe => :level2,
-        #     "mèl_resp_1".to_sym => :email1,
-        #     "mèl_resp_2".to_sym => :email3,
-        #     "tél.1_resp.1".to_sym => :phone1,
-        #     "tél.1_resp.2".to_sym => :phone2,
-        #     # allow 10 groupes
-        #     :groupe1 => :group1,
-        #     :groupe2 => :group2,
-        #     :groupe3 => :group3,
-        #     :groupe4 => :group4,
-        #     :groupe5 => :group5,
-        #     :groupe6 => :group6,
-        #     :groupe7 => :group7,
-        #     :groupe8 => :group8,
-        #     :groupe9 => :group9,
-        #     :groupe10 => :group10,
-        #     #ifapme
-        #     :nom_apprenant => :lastname,
-        #     :prénom_apprenant => :firstname,
-        #     :téléphone => :phone3,
-        #     :gsm => :phone2,
-        #     :email => :email1,
-        #    # Acaweb
-        #     :email_1 => :email1,
-        #     :email_2 => :email2,
-        #     :email_3 => :email3,
-        #     :email_4 => :email4,
-        #     :email_5  => :email5,
-        #     :cours => :classroom_acaweb1,
-        #     :professeur => :classroom_acaweb2,
-        #     :degré => :classroom_acaweb3,
-        #     # :classe => :classroom_acaweb4,
-        #     :jour => :classroom_acaweb5,
-        #     :heure => :classroom_acaweb6
-
-        #   },
-        #   :remove_unmapped_keys => true,
-        #   :value_converters => {
-        #     :sent_message_by_email => SentMessageByEmailConverter
-        #   },
-        #   :file_encoding => encoding #detection[:encoding]
-        # }
         content = File.read(params[:csv].tempfile.path)
         # detection = CharlockHolmes::EncodingDetector.detect(content)
         # utf8_encoded_content = CharlockHolmes::Converter.convert contents, detection[:encoding], 'UTF-8'
