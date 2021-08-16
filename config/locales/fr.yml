@@ -113,9 +113,9 @@ fr:
     messages:
       listofstudents: Liste des groupes
       edit:
-        submit: 'Enregister le message'
+        submit: 'Enregistrer le message'
       new:
-        submit: 'Enregister le message'
+        submit: 'Enregistrer le message'
       students_no_rights: "Aucun élève, demandez à votre administrateur (%{admins}) pour recevoir les droits d'accès sur des élèves."
       groups_no_rights: "Aucun groupe, demandez à votre administrateur (%{admins}) pour recevoir les droits d'accès sur des groupes d'élèves."
 

@@ -356,7 +356,7 @@ class StudentsController < ApplicationController
             # Pour Saint Satnislas Mons Secondaire
             :cours_de_l_ob_24_34_28_38_lgs_gr => :cours_de_l_ob_24_34_28_38_lgs_gr,
             :cours_de_l_ac_41_à_66_gr => :cours_de_l_ac_41_à_66_gr,
-            # ProEco 5
+            # ProEco 5 
             :matricule_p4_élève => :proeco_id, 
             :g_sm_adresse_principale_mère_élève=> :phone1,
             :g_sm_adresse_principale_père_élève=> :phone2,
