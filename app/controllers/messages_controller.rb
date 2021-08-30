@@ -30,7 +30,13 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
+
     @message = Message.not_deleted.find_by_muuid(params[:uuid])
+
+    if current_user.superadmin?
+      @message = Message.not_deleted.find_by_muuid(params[:uuid])
+    end
+    
     if @message
       @title = @message.title
       @content = @message.content
