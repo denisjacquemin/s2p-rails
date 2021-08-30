@@ -32,10 +32,6 @@ class MessagesController < ApplicationController
   def show
 
     @message = Message.not_deleted.find_by_muuid(params[:uuid])
-
-    if current_user.superadmin?
-      @message = Message.not_deleted.find_by_muuid(params[:uuid])
-    end
     
     if @message
       @title = @message.title
@@ -103,6 +99,11 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     @message = Message.includes([:author, :school, :photo_files]).not_deleted.find(params[:id])
+
+    if current_user.superadmin?
+      @message = Message.includes([:author, :school, :photo_files]).find(params[:id])
+    end
+
     authorize @message
 
     all_email_recipients = EmailRecipient.where(message_id: @message.id).order(created_at: :desc)
