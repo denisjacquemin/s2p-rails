@@ -98,10 +98,12 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
-    @message = Message.includes([:author, :school, :photo_files]).not_deleted.find(params[:id])
+    @message = nil
 
     if current_user.superadmin?
       @message = Message.includes([:author, :school, :photo_files]).find(params[:id])
+    else 
+      @message = Message.includes([:author, :school, :photo_files]).not_deleted.find(params[:id])
     end
 
     authorize @message
