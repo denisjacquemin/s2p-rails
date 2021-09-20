@@ -63,6 +63,13 @@
                   <%= f.check_box :send_email_to_author %> M'envoyer un email lorsque je suis l'auteur du message.
                 <% end %>
               </div>
+              <% if @user.user? %>
+                <div class="checkbox">
+                  <%= f.label :send_notification_for_approval_and_refuse do %>
+                    <%= f.check_box :send_notification_for_approval_and_refuse %> M'envoyer un email lorsque mon message est approuvé ou refusé.
+                  <% end %>
+                </div>
+              <% end %>
               <% unless @user.user? %>
               <div class="checkbox">
                 <%= f.label :send_email_to_admin do %>

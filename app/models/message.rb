@@ -303,6 +303,11 @@ class Message < ApplicationRecord
   end
 
   def handle_approval_refused
+
+    if self.author.send_notification_for_approval_and_refuse
+      NotificationMailer.refused(self.author.email, self.title, self.school.name).deliver_later
+    end
+
     # codes = [] <<  self.author.code
     #
     # devicesIOS = Device.active.ios.by_codes(codes)
@@ -318,6 +323,10 @@ class Message < ApplicationRecord
   end
 
   def handle_approval_accepted
+    if self.author.send_notification_for_approval_and_refuse
+      NotificationMailer.approved(self.author.email, self.title, self.school.name).deliver_later
+    end
+
     # codes = [] <<  self.author.code
     #
     # devicesIOS = Device.active.ios.by_codes(codes)

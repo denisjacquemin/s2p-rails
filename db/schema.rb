@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_161059) do
+ActiveRecord::Schema.define(version: 2021_09_20_125602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -650,6 +650,7 @@ ActiveRecord::Schema.define(version: 2021_06_14_161059) do
     t.boolean "send_email_to_admin", default: true
     t.boolean "send_notification_by_email", default: false
     t.string "algolia_search_api_key_for_students"
+    t.boolean "send_notification_for_approval_and_refuse", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"

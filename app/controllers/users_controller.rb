@@ -121,7 +121,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:firstname, :lastname, :email, :role, :phone, :function, :email_reply_to, :display_email_address, :send_email_to_author, :send_notification_by_email, :send_email_to_admin, :schools => [], :group_ids => [], :student_ids => [])
+      params.require(:user).permit(:firstname, :lastname, :email, :role, :phone, :function, :email_reply_to, :display_email_address, :send_email_to_author, :send_notification_by_email, :send_email_to_admin, :send_notification_for_approval_and_refuse, :schools => [], :group_ids => [], :student_ids => [])
     end    
 
     def new_announcements_viewed_params

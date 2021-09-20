@@ -405,6 +405,8 @@ class StudentsController < ApplicationController
             :adresse_email => :email1, # ISIS
             :email_élève => :email2, # ISIS
             # Ecole France Lille
+            :prйnom => :firstname,
+            :adresse_mail_pиre => :email2,
             :niveau => :classroom,
             :adresse_mail_mere => :email1,
             :adresse_mail_père => :email2,
@@ -469,7 +471,7 @@ class StudentsController < ApplicationController
         elsif current_school.acaweb
           options = upload_csv_acaweb_key_mapping
         else
-          options = upload_csv_defaults_options.merge(general_key_mapping)
+           options = upload_csv_defaults_options.merge(general_key_mapping)
         end
 
         content = File.read(params[:csv].tempfile.path)
@@ -479,6 +481,7 @@ class StudentsController < ApplicationController
         upload_uniq_id = Digest::MD5.hexdigest(DateTime.now.to_s)
         
         students_not_to_delete = Set[]
+
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
