@@ -13,7 +13,6 @@ class EvaluationsController < ApplicationController
 
   def change_group
     @group_selected_id = params[:group_selected_id]
-
     @periods = Group.find(@group_selected_id).periods.without_weights.ordered
   end
 
@@ -29,8 +28,7 @@ class EvaluationsController < ApplicationController
     report_competency_users.each do |rcu|
       group_competency_ids.delete(rcu.competency_id) unless rcu.allowed
     end
-
-    @competencies = Competency.joins(:periods).by_school(current_school.id).where(id: group_competency_ids).distinct.ordered
+    @competencies = Competency.by_school(current_school.id).where(id: group_competency_ids).distinct.ordered
   end
 
   def change_competency
