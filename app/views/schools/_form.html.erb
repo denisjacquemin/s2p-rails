@@ -137,6 +137,23 @@
               </div>
 
               <div class="form-group">
+                <label>Destinateur du message</label>
+                <div class="radio">
+                  <label>
+                    <%= f.radio_button(:show_school_name_as_from, true) %>
+                    Nom de l'école
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <%= f.radio_button(:show_school_name_as_from, false) %>
+                    Prénom + nom de l'auteur
+                  </label>
+                </div>
+              </div>
+              
+
+              <div class="form-group">
                <%= f.label :send_code_title_template, "Titre d'email d'envoi des codes" %>
                <%= f.text_field :send_code_title_template, class: 'form-control' %>
               </div>

@@ -56,9 +56,15 @@ s = School.find
 
 s.students.update_all(classroom: '')
 
-Group.find(421841).students.each { |student| student.groups.delete(421841); student.save }
+Group.find(423900).students.each { |student| student.groups.delete(423900); student.save }
 
 ## Extraire tous les messages pour un auteur en CSV
 
 1. rails db
 2. COPY (SELECT title, content, created_at from messages WHERE author_id = '3458' ORDER BY created_at) TO '/Users/denisjacquemin/Documents/messages_partial_db.csv' DELIMITER ';' CSV HEADER;
+
+
+
+index = Student.index
+params = {numericFilters:'school_id=559'}
+index.delete_by( params)

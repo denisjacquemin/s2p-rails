@@ -73,8 +73,16 @@ class MessageMailer < ApplicationMailer
     headers "X-SMTPAPI" => JSON.generate(x_smptapi_hash)
     no_reply = "no-reply@konectoapp.com"
 
-    from = %Q["#{@message.school_name}"] + '<' + no_reply + '>' || no_reply
-    
+    school = School.find @message.school_id
+
+    from = ''
+
+    unless school&.show_school_name_as_from
+      from = %Q["#{@message.author.firstname} #{@message.author.lastname}"] + '<' + no_reply + '>' || no_reply
+    else
+      from = %Q["#{@message.school_name}"] + '<' + no_reply + '>' || no_reply
+    end
+
     reply_to = no_reply
     if @message.author.display_email_address
       reply_to = @message.author.fullname + '<' + @message.author.reply_to + '>' || no_reply

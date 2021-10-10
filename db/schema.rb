@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_20_125602) do
+ActiveRecord::Schema.define(version: 2021_10_03_163631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -537,6 +537,7 @@ ActiveRecord::Schema.define(version: 2021_09_20_125602) do
     t.boolean "siel_use_fase_implantation", default: false
     t.boolean "ifapme_formateur", default: false
     t.boolean "add_siel_fase_to_group", default: false
+    t.boolean "show_school_name_as_from", default: true
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

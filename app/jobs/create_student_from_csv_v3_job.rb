@@ -54,7 +54,6 @@ class CreateStudentFromCsvV3Job < ApplicationJob
 
   def create_or_update_student(data, school_id)
     student = nil
-    
     if data[:idifapme].present?
       student = Student.where('idifapme = ? and school_id = ?', data[:idifapme].to_s, school_id).first
     end
