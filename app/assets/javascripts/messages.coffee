@@ -326,7 +326,26 @@ ready = () ->
       if anchor.hasClass('show_nbr_recipients')
         nbr_recipients = $('#recipients-list label').not( '#recipients-list label.deleted').size()
         message = anchor.data('message').replace(/#/, nbr_recipients)
-      submit_with_status(status)
+      if anchor.data('before-submit-confirm') # if data-confirm is present don't submit form
+        if !anchor.hasClass('show_nbr_recipients') || nbr_recipients > 0
+          bootbox.confirm
+            title: anchor.data('title')
+            message: message
+            buttons:
+              confirm:
+                label: 'Oui'
+                className: 'btn-success'
+              cancel:
+                label: 'Non'
+                className: 'btn-danger'
+            callback: (result) ->
+              if result
+                submit_with_status(status)
+              return
+        else 
+          bootbox.alert("Vous n'avez sélectionné aucun destinataire."); 
+      else
+        submit_with_status(status)
 
     $('[data-toggle="popover"]').popover()
 
