@@ -128,7 +128,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
 
     def get_already_existing_student_for_update(student_data, school_id, user_id)
-        student = nil
+        student = 
         if student_data[:proeco_id].present?
             student = Student.where('proeco_id = ? and school_id = ?', student_data[:proeco_id].to_s, school_id).first
         end
