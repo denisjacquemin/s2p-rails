@@ -90,7 +90,6 @@ ready = () ->
     })
     $('#myModal, #writers_access').on 'click', '#select_all, #unselect_all', (e) ->
       e.preventDefault()
-      debugger
       $('#' + $(e.target).data('target') + ' input:checkbox') \
         .prop('checked', e.target.id == 'select_all')
       return
