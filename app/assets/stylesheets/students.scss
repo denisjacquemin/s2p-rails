@@ -149,9 +149,9 @@
         float: right;
     }
     .ais-RefinementList-labelText {
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 

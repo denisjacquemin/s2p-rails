@@ -365,6 +365,7 @@ class StudentsController < ApplicationController
             :e_mail_adresse_principale_père_élève => :email2,
             :e_mail_adresse_principale_mère_élève => :email3,
             :libellé_classe => :implantation, # ProEco 5
+            :groupe_classe => :level1, # ProEco 5
             
             # gestscol
             #             :nom => :lastname,
