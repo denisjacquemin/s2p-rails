@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  after_action :custom_headers
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, prepend: true
@@ -36,5 +38,9 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:invite, keys: [:email, :firstname, :lastname])
+  end
+
+  def custom_headers
+    response.headers['Public-Key-Pins'] = 'pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-uri="reportURI"]'
   end
 end
