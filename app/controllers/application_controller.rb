@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def custom_headers
+    response.headers['TEST'] = 'this is a test'
     response.headers['Public-Key-Pins'] = 'pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-uri="reportURI"]'
   end
 end
