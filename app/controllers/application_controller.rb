@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
   end
 
   def custom_headers
+    puts "$$$$$$$$$$$$ IN custom_headers $$$$$$$$$$$$"
     headers['TEST2'] = 'this is a test'
     headers['Public-Key-Pins'] = 'pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-uri="reportURI"]'
+    puts "responses.headers.inspect #{responses.headers.inspect}"
   end
 end
