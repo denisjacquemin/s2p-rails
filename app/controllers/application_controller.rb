@@ -41,9 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def custom_headers
-    puts "$$$$$$$$$$$$ IN custom_headers $$$$$$$$$$$$"
-    headers['TEST2'] = 'this is a test'
-    headers['Public-Key-Pins'] = 'pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-uri="reportURI"]'
-    puts "response.headers.inspect #{response.headers.inspect}"
+    # adding HPKP (HTTP Public Key Pinning) header https://developer.mozilla.org/en-US/docs/Web/HTTP/Public_Key_Pinning
+    headers['Public-Key-Pins'] = 'pin-sha256="base64=="; max-age=expireTime'
   end
 end
