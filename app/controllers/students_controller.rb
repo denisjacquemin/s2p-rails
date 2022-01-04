@@ -308,6 +308,8 @@ class StudentsController < ApplicationController
             "téléphone_1".to_sym => :phone1,
             "téléphone_2".to_sym => :phone2,
             "téléphone_3".to_sym => :phone3,
+            "n°_gsm".to_sym => :phone1, # tournai le chateau
+            "n°_tél".to_sym => :phone2, # tournai le chateau
             # "gsm".to_sym => :phone4,
             "Implantation".to_sym => :implantation,
             "implantation".to_sym => :implantation,
@@ -356,6 +358,7 @@ class StudentsController < ApplicationController
             # Pour Saint Satnislas Mons Secondaire
             :cours_de_l_ob_24_34_28_38_lgs_gr => :cours_de_l_ob_24_34_28_38_lgs_gr,
             :cours_de_l_ac_41_à_66_gr => :cours_de_l_ac_41_à_66_gr,
+            
             # ProEco 5 
             :matricule_p4_élève => :proeco_id, 
             :g_sm_adresse_principale_mère_élève=> :phone1,
