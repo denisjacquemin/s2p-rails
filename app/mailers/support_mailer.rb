@@ -12,6 +12,6 @@ class SupportMailer < ApplicationMailer
     @email = email
     @schools = schools
     @message = message
-    mail( to: 'denis.jacquemin@gmail.com, denis@konectoapp.com', subject: "Sdui communication feedback")
+    mail( to: 'maximilien.ami@sdui.de, artavazd.andranikyan@sdui.de, dominik.nitsch@sdui.de, denis@konectoapp.com,', subject: "Sdui communication feedback")
   end
 end
