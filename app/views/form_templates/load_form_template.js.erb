@@ -3,6 +3,6 @@ function jsonClean(str)  {
     return str.replace(/\n/g, "").replace(/\r/g, "").replace(/\t/g, "");
 }
 
-var formData = `<%= raw @form_template.formdata %>`;
+var formData = `<%= raw @form_template.formdata %>`; 
 
 $('#setformdata').val(jsonClean(formData)).trigger('change');

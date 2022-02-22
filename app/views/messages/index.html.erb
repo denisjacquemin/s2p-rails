@@ -15,8 +15,13 @@
 </div> 
 <%
 =end%>
-
-
+<% if current_user.admin? && current_school.id == 674 %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <a href="/sdui" id="sdui-link">Cliquez ici</a>
+    </div>
+</div>
+<% end %>
 <div class="row algolia_js algolia algolia_messages">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row">

@@ -79,6 +79,10 @@ Rails.application.routes.draw do
   get '/faq', to: 'faq#show'
   get 'contact_support', to: 'faq#contact_support'
   post '/submit_support', to: 'faq#submit_support'
+  get 'sdui', to: 'faq#sdui'
+  post '/submit_sdui', to: 'faq#submit_sdui'
+  post 'faq/sdui-link-clicked', to: 'faq#sdui_link_clicked'
+
 
   get '/help', to: 'faq#accueil'
   get '/guide-d-installation', to: 'website#install_app'

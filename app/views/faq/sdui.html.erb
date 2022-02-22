@@ -1,0 +1,33 @@
+<div class="row help">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <p>Chères Directrices d’école, Chers Directeurs d’école,</p>
+      <p><strong>J'ai une annonce importante et de bonnes nouvelles à partager avec vous : J'ai décidé de coopérer avec Sdui, une start-up allemande dans les technologies de l'éducation.</strong></p>
+      <p>Le nombre d'écoles utilisant Konecto n'a cessé d'augmenter au cours des deux dernières années. Très heureux d’offrir des solutions à plus de 400 écoles aujourd’hui, j'aimerais travailler avec plus d'établissements encore en leurs offrant un produit qui s’améliore en continu. Malheureusement, en tant que fondateur individuel, il m’est apparu de plus en plus complexe de relever ce défi, et à ce stade je ne peux plus servir un si grand nombre d'établissements scolaires.</p>
+      <p>Pour cette raison, je me suis engagé dans un partenariat stratégique avec Sdui. Convaincu d’avoir trouvé le meilleur partenaire pour poursuivre l'exploitation de Konecto app ; Sdui garantit le meilleur support technique et vous offre beaucoup plus de fonctionnalités pour la gestion numérique de votre école. Entreprise bien établie, actuellement active dans 6 pays, sa plateforme est déjà utilisée dans plus de 5 000 écoles</p>
+      <p><strong>Qu'est-ce que cela signifie pour vous?</strong> <i>Que des bonnes choses</i>. L'application Konecto continuera à fonctionner comme elle l’a toujours fait. Je serai toujours là pour vous aider. De son côté, Sdui mettra à votre disposition une Responsable de Compte dédiée. <strong>Rien ne changera pour vous…</strong></p>
+      <p>... À moins que vous souhaitiez découvrir de nouvelles applications ! La plateforme Sdui dispose de fonctionnalités complémentaires à Konecto. Avec Sdui, vous pouvez notamment :
+        <ul>
+          <li>Planifier votre emploi du temps dans l'application au lieu de le faire sur papier.</li> 
+          <li>Communiquer en temps réel avec les enseignants, les parents et les élèves - la vie privée des enseignants est protégée par l’option de communication “à sens unique”.</li> 
+          <li>Signaler les absences en deux clics et les suivre dans le cahier de classe numérique.</li> 
+          <li>Lancer les visioconférences en un seul clic directement depuis le chat sécurisé.</li> 
+          <li>Partager des fichiers et des vidéos avec les parents, les élèves et vos collègues.</li>
+          <li>Et bien plus encore ! L'intégration de Sdui dans votre école ne prend que 15 minutes, et nous vous aiderons à migrer vos données dans votre nouvelle gestion scolaire. :)</li>
+        </ul>
+      </p>
+      <p>Vous pouvez tester l'application Sdui gratuitement pour voir si elle apporte une valeur ajoutée à votre école. Personnellement, je crois que oui mais rien ne vaut sa propre opinion. Je vous encourage à tester Sdui. Pour ce faire, il suffit de suivre <a href="https://meetings.hubspot.com/artavazd/seance-de-presentation" target="_blank">ce lien</a>. Maximilien et Arthur, Experts École Numérique, prendront contact avec vous pour échanger sur vos besoins.</p>
+      <p>Si vous ne voulez pas utiliser l'application Sdui - pas de problème. Tout restera identique pour vous 🙂</p>
+      <p>Vous avez des questions ? N'hésitez pas à me contacter via le formulaire ci-dessous ou à m'envoyer un email à denis@konectoapp.com. Vous pouvez également trouver des réponses dans <a href="https://sdui.de/cooperation-sdui-konecto/?lang=fr" target="_blank">notre FAQ</a>.</p>
+      <p>Cordialement,</br>Denis</p>
+      <p></br>P.S.: Je serais également ravi de vous rencontrer à l’occasion du salon SETT, <i>“l’éducation à l’heure des nouvelles technologies”</i> qui aura lieu du 27 avril 29 avril à Namur. Rendez-vous à notre stand (A06).</p>
+
+      <%= form_tag('/submit_sdui', method: "post", remote: true, id:'form') do %>
+        <div class="form-group">
+          <%= label_tag 'Votre message' %>
+          <%= text_area_tag 'message', '', rows: 10, class: 'form-control', required: 'required', placeholder: 'Envoyez vos questions, remarques.'%>
+          <p class="help-block text-danger"></p>
+        </div>
+        <%= button_tag 'Envoyer', class: "btn btn-primary btn-lg", data: { disable_with: "<i class='fa fa-circle-o-notch fa-spin'></i> En cours d'envoi...".html_safe } %>
+      <% end %>
+    </div>
+</div>

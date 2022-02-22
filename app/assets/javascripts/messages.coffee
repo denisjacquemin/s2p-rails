@@ -179,6 +179,13 @@ load_billing_students = () ->
       return
 
 ready = () ->
+  $('#sdui-link').on 'click', (event) ->
+    $.ajax 
+      url: '/faq/sdui-link-clicked'
+      type: 'POST'
+      success: (html) ->
+        return
+
   if $('#message-page, #group-page').length
     $ ->
       table = $('#users-datatable').dataTable
