@@ -39,6 +39,9 @@ class FaqController < ApplicationController
     # set a date on the current user object "lasttime_saw_sdui_comm_date"
     # set a flag on current_user' schools objects "saw_sdui_comm"
 
+
+    # User.where('saw_sdui_comm_counter > :counter', counter: 0).pluck(:firstname, :lastname, :schools)
+    # School.where('saw_sdui_comm = :flag', flag: true).pluck(:name)
     current_user.saw_sdui_comm_counter = current_user.saw_sdui_comm_counter + 1
     current_user.save
 
