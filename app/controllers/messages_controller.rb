@@ -402,6 +402,9 @@ class MessagesController < ApplicationController
     @message.title = @message_to_copy.title
     @message.content = @message_to_copy.content
     @message.formdata = @message_to_copy.formdata 
+    @message.has_form = (not (@message.formdata.blank? or @message.formdata === "[]"))
+
+
     # @message.photos = @message_to_copy.photos
     @message.school_id = @message_to_copy.school_id
     @message.author = current_user
