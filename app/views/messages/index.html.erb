@@ -16,14 +16,18 @@
 <%
 =end%>
 <% if current_user.admin? %>
-<div class="row">
+<%
+=begin%>
+ <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
     <%= image_tag asset_path("faq/logosett.jpg"), class: "img-responsive img-thumbnail" %>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8" style="height:100%" >
         <p style="v-align:center"><a href="/sdui" id="sdui-link"><br/><br/>Retrouvez-moi au SETT (salon de l’école digitale) à Namur Expo du mercredi 27 au vendredi 29 avril - Votre invitation gratuite ici</a></p>
   </div>
-</div>
+</div> 
+<%
+=end%>
 <% end %>
 <div class="row algolia_js algolia algolia_messages">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
