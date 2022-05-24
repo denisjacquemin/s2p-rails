@@ -19,6 +19,7 @@ class MessageMailer < ApplicationMailer
       report_url_hashs.push(email_to_process[:report_url_hash])
     end
 
+    puts "##$#$#$#$ #{message.id} ## #{to.to_s}"
     puts "######### to.size: #{to.size}"
     puts "######### codes.size: #{codes.size}"
     puts "######### emails_encrypt.size: #{emails_encrypt.size}"
