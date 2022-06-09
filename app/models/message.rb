@@ -379,7 +379,7 @@ class Message < ApplicationRecord
       }
     end
     unless emails_data.blank?
-      chunck_size = 20
+      chunck_size = 10
       index = 0
       array_to_process = []
       emails_data.each_value do |value|
