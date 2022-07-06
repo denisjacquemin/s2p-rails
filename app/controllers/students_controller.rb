@@ -361,6 +361,7 @@ class StudentsController < ApplicationController
             
             # ProEco 5 
             :matricule_p4_élève => :proeco_id, 
+            "matricule_reg.".to_sym => :proeco_id, 
             :g_sm_adresse_principale_mère_élève=> :phone1,
             :g_sm_adresse_principale_père_élève=> :phone2,
             :g_sm_adresse_principale_responsable_élève => :phone3,
@@ -487,6 +488,8 @@ class StudentsController < ApplicationController
         students_not_to_delete = Set[]
 
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
+
+
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
