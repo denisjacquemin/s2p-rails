@@ -228,7 +228,7 @@ class Student < ApplicationRecord
             phone4,
             code,
             followed ? 'Oui': 'Non'
-          ].concat(emails.split(' ').select{|e| e.include?('@')})
+          ].concat(emails&.split(' ')&.select{|e| e.include?('@')} || [])
         end
       end
     end
