@@ -417,6 +417,12 @@ class StudentsController < ApplicationController
             :adresse_mail_père => :email2,
             "mail_resp.2".to_sym => :email1,
             "mail_resp.1".to_sym => :email2,
+            :telephone_père => :phone1,
+            "telephone_père".to_sym => :phone1,
+            :telephone_mere =>  :phone2,
+            "telephone_mère".to_sym => :phone2,
+
+
           }
 
         siel_general_key_mapping = {
@@ -488,7 +494,6 @@ class StudentsController < ApplicationController
         students_not_to_delete = Set[]
 
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-
 
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|

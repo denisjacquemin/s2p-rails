@@ -157,7 +157,11 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     def update_student(student, attributes, user_id)
         begin
           attributes[:student_emails] = merge_new_and_old_emails(student.student_emails, attributes[:student_emails])
-          attributes[:phones] = merge_new_and_old_phones(student.phones, attributes[:phones])
+          default_phone_country_code = '32'
+          # if school_id is either 712 or 713, then default_phone_country_code is '33'
+          default_phone_country_code = '33' if [712, 713].include?(student.school_id)
+
+          attributes[:phones] = merge_new_and_old_phones(student.phones, attributes[:phones], default_phone_country_code)
           if student.update_attributes(attributes)
             logger.info "student #{student.firstname} #{student.lastname} updated"
           else
@@ -202,14 +206,14 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         end
     end
 
-    def merge_new_and_old_phones(old_phones, new_phones)
+    def merge_new_and_old_phones(old_phones, new_phones, country_code)
         return nil if old_phones.nil? and new_phones.nil?
         return old_phones if new_phones.nil?
         return new_phones if old_phones.nil?
         
         mergedPhones = old_phones + new_phones
         mergedPhonesNumbers = mergedPhones.map do |phone|
-            phonieObj = Phonie::Phone.parse(phone.number, country_code: '32')&.to_s
+            phonieObj = Phonie::Phone.parse(phone.number, country_code: country_code)&.to_s
         end.flatten.compact.uniq
 
         return mergedPhonesNumbers.flatten.compact.uniq.map do |number|
