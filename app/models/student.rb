@@ -215,7 +215,7 @@ class Student < ApplicationRecord
                   code,
                   followed ? 'Oui': 'Non',
                   groupes
-                ]
+          ]
         else
           csv << [firstname,
             lastname,
@@ -228,7 +228,7 @@ class Student < ApplicationRecord
             phone4,
             code,
             followed ? 'Oui': 'Non'
-          ]
+          ].concat(emails.split(' '))
         end
       end
     end
