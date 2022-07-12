@@ -186,7 +186,7 @@ class Student < ApplicationRecord
         level = (student.level == nil or student.level.strip == "")? nil : student.level
         classroom = (student.classroom == nil or student.classroom.strip == "")? nil : student.classroom
         code = (student.code == nil or student.code.strip == "")? nil : student.code
-        groupes = Group.find(student.groups).pluck(:name).join(', ')
+        groupes = Group.where(id: student.groups).pluck(:name).join(', ')
 
 
         phone1 = ""
