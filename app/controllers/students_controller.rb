@@ -247,14 +247,20 @@ class StudentsController < ApplicationController
           :prénom_apprenant => :firstname,
           :téléphone => :phone3,
           :gsm => :phone2,
-          :email => :email1,
-          :courriel => :email2,
+          # :email => :email1,
+          # :courriel => :email2,
           :prénom_patron => :email3,
           :code_classe => :group2,
           "n.app.".to_sym => :idifapme,
           :centre => :centre,
-          :stade_formation => :stadeformation
+          :stade_formation => :stadeformation,
         }
+
+        if current_school.use_email_ifapme
+          ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :email_ifapme => :email1 })
+        else
+          ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :email => :email1, :courriel => :email2 })
+        end
 
         # import formateur Namur
         ifapme_formateur_general_key_mapping = {

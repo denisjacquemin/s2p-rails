@@ -105,7 +105,7 @@ class SchoolsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def school_params
-      params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active, :allow_translation, :url, :send_code_title_template, :send_code_template, :sms_provision, :message_month_limit, :message_day_limit, :activate_message_date_limit, :billing_enable, :payconiq_enable, :delete_students_on_csv_import, :acaweb, :is_ifapme, :bulletin_enable, :new_recipients_selection, :iscity, :auto_delete_messages, :ifapme_use_code_classe_as_group, :siel_use_te_classe_as_group, :siel_use_fase_implantation, :add_siel_fase_to_group, :ifapme_formateur, :message_scheduling_enable, :show_school_name_as_from, accounts_attributes: [:name, :payconiq_access_token, :account_number, :_destroy, :id])
+      params.require(:school).permit(:name, :address, :phone, :email, :validation_workflow_active, :allow_translation, :url, :send_code_title_template, :send_code_template, :sms_provision, :message_month_limit, :message_day_limit, :activate_message_date_limit, :billing_enable, :payconiq_enable, :delete_students_on_csv_import, :acaweb, :is_ifapme, :use_email_ifapme, :bulletin_enable, :new_recipients_selection, :iscity, :auto_delete_messages, :ifapme_use_code_classe_as_group, :siel_use_te_classe_as_group, :siel_use_fase_implantation, :add_siel_fase_to_group, :ifapme_formateur, :message_scheduling_enable, :show_school_name_as_from, accounts_attributes: [:name, :payconiq_access_token, :account_number, :_destroy, :id])
     end
 
     def set_s3_direct_post
