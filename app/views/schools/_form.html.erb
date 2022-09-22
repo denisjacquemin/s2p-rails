@@ -78,8 +78,12 @@
                  <%= f.check_box :acaweb %>
                 </div>
                 <div class="form-group">
-                  <%= f.label :use_email_ifapme, 'Use Email_IFAPME column (only WAPI)' %>
+                  <%= f.label :use_email_ifapme, 'Use Email_IFAPME column (only WAPI and LUX)' %>
                   <%= f.check_box :use_email_ifapme %>
+                  <%= f.label :use_email_column, 'Use Email column (false for WAPI)' %>
+                  <%= f.check_box :use_email_column %>
+                  <%= f.label :use_fax_column, 'Use Fax column (only for LUX)' %>
+                  <%= f.check_box :use_fax_column %>
 
                   <%= f.label :is_ifapme, 'Is Ifapme' %>
                   <%= f.check_box :is_ifapme %>

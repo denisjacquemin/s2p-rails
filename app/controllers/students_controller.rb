@@ -248,7 +248,7 @@ class StudentsController < ApplicationController
           :téléphone => :phone3,
           :gsm => :phone2,
           # :email => :email1,
-          # :courriel => :email2,
+          :courriel => :email4,
           :prénom_patron => :email3,
           :code_classe => :group2,
           "n.app.".to_sym => :idifapme,
@@ -258,8 +258,14 @@ class StudentsController < ApplicationController
 
         if current_school.use_email_ifapme
           ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :email_ifapme => :email1 })
-        else
-          ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :email => :email1, :courriel => :email2 })
+        end
+        
+        if current_school.use_email_column
+          ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :email => :email2 })
+        end
+
+        if current_school.use_fax_column
+          ifapme_general_key_mapping = ifapme_general_key_mapping.merge({ :fax => :email5 })
         end
 
         # import formateur Namur
