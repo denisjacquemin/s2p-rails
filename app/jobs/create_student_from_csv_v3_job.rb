@@ -21,8 +21,16 @@ class CreateStudentFromCsvV3Job < ApplicationJob
 
   def build_student(already_existing_student, data, school_id)
     student = already_existing_student || {}
-    student[:groups] = add_new_group(student[:groups], data[:group1])
+
+    # if IFAPME Charleroi
+    if school_id == 558
+      student[:groups] = add_new_group(student[:groups], data[:centre] + ' ' + data[:group1])
+    else
+      student[:groups] = add_new_group(student[:groups], data[:group1])
+    end
     student[:groups] = add_new_group(student[:groups], data[:stadeformation]) if data[:stadeformation].present?
+
+
 
     if data[:codeclasse].present?
       if data[:codeclasse].start_with?('W1')
@@ -42,6 +50,8 @@ class CreateStudentFromCsvV3Job < ApplicationJob
     else
       student[:groups] = add_new_group(student[:groups], "Centre #{data[:centre]}") unless data[:centre].blank?
     end
+
+
     student[:firstname] = data[:firstname]&.strip&.capitalize
     student[:lastname] = data[:lastname]&.strip&.capitalize
     student[:student_emails] = add_new_email(student[:student_emails], [data[:email1]&.to_s&.strip, data[:email2]&.to_s&.strip, data[:email3]&.to_s&.strip, data[:email4]&.to_s&.strip, data[:email5]&.to_s&.strip]&.compact&.uniq)
