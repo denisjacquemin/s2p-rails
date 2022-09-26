@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
 
   before_action :authenticate_user!
   before_action do
+    helpers.role_has_access(current_user, 'students')
     helpers.authorize_current_school(current_user, current_school.id)
   end
   before_action :set_student, only: [:show, :edit, :update, :update_groups, :destroy]

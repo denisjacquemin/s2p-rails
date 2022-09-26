@@ -15,4 +15,11 @@ module ApplicationHelper
       raise Pundit::NotAuthorizedError, "Pas autorisé" 
     end
   end
+
+  # check if current user role can access current screen
+  def role_has_access(current_user, current_screen)
+    if current_user.user? and ["students"].include?(current_screen)
+      raise Pundit::NotAuthorizedError, "Pas autorisé" 
+    end
+  end
 end
