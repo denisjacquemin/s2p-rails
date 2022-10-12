@@ -4,7 +4,7 @@ class SupportMailer < ApplicationMailer
     @name = name
     @email = email
     @message = message
-    mail(bcc: 'konecto@konectoapp.com, charline.darimont@sdui.de', to: email, subject: "Konecto App demande de support")
+    mail(bcc: 'konecto@konectoapp.com, charline.darimont@sdui.de, soline.taffin@sdui.be', to: email, subject: "Konecto App demande de support")
   end
 
   def contact_sdui_email(name, email, schools, message)
