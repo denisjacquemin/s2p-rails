@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_22_095530) do
+ActiveRecord::Schema.define(version: 2022_11_01_135140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -542,6 +542,8 @@ ActiveRecord::Schema.define(version: 2022_09_22_095530) do
     t.boolean "use_email_ifapme", default: false
     t.boolean "use_email_column", default: true
     t.boolean "use_fax_column", default: false
+    t.text "transition_message"
+    t.boolean "activate_transition_message", default: false
   end
 
   create_table "student_emails", id: :serial, force: :cascade do |t|

@@ -169,6 +169,18 @@
                <%= f.label :send_code_template, "Modèle d'email d'envoi des codes" %>
                <%= f.text_area :send_code_template, rows: 10, class: 'form-control' %>
               </div>
+
+              <% if current_user.superadmin? %>
+                <div class="form-group">
+                <%= f.label :activate_transition_message, "Activer message de transition Konecto - Sdui" %>
+                <%= f.check_box :activate_transition_message %>
+                </div>
+                <div class="form-group">
+                <%= f.label :transition_message, "Modèle de message de transition Konecto - Sdui" %>
+                <%= f.text_area :transition_message, rows: 10, class: 'form-control', id: 'wysiwyg' %>
+                </div>
+              <% end %>
+
               <%= f.submit 'Sauver', class: 'btn btn-primary' %>
 
             <% end %>

@@ -21,6 +21,10 @@ class School < ApplicationRecord
     self[:send_code_title_template] || I18n.t('views.students.sendcode.title')
   end
 
+  def transition_message
+    self[:transition_message] || I18n.t('views.students.transition_message')
+  end
+
   def has_sms_provision?
     self.sms_provision > 0
   end
