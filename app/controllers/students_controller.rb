@@ -383,6 +383,9 @@ class StudentsController < ApplicationController
             :e_mail_adresse_principale_responsable_élève=> :email1,
             :e_mail_adresse_principale_père_élève => :email2,
             :e_mail_adresse_principale_mère_élève => :email3,
+            :email_adresse_principale_responsable_élève => :email1,
+            :email_adresse_principale_père_élève => :email2,
+            :email_adresse_principale_mère_élève => :email3,
             :libellé_classe => :implantation, # ProEco 5
             :groupe_classe => :level1, # ProEco 5
             
@@ -508,8 +511,8 @@ class StudentsController < ApplicationController
         
         students_not_to_delete = Set[]
 
+        
         SmarterCSV.process(params[:csv].tempfile.path, options) do |r|
-
           if params[:delete_students] and current_school.delete_students_on_csv_import
             r.each do |data|
               students_not_to_delete.add("#{data[:firstname]&.upcase}##{data[:lastname]&.upcase}")
