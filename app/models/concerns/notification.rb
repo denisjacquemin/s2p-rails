@@ -227,6 +227,10 @@ module Notification extend ActiveSupport::Concern
             "content-available": "1",
             "visibility": 1 # public
           }
+          n.notification = {
+            "title": message.title&.slice(0, 200),
+            "body": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250)
+          }
           #n.priority = 'normal'      # Optional, can be either 'normal' or 'high'
           #n.content_available = true # Optional
           # Optional notification payload. See the reference below for more keys you can use!
