@@ -46,6 +46,7 @@ module Notification extend ActiveSupport::Concern
           "priority": 2,
           "title": message.title&.slice(0, 200),
           "message": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
+          "body": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
           "badge": 1,
           "content-available": "1",
           "visibility": 1 # public
@@ -222,6 +223,7 @@ module Notification extend ActiveSupport::Concern
             "priority": 2,
             "title": message.title&.slice(0, 200),
             "message": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
+            "body": ActionController::Base.helpers.strip_tags(message.content)&.slice(0, 250),
             "content-available": "1",
             "visibility": 1 # public
           }
