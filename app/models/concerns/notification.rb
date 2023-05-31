@@ -172,8 +172,8 @@ module Notification extend ActiveSupport::Concern
             n.delay_while_idle = true
             n.data = data
             n.notification = {
-              "title": data.title,
-              "body": data.body,
+              "title": data[:title],
+              "body": data[:body],
             }
             n.save!
             logger.info "payload: #{n.payload}"
