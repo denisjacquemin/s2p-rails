@@ -171,6 +171,10 @@ module Notification extend ActiveSupport::Concern
             n.registration_ids = r_ids
             n.delay_while_idle = true
             n.data = data
+            n.notification = {
+              "title": data.title,
+              "body": data.body,
+            }
             n.save!
             logger.info "payload: #{n.payload}"
 
@@ -217,6 +221,7 @@ module Notification extend ActiveSupport::Concern
           n.app = Rpush::Gcm::App.find_by_name("android_app")
           n.registration_ids = registration_ids
           n.delay_while_idle = true
+          n.priority = 'high'
           n.data = {
             "message_id": message.id,
             "notId": message.id,
