@@ -21,7 +21,7 @@
 ++++++++
 
   <% @message.photos.each do |photo| %>
-    <%= cloudinary_url(photo.path, crop: :limit, width: 1024) %>
+    <%= cloudinary_url(photo.path, secure: true, crop: :limit, width: 1024) %>
   <% end %>
 <% end %>
 
