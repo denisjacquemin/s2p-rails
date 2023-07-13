@@ -128,7 +128,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
     end
 
     def get_already_existing_student_for_update(student_data, school_id, user_id)
-        student = 
+        student = nil
         if student_data[:proeco_id].present?
             student = Student.where('proeco_id = ? and school_id = ?', student_data[:proeco_id].to_s, school_id).first
         end
@@ -142,7 +142,7 @@ class CreateStudentFromCsvV2Job < ApplicationJob
         end
 
         # student not found based on proeco_id/winpage_matricule, try to find it by firstname and lastname
-        if not student_data[:proeco_id].present? and student.nil?
+        if student.nil?
             student = Student.where('lower(firstname) = ? and lower(lastname) = ? and school_id = ?', student_data[:firstname].downcase.strip, student_data[:lastname].downcase.strip, school_id).first
             # if students.size == 1
             # student = students.first
