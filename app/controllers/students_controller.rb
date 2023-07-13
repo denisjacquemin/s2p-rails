@@ -388,6 +388,7 @@ class StudentsController < ApplicationController
             :email_adresse_principale_mère_élève => :email3,
             :libellé_classe => :implantation, # ProEco 5
             :groupe_classe => :level1, # ProEco 5
+            :année_classe_classe=> :level1,
             
             # gestscol
             #             :nom => :lastname,
