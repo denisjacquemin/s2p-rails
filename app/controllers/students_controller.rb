@@ -389,6 +389,10 @@ class StudentsController < ApplicationController
             :libellé_classe => :implantation, # ProEco 5
             :groupe_classe => :level1, # ProEco 5
             :année_classe_classe=> :level1,
+            :gsm_adresse_principale_responsable_élève => :phone1,
+            :gsm_adresse_principale_père_élève => :phone2,
+            :gsm_adresse_principale_mère_élève => :phone3,
+
             
             # gestscol
             #             :nom => :lastname,
