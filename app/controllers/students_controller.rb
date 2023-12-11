@@ -233,7 +233,7 @@ class StudentsController < ApplicationController
           :force_simple_split => false,
           :strip_chars_from_headers => /[\-"]/,
           :quote_char => '"',
-          :chunk_size => 10000,
+          :chunk_size => 15000,
           :remove_unmapped_keys => true,
           :value_converters => {
             :sent_message_by_email => SentMessageByEmailConverter
